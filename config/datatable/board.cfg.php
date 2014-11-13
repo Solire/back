@@ -61,11 +61,11 @@ $config = array(
             "show" => true,
             "filter_field" => "select",
             "title" => "Type de contenu",
-        ), 
+        ),
         array(
             "name" => "date_crea",
             "php_function" => array(
-                "\Slrfw\Tools::RelativeTimeFromDate"
+                "\Solire\Lib\Tools::RelativeTimeFromDate"
             ),
             "show" => true,
             "filter_field" => "date-range",
@@ -75,7 +75,7 @@ $config = array(
         array(
             "name" => "date_modif",
             "php_function" => array(
-                "\Slrfw\Tools::RelativeTimeFromDate"
+                "\Solire\Lib\Tools::RelativeTimeFromDate"
             ),
             "show" => true,
             "filter_field" => "date-range",

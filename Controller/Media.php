@@ -39,11 +39,11 @@ class Media extends Main
     {
         parent::start();
 
-        $upload = $this->_mainConfig->get('upload');
-        $this->_upload_path     = $upload['path'];
-        $this->_upload_temp     = $upload['temp'];
-        $this->_upload_vignette = $upload['vignette'];
-        $this->_upload_apercu   = $upload['apercu'];
+        $upload = $this->mainConfig->get('upload');
+        $this->upload_path     = $upload['path'];
+        $this->upload_temp     = $upload['temp'];
+        $this->upload_vignette = $upload['vignette'];
+        $this->upload_apercu   = $upload['apercu'];
     }
 
     /**
@@ -55,18 +55,18 @@ class Media extends Main
     {
 
         $this->fileDatatable();
-        $this->_javascript->addLibrary('back/js/jquery/jquery.hotkeys.js');
-        $this->_javascript->addLibrary('back/js/jstree/jquery.jstree.js');
-        //$this->_javascript->addLibrary('back/js/jquery/jquery.dataTables.min.js');
-        $this->_javascript->addLibrary('back/js/plupload/plupload.full.js');
-        $this->_javascript->addLibrary('back/js/plupload/jquery.pluploader.min.js');
-        $this->_javascript->addLibrary('back/js/listefichiers.js');
-        $this->_javascript->addLibrary('back/js/jquery/jquery.scroller-1.0.min.js');
+        $this->javascript->addLibrary('back/js/jquery/jquery.hotkeys.js');
+        $this->javascript->addLibrary('back/js/jstree/jquery.jstree.js');
+        //$this->javascript->addLibrary('back/js/jquery/jquery.dataTables.min.js');
+        $this->javascript->addLibrary('back/js/plupload/plupload.full.js');
+        $this->javascript->addLibrary('back/js/plupload/jquery.pluploader.min.js');
+        $this->javascript->addLibrary('back/js/listefichiers.js');
+        $this->javascript->addLibrary('back/js/jquery/jquery.scroller-1.0.min.js');
 
-        //$this->_css->addLibrary('back/css/demo_table_jui.css');
-        $this->_css->addLibrary('back/css/jquery.scroller.css');
+        //$this->css->addLibrary('back/css/demo_table_jui.css');
+        $this->css->addLibrary('back/css/jquery.scroller.css');
 
-        $this->_view->breadCrumbs[] = array(
+        $this->view->breadCrumbs[] = array(
             'label' => 'Gestion des fichiers',
             'url' => '',
         );
@@ -79,18 +79,18 @@ class Media extends Main
      */
     public function listAction()
     {
-        $this->_view->unsetMain();
-        $this->_files = array();
+        $this->view->unsetMain();
+        $this->files = array();
 
         /** Permet plusieurs liste de fichier dans la meme page **/
-        $this->_view->idFilesList = null;
+        $this->view->idFilesList = null;
         if (isset($_REQUEST['id'])) {
-            $this->_view->idFilesList = '_' . $_REQUEST['id'];
+            $this->view->idFilesList = '_' . $_REQUEST['id'];
         }
 
-        $this->_view->prefixFileUrl = null;
+        $this->view->prefixFileUrl = null;
         if (isset($_REQUEST['prefix_url'])) {
-            $this->_view->prefixFileUrl = $_REQUEST['prefix_url'] . DIRECTORY_SEPARATOR;
+            $this->view->prefixFileUrl = $_REQUEST['prefix_url'] . DIRECTORY_SEPARATOR;
         }
 
         $id_gab_page = isset($_REQUEST['id_gab_page']) && $_REQUEST['id_gab_page'] ? $_REQUEST['id_gab_page'] : 0;
@@ -102,16 +102,16 @@ class Media extends Main
 
             $this->page = $this->gabaritManager->getPage(BACK_ID_VERSION, BACK_ID_API, $id_gab_page);
 
-            $this->_files = $this->fileManager->getList($this->page->getMeta('id'), 0, $search, $orderby, $sens);
+            $this->files = $this->fileManager->getList($this->page->getMeta('id'), 0, $search, $orderby, $sens);
         }
 
-        $this->_view->files = array();
-        foreach ($this->_files as $file) {
+        $this->view->files = array();
+        foreach ($this->files as $file) {
             $ext = strtolower(array_pop(explode('.', $file['rewriting'])));
             $prefixPath = $this->api['id'] == 1 ? '' : '..' . DS;
-            $file['path'] = $this->_view->prefixFileUrl . $file['id_gab_page'] . DS . $file['rewriting'];
+            $file['path'] = $this->view->prefixFileUrl . $file['id_gab_page'] . DS . $file['rewriting'];
 
-            $serverpath = $this->_upload_path . DS . $file['id_gab_page']
+            $serverpath = $this->upload_path . DS . $file['id_gab_page']
                         . DS . $file['rewriting'];
 
             if (!file_exists($serverpath)) {
@@ -120,10 +120,10 @@ class Media extends Main
 
             $file['class'] = 'hoverprevisu vignette';
 
-            if (array_key_exists($ext, \Slrfw\Model\fileManager::$_extensions['image'])) {
-                $file['path_mini']  = $this->_view->prefixFileUrl
+            if (array_key_exists($ext, \Solire\Lib\Model\FileManager::$_extensions['image'])) {
+                $file['path_mini']  = $this->view->prefixFileUrl
                                     . $file['id_gab_page'] . DS
-                                    . $this->_upload_vignette . DS
+                                    . $this->upload_vignette . DS
                                     . $file['rewriting'];
 
                 $sizes = getimagesize($serverpath);
@@ -134,9 +134,9 @@ class Media extends Main
                 $file['class']      = 'vignette';
                 $file['path_mini']  = 'app/back/img/filetype/' . $ext . '.png';
             }
-            $file['poids'] = \Slrfw\Tools::format_taille($file['taille']);
+            $file['poids'] = \Solire\Lib\Tools::format_taille($file['taille']);
 
-            $this->_view->files[] = $file;
+            $this->view->files[] = $file;
         }
     }
 
@@ -150,7 +150,7 @@ class Media extends Main
         $configName = 'file';
         $gabarits = array();
 
-        $configPath = \Slrfw\FrontController::search(
+        $configPath = \Solire\Lib\FrontController::search(
             'config/datatable/' . $configName . '.cfg.php'
         );
 
@@ -158,7 +158,7 @@ class Media extends Main
 
         $datatable = null;
 
-        foreach (\Slrfw\FrontController::getAppDirs() as $appDir) {
+        foreach (\Solire\Lib\FrontController::getAppDirs() as $appDir) {
             $datatableClassName = '\\' . $appDir['name']
                                 . '\\Back'
                                 . '\\Datatable'
@@ -167,7 +167,7 @@ class Media extends Main
                 $datatable = new $datatableClassName(
                     $_GET,
                     $configPath,
-                    $this->_db,
+                    $this->db,
                     '/back/css/datatable/',
                     '/back/js/datatable/',
                     'app/back/img/datatable/'
@@ -178,10 +178,10 @@ class Media extends Main
         }
 
         if ($datatable == null) {
-            $datatable = new \Slrfw\Datatable\Datatable(
+            $datatable = new \Solire\Lib\Datatable\Datatable(
                 $_GET,
                 $configPath,
-                $this->_db,
+                $this->db,
                 '/back/css/datatable/',
                 '/back/js/datatable/',
                 'app/back/img/datatable/'
@@ -197,7 +197,7 @@ class Media extends Main
             exit();
         }
 
-        $this->_view->datatableRender = $datatable;
+        $this->view->datatableRender = $datatable;
     }
 
     /**
@@ -217,8 +217,8 @@ class Media extends Main
      */
     public function folderlistAction()
     {
-        $this->_view->unsetMain();
-        $this->_view->enable(false);
+        $this->view->unsetMain();
+        $this->view->enable(false);
 
         $res = array();
 
@@ -235,7 +235,7 @@ class Media extends Main
             );
         } elseif ($_REQUEST['id'] === '0') {
             $rubriques = $this->gabaritManager->getList(BACK_ID_VERSION, $this->api['id'], 0);
-            $configPageModule = $this->_configPageModule[$this->utilisateur->gabaritNiveau];
+            $configPageModule = $this->configPageModule[$this->utilisateur->gabaritNiveau];
             $gabaritsListUser = $configPageModule['gabarits'];
             foreach ($rubriques as $rubrique) {
                 /*
@@ -266,7 +266,7 @@ class Media extends Main
         } else {
             $sousRubriques = $this->gabaritManager->getList(BACK_ID_VERSION, $this->api['id'], $_REQUEST['id']);
 
-            $configPageModule = $this->_configPageModule[$this->utilisateur->gabaritNiveau];
+            $configPageModule = $this->configPageModule[$this->utilisateur->gabaritNiveau];
             $gabaritsListUser = $configPageModule['gabarits'];
 
             foreach ($sousRubriques as $sousRubrique) {
@@ -281,7 +281,7 @@ class Media extends Main
                        . 'FROM `' . $this->mediaTableName . '` '
                        . 'WHERE `suppr` = 0 '
                        . 'AND `id_gab_page` = ' . $sousRubrique->getMeta('id');
-                $nbre = $this->_db->query($query)->fetchColumn();
+                $nbre = $this->db->query($query)->fetchColumn();
 
                 $title = $sousRubrique->getMeta('titre');
                 if (mb_strlen($sousRubrique->getMeta('titre')) > 16) {
@@ -321,14 +321,14 @@ class Media extends Main
     public function uploadAction()
     {
         /** Permet plusieurs liste de fichier dans la meme page **/
-        $this->_view->idFilesList = null;
+        $this->view->idFilesList = null;
         if (isset($_REQUEST['id'])) {
-            $this->_view->idFilesList = '_' . $_REQUEST['id'];
+            $this->view->idFilesList = '_' . $_REQUEST['id'];
         }
 
-        $this->_view->prefixFileUrl = null;
+        $this->view->prefixFileUrl = null;
         if (isset($_REQUEST['prefix_url'])) {
-            $this->_view->prefixFileUrl = $_REQUEST['prefix_url'] . DIRECTORY_SEPARATOR;
+            $this->view->prefixFileUrl = $_REQUEST['prefix_url'] . DIRECTORY_SEPARATOR;
         }
 
         $id_gab_page = 0;
@@ -344,13 +344,13 @@ class Media extends Main
         }
 
         if ($id_gab_page) {
-            $targetTmp      = $this->_upload_temp;
+            $targetTmp      = $this->upload_temp;
             $targetDir      = $id_gab_page;
-            $vignetteDir    = $id_gab_page . DS . $this->_upload_vignette;
-            $apercuDir      = $id_gab_page . DS . $this->_upload_apercu;
+            $vignetteDir    = $id_gab_page . DS . $this->upload_vignette;
+            $apercuDir      = $id_gab_page . DS . $this->upload_apercu;
 
             $response = $this->fileManager->uploadGabPage(
-                $this->_upload_path,
+                $this->upload_path,
                 $id_gab_page,
                 0,
                 $targetTmp,
@@ -364,29 +364,29 @@ class Media extends Main
                 exit();
             }
 
-            $response['size'] = \Slrfw\Tools::format_taille($response['size']);
+            $response['size'] = \Solire\Lib\Tools::format_taille($response['size']);
 
             if (isset($response['mini_path'])) {
-                $response['mini_path'] = $this->_view->prefixFileUrl
+                $response['mini_path'] = $this->view->prefixFileUrl
                                    . $response['mini_path'];
-                $response['mini_url'] = $this->_view->prefixFileUrl
+                $response['mini_url'] = $this->view->prefixFileUrl
                                   . $response['mini_url'];
                 $response['image'] = array(
-                    'url' => $this->_view->prefixFileUrl . $id_gab_page
+                    'url' => $this->view->prefixFileUrl . $id_gab_page
                              . DS . $response['filename']
                 );
             }
 
-            $response['url']       = $this->_view->prefixFileUrl . $response['url'];
+            $response['url']       = $this->view->prefixFileUrl . $response['url'];
 
             if (isset($response['minipath'])) {
-                $response['minipath'] = $this->_view->prefixFileUrl
+                $response['minipath'] = $this->view->prefixFileUrl
                                   . $response['minipath'];
                 $response['image'] = array(
-                    'url' => $this->_view->prefixFileUrl . $id_gab_page
+                    'url' => $this->view->prefixFileUrl . $id_gab_page
                              . DS . $response['filename']
                 );
-                $response['path'] = $this->_view->prefixFileUrl . $response['path'];
+                $response['path'] = $this->view->prefixFileUrl . $response['path'];
             }
         } else {
             if (isset($_COOKIE['id_temp'])
@@ -398,19 +398,19 @@ class Media extends Main
             } else {
                 $id_temp = 1;
                 $target = 'temp-' . $id_temp;
-                while (file_exists($this->_upload_path . DS . $target)) {
+                while (file_exists($this->upload_path . DS . $target)) {
                     $id_temp++;
                     $target = 'temp-' . $id_temp;
                 }
             }
 
-            $targetTmp      = $this->_upload_temp;
+            $targetTmp      = $this->upload_temp;
             $targetDir      = $target;
-            $vignetteDir    = $target . DS . $this->_upload_vignette;
-            $apercuDir      = $target . DS . $this->_upload_apercu;
+            $vignetteDir    = $target . DS . $this->upload_vignette;
+            $apercuDir      = $target . DS . $this->upload_apercu;
 
             $response = $this->fileManager->uploadGabPage(
-                $this->_upload_path,
+                $this->upload_path,
                 0,
                 $id_temp,
                 $targetTmp,
@@ -421,20 +421,20 @@ class Media extends Main
 
             if ($response['status'] == 'success') {
                 if (isset($response['mini_path'])) {
-                    $response['mini_path'] = $this->_view->prefixFileUrl . $response['mini_path'];
-                    $response['mini_url'] = $this->_view->prefixFileUrl . $response['mini_url'];
+                    $response['mini_path'] = $this->view->prefixFileUrl . $response['mini_path'];
+                    $response['mini_url'] = $this->view->prefixFileUrl . $response['mini_url'];
                     $response['image'] = array(
-                        'url' => $this->_view->prefixFileUrl . $id_gab_page . DS . $response['filename']
+                        'url' => $this->view->prefixFileUrl . $id_gab_page . DS . $response['filename']
                     );
 
                     // Génération de miniatures additionnelles
-                    $filePath = $this->_view->prefixFileUrl . $response['path'];
+                    $filePath = $this->view->prefixFileUrl . $response['path'];
                     $this->miniatureProcess($gabaritId, $filePath);
 
                 }
-                $response['path'] = $this->_view->prefixFileUrl . $response['path'];
-                $response['url'] = $this->_view->prefixFileUrl . $response['url'];
-                $response['size'] = \Slrfw\Tools::format_taille($response['size']);
+                $response['path'] = $this->view->prefixFileUrl . $response['path'];
+                $response['url'] = $this->view->prefixFileUrl . $response['url'];
+                $response['size'] = \Solire\Lib\Tools::format_taille($response['size']);
                 $response['id_temp'] = $id_temp;
             }
         }
@@ -459,8 +459,8 @@ class Media extends Main
             );
         }
 
-        $this->_view->enable(false);
-        $this->_view->unsetMain();
+        $this->view->enable(false);
+        $this->view->unsetMain();
         echo json_encode($response);
     }
 
@@ -486,7 +486,7 @@ class Media extends Main
         $h = $_POST['h'];
 
         /* Information sur le fichier */
-        $newImageName   = \Slrfw\Format\String::urlSlug(
+        $newImageName   = \Solire\Lib\Format\String::urlSlug(
             $_POST['image-name'],
             '-',
             255
@@ -499,8 +499,8 @@ class Media extends Main
             /** Cas d'une édition de page */
 
             $targetDir      = $id_gab_page;
-            $vignetteDir    = $id_gab_page . DS . $this->_upload_vignette;
-            $apercuDir      = $id_gab_page . DS . $this->_upload_apercu;
+            $vignetteDir    = $id_gab_page . DS . $this->upload_vignette;
+            $apercuDir      = $id_gab_page . DS . $this->upload_apercu;
         } elseif (isset($_COOKIE['id_temp'])
             && $_COOKIE['id_temp']
             && is_numeric($_COOKIE['id_temp'])
@@ -510,17 +510,17 @@ class Media extends Main
             $id_temp = (int) $_COOKIE['id_temp'];
             $target = 'temp-' . $id_temp;
 
-//            $targetTmp      = $this->_upload_temp;
+//            $targetTmp      = $this->upload_temp;
             $targetDir      = $target;
-            $vignetteDir    = $target . DS . $this->_upload_vignette;
-            $apercuDir      = $target . DS . $this->_upload_apercu;
+            $vignetteDir    = $target . DS . $this->upload_vignette;
+            $apercuDir      = $target . DS . $this->upload_apercu;
         } else {
             exit();
         }
 
         $count_temp = 1;
         $target     = $newImageName . '.' . $ext;
-        while (file_exists($this->_upload_path . DS . $targetDir . DS . $target)) {
+        while (file_exists($this->upload_path . DS . $targetDir . DS . $target)) {
             $count_temp++;
             $target = $newImageName . '-' . $count_temp . '.' . $ext;
         }
@@ -557,7 +557,7 @@ class Media extends Main
 
         if ($id_gab_page) {
             $this->fileManager->crop(
-                $this->_upload_path,
+                $this->upload_path,
                 $filepath,
                 $ext,
                 $targetDir,
@@ -575,7 +575,7 @@ class Media extends Main
             );
         } else {
             $response = $this->fileManager->crop(
-                $this->_upload_path,
+                $this->upload_path,
                 $filepath,
                 $ext,
                 $targetDir,
@@ -595,7 +595,7 @@ class Media extends Main
             if (isset($response['minipath'])) {
                 $response['minipath'] = $response['minipath'];
                 $response['path'] = $response['path'];
-                $response['size'] = \Slrfw\Tools::format_taille($response['size']);
+                $response['size'] = \Solire\Lib\Tools::format_taille($response['size']);
                 $response['id_temp'] = $id_temp;
             }
         }
@@ -605,16 +605,16 @@ class Media extends Main
         $response['filename']       = $target;
         $response['filename_front'] = $targetDir . '/' . $target;
 
-        if (\Slrfw\Model\fileManager::isImage($response['filename'])) {
+        if (\Solire\Lib\Model\fileManager::isImage($response['filename'])) {
             $path       = $response['path'];
             $vignette   = $targetDir . DS
-                        . $this->_upload_vignette . DS
+                        . $this->upload_vignette . DS
                         . $response['filename'];
-            $serverpath = $this->_upload_path . DS
+            $serverpath = $this->upload_path . DS
                         . $targetDir . DS
                         . $response['filename'];
 
-            if (\Slrfw\Model\fileManager::isImage($response['filename'])) {
+            if (\Solire\Lib\Model\fileManager::isImage($response['filename'])) {
                 $sizes = getimagesize($serverpath);
                 $size = $sizes[0] . ' x ' . $sizes[1];
                 $response['vignette'] = $vignette;
@@ -625,8 +625,8 @@ class Media extends Main
             }
         }
 
-        $this->_view->enable(false);
-        $this->_view->unsetMain();
+        $this->view->enable(false);
+        $this->view->unsetMain();
         echo json_encode($response);
     }
 
@@ -647,7 +647,7 @@ class Media extends Main
         $query = 'UPDATE `' . $this->mediaTableName . '` SET '
                . '`suppr` = NOW() '
                . 'WHERE `id` = ' . $id_media_fichier;
-        $success = $this->_db->exec($query);
+        $success = $this->db->exec($query);
 
         if (!$success) {
             $status = 'error';
@@ -672,8 +672,8 @@ class Media extends Main
             'status' => $status
         );
 
-        $this->_view->enable(false);
-        $this->_view->unsetMain();
+        $this->view->enable(false);
+        $this->view->unsetMain();
         echo json_encode($response);
     }
 
@@ -684,8 +684,8 @@ class Media extends Main
      */
     public function autocompleteAction()
     {
-        $this->_view->enable(false);
-        $this->_view->unsetMain();
+        $this->view->enable(false);
+        $this->view->unsetMain();
 
         $prefixPath = '';
 
@@ -722,13 +722,13 @@ class Media extends Main
             $dir = $id_gab_page ? $id_gab_page : 'temp-' . $id_temp;
 
             foreach ($files as $file) {
-                if (!$tinyMCE || \Slrfw\Model\fileManager::isImage($file['rewriting'])) {
+                if (!$tinyMCE || \Solire\Lib\Model\FileManager::isImage($file['rewriting'])) {
                     $path       = $dir . DS
                                 . $file['rewriting'];
                     $vignette   = $dir . DS
-                                . $this->_upload_vignette . DS
+                                . $this->upload_vignette . DS
                                 . $file['rewriting'];
-                    $serverpath = $this->_upload_path . DS
+                    $serverpath = $this->upload_path . DS
                                 . $dir . DS
                                 . $file['rewriting'];
 
@@ -736,8 +736,8 @@ class Media extends Main
                         continue;
                     }
 
-                    $realpath = \Slrfw\Registry::get('basehref') . $dir . '/' . $file['rewriting'];
-                    if (\Slrfw\Model\fileManager::isImage($file['rewriting'])) {
+                    $realpath = \Solire\Lib\Registry::get('basehref') . $dir . '/' . $file['rewriting'];
+                    if (\Solire\Lib\Model\FileManager::isImage($file['rewriting'])) {
                         $sizes = getimagesize($serverpath);
                         $size = $sizes[0] . ' x ' . $sizes[1];
                     } else {

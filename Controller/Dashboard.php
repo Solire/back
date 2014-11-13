@@ -43,12 +43,12 @@ class Dashboard extends Main
             $configsName = $_GET['name'];
         }
 
-        $this->_view->datatableRender = '';
+        $this->view->datatableRender = '';
 
         foreach ($configsName as $configKey => $configName) {
             $datatableClassName = '\\App\\Back\\Datatable\\' . $configName;
 
-            $configPath = \Slrfw\FrontController::search(
+            $configPath = \Solire\Lib\FrontController::search(
                 'config/datatable/' . $configName . '.cfg.php'
             );
 
@@ -57,15 +57,15 @@ class Dashboard extends Main
             }
 
             $datatableClassName = 'Back\\Datatable\\' . $configName;
-            $datatableClassName = \Slrfw\FrontController::searchClass(
+            $datatableClassName = \Solire\Lib\FrontController::searchClass(
                 $datatableClassName
             );
 
             if ($datatableClassName === false) {
-                $datatable = new \Slrfw\Datatable\Datatable(
+                $datatable = new \Solire\Lib\Datatable\Datatable(
                     $_GET,
                     $configPath,
-                    $this->_db,
+                    $this->db,
                     '/back/css/datatable/',
                     '/back/js/datatable/',
                     'app/back/img/datatable/'
@@ -74,7 +74,7 @@ class Dashboard extends Main
                 $datatable = new $datatableClassName(
                     $_GET,
                     $configPath,
-                    $this->_db,
+                    $this->db,
                     '/back/css/datatable/',
                     '/back/js/datatable/',
                     'app/back/img/datatable/'
@@ -107,9 +107,9 @@ class Dashboard extends Main
             }
 
             $datatable = $data;
-            $this->_view->datatableRender .= $datatable;
+            $this->view->datatableRender .= $datatable;
             if (count($configsName) > 1) {
-                $this->_view->datatableRender .= '<hr />';
+                $this->view->datatableRender .= '<hr />';
             }
         }
     }
@@ -123,12 +123,12 @@ class Dashboard extends Main
      */
     private function buildBreadCrumbs($additionnalBreadCrumbs)
     {
-        $this->_view->breadCrumbs = array_merge(
-            $this->_view->breadCrumbs,
+        $this->view->breadCrumbs = array_merge(
+            $this->view->breadCrumbs,
             $additionnalBreadCrumbs
         );
         ob_start();
-        $this->_view->add('breadcrumbs');
+        $this->view->add('breadcrumbs');
         $sBreadCrumbs = ob_get_clean();
         return $sBreadCrumbs;
     }

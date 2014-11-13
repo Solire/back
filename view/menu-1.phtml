@@ -81,7 +81,7 @@
 
     try {
         $this->add('menuadd-1');
-    } catch (\Slrfw\Exception\Lib $exc) {
+    } catch (\Solire\Lib\Exception\Lib $exc) {
         if ($exc->getCode() != 300) {
             throw $exc;
         }

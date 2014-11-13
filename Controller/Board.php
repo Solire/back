@@ -25,7 +25,7 @@ class Board extends Main
     {
         parent::start();
 
-        if (!$this->_appConfig->get('board', 'active')) {
+        if (!$this->appConfig->get('board', 'active')) {
             $this->pageNotFound();
         }
     }
@@ -37,11 +37,11 @@ class Board extends Main
      */
     public function startAction()
     {
-        $this->_view->action = 'board';
+        $this->view->action = 'board';
 
         /** Chargement du datatable en fonction des droits **/
         $configPageModule =
-            $this->_configPageModule[$this->utilisateur->gabaritNiveau];
+            $this->configPageModule[$this->utilisateur->gabaritNiveau];
         $gabaritsListUser = $configPageModule['gabarits'];
         if ($gabaritsListUser == '*') {
             $this->boardDatatable();
@@ -58,7 +58,7 @@ class Board extends Main
                 . ' AND `gab_gabarit`.id NOT IN (1,2)'
                 . ' GROUP BY gab_gabarit.id'
                 . ' ORDER BY gab_gabarit.id';
-        $this->_gabarits2 = $this->_db->query($query)->fetchAll(
+        $this->gabarits2 = $this->db->query($query)->fetchAll(
             \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC
         );
         $pages = array();
@@ -74,7 +74,7 @@ class Board extends Main
         $indexColor = 0;
         $lastGabaritId = -1;
 
-        foreach ($this->_gabarits2 as $gabarit) {
+        foreach ($this->gabarits2 as $gabarit) {
             $pagesMeta = $this->gabaritManager->getList(
                 BACK_ID_VERSION,
                 $this->api['id'],
@@ -139,9 +139,9 @@ class Board extends Main
                 $pages[$gabarit['id']]['pages_mod'][] = $page;
             }
         }
-        $this->_view->pages = $pages;
+        $this->view->pages = $pages;
 
-        $this->_view->breadCrumbs[] = array(
+        $this->view->breadCrumbs[] = array(
             'label' => 'Tableau de bord',
             'url' => 'back/board/start.html',
         );
@@ -166,12 +166,12 @@ class Board extends Main
         $configName = 'board';
         $gabarits = array();
         if (empty($opt)) {
-            $gabarits = $this->_gabarits;
+            $gabarits = $this->gabarits;
         } else {
             /* Récupération de la liste de la page et des droits utilisateurs */
-            $configPageModule = $this->_configPageModule[$this->utilisateur->gabaritNiveau];
+            $configPageModule = $this->configPageModule[$this->utilisateur->gabaritNiveau];
             $gabaritsListUser = $configPageModule['gabarits'];
-            foreach ($this->_gabarits as $keyId => $gabarit) {
+            foreach ($this->gabarits as $keyId => $gabarit) {
                 if (in_array($gabarit['id'], $gabaritsListUser)) {
                     $gabarits[$keyId] = $gabarit;
                 }
@@ -179,23 +179,23 @@ class Board extends Main
             unset($configPageModule);
         }
 
-        $configPath = \Slrfw\FrontController::search(
+        $configPath = \Solire\Lib\FrontController::search(
             'config/datatable/' . $configName . '.cfg.php'
         );
 
-        $this->_gabarits = $gabarits;
+        $this->gabarits = $gabarits;
 
-        $datatableClassName = '\\App\\Back\\Datatable\\Board';
+        $datatableClassName = '\\Solire\\Back\\Datatable\\Board';
         /** @todo Chargement des fichiers des differentes app */
-        try {
+        if (class_exists($datatableClassName)) {
             $datatable = new $datatableClassName(
-                $_GET, $configPath, $this->_db, './datatable/',
+                $_GET, $configPath, $this->db, './datatable/',
                 './datatable/', 'img/datatable/');
-        } catch (\Exception $exc) {
-            $datatable = new \Slrfw\Datatable\Datatable(
+        } else {
+            $datatable = new \Solire\Lib\Datatable\Datatable(
                 $_GET,
                 $configPath,
-                $this->_db,
+                $this->db,
                 './datatable/',
                 './datatable/',
                 'img/datatable/'
@@ -203,16 +203,16 @@ class Board extends Main
         }
 
         /** On cré notre object datatable */
-        $datatable = new $datatableClassName($_GET, $configPath, $this->_db,
-            '/back/css/datatable/', '/back/js/datatable/', 'img/datatable/');
+//        $datatable = new $datatableClassName($_GET, $configPath, $this->db,
+//            '/back/css/datatable/', '/back/js/datatable/', 'img/datatable/');
 
         $datatable->setUtilisateur($this->utilisateur);
-        $datatable->setGabarits($this->_gabarits);
-        $datatable->setVersions($this->_versions);
+        $datatable->setGabarits($this->gabarits);
+        $datatable->setVersions($this->versions);
 
         /** On cré un filtre pour les gabarits de l'api courante */
         $idsGabarit = array();
-        foreach ($this->_gabarits as $gabarit) {
+        foreach ($this->gabarits as $gabarit) {
             $idsGabarit[] = $gabarit['id'];
         }
         $aqqQuery = 'id_gabarit IN (' . implode(',', $idsGabarit) . ')';
@@ -220,7 +220,7 @@ class Board extends Main
 
         $datatable->start();
         $datatable->setDefaultNbItems(
-            $this->_appConfig->get('board', 'nb-content-default')
+            $this->appConfig->get('board', 'nb-content-default')
         );
 
         if (isset($_GET['json']) || (isset($_GET['nomain'])
@@ -230,6 +230,6 @@ class Board extends Main
             exit();
         }
 
-        $this->_view->datatableRender = $datatable;
+        $this->view->datatableRender = $datatable;
     }
 }

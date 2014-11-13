@@ -30,8 +30,8 @@ class Seo extends Main
      */
     public function get301Action()
     {
-        $this->_view->enable(false);
-        $url301 = $this->_db->select('redirection', false, ['*']);
+        $this->view->enable(false);
+        $url301 = $this->db->select('redirection', false, ['*']);
         echo json_encode($url301);
     }
 }

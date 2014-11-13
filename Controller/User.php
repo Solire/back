@@ -24,9 +24,9 @@ class User extends Main
      */
     public function startAction()
     {
-        $this->_javascript->addLibrary('back/js/formgabarit.js');
+        $this->javascript->addLibrary('back/js/formgabarit.js');
 
-        $this->_view->breadCrumbs[] = array(
+        $this->view->breadCrumbs[] = array(
             'label' => 'Mon profil',
             'url' => '',
         );
@@ -39,7 +39,7 @@ class User extends Main
      */
     public function changePasswordAction()
     {
-        $this->_view->enable(false);
+        $this->view->enable(false);
 
         $errors = array();
 
@@ -63,21 +63,21 @@ class User extends Main
 
             $query = 'SELECT pass '
                    . 'FROM utilisateur '
-                   . 'WHERE id = ' . $this->_utilisateur->id . ' ';
-            $oldPass = $this->_db->query($query)->fetchColumn();
+                   . 'WHERE id = ' . $this->utilisateur->id . ' ';
+            $oldPass = $this->db->query($query)->fetchColumn();
 
-            $oldSaisi = $this->_utilisateur->prepareMdp($_POST['old_password']);
+            $oldSaisi = $this->utilisateur->prepareMdp($_POST['old_password']);
 
 
-            $newPass = $this->_utilisateur->prepareMdp($_POST['new_password']);
+            $newPass = $this->utilisateur->prepareMdp($_POST['new_password']);
 
             $query = 'UPDATE utilisateur SET '
-                   . ' pass = ' . $this->_db->quote($newPass) . ' '
-                   . 'WHERE `id` = ' . $this->_utilisateur->id . ' ';
+                   . ' pass = ' . $this->db->quote($newPass) . ' '
+                   . 'WHERE `id` = ' . $this->utilisateur->id . ' ';
 
             if ($oldPass == $oldSaisi) {
                 $response['status'] = true;
-                $this->_db->exec($query);
+                $this->db->exec($query);
             } else {
                 $errors[] = 'Mot de passe actuel incorrect';
             }
@@ -103,7 +103,7 @@ class User extends Main
     {
         $configName = 'utilisateur';
 
-        $configPath = \Slrfw\FrontController::search(
+        $configPath = \Solire\Lib\FrontController::search(
             'config/datatable/' . $configName . '.cfg.php'
         );
 
@@ -112,15 +112,15 @@ class User extends Main
         }
 
         $datatableClassName = 'Back\\Datatable\\' . $configName;
-        $datatableClassName = \Slrfw\FrontController::searchClass(
+        $datatableClassName = \Solire\Lib\FrontController::searchClass(
             $datatableClassName
         );
 
         if ($datatableClassName === false) {
-            $datatable = new \Slrfw\Datatable\Datatable(
+            $datatable = new \Solire\Lib\Datatable\Datatable(
                 $_GET,
                 $configPath,
-                $this->_db,
+                $this->db,
                 '/back/css/datatable/',
                 '/back/js/datatable/',
                 'app/back/img/datatable/'
@@ -129,17 +129,17 @@ class User extends Main
             $datatable = new $datatableClassName(
                 $_GET,
                 $configPath,
-                $this->_db,
+                $this->db,
                 '/back/css/datatable/',
                 '/back/js/datatable/',
                 'app/back/img/datatable/'
             );
         }
 
-        $datatable->setUtilisateur($this->_utilisateur);
+        $datatable->setUtilisateur($this->utilisateur);
         $datatable->start();
         $datatable->setDefaultNbItems(
-            $this->_appConfig->get('board', 'nb-content-default')
+            $this->appConfig->get('board', 'nb-content-default')
         );
 
         if (isset($_GET['json']) || (isset($_GET['nomain'])
@@ -149,6 +149,6 @@ class User extends Main
             exit();
         }
 
-        $this->_view->datatableRender = $datatable;
+        $this->view->datatableRender = $datatable;
     }
 }

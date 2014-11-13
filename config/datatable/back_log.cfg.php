@@ -75,7 +75,7 @@ $config = array(
         array(
             "name" => "date_crea",
             "php_function" => array(
-                "\Slrfw\Library\Tools::RelativeTimeFromDate" //string Fonction statique php à appeler pour chaque valeur
+                "\Solire\Lib\Library\Tools::RelativeTimeFromDate" //string Fonction statique php à appeler pour chaque valeur
             ),
             "show" => true,
             "filter_field" => "date-range",   //string Type champs de filtre (text/select/date-range)
