@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Back\Datatable;
+namespace Solire\Back\Datatable;
 
-class Utilisateur extends \Slrfw\Datatable\Datatable
+class Utilisateur extends \Solire\Lib\Datatable\Datatable
 {
     /**
      * Utilisateur courant
      *
-     * @var \Slrfw\Session
+     * @var \Solire\Lib\Session
      */
-    protected $_utilisateur;
+    protected $utilisateur;
 
     /**
      * Défini l'utilisateur
@@ -20,7 +20,7 @@ class Utilisateur extends \Slrfw\Datatable\Datatable
      */
     public function setUtilisateur($utilisateur)
     {
-        $this->_utilisateur = $utilisateur;
+        $this->utilisateur = $utilisateur;
     }
 
     protected function beforeRunAction()
@@ -30,8 +30,8 @@ class Utilisateur extends \Slrfw\Datatable\Datatable
          * pour choisir le niveau de l'utilisateur à créer
          */
 
-        if ($this->_utilisateur->getUser('niveau') == 'solire') {
-            $niveaux = $this->_db->getEnumValues('utilisateur', 'niveau');
+        if ($this->utilisateur->getUser('niveau') == 'solire') {
+            $niveaux = $this->db->getEnumValues('utilisateur', 'niveau');
             foreach ($niveaux as $niveau) {
                 $options[] = array(
                     'value' => $niveau,
@@ -39,7 +39,7 @@ class Utilisateur extends \Slrfw\Datatable\Datatable
                 );
             }
 
-            $niveauKey = \Slrfw\Tools::multidimensional_search(
+            $niveauKey = \Solire\Lib\Tools::multidimensional_search(
                     $this->config["columns"],
                     array("name" => "niveau")
             );
@@ -67,37 +67,37 @@ class Utilisateur extends \Slrfw\Datatable\Datatable
                     . ' alt="Envoyer identifiant par email"'
                     . ' src="app/back/img/white/mail_16x12.png">'
                     . '</a>';
-        array_unshift($this->_columnActionButtons, $showButton);
+        array_unshift($this->columnActionButtons, $showButton);
         parent::beforeRunAction();
     }
 
     public function sendMailAction()
     {
         $idClient = intval($_GET['index']);
-        $clientData = $this->_db->query('
+        $clientData = $this->db->query('
             SELECT utilisateur.*
             FROM utilisateur
             WHERE utilisateur.id = ' . $idClient)->fetch();
-        $password = \Slrfw\Format\String::random(10);
+        $password = \Solire\Lib\Format\String::random(10);
 
-        $mail = new \Slrfw\Mail('utilisateur_identifiant');
+        $mail = new \Solire\Lib\Mail('utilisateur_identifiant');
         $mail->setMainUse();
         $mail->to      = $clientData['email'];
         $mail->from    = 'contact@solire.fr';
         $mail->subject = 'Informations de connexion à l\'outil d\'administration'
                        . ' de votre site';
 
-        $mail->urlAcces = \Slrfw\Registry::get("basehref") . 'back/';
+        $mail->urlAcces = \Solire\Lib\Registry::get("basehref") . 'back/';
 
         $clientData['pass'] = $password;
         $mail->clientData = $clientData;
         $mail->send();
 
-        $passwordCrypt = \Slrfw\Session::prepareMdp($password);
+        $passwordCrypt = \Solire\Lib\Session::prepareMdp($password);
         $values = array(
             "pass" => $passwordCrypt,
         );
-        $this->_db->update('utilisateur', $values, 'id = ' . $idClient);
+        $this->db->update('utilisateur', $values, 'id = ' . $idClient);
 
         exit(json_encode(array('status' => 1)));
     }
@@ -105,12 +105,12 @@ class Utilisateur extends \Slrfw\Datatable\Datatable
     public function afterAddAction($insertId)
     {
 
-        if ($this->_utilisateur->getUser('niveau') != 'solire') {
+        if ($this->utilisateur->getUser('niveau') != 'solire') {
             $niveau = 'redacteur';
             $query  = 'UPDATE utilisateur SET'
-                    . ' niveau = ' . $this->_db->quote($niveau)
+                    . ' niveau = ' . $this->db->quote($niveau)
                     . ' WHERE id = ' . $insertId;
-            $this->_db->exec($query);
+            $this->db->exec($query);
         }
 
 

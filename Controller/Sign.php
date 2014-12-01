@@ -32,7 +32,7 @@ class Sign extends Main
     {
         parent::start();
 
-        $this->_view->unsetMain();
+        $this->view->unsetMain();
     }
 
     /**
@@ -42,14 +42,14 @@ class Sign extends Main
      */
     public function startAction()
     {
-        $this->_javascript->addLibrary('back/js/form.js');
-        $this->_javascript->addLibrary('back/js/jquery/vibrate.js');
+        $this->javascript->addLibrary('back/js/form.js');
+        $this->javascript->addLibrary('back/js/jquery/vibrate.js');
 
-        $this->_view->action = 'back/' . $this->_appConfig->get('general', 'page-default');
+        $this->view->action = 'back/' . $this->appConfig->get('general', 'page-default');
 
         if ($this->utilisateur->isConnected()) {
             $this->simpleRedirect(
-                'back/' . $this->_appConfig->get('general', 'page-default'),
+                'back/' . $this->appConfig->get('general', 'page-default'),
                 true
             );
         }
@@ -62,14 +62,14 @@ class Sign extends Main
      */
     public function asknewpasswordAction()
     {
-        $this->_view->emailSent = false;
-        $this->_view->error = false;
+        $this->view->emailSent = false;
+        $this->view->error = false;
 
         if (isset($_POST['log']) && is_string($_POST['log'])) {
             $cle = $this->utilisateur->genKey($_POST['log']);
 
             if ($cle !== false) {
-                $email = new \Slrfw\Mail('newpassword');
+                $email = new \Solire\Lib\Mail('newpassword');
                 $email->url     = 'back/sign/newpassword.html?e=' . $_POST['log'] . '&amp;c=' . $cle;
                 $email->to      = $_POST['log'];
                 $email->from    = 'noreply@' . $_SERVER['SERVER_NAME'];
@@ -77,9 +77,9 @@ class Sign extends Main
                 $email->setMainUse();
                 $email->send();
 
-                $this->_view->emailSent = true;
+                $this->view->emailSent = true;
             } else {
-                $this->_view->error = true;
+                $this->view->error = true;
             }
         }
     }
@@ -98,7 +98,7 @@ class Sign extends Main
         ) {
             $mdp = $this->utilisateur->newPassword($_GET['c'], $_GET['e']);
             if ($mdp !== false) {
-                $this->_view->mdp = $mdp;
+                $this->view->mdp = $mdp;
             }
         }
     }
@@ -110,7 +110,7 @@ class Sign extends Main
      */
     public function signoutAction()
     {
-        $this->_view->enable(false);
+        $this->view->enable(false);
 
         $this->utilisateur->disconnect();
         $this->simpleRedirect('back/sign/start.html', true);

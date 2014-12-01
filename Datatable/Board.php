@@ -1,13 +1,16 @@
 <?php
 
-namespace App\Back\Datatable;
+namespace Solire\Back\Datatable;
+
+use Solire\Lib\Tools;
 
 /**
  * Description of BoardDatatable
  *
  * @author shin
  */
-class Board extends \Slrfw\Datatable\Datatable {
+class Board extends \Solire\Lib\Datatable\Datatable
+{
 
     /**
      * Liste des gabarits
@@ -44,9 +47,9 @@ class Board extends \Slrfw\Datatable\Datatable {
     public function start()
     {
 
-        foreach ($this->_versions as $version) {
+        foreach ($this->versions as $version) {
             if (BACK_ID_VERSION == $version["id"]) {
-                $this->_currentVersion = $version;
+                $this->currentVersion = $version;
                 break;
             }
         }
@@ -56,15 +59,15 @@ class Board extends \Slrfw\Datatable\Datatable {
     protected function beforeRunAction()
     {
         parent::beforeRunAction();
-        if (count($this->_versions) == 1) {
+        if (count($this->versions) == 1) {
             unset($this->config["columns"][count($this->config["columns"]) - 2]);
         }
     }
 
     public function datatableAction()
     {
-        $fieldGabaritTypeKey = \Slrfw\Tools::multidimensional_search($this->config["columns"], array("name" => "id_gabarit", "filter_field" => "select"));
-        foreach ($this->_gabarits as $gabarit) {
+        $fieldGabaritTypeKey = Tools::multidimensionalSearch($this->config["columns"], array("name" => "id_gabarit", "filter_field" => "select"));
+        foreach ($this->gabarits as $gabarit) {
             $idsGabarit[] = $gabarit["id"];
         }
         $this->config["columns"][$fieldGabaritTypeKey]["filter_field_where"] = "id IN  (" . implode(",", $idsGabarit) . ")";
@@ -80,7 +83,7 @@ class Board extends \Slrfw\Datatable\Datatable {
      */
     public function setUtilisateur($utilisateur)
     {
-        $this->_utilisateur = $utilisateur;
+        $this->utilisateur = $utilisateur;
     }
 
     /**
@@ -91,7 +94,7 @@ class Board extends \Slrfw\Datatable\Datatable {
      */
     public function setVersions($versions)
     {
-        $this->_versions = $versions;
+        $this->versions = $versions;
     }
 
     /**
@@ -102,7 +105,7 @@ class Board extends \Slrfw\Datatable\Datatable {
      */
     public function setGabarits($gabarits)
     {
-        $this->_gabarits = $gabarits;
+        $this->gabarits = $gabarits;
     }
 
     /**
@@ -117,21 +120,21 @@ class Board extends \Slrfw\Datatable\Datatable {
     {
         $actionHtml = '<div class="btn-group">';
 
-        if (($this->_utilisateur != null
-            && $this->_utilisateur->get("niveau") == "solire")
-            || ($this->_gabarits != null
-            && $this->_gabarits[$data["id_gabarit"]]["editable"])
+        if (($this->utilisateur != null
+            && $this->utilisateur->get("niveau") == "solire")
+            || ($this->gabarits != null
+            && $this->gabarits[$data["id_gabarit"]]["editable"])
         ) {
-            $actionHtml .= '<a href="back/page/display.html?id_gab_page=' . $data["id"] . '" class="btn btn-small btn-info" title="Modifier en version : ' . $this->_currentVersion["nom"] .  '">
+            $actionHtml .= '<a href="back/page/display.html?id_gab_page=' . $data["id"] . '" class="btn btn-small btn-info" title="Modifier en version : ' . $this->currentVersion["nom"] .  '">
                                 <i class="icon-pencil"></i>
                             </a>';
         }
 
-        $hook = new \Slrfw\Hook();
+        $hook = new \Solire\Lib\Hook();
         $hook->setSubdirName('back');
 
         $hook->permission     = null;
-        $hook->utilisateur    = $this->_utilisateur;
+        $hook->utilisateur    = $this->utilisateur;
         $hook->visible        = $data["visible"] == 0 ? 1 : 0;
         $hook->ids            = $data['id'];
 
@@ -148,8 +151,8 @@ class Board extends \Slrfw\Datatable\Datatable {
         }
 
         if ($data["rewriting"] != ""
-            && ($this->_utilisateur->get("niveau") == "solire"
-                || $this->_gabarits[$data["id_gabarit"]]["make_hidden"]
+            && ($this->utilisateur->get("niveau") == "solire"
+                || $this->gabarits[$data["id_gabarit"]]["make_hidden"]
                 || $data["visible"] == 0
             )
         ) {
@@ -186,12 +189,12 @@ class Board extends \Slrfw\Datatable\Datatable {
         }
         $actionHtml = '<div style="width:110px">';
 
-        $pages = $this->_db->query(""
+        $pages = $this->db->query(""
                 . "SELECT id_version, rewriting "
                 . "FROM gab_page "
                 . "WHERE id = " . $data["id"])->fetchAll(\PDO::FETCH_COLUMN | \PDO::FETCH_UNIQUE);
 
-        foreach ($this->_versions as $version) {
+        foreach ($this->versions as $version) {
             if ($pages[$version["id"]] == "") {
                 continue;
             }

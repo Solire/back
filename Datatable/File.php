@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Back\Datatable;
+namespace Solire\Back\Datatable;
 
 /**
  * Description of BoardDatatable
  *
  * @author shin
  */
-class File extends \Slrfw\Datatable\Datatable {
+class File extends \Solire\Lib\Datatable\Datatable {
 
     /**
      * Permet de gérer les fichiers pas utilisés

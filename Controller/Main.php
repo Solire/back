@@ -34,14 +34,14 @@ class Main extends \Solire\Lib\Controller
     /**
      * Manager des requetes liées aux pages
      *
-     * @var \Solire\Lib\Model\gabaritManager
+     * @var \Solire\Lib\Model\GabaritManager
      */
     protected $gabaritManager = null;
 
     /**
      * Manager fichiers
      *
-     * @var \Solire\Lib\Model\fileManager
+     * @var \Solire\Lib\Model\FileManager
      */
     protected $fileManager = null;
 
@@ -65,12 +65,12 @@ class Main extends \Solire\Lib\Controller
         /**
          * Système de log en BDD
          */
-        $this->log = new \Slrfw\Log($this->_db, '', 0, 'back_log');
+        $this->log = new \Solire\Lib\Log($this->db, '', 0, 'back_log');
 
         /**
          * Utilisateur connecté ?
          */
-        $this->utilisateur = new \Slrfw\Session('back');
+        $this->utilisateur = new \Solire\Lib\Session('back');
 
         if (isset($_POST['log']) && isset($_POST['pwd'])
             && !empty($_POST['log']) && !empty($_POST['pwd'])
@@ -104,7 +104,7 @@ class Main extends \Solire\Lib\Controller
          *  = possibilité de voir le site sans tenir compte de la visibilité
          * Alors On le redirige vers le front
          */
-//        if ($this->_utilisateur->get('niveau') == 'voyeur') {
+//        if ($this->utilisateur->get('niveau') == 'voyeur') {
 //            if ($_GET['controller'] . '/' . $_GET['action'] != 'back/sign/signout') {
 //                $this->simpleRedirect('../', true);
 //            }
@@ -118,9 +118,9 @@ class Main extends \Solire\Lib\Controller
 
         $query = 'SELECT id '
                . 'FROM gab_api '
-               . 'WHERE name = ' . $this->_db->quote($nameApi) . ' ';
+               . 'WHERE name = ' . $this->db->quote($nameApi) . ' ';
 
-        $idApi = $this->_db->query($query)->fetch(\PDO::FETCH_COLUMN);
+        $idApi = $this->db->query($query)->fetch(\PDO::FETCH_COLUMN);
 
         if (intval($idApi) == 0) {
             $idApi = 1;
@@ -129,89 +129,89 @@ class Main extends \Solire\Lib\Controller
         $query = 'SELECT * '
                . 'FROM gab_api '
                . 'WHERE id = ' . $idApi . ' ';
-        $this->api = $this->_db->query($query)->fetch(\PDO::FETCH_ASSOC);
+        $this->api = $this->db->query($query)->fetch(\PDO::FETCH_ASSOC);
 
         $query = 'SELECT * '
                . 'FROM gab_api ';
-        $this->_apis = $this->_db->query($query)->fetchAll(
+        $this->apis = $this->db->query($query)->fetchAll(
             \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC
         );
         if (!defined('BACK_ID_API')) {
             define('BACK_ID_API', $this->api['id']);
         }
 
-        $this->_javascript->addLibrary('back/js/jquery/jquery-1.8.0.min.js');
-        $this->_javascript->addLibrary('back/js/jquery/jquery-ui-1.8.23.custom.min.js');
-        $this->_javascript->addLibrary('back/js/main.js');
-        $this->_javascript->addLibrary('back/js/jquery/jquery.cookie.js');
-        $this->_javascript->addLibrary('back/js/jquery/sticky.js');
-        $this->_javascript->addLibrary('back/js/jquery/jquery.livequery.min.js');
+        $this->javascript->addLibrary('back/js/jquery/jquery-1.8.0.min.js');
+        $this->javascript->addLibrary('back/js/jquery/jquery-ui-1.8.23.custom.min.js');
+        $this->javascript->addLibrary('back/js/main.js');
+        $this->javascript->addLibrary('back/js/jquery/jquery.cookie.js');
+        $this->javascript->addLibrary('back/js/jquery/sticky.js');
+        $this->javascript->addLibrary('back/js/jquery/jquery.livequery.min.js');
 
-        $this->_javascript->addLibrary('back/js/jquery/jquery.stickyPanel.min.js');
+        $this->javascript->addLibrary('back/js/jquery/jquery.stickyPanel.min.js');
 
-        $this->_javascript->addLibrary('back/js/newstyle.js');
-        $this->_css->addLibrary('back/css/jquery-ui-1.8.7.custom.css');
+        $this->javascript->addLibrary('back/js/newstyle.js');
+        $this->css->addLibrary('back/css/jquery-ui-1.8.7.custom.css');
 
-        $this->_css->addLibrary('back/css/jquery-ui/custom-theme/jquery-ui-1.8.22.custom.css');
+        $this->css->addLibrary('back/css/jquery-ui/custom-theme/jquery-ui-1.8.22.custom.css');
 
         /** Inclusion Bootstrap twitter */
-        $this->_javascript->addLibrary('back/js/bootstrap/bootstrap.min.js');
-        $this->_css->addLibrary('back/css/bootstrap/bootstrap.min.css');
-        $this->_css->addLibrary('back/css/bootstrap/bootstrap-responsive.min.css');
+        $this->javascript->addLibrary('back/js/bootstrap/bootstrap.min.js');
+        $this->css->addLibrary('back/css/bootstrap/bootstrap.min.css');
+        $this->css->addLibrary('back/css/bootstrap/bootstrap-responsive.min.css');
 
         /** font-awesome */
-        $this->_css->addLibrary('back/css/font-awesome/css/font-awesome.min.css');
+        $this->css->addLibrary('back/css/font-awesome/css/font-awesome.min.css');
 
-        $this->_css->addLibrary('back/css/newstyle-1.3.css');
-        $this->_css->addLibrary('back/css/sticky.css');
+        $this->css->addLibrary('back/css/newstyle-1.3.css');
+        $this->css->addLibrary('back/css/sticky.css');
 
-        $this->_view->site = \Slrfw\Registry::get('project-name');
+        $this->view->site = \Solire\Lib\Registry::get('project-name');
 
         if (isset($_GET['controller'])) {
-            $this->_view->controller = $_GET['controller'];
+            $this->view->controller = $_GET['controller'];
         } else {
-            $this->_view->controller = '';
+            $this->view->controller = '';
         }
 
         if (isset($_GET['action'])) {
-            $this->_view->action = $_GET['action'];
+            $this->view->action = $_GET['action'];
         } else {
-            $this->_view->action = '';
+            $this->view->action = '';
         }
 
-        $className = \Slrfw\FrontController::searchClass('Model\gabaritManager');
+        $className = \Solire\Lib\FrontController::searchClass('Model\GabaritManager');
         if ($className !== false) {
             $this->gabaritManager = new $className();
         } else {
-            $this->gabaritManager = new \Slrfw\Model\gabaritManager();
+            $this->gabaritManager = new \Solire\Lib\Model\GabaritManager();
         }
 
-        $this->fileManager = new \Slrfw\Model\fileManager();
+        $this->fileManager = new \Solire\Lib\Model\FileManager();
 
         $query = 'SELECT `version`.id, `version`.* '
                . 'FROM `version` '
                . 'WHERE `version`.`id_api` = ' . $this->api['id'] . ' ';
 
-        $this->_versions = $this->_db->query($query)->fetchAll(
+        $this->versions = $this->db->query($query)->fetchAll(
             \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC
         );
 
         if (isset($_GET['id_version'])) {
             $id_version = $_GET['id_version'];
-            $url = '/' . \Slrfw\Registry::get('baseroot');
+            $url = '/' . \Solire\Lib\Registry::get('baseroot');
             setcookie('id_version', $id_version, 0, $url);
             if (!defined('BACK_ID_VERSION')) {
                 define('BACK_ID_VERSION', $id_version);
             }
         } elseif (isset($_POST['id_version'])) {
             $id_version = $_POST['id_version'];
-            $url = '/' . \Slrfw\Registry::get('baseroot');
+            $url = '/' . \Solire\Lib\Registry::get('baseroot');
             setcookie('back_id_version', $id_version, 0, $url);
             if (!defined('BACK_ID_VERSION')) {
                 define('BACK_ID_VERSION', $id_version);
             }
         } elseif (isset($_COOKIE['back_id_version'])
-            && isset($this->_versions[$_COOKIE['back_id_version']])
+            && isset($this->versions[$_COOKIE['back_id_version']])
         ) {
             if (!defined('BACK_ID_VERSION')) {
                 define('BACK_ID_VERSION', $_COOKIE['back_id_version']);
@@ -232,39 +232,39 @@ class Main extends \Solire\Lib\Controller
             exit(json_encode($retour));
         }
 
-        $this->_view->utilisateur = $this->utilisateur;
-        $this->_view->apis = $this->_apis;
-        $this->_view->api = $this->api;
-        $this->_view->javascript = $this->_javascript;
-        $this->_view->css = $this->_css;
-        $this->_view->mainVersions = $this->_versions;
+        $this->view->utilisateur = $this->utilisateur;
+        $this->view->apis = $this->apis;
+        $this->view->api = $this->api;
+        $this->view->javascript = $this->javascript;
+        $this->view->css = $this->css;
+        $this->view->mainVersions = $this->versions;
         $query = 'SELECT `version`.id, `version`.* '
                . 'FROM `version` '
                . 'WHERE `version`.id_api = ' . $this->api['id'] . ' ';
-        $this->_view->mainVersions = $this->_db->query($query)->fetchAll(
+        $this->view->mainVersions = $this->db->query($query)->fetchAll(
             \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC
         );
-        $this->_view->breadCrumbs = array();
-        $this->_view->breadCrumbs[] = array(
+        $this->view->breadCrumbs = array();
+        $this->view->breadCrumbs[] = array(
             'label' => '<img src="app/back/img/gray_dark/home_12x12.png"> '
-                    . $this->_view->site,
+                    . $this->view->site,
         );
 
         /** On indique que l'on est dans une autre api **/
         if ($this->api['id'] != 1) {
-            $this->_view->breadCrumbs[] = array(
+            $this->view->breadCrumbs[] = array(
                     'label' => $this->api['label'],
             );
         }
 
-        $this->_view->appConfig = $this->_appConfig;
+        $this->view->appConfig = $this->appConfig;
 
         /**
          * On recupere la configuration du module pages (Menu + liste)
          */
-        $path = \Slrfw\FrontController::search('config/page.cfg.php');
+        $path = \Solire\Lib\FrontController::search('config/page.cfg.php');
         $completConfig = array();
-        $appList = \Slrfw\FrontController::getAppDirs();
+        $appList = \Solire\Lib\FrontController::getAppDirs();
         unset($config);
         foreach ($appList as $app) {
            /**
@@ -272,14 +272,14 @@ class Main extends \Solire\Lib\Controller
             *  En cherchant si une configuration a été définie pour l'api courante
             * Sinon on récupère le fichier de configuration générale
             */
-            $path = new \Slrfw\Path(
+            $path = new \Solire\Lib\Path(
                 $app['dir'] . DS . 'back/config/page-' . BACK_ID_API . '.cfg.php',
-                \Slrfw\Path::SILENT
+                \Solire\Lib\Path::SILENT
             );
             if ($path->get() == false) {
-                $path = new \Slrfw\Path(
+                $path = new \Solire\Lib\Path(
                     $app['dir'] . DS . 'back/config/page.cfg.php',
-                    \Slrfw\Path::SILENT
+                    \Solire\Lib\Path::SILENT
                 );
             }
 
@@ -305,11 +305,11 @@ class Main extends \Solire\Lib\Controller
             unset($config, $key, $value);
         }
 
-        $this->_configPageModule = $completConfig;
+        $this->configPageModule = $completConfig;
         unset($path, $config);
-        $this->_view->menuPage = array();
-        foreach ($this->_configPageModule as $configPage) {
-            $this->_view->menuPage[] = array(
+        $this->view->menuPage = array();
+        foreach ($this->configPageModule as $configPage) {
+            $this->view->menuPage[] = array(
                 'label' => $configPage['label'],
                 'display' => $configPage['display'],
             );
@@ -318,7 +318,7 @@ class Main extends \Solire\Lib\Controller
         $query = 'SELECT gab_gabarit.id, gab_gabarit.* '
                . 'FROM gab_gabarit '
                . 'WHERE gab_gabarit.id_api = ' . $this->api['id'] . ' ';
-        $this->_gabarits = $this->_db->query($query)->fetchAll(
+        $this->gabarits = $this->db->query($query)->fetchAll(
             \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC
         );
 
@@ -329,11 +329,11 @@ class Main extends \Solire\Lib\Controller
                . ' AND id_api = ' . BACK_ID_API
                . ' AND id_version = ' . BACK_ID_VERSION;
 
-        $this->_view->pagesNonTraduites = $this->_db->query($query)->fetchAll(
+        $this->view->pagesNonTraduites = $this->db->query($query)->fetchAll(
             \PDO::FETCH_ASSOC
         );
 
-        $hook = new \Slrfw\Hook();
+        $hook = new \Solire\Lib\Hook();
         $hook->setSubdirName('back');
 
         $hook->ctrl = $this;
