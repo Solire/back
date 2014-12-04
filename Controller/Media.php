@@ -8,6 +8,8 @@
 
 namespace Solire\Back\Controller;
 
+use Solire\Lib\Path;
+
 /**
  * Controller des medias
  *
@@ -90,7 +92,7 @@ class Media extends Main
 
         $this->view->prefixFileUrl = null;
         if (isset($_REQUEST['prefix_url'])) {
-            $this->view->prefixFileUrl = $_REQUEST['prefix_url'] . DIRECTORY_SEPARATOR;
+            $this->view->prefixFileUrl = $_REQUEST['prefix_url'] . '/';
         }
 
         $id_gab_page = isset($_REQUEST['id_gab_page']) && $_REQUEST['id_gab_page'] ? $_REQUEST['id_gab_page'] : 0;
@@ -108,11 +110,11 @@ class Media extends Main
         $this->view->files = array();
         foreach ($this->files as $file) {
             $ext = strtolower(array_pop(explode('.', $file['rewriting'])));
-            $prefixPath = $this->api['id'] == 1 ? '' : '..' . DS;
-            $file['path'] = $this->view->prefixFileUrl . $file['id_gab_page'] . DS . $file['rewriting'];
+            $prefixPath = $this->api['id'] == 1 ? '' : '..' . Path::DS;
+            $file['path'] = $this->view->prefixFileUrl . $file['id_gab_page'] . Path::DS . $file['rewriting'];
 
-            $serverpath = $this->upload_path . DS . $file['id_gab_page']
-                        . DS . $file['rewriting'];
+            $serverpath = $this->upload_path . Path::DS . $file['id_gab_page']
+                        . Path::DS . $file['rewriting'];
 
             if (!file_exists($serverpath)) {
                 continue;
@@ -122,8 +124,8 @@ class Media extends Main
 
             if (array_key_exists($ext, \Solire\Lib\Model\FileManager::$_extensions['image'])) {
                 $file['path_mini']  = $this->view->prefixFileUrl
-                                    . $file['id_gab_page'] . DS
-                                    . $this->upload_vignette . DS
+                                    . $file['id_gab_page'] . '/'
+                                    . $this->upload_vignette . '/'
                                     . $file['rewriting'];
 
                 $sizes = getimagesize($serverpath);
@@ -328,7 +330,7 @@ class Media extends Main
 
         $this->view->prefixFileUrl = null;
         if (isset($_REQUEST['prefix_url'])) {
-            $this->view->prefixFileUrl = $_REQUEST['prefix_url'] . DIRECTORY_SEPARATOR;
+            $this->view->prefixFileUrl = $_REQUEST['prefix_url'] . '/';
         }
 
         $id_gab_page = 0;
@@ -346,8 +348,8 @@ class Media extends Main
         if ($id_gab_page) {
             $targetTmp      = $this->upload_temp;
             $targetDir      = $id_gab_page;
-            $vignetteDir    = $id_gab_page . DS . $this->upload_vignette;
-            $apercuDir      = $id_gab_page . DS . $this->upload_apercu;
+            $vignetteDir    = $id_gab_page . Path::DS . $this->upload_vignette;
+            $apercuDir      = $id_gab_page . Path::DS . $this->upload_apercu;
 
             $response = $this->fileManager->uploadGabPage(
                 $this->upload_path,
@@ -373,7 +375,7 @@ class Media extends Main
                                   . $response['mini_url'];
                 $response['image'] = array(
                     'url' => $this->view->prefixFileUrl . $id_gab_page
-                             . DS . $response['filename']
+                             . '/' . $response['filename']
                 );
             }
 
@@ -384,7 +386,7 @@ class Media extends Main
                                   . $response['minipath'];
                 $response['image'] = array(
                     'url' => $this->view->prefixFileUrl . $id_gab_page
-                             . DS . $response['filename']
+                             . '/' . $response['filename']
                 );
                 $response['path'] = $this->view->prefixFileUrl . $response['path'];
             }
@@ -398,7 +400,7 @@ class Media extends Main
             } else {
                 $id_temp = 1;
                 $target = 'temp-' . $id_temp;
-                while (file_exists($this->upload_path . DS . $target)) {
+                while (file_exists($this->upload_path . Path::DS . $target)) {
                     $id_temp++;
                     $target = 'temp-' . $id_temp;
                 }
@@ -406,8 +408,8 @@ class Media extends Main
 
             $targetTmp      = $this->upload_temp;
             $targetDir      = $target;
-            $vignetteDir    = $target . DS . $this->upload_vignette;
-            $apercuDir      = $target . DS . $this->upload_apercu;
+            $vignetteDir    = $target . Path::DS . $this->upload_vignette;
+            $apercuDir      = $target . Path::DS . $this->upload_apercu;
 
             $response = $this->fileManager->uploadGabPage(
                 $this->upload_path,

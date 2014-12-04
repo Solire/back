@@ -8,6 +8,8 @@
 
 namespace Solire\Back\Controller;
 
+use Solire\Lib\Path;
+
 /**
  * Controleur principal du back
  *
@@ -272,14 +274,14 @@ class Main extends \Solire\Lib\Controller
             *  En cherchant si une configuration a été définie pour l'api courante
             * Sinon on récupère le fichier de configuration générale
             */
-            $path = new \Solire\Lib\Path(
-                $app['dir'] . DS . 'back/config/page-' . BACK_ID_API . '.cfg.php',
-                \Solire\Lib\Path::SILENT
+            $path = new Path(
+                $app['dir'] . Path::DS . 'back/config/page-' . BACK_ID_API . '.cfg.php',
+                Path::SILENT
             );
             if ($path->get() == false) {
-                $path = new \Solire\Lib\Path(
-                    $app['dir'] . DS . 'back/config/page.cfg.php',
-                    \Solire\Lib\Path::SILENT
+                $path = new Path(
+                    $app['dir'] . Path::DS . 'back/config/page.cfg.php',
+                    Path::SILENT
                 );
             }
 
