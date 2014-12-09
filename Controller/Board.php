@@ -189,16 +189,21 @@ class Board extends Main
         /** @todo Chargement des fichiers des differentes app */
         if (class_exists($datatableClassName)) {
             $datatable = new $datatableClassName(
-                $_GET, $configPath, $this->db, './datatable/',
-                './datatable/', 'img/datatable/');
+                $_GET,
+                $configPath,
+                $this->db,
+                'back/css/datatable/',
+                'back/js/datatable/',
+                'back/img/datatable/'
+            );
         } else {
             $datatable = new \Solire\Lib\Datatable\Datatable(
                 $_GET,
                 $configPath,
                 $this->db,
-                './datatable/',
-                './datatable/',
-                'img/datatable/'
+                'back/css/datatable/',
+                'back/js/datatable/',
+                'back/img/datatable/'
             );
         }
 

@@ -1,5 +1,4 @@
 <?php
-
 $config = array(
     "extra" => array(
         "copy" => false,
@@ -65,7 +64,7 @@ $config = array(
         array(
             "name" => "date_crea",
             "php_function" => array(
-                "\Solire\Lib\Tools::RelativeTimeFromDate"
+                "\Solire\Lib\Format\DateTime::relativeTime"
             ),
             "show" => true,
             "filter_field" => "date-range",
@@ -75,7 +74,7 @@ $config = array(
         array(
             "name" => "date_modif",
             "php_function" => array(
-                "\Solire\Lib\Tools::RelativeTimeFromDate"
+                "\Solire\Lib\Format\DateTime::relativeTime"
             ),
             "show" => true,
             "filter_field" => "date-range",
