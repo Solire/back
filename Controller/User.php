@@ -6,7 +6,10 @@
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
  */
 
-namespace App\Back\Controller;
+namespace Solire\Back\Controller;
+
+use Solire\Lib\FrontController;
+use Solire\Lib\Datatable\Datatable;
 
 /**
  * Gestion du profile utilisateur
@@ -101,38 +104,36 @@ class User extends Main
      */
     public function listeAction()
     {
-        $configName = 'utilisateur';
-
-        $configPath = \Solire\Lib\FrontController::search(
-            'config/datatable/' . $configName . '.cfg.php'
+        $configPath = FrontController::search(
+            'config/datatable/utilisateur.cfg.php'
         );
 
         if (!$configPath) {
             $this->pageNotFound();
         }
 
-        $datatableClassName = 'Back\\Datatable\\' . $configName;
-        $datatableClassName = \Solire\Lib\FrontController::searchClass(
+        $datatableClassName = 'Back\\Datatable\\Utilisateur';
+        $datatableClassName = FrontController::searchClass(
             $datatableClassName
         );
 
         if ($datatableClassName === false) {
-            $datatable = new \Solire\Lib\Datatable\Datatable(
+            $datatable = new Datatable(
                 $_GET,
                 $configPath,
                 $this->db,
-                '/back/css/datatable/',
-                '/back/js/datatable/',
-                'app/back/img/datatable/'
+                'back/css/datatable/',
+                'back/js/datatable/',
+                'back/img/datatable/'
             );
         } else {
             $datatable = new $datatableClassName(
                 $_GET,
                 $configPath,
                 $this->db,
-                '/back/css/datatable/',
-                '/back/js/datatable/',
-                'app/back/img/datatable/'
+                'back/css/datatable/',
+                'back/js/datatable/',
+                'back/img/datatable/'
             );
         }
 

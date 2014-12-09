@@ -454,7 +454,7 @@ class Page extends Main
      */
     public function displayAction()
     {
-        $this->javascript->addLibrary('back/js/tinymce-4.0.5/tinymce.min.js', false);
+        $this->javascript->addLibrary('back/js/tinymce-4.0.5/tinymce.min.js');
         $this->javascript->addLibrary('back/js/tinymce-4.0.5/jquery.solire.tinymce.js');
 
         $this->javascript->addLibrary('back/js/autocomplete.js');
@@ -856,7 +856,7 @@ class Page extends Main
                 if ($json['status'] == 'error') {
                     $logTitle = $typeSave . 'de page échouée';
                     $logMessage = '<b>Id</b> : ' . $this->page->getMeta('id')
-                                . '<br /><img src="app/back/img/flags/png/'
+                                . '<br /><img src="public/default/back/img/flags/png/'
                                 . $flagName . '.png" alt="'
                                 . $this->versions[$_POST['id_version']]['nom']
                                 . '" /></a><br />'
@@ -864,7 +864,7 @@ class Page extends Main
                 } else {
                     $logTitle = $typeSave . 'de page réussie';
                     $logMessage = '<b>Id</b> : ' . $this->page->getMeta('id')
-                                . '<br /><img src="app/back/img/flags/png/'
+                                . '<br /><img src="public/default/back/img/flags/png/'
                                 . $flagName . '.png" alt="'
                                 . $this->versions[$_POST['id_version']]['nom']
                                 . '" /></a>';
@@ -1291,7 +1291,7 @@ class Page extends Main
             if ($success) {
                 $title = $type . ' avec succès';
                 $message = '<b>Id</b> : ' . $_POST['id_gab_page'] . '<br />'
-                         . '<img src="app/back/img/flags/png/'
+                         . '<img src="public/default/back/img/flags/png/'
                          . strtolower($this->versions[$idVersion]['suf'])
                          . '.png" alt="' . $this->versions[$idVersion]['nom']
                          . '" />';
@@ -1300,7 +1300,7 @@ class Page extends Main
             } else {
                 $title = $type . ' échouée';
                 $message = '<b>Id</b> : ' . $_POST['id_gab_page'] . '<br />'
-                         . '<img src="app/back/img/flags/png/'
+                         . '<img src="public/default/back/img/flags/png/'
                          . strtolower($this->versions[$idVersion]['suf'])
                          . '.png" alt="' . $this->versions[$idVersion]['nom']
                          . '" /><br /><span style="color:red;">Error</span>';

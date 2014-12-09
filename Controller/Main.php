@@ -248,7 +248,7 @@ class Main extends \Solire\Lib\Controller
         );
         $this->view->breadCrumbs = array();
         $this->view->breadCrumbs[] = array(
-            'label' => '<img src="app/back/img/gray_dark/home_12x12.png"> '
+            'label' => $this->view->img->output('back/img/gray_dark/home_12x12.png')
                     . $this->view->site,
         );
 

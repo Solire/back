@@ -134,7 +134,7 @@ class Media extends Main
                 $file['height'] = $sizes[1];
             } else {
                 $file['class']      = 'vignette';
-                $file['path_mini']  = 'app/back/img/filetype/' . $ext . '.png';
+                $file['path_mini']  = 'public/default/back/img/filetype/' . $ext . '.png';
             }
             $file['poids'] = \Solire\Lib\Tools::format_taille($file['taille']);
 
@@ -170,9 +170,9 @@ class Media extends Main
                     $_GET,
                     $configPath,
                     $this->db,
-                    '/back/css/datatable/',
-                    '/back/js/datatable/',
-                    'app/back/img/datatable/'
+                    'back/css/datatable/',
+                    'back/js/datatable/',
+                    'back/img/datatable/'
                 );
 
                 break;
@@ -184,9 +184,9 @@ class Media extends Main
                 $_GET,
                 $configPath,
                 $this->db,
-                '/back/css/datatable/',
-                '/back/js/datatable/',
-                'app/back/img/datatable/'
+                'back/css/datatable/',
+                'back/js/datatable/',
+                'back/img/datatable/'
             );
         }
 

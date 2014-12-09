@@ -66,18 +66,18 @@ class Dashboard extends Main
                     $_GET,
                     $configPath,
                     $this->db,
-                    '/back/css/datatable/',
-                    '/back/js/datatable/',
-                    'app/back/img/datatable/'
+                    'back/css/datatable/',
+                    'back/js/datatable/',
+                    'back/img/datatable/'
                 );
             } else {
                 $datatable = new $datatableClassName(
                     $_GET,
                     $configPath,
                     $this->db,
-                    '/back/css/datatable/',
-                    '/back/js/datatable/',
-                    'app/back/img/datatable/'
+                    'back/css/datatable/',
+                    'back/js/datatable/',
+                    'back/img/datatable/'
                 );
             }
 

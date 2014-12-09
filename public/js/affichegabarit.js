@@ -399,7 +399,7 @@ $(function() {
                 var ext = item.value.split('.').pop();
                 var prev = $.inArray(ext, extensionsImage) != -1
                         ? '<img class="img-polaroid" src="' + item.vignette + '" style="max-height:80px;width:auto;height:auto;max-width: 80px;" />'
-                        : '<img style="width:auto" class="" src="app/back/img/filetype/' + ext + '.png" height="25" />';
+                        : '<img style="width:auto" class="" src="public/default/back/img/filetype/' + ext + '.png" height="25" />';
                 var inputs = [];
                 $('.form-file').not(tthis).filter(function() {
                     return $(this).val() == item.value;
@@ -513,7 +513,7 @@ $(function() {
             var id = $(this).attr('id').split('_');
             var name = id[0];
             var contentRule = [];
-            var content = '<img style="float:left;" src="app/back/img/help.gif" alt="Aide" /><div style="margin-left:35px;margin-top:7px;">';
+            var content = '<img style="float:left;" src="public/default/back/img/help.gif" alt="Aide" /><div style="margin-left:35px;margin-top:7px;">';
             if ($(this).hasClass('form-oblig')) {
                 contentRule.push('<span style="color:red">Obligatoire</span>');
             } else {
@@ -546,7 +546,7 @@ $(function() {
             var id = $(this).attr('id').split('_');
             var name = id[0];
             var contentRule = [];
-            var content = '<img style="float:left;" src="app/back/img/help.gif" alt="Aide" /><div style="margin-left:35px;margin-top:7px;">';
+            var content = '<img style="float:left;" src="public/default/back/img/help.gif" alt="Aide" /><div style="margin-left:35px;margin-top:7px;">';
             if ($(this).siblings('textarea').hasClass('form-oblig'))
                 contentRule.push('<span style="color:red">Obligatoire</span>');
             else {

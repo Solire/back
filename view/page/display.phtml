@@ -14,7 +14,7 @@
                             <div style="float: left;margin-right: 10px;" class="btn-group">
                                     <a title="<?php echo ($this->pages[BACK_ID_VERSION]->getMeta() ? '' : 'Page en cours de création en version : ') . $version['nom']; ?>" class="openlang <?php echo $id_version == BACK_ID_VERSION ? '' : 'translucide'; ?> btn btn-default btn-small">
                                         <?php if($this->pages[BACK_ID_VERSION]->getMeta()) { ?>
-                                            <img src="app/back/img/flags/png/<?php echo strtolower($version['suf']); ?>.png" alt="<?php echo $version['nom']; ?>" />
+                                            <img src="public/default/back/img/flags/png/<?php echo strtolower($version['suf']); ?>.png" alt="<?php echo $version['nom']; ?>" />
                                         <?php } else { ?>
                                             <i class="icon-time" alt="Page en cours de création en version <?php echo $version['nom']; ?>"></i>
                                         <?php } ?>
@@ -131,7 +131,7 @@
                                     <dd>
                                         <div class="btn-group">
                                             <a title="<?php echo $version['nom']; ?>" class="btn btn-default btn-small">
-                                                <img src="app/back/img/flags/png/<?php echo strtolower($this->mainVersions[$page->getMeta("id_version")]["suf"]); ?>.png" alt="<?php echo $this->mainVersions[$page->getMeta("id_version")]["nom"]; ?>" />
+                                                <img src="public/default/back/img/flags/png/<?php echo strtolower($this->mainVersions[$page->getMeta("id_version")]["suf"]); ?>.png" alt="<?php echo $this->mainVersions[$page->getMeta("id_version")]["nom"]; ?>" />
                                             </a>
                                             <a class="btn btn-small <?php echo $page->getMeta("visible") > 0 ? 'btn-success' : 'btn-default'; ?> visible-lang"  title="Rendre '<?php echo $page->getMeta('titre'); ?>' <?php echo ($page->getMeta("visible") > 0 ? 'invisible' : 'visible' ) ?> sur le site">
                                                 <input type="checkbox" value="<?php echo $page->getMeta("id"); ?>|<?php echo BACK_ID_VERSION; ?>" style="display:none;" class="visible-lang-<?php echo $page->getMeta("id"); ?>-<?php echo BACK_ID_VERSION; ?>" <?php echo ($page->getMeta("visible") > 0 ? ' checked="checked"' : '') ?> />

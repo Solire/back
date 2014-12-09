@@ -39,7 +39,7 @@ class Utilisateur extends \Solire\Lib\Datatable\Datatable
                 );
             }
 
-            $niveauKey = \Solire\Lib\Tools::multidimensional_search(
+            $niveauKey = \Solire\Lib\Tools::multidimensionalSearch(
                     $this->config["columns"],
                     array("name" => "niveau")
             );
@@ -65,7 +65,7 @@ class Utilisateur extends \Solire\Lib\Datatable\Datatable
                     . '<img'
                     . ' width="12"'
                     . ' alt="Envoyer identifiant par email"'
-                    . ' src="app/back/img/white/mail_16x12.png">'
+                    . ' src="public/default/back/img/white/mail_16x12.png">'
                     . '</a>';
         array_unshift($this->columnActionButtons, $showButton);
         parent::beforeRunAction();
