@@ -118,7 +118,7 @@ $config = array(
 
 $config = array(
     'additional_script' => array(
-        "app/back/js/autocompleteoldlinks.js"
+        "back/js/autocompleteoldlinks.js"
     ),
     'table' =>
     array(
