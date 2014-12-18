@@ -40,8 +40,8 @@
 
         <base href="<?php echo $this->url; ?>" />
 <?php
-    echo $this->css;
-    echo $this->javascript;
+    echo $this->css->outputAll();
+    echo $this->javascript->outputAll();
 ?>
     </head>
 
