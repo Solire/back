@@ -107,7 +107,7 @@ class Dashboard extends Main
             }
 
             $datatable = $data;
-            $this->view->datatableRender .= $datatable;
+            $this->view->datatableRender .= $datatable->__toString();
             if (count($configsName) > 1) {
                 $this->view->datatableRender .= '<hr />';
             }
