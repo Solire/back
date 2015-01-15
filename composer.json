@@ -5,6 +5,10 @@
   "description": "",
   "keywords": [""],
   "license": "CC by-nc",
+  "require": {
+    "php": ">=5.5.0",
+    "solire/lib": "~5.0.*"
+  },
   "require-dev": {
     "m6web/coke": "~1.2",
     "siwayll/phpcs-norme-dpsi": "~3.0"
