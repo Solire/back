@@ -178,8 +178,8 @@ $(function() {
         max_file_size : '1000mb',
         chunk_size : '2mb',
         url                 : basehref + 'back/media/upload.html',
-        flash_swf_url       : 'app/back/js/plupload/plupload.flash.swf',
-        silverlight_xap_url : 'app/back/js/plupload/plupload.silverlight.xap',
+        flash_swf_url       : 'public/default/back/js/plupload/plupload.flash.swf',
+        silverlight_xap_url : 'public/default/back/js/plupload/plupload.silverlight.xap',
         filters : [
             {
                 title : "Image files",

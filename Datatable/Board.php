@@ -198,7 +198,7 @@ class Board extends \Solire\Lib\Datatable\Datatable
             if ($pages[$version["id"]] == "") {
                 continue;
             }
-            $actionHtml .= '<img ' . ($pages[$version["id"]] == "" ? 'title="' . $version['nom'] . ' : Non traduit"  class="grayscale"' : 'title="' . $version['nom'] . ' : Traduit"') . ' src="app/back/img/flags/png/' . strtolower($version['suf']) . '.png" alt="' . $version['nom'] . '" />';
+            $actionHtml .= '<img ' . ($pages[$version["id"]] == "" ? 'title="' . $version['nom'] . ' : Non traduit"  class="grayscale"' : 'title="' . $version['nom'] . ' : Traduit"') . ' src="public/default/back/img/flags/png/' . strtolower($version['suf']) . '.png" alt="' . $version['nom'] . '" />';
             $actionHtml .= '&nbsp;' ;
         }
 

@@ -52,11 +52,11 @@ $(function(){
         max_file_size       : '1000mb',
         multi_selection     : true,
 	chunk_size          : '2mb',
-        url                 : basehref + 'back/media/upload.html?' 
+        url                 : basehref + 'back/media/upload.html?'
                             + 'id_gab_page=' + $('[name=id_gab_page]').val() + '&'
                             + 'gabaritId=' + $('[name=id_gabarit]').val() + '&',
-        flash_swf_url       : basehref + 'app/back/js/plupload/plupload.flash.swf',
-        silverlight_xap_url : basehref + 'app/back/js/plupload/plupload.silverlight.xap',
+        flash_swf_url       : basehref + 'public/default/back/js/plupload/plupload.flash.swf',
+        silverlight_xap_url : basehref + 'public/default/back/js/plupload/plupload.silverlight.xap',
         drop_element        : '#uploader_popup',
         filters             : [
             {
@@ -138,7 +138,7 @@ $(function(){
                     if ($.inArray(ext, extensionsImage) != -1) {
                         ligne += '<img class="vignette img-polaroid" src="' + response.mini_url + '" alt="' + ext + '" /></a></td>';
                     } else {
-                        ligne += '<img class="vignette" src="app/back/img/filetype/' + ext + '.png" alt="' + ext + '" /></a></td>';
+                        ligne += '<img class="vignette" src="public/default/back/img/filetype/' + ext + '.png" alt="' + ext + '" /></a></td>';
                     }
 
                     ligne += '<td>' + response.size + '</td>';
@@ -190,7 +190,7 @@ $(function(){
                 });
             }
 
-            
+
         });
     });
 });

@@ -25,7 +25,7 @@ tinymce.init({
     document_base_url   : '../../../../',
     image_list          : 'back/media/autocomplete.html?tinyMCE',
     link_list           : 'sitemap.xml?visible=0&json=1&onlylink=1&tinymce=1',
-    content_css         : 'app/back/css/style-tinymce.css'
+    content_css         : 'public/default/back/css/style-tinymce.css'
 });
 
 $(function() {

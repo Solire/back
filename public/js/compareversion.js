@@ -5,7 +5,7 @@ $(function(){
 
         var version_suf = tab[1];
 
-        $('.form-other-flag').html('<img src="app/back/img/flags/png/' + version_suf + '.png" />');
+        $('.form-other-flag').html('<img src="public/default/back/img/flags/png/' + version_suf + '.png" />');
 
         $('.form-line', current).each(function(i){
             /** Variable selon l'élément */

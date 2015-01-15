@@ -1,53 +1,53 @@
 
 $(function(){
-    
+
     $(document).click(function() {
 
         // The code to close the dropdown
         $('.dropdown').find('ul:visible').each(function() {
             if($(this).parents('.dropdown:first').hasClass('btn-create-container')) {
-                $(this).parents('.dropdown:first').find(':first-child img:first').attr('src', 'app/back/img/white/plus_alt_16x16.png')
+                $(this).parents('.dropdown:first').find(':first-child img:first').attr('src', 'public/default/back/img/white/plus_alt_16x16.png')
             }
             $(this).slideUp();
         })
     });
-    
+
     $('.dropdown').click(function(e) {
-        
+
         if($(this).find('ul:first').is(':hidden')) {
             if($(this).hasClass('btn-create-container')) {
-                $(':first-child', this).find('img:first').attr('src', 'app/back/img/white/minus_alt_16x16.png')
+                $(':first-child', this).find('img:first').attr('src', 'public/default/back/img/white/minus_alt_16x16.png')
             }
-            
+
             $('.dropdown').not(this).find('ul:visible').each(function() {
                 if($(this).parents('.dropdown:first').hasClass('btn-create-container')) {
-                    $(this).parents('.dropdown:first').find(':first-child img:first').attr('src', 'app/back/img/white/plus_alt_16x16.png')
+                    $(this).parents('.dropdown:first').find(':first-child img:first').attr('src', 'public/default/back/img/white/plus_alt_16x16.png')
                 }
                 $(this).slideUp();
             })
-            
-            
+
+
             $(this).find('ul:first').slideDown();
         } else {
             if($(this).hasClass('btn-create-container')) {
-                $(':first-child', this).find('img:first').attr('src', 'app/back/img/white/plus_alt_16x16.png')
+                $(':first-child', this).find('img:first').attr('src', 'public/default/back/img/white/plus_alt_16x16.png')
             }
             $(this).find('ul:first').slideUp();
-        }   
+        }
         return false;
-        
+
     })
-    
+
     $('.dropdown ul li').click(function(event){
         event.stopPropagation();
     })
-    
-    
+
+
     $('#breadcrumbs').stickyPanel({
         topPadding: 40,
         afterDetachCSSClass: 'breadcrumbs_sticky',
         savePanelSpace: true
-    }); 
+    });
 
 });
 
@@ -55,7 +55,7 @@ $(function(){
 /*
 	xBreadcrumbs (Extended Breadcrums) jQuery Plugin
 	© 2009 ajaxBlender.com
-	For any questions please visit www.ajaxblender.com 
+	For any questions please visit www.ajaxblender.com
 	or email us at support@ajaxblender.com
 */
 
@@ -64,8 +64,8 @@ $(function(){
     /*  Variables  */
     $.fn.xBreadcrumbs = function(settings){
         var element = $(this);
-        var 
-		
+        var
+
         settings = $.extend({}, $.fn.xBreadcrumbs.defaults, settings);
 
         function _build(){
@@ -80,12 +80,12 @@ $(function(){
                     }
                 });
             }
-			
+
             element.children('LI').mouseenter(function(){
                 if($(this).hasClass('hover')){
                     return;
                 }
-                
+
                 _hideAllSubLevels();
                 if(!_subLevelExists($(this))){
                     return;
@@ -94,7 +94,7 @@ $(function(){
                 // Show sub-level
                 var subLevel = $(this).children('UL');
                 _showHideSubLevel(subLevel, true);
-            	
+
                 if(settings.collapsible && !$(this).hasClass('current')){
                     var initWidth = $(this).children('A').attr('init-width');
                     $(this).children('A').animate({
@@ -102,11 +102,11 @@ $(function(){
                     }, 'normal');
                 }
             });
-            
+
             element.children('LI').mouseleave(function(){
                 var subLevel = $(this).children('UL');
                 _showHideSubLevel(subLevel, false);
-                
+
                 if(settings.collapsible && !$(this).hasClass('current')){
                     $(this).children('A').animate({
                         width: settings.collapsedWidth
@@ -114,14 +114,14 @@ $(function(){
                 }
             });
         };
-		
+
         function _hideAllSubLevels(){
             element.children('LI').children('UL').each(function(){
                 $(this).hide();
                 $(this).parent().removeClass('hover');
             });
         };
-		
+
         function _showHideSubLevel(subLevel, isShow){
             if(isShow){
                 subLevel.parent().addClass('hover');
@@ -131,7 +131,7 @@ $(function(){
                 }
                 if(settings.showSpeed != ''){
                     subLevel.fadeIn( settings.showSpeed );
-                } 
+                }
                 else {
                     subLevel.show();
                 }
@@ -139,21 +139,21 @@ $(function(){
                 subLevel.parent().removeClass('hover');
                 if(settings.hideSpeed != ''){
                     subLevel.fadeOut( settings.hideSpeed );
-                } 
+                }
                 else {
                     subLevel.hide();
                 }
             }
         };
-		
+
         function _subLevelExists(obj){
             return obj.children('UL').length > 0;
         };
-		
+
         //    Entry point
         _build();
     };
-	
+
     /*  Default Settings  */
     $.fn.xBreadcrumbs.defaults = {
         showSpeed:        'fast',

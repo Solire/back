@@ -78,7 +78,7 @@ var uploaderInit = function(idBtn){
                 $("#" + idBtn).parents(".control-group:first").find('.filelist tbody').append(
                     '<tr id="' + file.id + '">' +
                     '<td>' + (i+1) + '</td><td>' + file.name + '</td><td>' + plupload.formatSize(file.size) + '</td>' +
-                    '<td><a href="" class="remove btn btn-danger" title="Supprimer"><img width="12" src="app/back/img/back/white/trash_stroke_16x16.png" alt="Supprimer" /></a></td>' +
+                    '<td><a href="" class="remove btn btn-danger" title="Supprimer"><img width="12" src="public/default/back/img/back/white/trash_stroke_16x16.png" alt="Supprimer" /></a></td>' +
                     '</tr>');
                 var $tr =
                 $('<tr id="' + file.id + '_progress">' +
