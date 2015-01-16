@@ -5,6 +5,12 @@
   "description": "",
   "keywords": [""],
   "license": "CC by-nc",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "http://satis.solire.fr/"
+    }
+  ],
   "require": {
     "php": ">=5.5.0",
     "solire/lib": "5.0.*"
