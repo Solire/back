@@ -8,7 +8,13 @@
 
 namespace Solire\Back\Controller;
 
+use Solire\Lib\Log;
+use Solire\Lib\Session;
 use Solire\Lib\Path;
+use Solire\Lib\FrontController;
+use Solire\Lib\Model\FileManager;
+use Solire\Lib\Model\GabaritManager;
+use Solire\Lib\Hook;
 
 /**
  * Controleur principal du back
@@ -64,15 +70,15 @@ class Main extends \Solire\Lib\Controller
     {
         parent::start();
 
-        /**
+        /*
          * Système de log en BDD
          */
-        $this->log = new \Solire\Lib\Log($this->db, '', 0, 'back_log');
+        $this->log = new Log($this->db, '', 0, 'back_log');
 
-        /**
+        /*
          * Utilisateur connecté ?
          */
-        $this->utilisateur = new \Solire\Lib\Session('back');
+        $this->utilisateur = new Session('back');
 
         if (isset($_POST['log']) && isset($_POST['pwd'])
             && !empty($_POST['log']) && !empty($_POST['pwd'])
@@ -100,17 +106,6 @@ class Main extends \Solire\Lib\Controller
         ) {
             $this->simpleRedirect('back/sign/start.html', true);
         }
-
-        /**
-         * Si l'utilisateur a juste le droit de prévisualisation du site
-         *  = possibilité de voir le site sans tenir compte de la visibilité
-         * Alors On le redirige vers le front
-         */
-//        if ($this->utilisateur->get('niveau') == 'voyeur') {
-//            if ($_GET['controller'] . '/' . $_GET['action'] != 'back/sign/signout') {
-//                $this->simpleRedirect('../', true);
-//            }
-//        }
 
         if (isset($_COOKIE['api'])) {
             $nameApi = $_COOKIE['api'];
@@ -156,12 +151,12 @@ class Main extends \Solire\Lib\Controller
 
         $this->css->addLibrary('back/css/jquery-ui/custom-theme/jquery-ui-1.8.22.custom.css');
 
-        /** Inclusion Bootstrap twitter */
+        /* Inclusion Bootstrap twitter */
         $this->javascript->addLibrary('back/js/bootstrap/bootstrap.min.js');
         $this->css->addLibrary('back/css/bootstrap/bootstrap.min.css');
         $this->css->addLibrary('back/css/bootstrap/bootstrap-responsive.min.css');
 
-        /** font-awesome */
+        /* font-awesome */
         $this->css->addLibrary('back/css/font-awesome/css/font-awesome.min.css');
 
         $this->css->addLibrary('back/css/newstyle-1.3.css');
@@ -181,14 +176,14 @@ class Main extends \Solire\Lib\Controller
             $this->view->action = '';
         }
 
-        $className = \Solire\Lib\FrontController::searchClass('Model\GabaritManager');
+        $className = FrontController::searchClass('Model\GabaritManager');
         if ($className !== false) {
             $this->gabaritManager = new $className();
         } else {
-            $this->gabaritManager = new \Solire\Lib\Model\GabaritManager();
+            $this->gabaritManager = new GabaritManager();
         }
 
-        $this->fileManager = new \Solire\Lib\Model\FileManager();
+        $this->fileManager = new FileManager();
 
         $query = 'SELECT `version`.id, `version`.* '
                . 'FROM `version` '
@@ -252,7 +247,7 @@ class Main extends \Solire\Lib\Controller
                     . $this->view->site,
         );
 
-        /** On indique que l'on est dans une autre api **/
+        /* On indique que l'on est dans une autre api **/
         if ($this->api['id'] != 1) {
             $this->view->breadCrumbs[] = array(
                     'label' => $this->api['label'],
@@ -261,60 +256,67 @@ class Main extends \Solire\Lib\Controller
 
         $this->view->appConfig = $this->appConfig;
 
-        /**
+        /*
          * On recupere la configuration du module pages (Menu + liste)
          */
-        $path = \Solire\Lib\FrontController::search('config/page.cfg.php');
-        $completConfig = array();
-        $appList = \Solire\Lib\FrontController::getAppDirs();
-        unset($config);
-        foreach ($appList as $app) {
-           /**
-            * On recupere la configuration du module pages (Menu + liste)
-            *  En cherchant si une configuration a été définie pour l'api courante
-            * Sinon on récupère le fichier de configuration générale
-            */
-            $path = new Path(
-                $app['dir'] . Path::DS . 'back/config/page-' . BACK_ID_API . '.cfg.php',
-                Path::SILENT
-            );
-            if ($path->get() == false) {
-                $path = new Path(
-                    $app['dir'] . Path::DS . 'back/config/page.cfg.php',
-                    Path::SILENT
-                );
+        $completConfig = [];
+        $path = FrontController::search(
+            'config/page-' . BACK_ID_API . '.cfg.php'
+        );
+        if ($path !== false) {
+            include $path;
+            $completConfig = $config;
+        } else {
+            $path = FrontController::search('config/page.cfg.php');
+            if ($path !== false) {
+                include $path;
+                $completConfig = $config;
             }
-
-            if ($path->get() == false) {
-                continue;
-            }
-            include $path->get();
-
-            if (!isset($config)) {
-                $exc = new \Exception('fichier de config erroné [' . $path->get() . ']');
-                throw $exc;
-            }
-
-            /**
-             * équivalent à '$completConfig = $config + $completConfig;' ?
-             */
-//            foreach ($config as $key => $value) {
-//                $completConfig[$key] = $value;
-//            }
-
-            $completConfig = $completConfig + $config;
-
-            unset($config, $key, $value);
         }
+
+//        $completConfig = [];
+//        $appList = \Solire\Lib\FrontController::getAppDirs();
+//        unset($config);
+//        foreach ($appList as $app) {
+//           /**
+//            * On recupere la configuration du module pages (Menu + liste)
+//            *  En cherchant si une configuration a été définie pour l'api courante
+//            * Sinon on récupère le fichier de configuration générale
+//            */
+//            $path = new Path(
+//                $app['dir'] . Path::DS . 'back/config/page-' . BACK_ID_API . '.cfg.php',
+//                Path::SILENT
+//            );
+//            if ($path->get() == false) {
+//                $path = new Path(
+//                    $app['dir'] . Path::DS . 'back/config/page.cfg.php',
+//                    Path::SILENT
+//                );
+//            }
+//
+//            if ($path->get() == false) {
+//                continue;
+//            }
+//            include $path->get();
+//
+//            if (!isset($config)) {
+//                $exc = new \Exception('fichier de config erroné [' . $path->get() . ']');
+//                throw $exc;
+//            }
+//
+//            $completConfig = $completConfig + $config;
+//
+//            unset($config, $key, $value);
+//        }
 
         $this->configPageModule = $completConfig;
         unset($path, $config);
-        $this->view->menuPage = array();
+        $this->view->menuPage = [];
         foreach ($this->configPageModule as $configPage) {
-            $this->view->menuPage[] = array(
+            $this->view->menuPage[] = [
                 'label' => $configPage['label'],
                 'display' => $configPage['display'],
-            );
+            ];
         }
 
         $query = 'SELECT gab_gabarit.id, gab_gabarit.* '
@@ -335,7 +337,7 @@ class Main extends \Solire\Lib\Controller
             \PDO::FETCH_ASSOC
         );
 
-        $hook = new \Solire\Lib\Hook();
+        $hook = new Hook();
         $hook->setSubdirName('back');
 
         $hook->ctrl = $this;

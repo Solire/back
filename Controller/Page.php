@@ -52,7 +52,7 @@ class Page extends Main
      */
     public function checkPrivileges($pages, $gabarits)
     {
-        $ids = array();
+        $ids = [];
         foreach ($pages as $page) {
             $gabarit = $gabarits[$page->getMeta('id_gabarit')];
 
@@ -190,7 +190,7 @@ class Page extends Main
         $this->javascript->addLibrary('back/js/jquery/jquery.ajaxqueue.js');
         $this->javascript->addLibrary('back/js/jquery/jquery.scrollTo-min.js');
 
-        $gabaritsList = array();
+        $gabaritsList = [];
         $query = 'SELECT `gab_gabarit`.id, `gab_gabarit`.* '
                . 'FROM `gab_gabarit` '
                . 'WHERE `gab_gabarit`.`id_api` = ' . $this->api['id'];
@@ -235,6 +235,7 @@ class Page extends Main
             $this->view->urlAjax = $currentConfigPageModule['urlAjax'];
         }
 
+        $this->view->childName = '';
         if (isset($currentConfigPageModule['childName'])) {
             $this->view->childName = $currentConfigPageModule['childName'];
         }
@@ -256,7 +257,7 @@ class Page extends Main
             if ($gabaritsListUser == '*') {
                 $gabaritsList = $gabaritsListPage;
             } else {
-                $gabaritsList = array();
+                $gabaritsList = [];
                 foreach ($gabaritsListPage as $gabId) {
                     if (in_array($gabId, $gabaritsListUser)) {
                         $gabaritsList[] = $gabId;
@@ -330,10 +331,10 @@ class Page extends Main
         $this->view->gabarits = $this->gabarits;
         $this->view->pages = $this->pages;
 
-        $this->view->breadCrumbs[] = array(
+        $this->view->breadCrumbs[] = [
             'label' => $currentConfigPageModule['label'],
             'url'   => 'page/liste.html',
-        );
+        ];
     }
 
     /**
@@ -372,6 +373,7 @@ class Page extends Main
             $this->view->urlAjax = $currentConfigPageModule['urlAjax'];
         }
 
+        $this->view->childName = '';
         if (isset($currentConfigPageModule['childName'])) {
             $this->view->childName = $currentConfigPageModule['childName'];
         }
@@ -389,7 +391,7 @@ class Page extends Main
             if ($gabaritsListUser == '*') {
                 $gabaritsList = $gabaritsListPage;
             } else {
-                $gabaritsList = array();
+                $gabaritsList = [];
                 foreach ($gabaritsListPage as $gabId) {
                     if (in_array($gabId, $gabaritsListUser)) {
                         $gabaritsList[] = $gabId;
@@ -498,8 +500,8 @@ class Page extends Main
         $this->view->action = 'liste';
 
         $this->form            = '';
-        $this->pages           = array();
-        $this->redirections    = array();
+        $this->pages           = [];
+        $this->redirections    = [];
 
         if ($id_gab_page) {
             $query  = 'SELECT *'
@@ -588,7 +590,7 @@ class Page extends Main
                 $id_gabarit
             );
             $this->pages[BACK_ID_VERSION] = $page;
-            $this->redirections[BACK_ID_VERSION] = array();
+            $this->redirections[BACK_ID_VERSION] = [];
 
             $query  = 'SELECT * '
                     . 'FROM `main_element_commun_author_google` '
@@ -625,21 +627,21 @@ class Page extends Main
         }
 
         if ($found) {
-            $this->view->breadCrumbs[] = array(
+            $this->view->breadCrumbs[] = [
                 'label' => $this->configPageModule[$indexPageList]['label'],
                 'url'   => 'page/liste.html?c=' . $indexPageList,
-            );
+            ];
         } else {
-            $this->view->breadCrumbs[] = array(
+            $this->view->breadCrumbs[] = [
                 'label' => 'Liste des pages',
                 'url'   => 'page/liste.html',
-            );
+            ];
         }
 
-        $this->view->breadCrumbs[] = array(
+        $this->view->breadCrumbs[] = [
             'label' => 'Gestion des pages',
             'url'   => '',
-        );
+        ];
 
         $this->getButton($currentConfigPageModule);
     }
@@ -663,11 +665,11 @@ class Page extends Main
              */
 
             $dataRaw = json_decode($_POST['content'], true);
-            $data = array(
+            $data = [
                 'id_version' => $dataRaw['id_version']['value'],
                 'id_gab_page' => $dataRaw['id_gab_page']['value'],
                 'id_api' => $dataRaw['id_api']['value'],
-            );
+            ];
             $page = $this->gabaritManager->getPage(
                 $dataRaw['id_version']['value'],
                 $dataRaw['id_api']['value'],
@@ -694,7 +696,7 @@ class Page extends Main
                     if (strpos($k, '-') !== false) {
                         $fieldPart = explode('-', $k);
                         if (!isset($data[$fieldPart[0]])) {
-                            $data[$fieldPart[0]] = array();
+                            $data[$fieldPart[0]] = [];
                         }
 
 
@@ -703,7 +705,7 @@ class Page extends Main
                         $idChamp = substr($fieldPart[0], 5);
 
                         if (!isset($data['id_' . $blocTableName])) {
-                            $data['id_' . $blocTableName] = array();
+                            $data['id_' . $blocTableName] = [];
                         }
                         $data['id_' . $blocTableName][$idBlocLine] = $idBlocLine;
 
@@ -711,9 +713,9 @@ class Page extends Main
                     } else {
                         if (substr($k, 0, 5) == 'champ') {
                             $pageSave = true;
-                            $data[$k] = array(
+                            $data[$k] = [
                                 $val
-                            );
+                            ];
                         }
                     }
                 }
@@ -753,9 +755,9 @@ class Page extends Main
                 );
             }
 
-            $json = array(
+            $json = [
                 'status' => 'success',
-            );
+            ];
         } else {
             $modif = false;
 
@@ -781,12 +783,12 @@ class Page extends Main
 
                 $modif = false;
 
-                $json = array(
+                $json = [
                     'status'        => 'success',
                     'search'        => '?id_gab_page=' . $_POST['id_gab_page']
                                      . '&popup=more',
                     'id_gab_page'   => $_POST['id_gab_page'],
-                );
+                ];
             } else {
                 /*
                  * Création de page ou modification effective
@@ -823,12 +825,12 @@ class Page extends Main
                     );
                 }
 
-                $json = array(
+                $json = [
                     'status'        => 'success',
                     'search'        => '?id_gab_page=' . $this->page->getMeta('id')
                                      . '&popup=more',
                     'id_gab_page'   => $this->page->getMeta('id'),
-                );
+                ];
 
                 if (isset($_POST['id_temp']) && $_POST['id_temp']) {
                     /*
@@ -908,8 +910,8 @@ class Page extends Main
         $this->view->enable(false);
         $this->view->unsetMain();
 
-        $json = array();
-        $dejaLiees = is_array($_REQUEST['deja']) ? $_REQUEST['deja'] : array();
+        $json = [];
+        $dejaLiees = is_array($_REQUEST['deja']) ? $_REQUEST['deja'] : [];
 
         if (!isset($_REQUEST['id_gabarit'])
             || !is_numeric($_REQUEST['id_gabarit'])
@@ -920,11 +922,11 @@ class Page extends Main
         $pages = $this->gabaritManager->getSearch(BACK_ID_VERSION, $_GET['term'], $_REQUEST['id_gabarit']);
         foreach ($pages as $page) {
             if (!in_array($page->getMeta('id'), $dejaLiees)) {
-                $json[] = array(
+                $json[] = [
                     'value' => $page->getMeta('id'),
                     'label' => $page->getMeta('titre'),
                     'visible' => $page->getMeta('titre')
-                );
+                ];
             }
         }
 
@@ -948,7 +950,7 @@ class Page extends Main
         $idVersion  = $_GET['id_version'];
         $idGabPage  = $_GET['id_gab_page'];
         $term       = $_GET['term'];
-        $response   = array();
+        $response   = [];
 
         $query  = 'SELECT code_champ_param, value'
                 . ' FROM gab_champ_param_value'
@@ -1035,7 +1037,7 @@ class Page extends Main
 
         $pagesFound = $this->db->query($query)->fetchAll(\PDO::FETCH_ASSOC);
 
-        $pages = array();
+        $pages = [];
         foreach ($pagesFound as $page) {
             if (isset($page['gabarit_label'])) {
                 $gabaritLabel = $page['gabarit_label'];
@@ -1043,11 +1045,11 @@ class Page extends Main
                 $gabaritLabel = '';
             }
 
-            $pages[] = array(
+            $pages[] = [
                 'label' => $page['label'],
                 'id' => $page['id'],
                 'gabarit_label' => $gabaritLabel,
-            );
+            ];
         }
 
         header('Cache-Control: no-cache, must-revalidate');
@@ -1066,7 +1068,7 @@ class Page extends Main
         $this->view->enable(false);
         $this->view->unsetMain();
 
-        $json = array();
+        $json = [];
         $term = $_GET['term'];
         $table = 'old_link';
         $labelField = '`' . $table . '`.`link`';
@@ -1094,7 +1096,7 @@ class Page extends Main
     {
         $this->view->enable(false);
 
-        $pages = array();
+        $pages = [];
 
 
         $qSearch = isset($_GET['term']) ? $_GET['term'] : '';
@@ -1103,7 +1105,7 @@ class Page extends Main
          * Traitement de la chaine de recherche
          */
 
-        $searchTab = array();
+        $searchTab = [];
 
         /*
          * Variable qui contient la chaine de recherche
@@ -1167,7 +1169,7 @@ class Page extends Main
          * Tri des mots par strlen
          */
         if (is_array($this->filter->wordsAdvanced)) {
-            usort($this->filter->wordsAdvanced, array($this, 'lengthCmp'));
+            usort($this->filter->wordsAdvanced, [$this, 'lengthCmp']);
         }
 
         if ($qSearch != null) {
@@ -1215,12 +1217,12 @@ class Page extends Main
                 true
             );
 
-            $pages[] = array(
+            $pages[] = [
                 'label' => $highlight,
                 'id' => $page['id'],
                 'gabarit_label' => $page['gabarit_label'],
                 'url' => $page['url'],
-            );
+            ];
         }
 
         header('Cache-Control: no-cache, must-revalidate');
@@ -1243,7 +1245,9 @@ class Page extends Main
         $this->view->unsetMain();
         $this->view->enable(false);
 
-        $json = array('status' => 'error');
+        $json = [
+            'status' => 'error',
+        ];
         $idVersion = BACK_ID_VERSION;
 
         if (isset($_POST['id_version']) && $_POST['id_version'] > 0) {
@@ -1332,7 +1336,9 @@ class Page extends Main
         $this->view->unsetMain();
         $this->view->enable(false);
 
-        $json = array('status' => 'error');
+        $json = [
+            'status' => 'error',
+        ];
 
         $hook = new \Solire\Lib\Hook();
         $hook->setSubdirName('back');
@@ -1398,7 +1404,9 @@ class Page extends Main
         $this->view->unsetMain();
         $this->view->enable(false);
 
-        $json = array('status' => 'error');
+        $json = [
+            'status' => 'error',
+        ];
 
         $hook = new \Solire\Lib\Hook();
         $hook->setSubdirName('back');
@@ -1470,16 +1478,20 @@ class Page extends Main
         /*
          * Liste des début de label à regrouper pour les boutons de création
          */
-        $groupIdentifications = array('Rubrique ', 'Sous rubrique ', 'Page ');
+        $groupIdentifications = [
+            'Rubrique ',
+            'Sous rubrique ',
+            'Page ',
+        ];
 
-        $groups = array();
+        $groups = [];
         if (isset($currentConfigPageModule['boutons'])
             && isset($currentConfigPageModule['boutons']['groups'])
         ) {
             $groups = $currentConfigPageModule['boutons']['groups'];
         }
 
-        $this->view->gabaritsBtn = array();
+        $this->view->gabaritsBtn = [];
 
         /*
          * Si on a un regroupement des boutons personnalisés dans le
@@ -1491,9 +1503,9 @@ class Page extends Main
                 && $currentConfigPageModule['sort']
         ) {
             foreach ($groups as $customGroup) {
-                $gabaritsGroup = array(
+                $gabaritsGroup = [
                     'label' => $customGroup['label'],
-                );
+                ];
                 $key = md5($gabaritsGroup['label']);
                 $this->view->gabaritsBtn[$key] = $gabaritsGroup;
             }
@@ -1502,9 +1514,9 @@ class Page extends Main
         foreach ($this->gabarits as $gabarit) {
             $found = false;
 
-            $gabaritsGroup = array(
+            $gabaritsGroup = [
                 'label' => $gabarit['label'],
-            );
+            ];
 
             /*
              * Si utilisateur standart à le droit de créer ce type de gabarit
@@ -1540,9 +1552,9 @@ class Page extends Main
                         }
 
                         if ($found) {
-                            $gabaritsGroup = array(
+                            $gabaritsGroup = [
                                 'label' => $customGroup['label'],
-                            );
+                            ];
                             break;
                         }
                     }
@@ -1556,9 +1568,9 @@ class Page extends Main
                         $mask = '/^' . $groupIdentification . '/';
 
                         if (preg_match($mask, $gabarit['label'])) {
-                            $gabaritsGroup = array(
+                            $gabaritsGroup = [
                                 'label' => $groupIdentification,
-                            );
+                            ];
                             $gabarit['label'] = preg_replace(
                                 '#^' . $groupIdentification . '#',
                                 '',

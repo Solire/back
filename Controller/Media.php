@@ -322,7 +322,7 @@ class Media extends Main
      */
     public function uploadAction()
     {
-        /* Permet plusieurs liste de fichier dans la meme page **/
+        /** Permet plusieurs liste de fichier dans la meme page **/
         $this->view->idFilesList = null;
         if (isset($_REQUEST['id'])) {
             $this->view->idFilesList = '_' . $_REQUEST['id'];
@@ -366,7 +366,7 @@ class Media extends Main
                 exit();
             }
 
-            $response['size'] = \Solire\Lib\Tools::formatTaille($response['size']);
+            $response['size'] = \Solire\Lib\Tools::format_taille($response['size']);
 
             if (isset($response['mini_path'])) {
                 $response['mini_path'] = $this->view->prefixFileUrl
