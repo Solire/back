@@ -24,7 +24,7 @@
             if ($page->getMeta("rewriting") != "") {
                 if ($page->getMeta('rewriting') != ''
                     && ($this->utilisateur->get("niveau") == "solire"
-                        || $page->getGabarit()->getMake_hidden() == 1
+                        || $page->getGabarit()->getMakeHidden() == 1
                         || $page->getMeta('visible') == 0
                     )
                 ) {
