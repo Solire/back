@@ -122,7 +122,7 @@ class Media extends Main
 
             $file['class'] = 'hoverprevisu vignette';
 
-            if (array_key_exists($ext, \Solire\Lib\Model\FileManager::$_extensions['image'])) {
+            if (array_key_exists($ext, \Solire\Lib\Model\FileManager::$extensions['image'])) {
                 $file['path_mini']  = $this->view->prefixFileUrl
                                     . $file['id_gab_page'] . '/'
                                     . $this->upload_vignette . '/'
