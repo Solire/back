@@ -136,7 +136,7 @@ class Media extends Main
                 $file['class']      = 'vignette';
                 $file['path_mini']  = 'public/default/back/img/filetype/' . $ext . '.png';
             }
-            $file['poids'] = \Solire\Lib\Tools::format_taille($file['taille']);
+            $file['poids'] = \Solire\Lib\Tools::formatTaille($file['taille']);
 
             $this->view->files[] = $file;
         }
@@ -366,7 +366,7 @@ class Media extends Main
                 exit();
             }
 
-            $response['size'] = \Solire\Lib\Tools::format_taille($response['size']);
+            $response['size'] = \Solire\Lib\Tools::formatTaille($response['size']);
 
             if (isset($response['mini_path'])) {
                 $response['mini_path'] = $this->view->prefixFileUrl
@@ -436,7 +436,7 @@ class Media extends Main
                 }
                 $response['path'] = $this->view->prefixFileUrl . $response['path'];
                 $response['url'] = $this->view->prefixFileUrl . $response['url'];
-                $response['size'] = \Solire\Lib\Tools::format_taille($response['size']);
+                $response['size'] = \Solire\Lib\Tools::formatTaille($response['size']);
                 $response['id_temp'] = $id_temp;
             }
         }
@@ -597,7 +597,7 @@ class Media extends Main
             if (isset($response['minipath'])) {
                 $response['minipath'] = $response['minipath'];
                 $response['path'] = $response['path'];
-                $response['size'] = \Solire\Lib\Tools::format_taille($response['size']);
+                $response['size'] = \Solire\Lib\Tools::formatTaille($response['size']);
                 $response['id_temp'] = $id_temp;
             }
         }
