@@ -146,10 +146,10 @@ class User extends Main
         if (isset($_GET['json']) || (isset($_GET['nomain'])
             && $_GET['nomain'] == 1)
         ) {
-            echo $datatable;
+            echo $datatable->display();
             exit();
         }
 
-        $this->view->datatableRender = $datatable;
+        $this->view->datatableRender = $datatable->display();
     }
 }

@@ -4,7 +4,7 @@ $config = array(
         "ShinForm",
     ),
     "additional_script" =>  array(
-        "utilisateur.js",
+        "back/js/datatable/utilisateur.js",
     ),
     'table' => array(
         'title' => 'Liste des utilisateurs',
