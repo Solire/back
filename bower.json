@@ -1,0 +1,6 @@
+{
+    "name"          : "solire_back",
+    "dependencies"  : {
+        "bootstrap"         : "3.3.*"
+    }
+}

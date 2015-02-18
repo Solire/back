@@ -48,3 +48,7 @@ vendor/
 #########
 tests/units/coverage/
 tests/units/tmp
+
+# bower #
+###################
+bower_components/

@@ -174,7 +174,17 @@ class Main extends \Solire\Lib\Controller
             define('BACK_ID_API', $this->api['id']);
         }
 
-        $this->javascript->addLibrary('back/js/jquery/jquery-1.8.0.min.js');
+        /* Jquery */
+        $this->javascript->addLibrary('back/bower_components/jquery/dist/jquery.min.js');
+
+        /* Bootstrap */
+        $this->javascript->addLibrary('back/bower_components/bootstrap/dist/js/bootstrap.min.js');
+
+        $this->css->addLibrary('back/bower_components/bootstrap/dist/css/bootstrap.min.css');
+        $this->css->addLibrary('back/bower_components/bootstrap/dist/css/bootstrap-theme.min.css');
+        
+        /* Reste des librairies à nettoyer */
+
         $this->javascript->addLibrary('back/js/jquery/jquery-ui-1.8.23.custom.min.js');
         $this->javascript->addLibrary('back/js/main.js');
         $this->javascript->addLibrary('back/js/jquery/jquery.cookie.js');
@@ -187,11 +197,6 @@ class Main extends \Solire\Lib\Controller
         $this->css->addLibrary('back/css/jquery-ui-1.8.7.custom.css');
 
         $this->css->addLibrary('back/css/jquery-ui/custom-theme/jquery-ui-1.8.22.custom.css');
-
-        /* Inclusion Bootstrap twitter */
-        $this->javascript->addLibrary('back/js/bootstrap/bootstrap.min.js');
-        $this->css->addLibrary('back/css/bootstrap/bootstrap.min.css');
-        $this->css->addLibrary('back/css/bootstrap/bootstrap-responsive.min.css');
 
         /* font-awesome */
         $this->css->addLibrary('back/css/font-awesome/css/font-awesome.min.css');
