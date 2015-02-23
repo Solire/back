@@ -426,7 +426,7 @@ class Media extends Main
                     $response['mini_path'] = $this->view->prefixFileUrl . $response['mini_path'];
                     $response['mini_url'] = $this->view->prefixFileUrl . $response['mini_url'];
                     $response['image'] = array(
-                        'url' => $this->view->prefixFileUrl . $id_gab_page . DS . $response['filename']
+                        'url' => $this->view->prefixFileUrl . $id_gab_page . Path::DS . $response['filename']
                     );
 
                     // Génération de miniatures additionnelles
@@ -501,8 +501,8 @@ class Media extends Main
             /** Cas d'une édition de page */
 
             $targetDir      = $id_gab_page;
-            $vignetteDir    = $id_gab_page . DS . $this->upload_vignette;
-            $apercuDir      = $id_gab_page . DS . $this->upload_apercu;
+            $vignetteDir    = $id_gab_page . Path::DS . $this->upload_vignette;
+            $apercuDir      = $id_gab_page . Path::DS . $this->upload_apercu;
         } elseif (isset($_COOKIE['id_temp'])
             && $_COOKIE['id_temp']
             && is_numeric($_COOKIE['id_temp'])
@@ -514,15 +514,15 @@ class Media extends Main
 
 //            $targetTmp      = $this->upload_temp;
             $targetDir      = $target;
-            $vignetteDir    = $target . DS . $this->upload_vignette;
-            $apercuDir      = $target . DS . $this->upload_apercu;
+            $vignetteDir    = $target . Path::DS . $this->upload_vignette;
+            $apercuDir      = $target . Path::DS . $this->upload_apercu;
         } else {
             exit();
         }
 
         $count_temp = 1;
         $target     = $newImageName . '.' . $ext;
-        while (file_exists($this->upload_path . DS . $targetDir . DS . $target)) {
+        while (file_exists($this->upload_path . Path::DS . $targetDir . Path::DS . $target)) {
             $count_temp++;
             $target = $newImageName . '-' . $count_temp . '.' . $ext;
         }
@@ -603,17 +603,17 @@ class Media extends Main
         }
 
         $response = array();
-        $response['path']           = $targetDir . DS . $target;
+        $response['path']           = $targetDir . Path::DS . $target;
         $response['filename']       = $target;
         $response['filename_front'] = $targetDir . '/' . $target;
 
         if (\Solire\Lib\Model\fileManager::isImage($response['filename'])) {
             $path       = $response['path'];
-            $vignette   = $targetDir . DS
-                        . $this->upload_vignette . DS
+            $vignette   = $targetDir . Path::DS
+                        . $this->upload_vignette . Path::DS
                         . $response['filename'];
-            $serverpath = $this->upload_path . DS
-                        . $targetDir . DS
+            $serverpath = $this->upload_path . Path::DS
+                        . $targetDir . Path::DS
                         . $response['filename'];
 
             if (\Solire\Lib\Model\fileManager::isImage($response['filename'])) {
@@ -719,26 +719,27 @@ class Media extends Main
         $tinyMCE = isset($_GET['tinyMCE']);
 
         if ($id_gab_page || $id_temp) {
-            $files = $this->fileManager->getSearch($term, $id_gab_page, $id_temp, $extensions);
+            $files = $this->fileManager->getSearch(
+                $term, $id_gab_page, $id_temp, $extensions
+            );
 
             $dir = $id_gab_page ? $id_gab_page : 'temp-' . $id_temp;
 
             foreach ($files as $file) {
                 if (!$tinyMCE || \Solire\Lib\Model\FileManager::isImage($file['rewriting'])) {
-                    $path       = $dir . DS
-                                . $file['rewriting'];
-                    $vignette   = $dir . DS
-                                . $this->upload_vignette . DS
-                                . $file['rewriting'];
-                    $serverpath = $this->upload_path . DS
-                                . $dir . DS
+                    $url = $dir . '/' . $file['rewriting'];
+                    $vignette = $dir . '/'
+                              . $this->upload_vignette . '/'
+                              . $file['rewriting'];
+                    $serverpath = $this->upload_path . Path::DS
+                                . $dir . Path::DS
                                 . $file['rewriting'];
 
                     if (!file_exists($serverpath)) {
                         continue;
                     }
 
-                    $realpath = \Solire\Lib\Registry::get('basehref') . $dir . '/' . $file['rewriting'];
+                    $absUrl = \Solire\Lib\Registry::get('basehref') . $url;
                     if (\Solire\Lib\Model\FileManager::isImage($file['rewriting'])) {
                         $sizes = getimagesize($serverpath);
                         $size = $sizes[0] . ' x ' . $sizes[1];
@@ -749,11 +750,11 @@ class Media extends Main
                     if ($tinyMCE) {
                         $json[] = array(
                             'title' => $file['rewriting'] . ($size ? ' (' . $size . ')' : ''),
-                            'value' => $realpath,
+                            'value' => $absUrl,
                         );
                     } else {
                         $json[] = array(
-                            'path' => $path,
+                            'path' => $url,
                             'vignette' => $vignette,
                             'label' => $file['rewriting'],
                             'utilise' => $file['utilise'],
@@ -838,11 +839,14 @@ class Media extends Main
                 list($maxWidth, $maxHeight) = explode('x', $size);
 
                 $sizeDirectory = str_replace('*', '', $size);
-                if (!file_exists($miniatureDir . DS . $sizeDirectory)) {
-                    $this->fileManager->createFolder($miniatureDir . DS . $sizeDirectory);
+                if (!file_exists($miniatureDir . Path::DS . $sizeDirectory)) {
+                    $this->fileManager->createFolder(
+                        $miniatureDir . Path::DS . $sizeDirectory
+                    );
                 }
 
-                $miniaturePath  = $miniatureDir . DS . $sizeDirectory . DS
+                $miniaturePath  = $miniatureDir . Path::DS
+                                . $sizeDirectory . Path::DS
                                 . $miniatureName;
 
                 $this->fileManager->vignette(
