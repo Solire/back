@@ -1,0 +1,11 @@
+
+.btn-group-fixed {
+    /*position: fixed !important;*/
+    /*bottom: 20px;*/
+    z-index: 250 !important;
+    display:block;
+
+    .btn {
+        text-align: left;
+    }
+}

@@ -58,16 +58,16 @@ class Media extends Main
     {
 
         $this->fileDatatable();
-        $this->javascript->addLibrary('back/js/jquery/jquery.hotkeys.js');
-        $this->javascript->addLibrary('back/js/jstree/jquery.jstree.js');
+//        $this->javascript->addLibrary('back/js/jquery/jquery.hotkeys.js');
+//        $this->javascript->addLibrary('back/js/jstree/jquery.jstree.js');
         //$this->javascript->addLibrary('back/js/jquery/jquery.dataTables.min.js');
-        $this->javascript->addLibrary('back/js/plupload/plupload.full.js');
-        $this->javascript->addLibrary('back/js/plupload/jquery.pluploader.min.js');
-        $this->javascript->addLibrary('back/js/listefichiers.js');
-        $this->javascript->addLibrary('back/js/jquery/jquery.scroller-1.0.min.js');
+//        $this->javascript->addLibrary('back/js/plupload/plupload.full.js');
+//        $this->javascript->addLibrary('back/js/plupload/jquery.pluploader.min.js');
+//        $this->javascript->addLibrary('back/js/listefichiers.js');
+//        $this->javascript->addLibrary('back/js/jquery/jquery.scroller-1.0.min.js');
 
         //$this->css->addLibrary('back/css/demo_table_jui.css');
-        $this->css->addLibrary('back/css/jquery.scroller.css');
+//        $this->css->addLibrary('back/css/jquery.scroller.css');
 
         $this->view->breadCrumbs[] = array(
             'label' => 'Gestion des fichiers',
@@ -217,21 +217,17 @@ class Media extends Main
         $this->view->unsetMain();
         $this->view->enable(false);
 
-        $res = array();
+        $nodes = array();
 
         if ($_REQUEST['id'] === '') {
-            $res[] = array(
-                'attr' => array(
-                    'id' => 'node_0',
-                    'rel' => 'root'
-                ),
-                'data' => array(
-                    'title' => 'Ressources'
-                ),
-                'state' => 'closed'
+            $nodes[] = array(
+                'id'       => 'node_0',
+                'text'     => 'Ressources',
+                "children" => true,
+                'icon' => 'fa fa-folder',
             );
-        } elseif ($_REQUEST['id'] === '0') {
-            $rubriques = $this->gabaritManager->getList(BACK_ID_VERSION, $this->api['id'], 0);
+        } else {
+            $rubriques = $this->gabaritManager->getList(BACK_ID_VERSION, $this->api['id'], (int) $_REQUEST['id']);
             $configPageModule = $this->configPageModule[$this->utilisateur->gabaritNiveau];
             $gabaritsListUser = $configPageModule['gabarits'];
             foreach ($rubriques as $rubrique) {
@@ -244,70 +240,29 @@ class Media extends Main
                     }
                 }
 
-                $title = '<div class="horizontal_scroller" '
-                       . 'style="width:150px;height: 17px; cursor: pointer;">'
-                       . '<div class="scrollingtext" style="left: 0px;">'
-                       . $rubrique->getMeta('titre')
-                       . '</div></div>';
-                $res[] = array(
-                    'attr' => array(
-                        'id' => 'node_' . $rubrique->getMeta('id'),
-                        'rel' => 'page',
-                    ),
-                    'data' => array(
-                        'title' => $title,
-                    ),
-                    'state' => 'closed',
+                /*
+                 * On recupere les enfants
+                 */
+                $childrenNodes = array();
+                $children = $this->gabaritManager->getList(
+                    BACK_ID_VERSION,
+                    $this->api['id'],
+                    (int) $rubrique->getMeta('id')
                 );
-            }
-        } else {
-            $sousRubriques = $this->gabaritManager->getList(BACK_ID_VERSION, $this->api['id'], $_REQUEST['id']);
 
-            $configPageModule = $this->configPageModule[$this->utilisateur->gabaritNiveau];
-            $gabaritsListUser = $configPageModule['gabarits'];
-
-            foreach ($sousRubriques as $sousRubrique) {
-                /** On exclu les gabarits qui ne sont pas dans les droits **/
-                if ($gabaritsListUser != '*') {
-                    if (!in_array($sousRubrique->getMeta('id_gabarit'), $gabaritsListUser)) {
-                        continue;
-                    }
-                }
-
-                $query = 'SELECT COUNT(*) '
-                       . 'FROM `' . $this->mediaTableName . '` '
-                       . 'WHERE `suppr` = 0 '
-                       . 'AND `id_gab_page` = ' . $sousRubrique->getMeta('id');
-                $nbre = $this->db->query($query)->fetchColumn();
-
-                $title = $sousRubrique->getMeta('titre');
-                if (mb_strlen($sousRubrique->getMeta('titre')) > 16) {
-                    $title = mb_substr($title, 0, 16) . '&hellip;';
-                }
-
-                $tagTitle = '<div class="horizontal_scroller" '
-                       . 'style="width:100px;height: 17px; cursor: pointer;">'
-                       . '<div class="scrollingtext" style="left: 0px;">'
-                       . $title
-                       . ' (<i>' . $nbre . '</i>)</div></div>';
-
-                $res[] = array(
-                    'attr' => array(
-                        'id' => 'node_' . $sousRubrique->getMeta('id'),
-                        'rel' => 'page'
-                    ),
-                    'data' => array(
-                        'title' => $tagTitle,
-                        'attr' => array(
-                            'title' => $sousRubrique->getMeta('titre')
-                        )
-                    ),
-                    'state' => 'closed'
+                $title = $rubrique->getMeta('titre');
+                $node = array(
+                    'id'       => 'node_' . $rubrique->getMeta('id'),
+                    'text'     => $title . (count($children) > 0 ? ' (' . count($children) . ')' : ''),
+                    'rel'      => 'category',
+                    "icon"     => count($children) > 0 ? "fa fa-folder" : "fa fa-file-text",
+                    "children" => count($children) > 0 ? true : false
                 );
+                $nodes[] = $node;
             }
         }
 
-        echo json_encode($res);
+        echo json_encode($nodes);
     }
 
     /**
@@ -379,6 +334,7 @@ class Media extends Main
             }
 
             $response['url']       = $this->view->prefixFileUrl . $response['url'];
+            $response['isImage']   = \Solire\Lib\Model\FileManager::isImage($response['filename']) !== false;
 
             if (isset($response['minipath'])) {
                 $response['minipath'] = $this->view->prefixFileUrl
@@ -437,6 +393,7 @@ class Media extends Main
                 $response['url'] = $this->view->prefixFileUrl . $response['url'];
                 $response['size'] = \Solire\Lib\Tools::formatTaille($response['size']);
                 $response['id_temp'] = $id_temp;
+                $response['isImage'] = \Solire\Lib\Model\FileManager::isImage($response['filename']) !== false;
             }
         }
 
@@ -715,6 +672,7 @@ class Media extends Main
         }
 
         $json = array();
+        $items = array();
 
         $term = isset($_GET['term']) ? $_GET['term'] : '';
         $tinyMCE = isset($_GET['tinyMCE']);
@@ -749,23 +707,30 @@ class Media extends Main
                     }
 
                     if ($tinyMCE) {
-                        $json[] = array(
+                        $items[] = array(
                             'title' => $file['rewriting'] . ($size ? ' (' . $size . ')' : ''),
                             'value' => $absUrl,
                         );
                     } else {
-                        $json[] = array(
+                        $items[] = array(
                             'path' => $url,
                             'vignette' => $vignette,
+                            'isImage' => \Solire\Lib\Model\FileManager::isImage($file['rewriting']) !== false,
                             'label' => $file['rewriting'],
                             'utilise' => $file['utilise'],
                             'size' => ($size ? $size : ''),
                             'value' => $file['rewriting'],
+                            'text' => $file['rewriting'],
+                            'id' => $file['rewriting'],
                         );
                     }
                 }
             }
         }
+
+        $json = array(
+            'items' => $items,
+        );
 
         header('Cache-Control: no-cache, must-revalidate');
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');

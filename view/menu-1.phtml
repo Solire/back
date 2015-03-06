@@ -3,7 +3,7 @@
     if ($this->appConfig->get('board', 'active')) {
         if ($this->controller == 'back/board') {
 ?>
-                                    <li class="gradient-blue text-light-white"><a href="back/board/start.html">Tableau de bord</a></li>
+                                    <li><a href="back/board/start.html">Tableau de bord</a></li>
 <?php
         } else {
 ?>
@@ -11,7 +11,6 @@
 <?php
         }
 ?>
-                                    <li class="divider-vertical divider-simple hidden-phone hidden-tablet"></li>
 <?php
     }
 ?>
@@ -24,7 +23,7 @@
     }
     if ($countConfig > 1) {
 ?>
-                                    <li class="dropdown<?php echo $this->controller == "back/page" ? ' gradient-blue text-light-white' : ''; ?>">
+                                    <li class="dropdown<?php echo $this->controller == "back/page" ? ' active' : ''; ?>">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Pages <b class="caret"></b></a>
                                         <ul class="dropdown-menu">
 <?php
@@ -47,34 +46,37 @@
     }
     else {
 ?>
-                                    <li<?php echo $this->controller == "back/page" ? ' class="gradient-blue text-light-white"' : ''; ?>><a href="back/page/liste.html">Pages</a></li>
+                                    <li<?php echo $this->controller == "back/page" ? ' class="active"' : ''; ?>><a href="back/page/liste.html">Pages</a></li>
 <?php
     }
 ?>
-                                    <li class="divider-vertical divider-simple hidden-phone hidden-tablet"></li>
-                                    <li<?php echo $this->controller == "back/media" ? ' class="gradient-blue text-light-white"' : ''; ?>><a href="back/media/start.html">Fichiers</a></li>
-                                    <li class="divider-vertical divider-simple hidden-phone hidden-tablet"></li>
-                                    <li<?php echo $this->controller == "back/dashboard" && $_GET["name"] == "translate" ? ' class="gradient-blue text-light-white"' : ''; ?>><a href="back/dashboard/start.html?name=translate" class="bis">Textes statiques</a></li>
+                                    <li<?php echo $this->controller == "back/media" ? ' class="active"' : ''; ?>><a href="back/media/start.html">Fichiers</a></li>
+                                    <li<?php echo $this->controller == "back/dashboard" && $_GET["name"] == "translate" ? ' class="active"' : ''; ?>><a href="back/dashboard/start.html?name=translate" class="bis">Textes statiques</a></li>
 <?php
     if ($this->utilisateur->get("niveau") == "solire") {
 ?>
-                                    <li class="divider-vertical divider-simple hidden-phone hidden-tablet"></li>
 <?php
         if ($this->api["name"] == "mobile") {
 ?>
 
-                                    <li class="dropdown<?php echo $this->controller == "back/dashboard" && ($_GET["name"] == "redirection" || $_GET["name"] == "redirection_mobile") ? ' gradient-blue text-light-white' : ''; ?>">
+                                    <li class="dropdown<?php echo $this->controller == "back/dashboard" && ($_GET["name"] == "redirection" || $_GET["name"] == "redirection_mobile") ? ' active' : ''; ?>">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Redirections <b class="caret"></b></a>
                                         <ul class="dropdown-menu">
-                                            <li<?php echo $this->controller == "back/dashboard" && $_GET["name"] == "redirection" ? ' class="active"' : ''; ?>><a href="back/dashboard/start.html?name=redirection">Redirections 301 permanentes</a></li>
-                                            <li<?php echo $this->controller == "back/dashboard" && $_GET["name"] == "redirection_mobile" ? ' class="active"' : ''; ?>><a href="back/dashboard/start.html?name=redirection_mobile">Correspondances Desktop/Mobile</a></li>
+                                            <li<?php echo $this->controller == "back/dashboard" && $_GET["name"] == "redirection" ? ' class="active"' : ''; ?>>
+                                                <a href="back/dashboard/start.html?name=redirection">Redirections 301 permanentes</a>
+                                            </li>
+                                            <li<?php echo $this->controller == "back/dashboard" && $_GET["name"] == "redirection_mobile" ? ' class="active"' : ''; ?>>
+                                                <a href="back/dashboard/start.html?name=redirection_mobile">Correspondances Desktop/Mobile</a>
+                                            </li>
                                         </ul>
                                     </li>
 <?php
         }
         else {
 ?>
-                                    <li<?php echo $this->controller == "back/dashboard" && $_GET["name"] == "redirection" ? ' class="gradient-blue text-light-white"' : ''; ?>><a href="back/dashboard/start.html?name=redirection" class="bis">Redirections 301</a></li>
+                                    <li<?php echo $this->controller == "back/dashboard" && $_GET["name"] == "redirection" ? ' class="active"' : ''; ?>>
+                                        <a href="back/dashboard/start.html?name=redirection" class="bis">Redirections 301</a>
+                                    </li>
 <?php
         }
     }
@@ -90,11 +92,10 @@
     if ($this->utilisateur->get("niveau") == "solire") {
         $class = '';
         if ($this->controller == "back/dashboard" && ($_GET["name"] == "back_log" || $_GET["name"] == "utilisateur")) {
-            $class = ' gradient-blue text-light-white';
+            $class = ' active';
         }
 
 ?>
-                                    <li class="divider-vertical divider-simple hidden-phone hidden-tablet"></li>
                                     <li class="dropdown<?php echo $class; ?>">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"> + <b class="caret"></b></a>
                                         <ul class="dropdown-menu">

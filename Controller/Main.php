@@ -18,6 +18,7 @@ use Solire\Lib\Model\GabaritManager;
 use Solire\Lib\Hook;
 use Solire\Lib\Security\AntiBruteforce\AntiBruteforce;
 use Solire\Conf\Loader as ConfLoader;
+use Solire\Lib\Loader\RequireJs;
 
 /**
  * Controleur principal du back
@@ -62,6 +63,13 @@ class Main extends \Solire\Lib\Controller
      * @var Logger
      */
     public $userLogger = null;
+
+    /**
+     * Chargeur de script pour requireJS
+     *
+     * @var \Solire\Lib\RequireJs
+     */
+    protected $requireJs = null;
 
     /**
      * Always execute before other method in controller
@@ -174,35 +182,7 @@ class Main extends \Solire\Lib\Controller
             define('BACK_ID_API', $this->api['id']);
         }
 
-        /* Jquery */
-        $this->javascript->addLibrary('back/bower_components/jquery/dist/jquery.min.js');
-
-        /* Bootstrap */
-        $this->javascript->addLibrary('back/bower_components/bootstrap/dist/js/bootstrap.min.js');
-
-        $this->css->addLibrary('back/bower_components/bootstrap/dist/css/bootstrap.min.css');
-        $this->css->addLibrary('back/bower_components/bootstrap/dist/css/bootstrap-theme.min.css');
-        
-        /* Reste des librairies à nettoyer */
-
-        $this->javascript->addLibrary('back/js/jquery/jquery-ui-1.8.23.custom.min.js');
-        $this->javascript->addLibrary('back/js/main.js');
-        $this->javascript->addLibrary('back/js/jquery/jquery.cookie.js');
-        $this->javascript->addLibrary('back/js/jquery/sticky.js');
-        $this->javascript->addLibrary('back/js/jquery/jquery.livequery.min.js');
-
-        $this->javascript->addLibrary('back/js/jquery/jquery.stickyPanel.min.js');
-
-        $this->javascript->addLibrary('back/js/newstyle.js');
-        $this->css->addLibrary('back/css/jquery-ui-1.8.7.custom.css');
-
-        $this->css->addLibrary('back/css/jquery-ui/custom-theme/jquery-ui-1.8.22.custom.css');
-
-        /* font-awesome */
-        $this->css->addLibrary('back/css/font-awesome/css/font-awesome.min.css');
-
-        $this->css->addLibrary('back/css/newstyle-1.3.css');
-        $this->css->addLibrary('back/css/sticky.css');
+        $this->loadRessources();
 
         $this->view->site = \Solire\Lib\Registry::get('project-name');
 
@@ -275,6 +255,7 @@ class Main extends \Solire\Lib\Controller
         $this->view->apis = $this->apis;
         $this->view->api = $this->api;
         $this->view->javascript = $this->javascript;
+        $this->view->requireJs = $this->requireJs;
         $this->view->css = $this->css;
         $this->view->mainVersions = $this->versions;
         $query = 'SELECT `version`.id, `version`.* '
@@ -285,7 +266,8 @@ class Main extends \Solire\Lib\Controller
         );
         $this->view->breadCrumbs = array();
         $this->view->breadCrumbs[] = array(
-            'label' => $this->view->img->output('back/img/gray_dark/home_12x12.png')
+            'label' => '<i class="fa fa-home"></i>'
+                    . ' '
                     . $this->view->site,
         );
 
@@ -398,10 +380,241 @@ class Main extends \Solire\Lib\Controller
         parent::shutdown();
 
         $hook = new Hook();
-        $hook->setSubdirName('back');
+        $hook->setSubdirName('Back');
 
         $hook->controller = $this;
 
-        $hook->exec('shutdown');
+        $hook->exec('Shutdown');
+    }
+
+    protected function loadRessources()
+    {
+        /* Chargement de requireJS */
+        $requireInitPath = $this->javascript->getPath('back/js/init.js');
+        $this->javascript->addLibrary(
+            'back/bower_components/requirejs/require.js',
+            array('data-main' => $requireInitPath)
+        );
+
+        $this->requireJs = new RequireJs(FrontController::$publicDirs);
+
+        /* Jquery */
+        $this->requireJs->addLibrary(
+            'back/bower_components/jquery/dist/jquery.min.js',
+            array('name' => 'jquery')
+        );
+
+        /* Sortable */
+        $this->requireJs->addLibrary('back/bower_components/Sortable/Sortable.min.js',
+            array(
+                'name' => 'sortable',
+            )
+        );
+
+        /* Jquery cookie */
+        $this->requireJs->addLibrary('back/bower_components/jquery.cookie/jquery.cookie.js',
+            array(
+                'name' => 'jqueryCookie',
+                'deps' => array(
+                    'jquery',
+                )
+            )
+        );
+
+        /* Bootstrap */
+        $this->requireJs->addLibrary('back/bower_components/bootstrap/dist/js/bootstrap.min.js',
+            array(
+                'name' => 'bootstrap',
+                'deps' => array(
+                    'jquery',
+                )
+            )
+        );
+
+//        $this->css->addLibrary('back/bower_components/bootstrap/dist/css/bootstrap.min.css');
+//        $this->css->addLibrary('back/bower_components/bootstrap/dist/css/bootstrap-theme.min.css');
+        $this->css->addLibrary('back/css/bootstrap-theme/bootstrap.min.css');
+
+        /* Bootstrap datepicker */
+        $this->requireJs->addLibrary('back/bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js',
+            array(
+                'name' => 'bootstrapDatepicker',
+                'deps' => array(
+                    'bootstrap',
+                )
+            )
+        );
+
+        $this->css->addLibrary('back/bower_components/bootstrap-datepicker/css/datepicker3.css');
+
+        // Fichier de traduction FR du datepicker
+        $this->requireJs->addLibrary('back/bower_components/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js',
+            array(
+                'name' => 'bootstrapDatepickerFr',
+                'deps' => array(
+                    'bootstrapDatepicker',
+                )
+            )
+        );
+
+        /* Bootstrap autocomplete */
+        $this->requireJs->addLibrary('back/bower_components/select2/dist/js/select2.full.min.js',
+            array(
+                'name' => 'autocomplete',
+                'deps' => array(
+                    'jquery',
+                )
+            )
+        );
+
+        $this->css->addLibrary('back/bower_components/select2/dist/css/select2.min.css');
+
+        /* Datatables */
+        $this->requireJs->addLibrary('back/bower_components/datatables/media/js/jquery.dataTables.min.js',
+            array(
+                'name' => 'datatables',
+                'deps' => array(
+                    'jquery',
+                )
+            )
+        );
+
+        $this->css->addLibrary('back/bower_components/datatables/media/css/jquery.dataTables.min.css');
+
+        $this->requireJs->addLibrary('back/bower_components/datatables-responsive/js/dataTables.responsive.js',
+            array(
+                'name' => 'datatables-responsive',
+                'deps' => array(
+                    'datatables',
+                )
+            )
+        );
+
+        $this->css->addLibrary('back/bower_components/datatables-responsive/css/dataTables.responsive.css');
+
+        
+        
+        /* Plupload */
+        $this->requireJs->addLibrary('back/bower_components/plupload/js/plupload.full.min.js',
+            array(
+                'name' => 'plupload'
+            )
+        );
+        $this->requireJs->addLibrary('back/bower_components/jquery-pluploader/dist/jquery.pluploader.min.js',
+            array(
+                'name' => 'jqueryPluploader',
+                'deps' => array(
+                    'plupload',
+                )
+            )
+        );
+
+        $this->css->addLibrary('back/bower_components/datatables/media/css/jquery.dataTables.min.css');
+
+        /* Noty */
+        $this->requireJs->addLibrary('back/bower_components/noty/js/noty/packaged/jquery.noty.packaged.min.js',
+            array(
+                'name' => 'noty',
+                'deps' => array(
+                    'jquery',
+                )
+            )
+        );
+
+        /* SoModal */
+        $this->requireJs->addLibrary('back/bower_components/jquery.transit/jquery.transit.js',
+            array('name' => 'jqueryTransit')
+        );
+
+        $this->requireJs->addLibrary('back/bower_components/jquery-somodal/dist/js/jquery.somodal.min.js',
+            array(
+                'name' => 'jquerySoModal',
+                'deps' => array(
+                    'jquery',
+                    'jqueryTransit',
+                )
+            )
+        );
+
+        $this->css->addLibrary('back/bower_components/jquery-somodal/dist/css/jquery.somodal.min.css');
+
+        /* JSTREE */
+        $this->requireJs->addLibrary('back/bower_components/jstree/dist/jstree.min.js',
+            array('name' => 'jsTree')
+        );
+
+        // Thème par défaut de jstree
+//        $this->css->addLibrary('back/bower_components/jstree/dist/themes/default/style.min.css');
+
+        // Thème Bootstrap de jstree
+        $this->css->addLibrary('back/bower_components/jstree-bootstrap-theme/dist/themes/proton/style.min.css');
+
+        /* tinyMCE */
+        $this->requireJs->addLibrary('back/bower_components/tinymce/tinymce.min.js',
+            array('name' => 'tinyMCE_source')
+        );
+
+        $this->requireJs->addLibrary('back/bower_components/bower-tinymce-amd/tinyMCE.js',
+            array('name' => 'tinyMCE')
+        );
+
+        /* Jquery Form controle */
+        $this->requireJs->addLibrary('back/bower_components/jquery-controle/jquery.controle.min.js',
+            array(
+                'name' => 'jqueryControle',
+                'deps' => array(
+                    'jquery',
+                )
+            )
+        );
+
+
+        /* Modules Solire */
+        $requireJsModules = array(
+            'modules/page/liste',
+            'modules/page/affichegabarit',
+            'modules/page/listefichiers',
+            'modules/page/signin',
+//            'modules/page/form',
+            'modules/helper/dialog',
+            'modules/helper/wysiwyg',
+            'modules/helper/datepicker',
+            'modules/helper/autocomplete',
+            'modules/helper/autocompleteFile',
+            'modules/helper/autocompleteJoin',
+            'modules/helper/confirm',
+            'modules/helper/noty',
+            'modules/helper/datatable',
+            'modules/helper/ajaxform',
+            'modules/helper/uploader',
+            'modules/page/upload',
+            'modules/helper/ajaxcall',
+            'modules/helper/zoom',
+            'modules/render/visible',
+            'modules/render/delete',
+            'modules/render/beforeloadpage',
+            'modules/render/aftersavepage',
+            'modules/page/block',
+            'modules/page/apichange',
+        );
+
+        $this->requireJs->addModules($requireJsModules);
+
+        /* font-awesome */
+        $this->css->addLibrary('back/bower_components/font-awesome/css/font-awesome.min.css');
+
+        /* Librairies Solire */
+        $this->css->addLibrary('back/css/style.css');
+
+
+        /* Reste des librairies à nettoyer */
+
+//        $this->javascript->addLibrary('back/js/main.js');
+//        $this->javascript->addLibrary('back/js/jquery/jquery.cookie.js');
+//        $this->javascript->addLibrary('back/js/jquery/sticky.js');
+//        $this->javascript->addLibrary('back/js/jquery/jquery.livequery.min.js');
+//        $this->javascript->addLibrary('back/js/jquery/jquery.stickyPanel.min.js');
+//        $this->javascript->addLibrary('back/js/newstyle.js');
+//        $this->css->addLibrary('back/css/sticky.css');
     }
 }

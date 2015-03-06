@@ -1,0 +1,89 @@
+
+fieldset {
+    clear:both;
+    margin-bottom:20px;
+    border:1px solid #dddddd;
+    border-radius: 4px 4px 4px 4px;
+    padding: 3px;
+    padding: 2px 20px 20px 20px;
+    margin-left:0;
+
+    .expand-collapse {
+        background-color: white;
+        padding: 0px 5px;
+        font-size: 11px;
+        display: block;
+        margin-top: -29px;
+
+        a {
+            font-size:11px;
+
+            &.collapse {
+                visibility: visible;
+                display: initial;
+            }
+
+            &.disabled {
+                color: #ababab;
+                cursor: default;
+                text-decoration: none;
+            }
+            
+        }
+    }
+}
+
+fieldset.meta {
+    background: #f5f5f5;
+    border: none;
+    padding: 2px 20px 6px;
+
+    legend {
+        font-size: 12px;
+        margin-top: 47px;
+    }
+}
+
+fieldset fieldset {
+    margin-left:30px;
+}
+
+legend {
+    margin: 0;
+    border: none;
+    font-family:georgia;
+    color: $fieldsetLegendColor;
+    cursor:pointer;
+    font-weight:bold;
+    padding:10px;
+    width: auto;
+    line-height: 16px;
+    font-size: 17px;
+    
+    a {
+        color: $fieldsetLegendColor;
+    }
+
+    .board-human-time, .page-info {
+        font-size: 12px;
+        font-style: italic;
+        font-weight: normal;
+        margin-top: 8px;
+        text-align: right;
+    }
+}
+
+legend > a {
+    font-size: inherit;
+    display: inline-block;
+    padding: 0;
+}
+
+legend > a:hover {
+    text-decoration: none;
+}
+
+legend:hover {
+    color:#3485C9;
+    cursor:pointer;
+}

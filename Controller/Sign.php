@@ -42,9 +42,6 @@ class Sign extends Main
      */
     public function startAction()
     {
-        $this->javascript->addLibrary('back/js/form.js');
-        $this->javascript->addLibrary('back/js/jquery/vibrate.js');
-
         $this->view->action = 'back/' . $this->appConfig->get('general', 'page-default');
 
         if ($this->utilisateur->isConnected()) {

@@ -15,10 +15,10 @@ var myModal = {
                 '<p>' + question + '</p>' +
                 '</div>' +
                 '<div class="modal-footer">' +
-                '<a href="#" class="btn  btn-small btn-default" data-dismiss="modal"><i class="icon-remove"></i> ' +
+                '<a href="#" class="btn  btn-sm btn-default" data-dismiss="modal"><i class="icon-remove"></i> ' +
                 cancelButtonTxt +
                 '</a>' +
-                '<a href="#" id="okButton" class="btn  btn-small btn-danger"><i class="icon-ok"></i> ' +
+                '<a href="#" id="okButton" class="btn  btn-sm btn-danger"><i class="icon-ok"></i> ' +
                 okButtonTxt +
                 '</a>' +
                 '</div>' +
@@ -53,7 +53,7 @@ var myModal = {
                 '<div class="modal-body">' +
                 '</div>' +
                 '<div class="modal-footer">' +
-                '<a href="#" id="closeButton" data-dismiss="modal" class="btn  btn-small btn-primary">' +
+                '<a href="#" id="closeButton" data-dismiss="modal" class="btn  btn-sm btn-primary">' +
                 closeButtonTxt +
                 '</a>' +
                 '</div>' +
@@ -99,7 +99,7 @@ $(function() {
         rescale();
     });
 
-    $(".visible-lang").live("click", function() {
+    $(document.body).on('click', '.visible-lang', function() {
         var $this = $(":checkbox", this);
         var value = $this.val().split("|")
         var id_gab_page = parseInt(value[0]);
@@ -199,9 +199,5 @@ $(function() {
                         .appendTo(ul);
             };
         })
-
-
-
-
 });
 

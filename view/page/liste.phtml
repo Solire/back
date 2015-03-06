@@ -1,11 +1,12 @@
+                <div data-amd="modules/page/liste,modules/helper/ajaxcall">
 <?php
     if (isset($this->label)) {
 ?>
-                <h1><?php echo $this->label; ?></h1>
+                    <h1><?php echo $this->label; ?></h1>
 <?php
     } else {
 ?>
-                <h1>Liste des pages</h1>
+                    <h1>Liste des pages</h1>
 <?php
     }
 
@@ -14,8 +15,7 @@
         ->add('template/button')
     ;
 ?>
-                        <div class="cb"></div>
-                        <hr />
+                    <hr />
 <?php
     foreach ($this->pagesGroup as $keyGroup => $group) {
         /**
@@ -23,10 +23,10 @@
          */
         if (isset($this->gabaritByGroup) && $this->gabaritByGroup) {
 ?>
-                        <fieldset id="gab_page_6" class="sort-elmt">
-                            <legend title="<?php echo $this->gabarits[$keyGroup]['label']; ?>  ">
-                                <?php echo $this->gabarits[$keyGroup]['label']; ?>
-                            </legend>
+                    <fieldset id="gab_page_6" class="sort-elmt">
+                        <legend title="<?php echo $this->gabarits[$keyGroup]['label']; ?>  ">
+                            <?php echo $this->gabarits[$keyGroup]['label']; ?>
+                        </legend>
 <?php
             $this->pages = $group;
         }
@@ -47,3 +47,4 @@
         }
     }
 ?>
+                </div>

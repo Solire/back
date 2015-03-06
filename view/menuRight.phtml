@@ -1,62 +1,32 @@
-          <ul class="nav user_menu pull-right">
-            <li class="hidden-phone hidden-tablet">
-              <ul class="new_items">
-<?php
-  if (count($this->pagesNonTraduites) > 0) {
-?>
-                <li class="sep dropdown">
-                  <a data-toggle="dropdown" class="dropdown-toggle nav_condensed" href="#"><span class="count_el"><?php echo count($this->pagesNonTraduites); ?></span> contenu<?php if (count($this->pagesNonTraduites) > 1) { echo 's'; } ?> non traduit<?php if (count($this->pagesNonTraduites) > 1) { echo 's'; } ?> <b class="caret"></b></a>
-                  <ul class="dropdown-menu">
-<?php
-    foreach ($this->pagesNonTraduites as $pageNonTraduite) {
-?>
-                    <li><a href="back/page/display.html?id_gab_page=<?php echo $pageNonTraduite["id"] ?>"> <?php echo $pageNonTraduite["titre"] ?></a></li>
-<?php
-    }
-?>
-                  </ul>
-                </li>
-<?php
-  }
-?>
-              </ul>
-            </li>
-            <li class="divider-vertical hidden-phone hidden-tablet"></li>
-            <li class="nav-search">
-              <div>
-                <input type="text" class="search live-search"  placeholder="Recherche" />
-              </div>
-            </li>
-<?php
-  if (count($this->mainVersions) > 1) {
-?>
-            <li class="divider-vertical hidden-phone hidden-tablet"></li>
-            <li class="dropdown">
-              <a data-toggle="dropdown" style="padding-bottom: 0;" class="dropdown-toggle nav_condensed" href="#"><img alt="<?php echo $this->mainVersions[BACK_ID_VERSION]['nom'] ?>" src="public/default/back/img/flags/all/24/<?php echo strtolower($this->mainVersions[BACK_ID_VERSION]['suf']) ?>.png" /> <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-<?php
-    foreach ($this->mainVersions as $version) {
-?>
+<ul class="nav navbar-nav navbar-right">
+    <li class="dropdown">
+        <a data-toggle="dropdown" style="padding-bottom: 0;" class="dropdown-toggle nav_condensed" href="#"><img alt="<?php echo $this->mainVersions[BACK_ID_VERSION]['nom'] ?>" src="public/default/back/img/flags/all/24/<?php echo strtolower($this->mainVersions[BACK_ID_VERSION]['suf']) ?>.png" /> <b class="caret"></b></a>
+
+        <ul class="dropdown-menu">
+            <?php
+            foreach ($this->mainVersions as $version) {
+                ?>
                 <li>
-                  <a style="cursor:pointer;" onclick="$.cookie('back_id_version', <?php echo $version['id'] ?>, {path: '/'}); document.location.href = document.location.href; return false;">
-                    <img style="width: 16px; height: 16px;display: block;float: left;margin-top: 1px;" alt="" src="public/default/back/img/flags/all/16/<?php echo strtolower($version['suf']) ?>.png" />&nbsp;&nbsp;<?php echo $version['nom'] ?>
-                  </a>
+                    <a style="cursor:pointer;" onclick="$.cookie('back_id_version', <?php echo $version['id'] ?>, {path: '/'}); document.location.href = document.location.href; return false;">
+                        <img style="width: 16px; height: 16px;display: block;float: left;margin-top: 1px;" alt="" src="public/default/back/img/flags/all/16/<?php echo strtolower($version['suf']) ?>.png" />&nbsp;&nbsp;<?php echo $version['nom'] ?>
+                    </a>
                 </li>
-<?php
-    }
-?>
-              </ul>
-            </li>
-<?php
-  }
-?>
-            <li class="divider-vertical divider-simple hidden-phone hidden-tablet"></li>
-            <li class="dropdown<?php echo $this->controller == 'back/user' && $this->action == 'start' ? ' gradient-blue text-light-white' : ''; ?>">
-              <a data-toggle="dropdown" class="dropdown-toggle" style="padding-bottom: 0;line-height: 28px;"  href="#"><img src="public/default/back/img/gray_dark/user_12x16.png"> <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li class="<?php echo $this->controller == 'back/user' && $this->action == 'start' ? 'active' : ''; ?>"><a href="back/user/start.html"><b>Mon profil (<?php echo $this->utilisateur->get("nom"); ?> <?php echo $this->utilisateur->get("prenom"); ?>)</b></a></li>
-                <li class="divider"></li>
-                <li><a href="back/sign/signout.html"><b>Déconnexion</b></a></li>
-              </ul>
-            </li>
-          </ul>
+                <?php
+            }
+            ?>
+        </ul>
+    </li>
+    <li class="dropdown<?php echo $this->controller == 'back/user' && $this->action == 'start' ? ' gradient-blue text-light-white' : ''; ?>">
+        <a data-toggle="dropdown" class="dropdown-toggle" style="padding-bottom: 0;line-height: 28px;"  href="#"><img src="public/default/back/img/gray_dark/user_12x16.png"> <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li class="<?php echo $this->controller == 'back/user' && $this->action == 'start' ? 'active' : ''; ?>"><a href="back/user/start.html"><b>Mon profil (<?php echo $this->utilisateur->get("nom"); ?> <?php echo $this->utilisateur->get("prenom"); ?>)</b></a></li>
+            <li class="divider"></li>
+            <li><a href="back/sign/signout.html"><b>Déconnexion</b></a></li>
+        </ul>
+    </li>
+</ul>
+<form class="navbar-form navbar-right" role="search">
+    <div class="form-group">
+        <input type="text" class="form-control live-search" placeholder="Recherche">
+    </div>
+</form>

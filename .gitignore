@@ -52,3 +52,9 @@ tests/units/tmp
 # bower #
 ###################
 bower_components/
+
+# sass #
+########
+projet/front/css
+.sass-cache
+projet/front/image-*

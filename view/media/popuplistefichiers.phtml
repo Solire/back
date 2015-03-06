@@ -1,135 +1,6 @@
-<style>
-    #tableau<?php echo $this->idFilesList; ?>_wrapper select {
-        margin-bottom: 0;
-        width: auto;
-    }
 
-    #tableau<?php echo $this->idFilesList; ?> td {
-            overflow: hidden; /* this is what fixes the expansion */
-            white-space: normal;
-            word-wrap: break-word;
-            max-width: 400px;
-
-
-        }
-
-        #tableau<?php echo $this->idFilesList; ?>_length select {
-            width: auto;
-            margin-bottom: 0px;
-        }
-
-
-        #tableau<?php echo $this->idFilesList; ?>_wrapper input {
-            height: auto;
-            margin-bottom: 0px;
-        }
-
-        #tableau<?php echo $this->idFilesList; ?>_wrapper .fg-toolbar.ui-corner-tl {
-            border-radius: 6px 6px 0px 0px;
-        }
-
-        #tableau<?php echo $this->idFilesList; ?>_wrapper .fg-toolbar.ui-corner-bl {
-            border-radius: 0px 0px 6px 6px;
-        }
-
-
-        #tableau<?php echo $this->idFilesList; ?>_wrapper .ui-widget-header {
-            margin: 0;
-            box-shadow: none;
-            border: none;
-            border-radius: 0px;
-
-
-        }
-
-        thead input { width: 100% }
-        #tableau<?php echo $this->idFilesList; ?> tfoot input.search_init, #tableau<?php echo $this->idFilesList; ?> tfoot input.text_filter { font-size : 11px; }
-
-        select.select_filter {max-width: 100px;font-size : 11px;}
-
-
-
-        #tableau<?php echo $this->idFilesList; ?> table { width: 100%;}
-
-        #tableau<?php echo $this->idFilesList; ?> table a { text-decoration: underline; }
-        #tableau<?php echo $this->idFilesList; ?> table tr  >  td { border: 0px;text-align: left;vertical-align: top;  }
-        #tableau<?php echo $this->idFilesList; ?> table tr  >  td:first-child {  padding-left: 50px;width: 100px;font-weight: bold;  }
-        #tableau<?php echo $this->idFilesList; ?> table  >  tbody {
-            border-top: 0px dotted #333333;
-        }
-        #tableau<?php echo $this->idFilesList; ?> table  >  tbody tr:hover {
-            background-color: #4A9DD7;
-            color: #FFF;
-        }
-        #tableau<?php echo $this->idFilesList; ?> tbody tr.even, #tableau<?php echo $this->idFilesList; ?> tbody tr.odd,
-        #tableau<?php echo $this->idFilesList; ?> tbody tr.even td a, #tableau<?php echo $this->idFilesList; ?> tbody tr.odd td a{
-            color: #000;
-
-        }
-        #tableau<?php echo $this->idFilesList; ?> tbody tr.even:hover, #tableau<?php echo $this->idFilesList; ?> > tbody tr.even td.highlighted {
-            background-color: #117ECA;
-            color: #FFF;
-        }
-
-        #tableau<?php echo $this->idFilesList; ?> tbody tr.even:hover > td >  a, #tableau<?php echo $this->idFilesList; ?> > tbody tr.even td.highlighted > a {
-            color: #FFF;
-        }
-
-
-        #tableau<?php echo $this->idFilesList; ?> tbody tr.odd:hover, #tableau<?php echo $this->idFilesList; ?> > tbody tr.odd td.highlighted {
-            background-color: #117ECA;
-            color: #FFF;
-        }
-
-        #tableau<?php echo $this->idFilesList; ?> tbody tr.odd:hover > td > a, #tableau<?php echo $this->idFilesList; ?> > tbody tr.odd td.highlighted > a {
-            color: #FFF;
-        }
-
-
-        #tableau<?php echo $this->idFilesList; ?> tr.even:hover {
-            background-color: #117ECA;
-            color: #FFF;
-        }
-
-        #tableau<?php echo $this->idFilesList; ?> tr.even:hover > td.sorting_1 {
-            background-color: #117ECA;
-            color: #FFF;
-        }
-
-        #tableau<?php echo $this->idFilesList; ?> tr.even:hover > td.sorting_2 {
-            background-color: #117ECA;
-            color: #FFF;
-        }
-
-        #tableau<?php echo $this->idFilesList; ?> tr.even:hover > td.sorting_3 {
-            background-color: #E2FF89;
-            color: #FFF;
-        }
-
-        #tableau<?php echo $this->idFilesList; ?> tr.odd:hover {
-            background-color: #117ECA;
-            color: #FFF;
-        }
-
-        #tableau<?php echo $this->idFilesList; ?> tr.odd:hover > td.sorting_1 {
-            background-color: #117ECA;
-            color: #FFF;
-        }
-
-        #tableau<?php echo $this->idFilesList; ?> tr.odd:hover > td.sorting_2 {
-            background-color: #117ECA;
-            color: #FFF;
-        }
-
-        #tableau<?php echo $this->idFilesList; ?> tr.odd:hover > td.sorting_3 {
-            background-color: #117ECA;
-            color: #FFF;
-        }
-
-
-</style>
         <div>
-            <a href="#" class="btn btn-small btn-success" id="pickfiles<?php echo $this->idFilesList; ?>"><i class="icon-folder-open"></i> Ajouter un fichier</a>
+            <a href="#" class="btn btn-sm btn-success" id="pickfiles<?php echo $this->idFilesList; ?>"><i class="fa fa-folder-open"></i> Ajouter un fichier</a>
         </div>
 
         <table id="tableau<?php echo $this->idFilesList; ?>" class="display" style="width:100%;">
@@ -148,7 +19,7 @@
 
                 <tr id="fileid_<?php echo $file['id']; ?>">
                     <td>
-                        <a target="_blank" class="previsu" href="<?php echo $file['path']; ?>" title="<?php echo $file['rewriting']; ?>">
+                        <a target="_blank" class="exec-onclick-zoom" data-zoom-src="<?php echo $file['path']; ?>" href="<?php echo $file['path']; ?>" title="<?php echo $file['rewriting']; ?>">
                             <img class="<?php echo $file['class']; ?>" src="<?php echo $file['path_mini']; ?>" alt="<?php echo $file['rewriting']; ?>" />
                         </a>
                     </td>
@@ -157,7 +28,7 @@
                     <td class="center">
                         <div class="btn-toolbar">
                             <div class="btn-group">
-                                <a href="<?php echo $file['path']; ?>" class="btn btn-info previsu" title="Visualiser"><i class="icon-camera"></i></a>
+                                <a href="<?php echo $file['path']; ?>" data-zoom-src="<?php echo $file['path']; ?>" class="btn btn-info exec-onclick-zoom" title="Visualiser"><i class="fa fa-camera"></i></a>
                             </div>
                         </div>
                     </td>

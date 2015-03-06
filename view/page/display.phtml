@@ -1,3 +1,4 @@
+                    <div data-amd="modules/page/affichegabarit,modules/helper/ajaxcall,modules/page/upload,modules/render/beforeloadpage,modules/helper/zoom">
                         <h1>Gestion des pages</h1>
 <?php
     $this->add('breadcrumbs');
@@ -11,12 +12,12 @@
         foreach ($this->versions as $id_version => $version) {
             $page = $this->pages[$id_version];
 ?>
-                            <div style="float: left;margin-right: 10px;" class="btn-group">
-                                    <a title="<?php echo ($this->pages[BACK_ID_VERSION]->getMeta() ? '' : 'Page en cours de création en version : ') . $version['nom']; ?>" class="openlang <?php echo $id_version == BACK_ID_VERSION ? '' : 'translucide'; ?> btn btn-default btn-small">
+                            <div class="btn-group">
+                                    <a title="<?php echo ($this->pages[BACK_ID_VERSION]->getMeta() ? '' : 'Page en cours de création en version : ') . $version['nom']; ?>" class="openlang <?php echo $id_version == BACK_ID_VERSION ? '' : 'translucide'; ?> btn btn-default btn-sm">
                                         <?php if($this->pages[BACK_ID_VERSION]->getMeta()) { ?>
                                             <img src="public/default/back/img/flags/png/<?php echo strtolower($version['suf']); ?>.png" alt="<?php echo $version['nom']; ?>" />
                                         <?php } else { ?>
-                                            <i class="icon-time" alt="Page en cours de création en version <?php echo $version['nom']; ?>"></i>
+                                            <i class="fa fa-clock-o" alt="Page en cours de création en version <?php echo $version['nom']; ?>"></i>
                                         <?php } ?>
 
                                     </a>
@@ -32,15 +33,21 @@
                         || ($page->makeVisible && $page->getMeta('visible') == 0)
                     ) {
 ?>
-                                    <a class="btn btn-small <?php echo $page->getMeta('visible') > 0 ? 'btn-success' : 'btn-default'; ?> visible-lang"  title="Rendre '<?php echo $page->getMeta('titre'); ?>' <?php echo ($page->getMeta('visible') > 0 ? 'invisible' : 'visible' ) ?> sur le site">
-                                        <input type="checkbox" value="<?php echo $page->getMeta("id"); ?>|<?php echo $page->getMeta('id_version'); ?>" style="display:none;" class="visible-lang-<?php echo $page->getMeta('id'); ?>-<?php echo $page->getMeta('id_version'); ?>" <?php echo ($page->getMeta('visible') > 0 ? ' checked="checked"' : '') ?> />
-                                        <i class="<?php echo $page->getMeta('visible') > 0 ? 'icon-eye-open' : 'icon-eye-close'; ?>"></i>
-                                    </a>
+                                    <button
+                                        class="btn btn-sm <?php echo ($page->getMeta('visible') > 0 ? 'btn-success' : 'btn-default') ?> visible-lang exec-onclick-ajax"
+                                        data-url="back/page/visible.html"
+                                        data-id="<?php echo $page->getMeta('id'); ?>"
+                                        data-id_version="<?php echo $page->getMeta('id_version'); ?>"
+                                        data-visible="<?php echo $page->getMeta('visible'); ?>"
+                                        title="Rendre '<?php echo $page->getMeta('titre'); ?>' <?php echo ($page->getMeta('visible') > 0 ? 'invisible' : 'visible' ) ?> sur le site">
+
+                                        <i class="fa <?php echo ($page->getMeta('visible') > 0 ? 'fa-eye' : 'fa-eye-slash') ?>"></i>
+                                    </button>
 <?php
                     } else {
 ?>
-                                    <span class="btn btn-small disabled <?php echo ($page->getMeta('visible') > 0 ? 'btn-success' : 'btn-default') ?>" title="Vous n'avez pas les droits pour exécuter cette action" style="cursor:not-allowed;">
-                                        <i class="<?php echo ($page->getMeta('visible') > 0 ? 'icon-eye-open' : 'icon-eye-close') ?>"></i>
+                                    <span class="btn btn-sm disabled <?php echo ($page->getMeta('visible') > 0 ? 'btn-success' : 'btn-default') ?>" title="Vous n'avez pas les droits pour exécuter cette action" style="cursor:not-allowed;">
+                                        <i class="fa <?php echo ($page->getMeta('visible') > 0 ? 'fa-eye' : 'fa-eye-slash') ?>"></i>
                                     </span>
 
 <?php
@@ -49,7 +56,7 @@
             }else {
                 if (count($this->versions) > 1) {
 ?>
-                                <a href="" class="openlang-trad btn btn-small btn-danger" title="Non traduit"><i class="icon-globe"></i></a>
+                                <a href="" class="openlang-trad btn btn-sm btn-danger" title="Non traduit"><i class="fa fa-globe"></i></a>
 <?php
                 }
             }
@@ -64,14 +71,14 @@
 
     foreach ($this->pages as $page) {
 ?>
-                        <div class="langue" id="langue_<?php echo $page->getMeta('id_version'); ?>" style="clear:both;<?php if ($page->getMeta('id_version') != BACK_ID_VERSION && count($this->pages) > 1) { echo ' display:none;'; } ?>">
+                        <div class="langue" id="langue_<?php echo $page->getMeta('id_version'); ?>" style="<?php if ($page->getMeta('id_version') != BACK_ID_VERSION && count($this->pages) > 1) { echo ' display:none;'; } ?>">
 <?php
         if (count($this->versions) > 1) {
 ?>
                             <div style="margin-top:0" class="clearin"></div>
 
                             <div>
-                                <select class="compareversion-other fl" style="display:block;">
+                                <select class="compareversion-other form-control" style="display:block;">
 <?php
             foreach ($this->versions as $id_version => $version) {
                 if ($id_version != $page->getMeta('id_version')) {
@@ -82,8 +89,8 @@
             }
 ?>
                                 </select>
-                                <button class="btn btn-small btn fl compareversion-submit" style="margin-right: 10px;margin-left: 5px;"><i class="icon-resize-small"></i> Comparer</button>
-                                <button class="btn btn-small btn fl compareversion-hide" style=""><i class="icon-remove"></i> Cacher</button>
+                                <button class="btn btn-sm btn compareversion-submit" style="margin-right: 10px;margin-left: 5px;"><i class="icon-resize-small"></i> Comparer</button>
+                                <button class="btn btn-sm btn compareversion-hide" style=""><i class="icon-remove"></i> Cacher</button>
                             </div>
 <?php
         }
@@ -108,7 +115,10 @@
 
     if (isset($_GET['popup']) && $_GET['popup'] == 'more') {
         $this->add('template/pagedialog');
-    }
+?>
 
+<?php
+    }
     $this->add('template/cropdialog');
 ?>
+                        </div>

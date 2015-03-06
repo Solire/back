@@ -186,9 +186,9 @@ class Page extends Main
      */
     public function listeAction()
     {
-        $this->javascript->addLibrary('back/js/liste.js');
-        $this->javascript->addLibrary('back/js/jquery/jquery.ajaxqueue.js');
-        $this->javascript->addLibrary('back/js/jquery/jquery.scrollTo-min.js');
+//        $this->javascript->addLibrary('back/js/liste.js');
+//        $this->javascript->addLibrary('back/js/jquery/jquery.ajaxqueue.js');
+//        $this->javascript->addLibrary('back/js/jquery/jquery.scrollTo-min.js');
 
         $gabaritsList = [];
         $query = 'SELECT `gab_gabarit`.id, `gab_gabarit`.* '
@@ -479,43 +479,43 @@ class Page extends Main
      */
     public function displayAction()
     {
-        $this->javascript->addLibrary('back/js/tinymce-4.0.5/tinymce.min.js');
-        $this->javascript->addLibrary('back/js/tinymce-4.0.5/jquery.solire.tinymce.js');
-
-        $this->javascript->addLibrary('back/js/autocomplete.js');
-        $this->javascript->addLibrary('back/js/plupload/plupload.full.js');
-        $this->javascript->addLibrary('back/js/plupload/jquery.pluploader.min.js');
-        $this->javascript->addLibrary('back/js/formgabarit.js');
-        $this->javascript->addLibrary('back/js/jquery/jquery.tipsy.js');
-        $this->javascript->addLibrary('back/js/jquery/jquery.qtip.min.js');
-
-        $this->javascript->addLibrary('back/js/gmap.js');
-        $this->javascript->addLibrary('back/js/crop.js');
-        $this->javascript->addLibrary('back/js/datafile.js');
-        $this->javascript->addLibrary('back/js/affichegabarit.js');
-
-        $this->javascript->addLibrary('back/js/jquery/jquery.autogrow.js');
-        $this->javascript->addLibrary('back/js/datatable/jquery/jquery.dataTables.js');
-        $this->javascript->addLibrary('back/js/jquery/jcrop/jquery.Jcrop.min.js');
-        $this->javascript->addLibrary('back/js/jquery/ui.spinner.min.js');
-        $this->javascript->addLibrary('back/js/autocomplete_multi/jquery.tokeninput.js');
-        $this->javascript->addLibrary('back/js/autocomplete_multi.js');
-        $this->javascript->addLibrary('back/js/compareversion.js');
+//        $this->javascript->addLibrary('back/js/tinymce-4.0.5/tinymce.min.js');
+//        $this->javascript->addLibrary('back/js/tinymce-4.0.5/jquery.solire.tinymce.js');
+//
+//        $this->javascript->addLibrary('back/js/autocomplete.js');
+//        $this->javascript->addLibrary('back/js/plupload/plupload.full.js');
+//        $this->javascript->addLibrary('back/js/plupload/jquery.pluploader.min.js');
+//        $this->javascript->addLibrary('back/js/formgabarit.js');
+//        $this->javascript->addLibrary('back/js/jquery/jquery.tipsy.js');
+//        $this->javascript->addLibrary('back/js/jquery/jquery.qtip.min.js');
+//
+//        $this->javascript->addLibrary('back/js/gmap.js');
+//        $this->javascript->addLibrary('back/js/crop.js');
+//        $this->javascript->addLibrary('back/js/datafile.js');
+//        $this->javascript->addLibrary('back/js/affichegabarit.js');
+//
+//        $this->javascript->addLibrary('back/js/jquery/jquery.autogrow.js');
+//        $this->javascript->addLibrary('back/js/datatable/jquery/jquery.dataTables.js');
+//        $this->javascript->addLibrary('back/js/jquery/jcrop/jquery.Jcrop.min.js');
+//        $this->javascript->addLibrary('back/js/jquery/ui.spinner.min.js');
+//        $this->javascript->addLibrary('back/js/autocomplete_multi/jquery.tokeninput.js');
+//        $this->javascript->addLibrary('back/js/autocomplete_multi.js');
+//        $this->javascript->addLibrary('back/js/compareversion.js');
 
         /*
          * Gmap
          */
-        $this->javascript->addLibrary('http://maps.google.com/maps/api/js?sensor=false');
-        $this->javascript->addLibrary('back/js/jquery/gmap3.min.js');
-
-        $this->css->addLibrary('back/css/jcrop/jquery.Jcrop.min.css');
-        $this->css->addLibrary('back/css/ui.spinner.css');
-        $this->css->addLibrary('back/css/demo_table_jui.css');
-        $this->css->addLibrary('back/css/tipsy.css');
-        $this->css->addLibrary('back/css/jquery.qtip.min.css');
-        $this->css->addLibrary('back/css/autocomplete_multi/token-input.css');
-        $this->css->addLibrary('back/css/autocomplete_multi/token-input-facebook.css');
-        $this->css->addLibrary('back/css/affichegabarit.css');
+//        $this->javascript->addLibrary('http://maps.google.com/maps/api/js?sensor=false');
+//        $this->javascript->addLibrary('back/js/jquery/gmap3.min.js');
+//
+//        $this->css->addLibrary('back/css/jcrop/jquery.Jcrop.min.css');
+//        $this->css->addLibrary('back/css/ui.spinner.css');
+//        $this->css->addLibrary('back/css/demo_table_jui.css');
+//        $this->css->addLibrary('back/css/tipsy.css');
+//        $this->css->addLibrary('back/css/jquery.qtip.min.css');
+//        $this->css->addLibrary('back/css/autocomplete_multi/token-input.css');
+//        $this->css->addLibrary('back/css/autocomplete_multi/token-input-facebook.css');
+//        $this->css->addLibrary('back/css/affichegabarit.css');
 
         $id_gab_page = isset($_GET['id_gab_page']) ? $_GET['id_gab_page'] : 0;
         $id_gabarit = isset($_GET['id_gabarit']) ? $_GET['id_gabarit'] : 1;
@@ -682,6 +682,10 @@ class Page extends Main
         $this->view->unsetMain();
         $this->view->enable(false);
 
+        $jsonResponse = [
+            'status' => 'error',
+        ];
+
         if (isset($_GET['edit-front']) && $_GET['edit-front'] == 1) {
             /*
              * Sauvegarde partielle sur le middleoffice
@@ -778,7 +782,7 @@ class Page extends Main
                 );
             }
 
-            $json = [
+            $jsonResponse = [
                 'status' => 'success',
             ];
         } else {
@@ -806,7 +810,7 @@ class Page extends Main
 
                 $modif = false;
 
-                $json = [
+                $jsonResponse = [
                     'status'        => 'success',
                     'search'        => '?id_gab_page=' . $_POST['id_gab_page']
                                      . '&popup=more',
@@ -848,11 +852,16 @@ class Page extends Main
                     );
                 }
 
-                $json = [
+                $jsonResponse = [
                     'status'        => 'success',
                     'search'        => '?id_gab_page=' . $this->page->getMeta('id')
                                      . '&popup=more',
                     'id_gab_page'   => $this->page->getMeta('id'),
+                    'text'          => 'La page a été enregistrée avec succès',
+                    'after'         => array(
+                        'modules/helper/noty',
+                        'modules/render/aftersavepage',
+                    )
                 ];
 
                 if (isset($_POST['id_temp']) && $_POST['id_temp']) {
@@ -931,7 +940,10 @@ class Page extends Main
             $hook->exec('pagesaved');
         }
 
-        echo(json_encode($json));
+        header('Cache-Control: no-cache, must-revalidate');
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+        header('Content-type: application/json');
+        echo json_encode($jsonResponse);
     }
 
     /**
@@ -986,7 +998,7 @@ class Page extends Main
         $idVersion  = $_GET['id_version'];
         $idGabPage  = $_GET['id_gab_page'];
         $term       = $_GET['term'];
-        $response   = [];
+        $json       = [];
 
         $query  = 'SELECT code_champ_param, value'
                 . ' FROM gab_champ_param_value'
@@ -1082,16 +1094,21 @@ class Page extends Main
             }
 
             $pages[] = [
-                'label' => $page['label'],
+                'text' => $page['label'],
                 'id' => $page['id'],
                 'gabarit_label' => $gabaritLabel,
             ];
         }
 
+        $json = array(
+            'items' => $pages,
+        );
+
+
         header('Cache-Control: no-cache, must-revalidate');
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
         header('Content-type: application/json');
-        echo json_encode($pages);
+        echo json_encode($json);
     }
 
     /**
@@ -1281,7 +1298,7 @@ class Page extends Main
         $this->view->unsetMain();
         $this->view->enable(false);
 
-        $json = [
+        $jsonResponse = [
             'status' => 'error',
         ];
         $idVersion = BACK_ID_VERSION;
@@ -1290,13 +1307,17 @@ class Page extends Main
             $idVersion = intval($_POST['id_version']);
         }
 
+        if (isset($_POST['visible'])) {
+            $visible = intval(!$_POST['visible']);
+        }
+
         $hook = new \Solire\Lib\Hook();
         $hook->setSubdirName('back');
 
         $hook->permission = null;
         $hook->utilisateur = $this->utilisateur;
-        $hook->visible = $_POST['visible'];
-        $hook->ids = $_POST['id_gab_page'];
+        $hook->visible = $visible;
+        $hook->ids = $_POST['id'];
         $hook->id_version = BACK_ID_VERSION;
 
         $hook->exec('pagevisible');
@@ -1312,34 +1333,42 @@ class Page extends Main
         }
 
         if ($permission
-            && is_numeric($_POST['id_gab_page'])
-            && is_numeric($_POST['visible'])
+            && is_numeric($_POST['id'])
+            && is_numeric($visible)
         ) {
-            if ($_POST['visible'] == 1) {
-                $type = 'Page rendu visible';
+            if ($visible == 1) {
+                $htmlResponse = 'La page a été rendu visible avec succès';
             } else {
-                $type = 'Page rendu invisible';
+                $htmlResponse = 'La page a été rendu invisible avec succès';
             }
 
             $success = $this->gabaritManager->setVisible(
                 $idVersion,
                 BACK_ID_API,
-                $_POST['id_gab_page'],
-                $_POST['visible']
+                $_POST['id'],
+                $visible
             );
 
             if ($success) {
-                $title = $type . ' avec succès';
-                $message = '<b>Id</b> : ' . $_POST['id_gab_page'] . '<br />'
+                $title = $htmlResponse . ' avec succès';
+                $message = '<b>Id</b> : ' . $_POST['id'] . '<br />'
                          . '<img src="public/default/back/img/flags/png/'
                          . strtolower($this->versions[$idVersion]['suf'])
                          . '.png" alt="' . $this->versions[$idVersion]['nom']
                          . '" />';
 
-                $json['status'] = 'success';
+                $jsonResponse = array(
+                    'status'     => 'success',
+                    'text'       => $htmlResponse,
+                    'visible'    => $visible,
+                    'after'      => array(
+                        'modules/helper/noty',
+                        'modules/render/visible',
+                    ),
+                );
             } else {
-                $title = $type . ' échouée';
-                $message = '<b>Id</b> : ' . $_POST['id_gab_page'] . '<br />'
+                $title = $htmlResponse . ' échouée';
+                $message = '<b>Id</b> : ' . $_POST['id'] . '<br />'
                          . '<img src="public/default/back/img/flags/png/'
                          . strtolower($this->versions[$idVersion]['suf'])
                          . '.png" alt="' . $this->versions[$idVersion]['nom']
@@ -1356,7 +1385,7 @@ class Page extends Main
         header('Cache-Control: no-cache, must-revalidate');
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
         header('Content-type: application/json');
-        echo json_encode($json);
+        echo json_encode($jsonResponse);
     }
 
     /**
@@ -1372,7 +1401,7 @@ class Page extends Main
         $this->view->unsetMain();
         $this->view->enable(false);
 
-        $json = [
+        $jsonResponse = [
             'status' => 'error',
         ];
 
@@ -1381,7 +1410,7 @@ class Page extends Main
 
         $hook->permission     = null;
         $hook->utilisateur    = $this->utilisateur;
-        $hook->ids            = $_POST['id_gab_page'];
+        $hook->ids            = $_POST['id'];
         $hook->id_version     = BACK_ID_VERSION;
 
         $hook->exec('pagedelete');
@@ -1397,9 +1426,9 @@ class Page extends Main
         }
 
         if ($permission
-            && is_numeric($_POST['id_gab_page'])
+            && is_numeric($_POST['id'])
         ) {
-            $delete = $this->gabaritManager->delete($_POST['id_gab_page']);
+            $delete = $this->gabaritManager->delete($_POST['id']);
 
             if ($delete) {
                 $this->userLogger->addInfo(
@@ -1428,13 +1457,22 @@ class Page extends Main
                         ]
                     ]
                 );
+                $htmlResponse = '&laquo; ' .  $_POST['elementTitle'] . ' &raquo; a été supprimé avec succès';
+                $jsonResponse = array(
+                    'status'     => 'success',
+                    'text'       => $htmlResponse,
+                    'after'      => array(
+                        'modules/helper/noty',
+                        'modules/render/delete',
+                    ),
+                );
             }
         }
 
         header('Cache-Control: no-cache, must-revalidate');
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
         header('Content-type: application/json');
-        echo json_encode($json);
+        echo json_encode($jsonResponse);
     }
 
     /**

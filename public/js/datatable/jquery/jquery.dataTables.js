@@ -11267,10 +11267,10 @@
 	
 	$.extend( DataTable.ext.oJUIClasses, DataTable.ext.oStdClasses, {
 		/* Two buttons buttons */
-		"sPagePrevEnabled": "fg-button btn btn-default btn-small ui-corner-left",
-		"sPagePrevDisabled": "fg-button  btn btn-default btn-small ui-state-disabled",
-		"sPageNextEnabled": "fg-button  btn btn-default btn-small",
-		"sPageNextDisabled": "fg-button  btn btn-default btn-small ui-state-disabled",
+		"sPagePrevEnabled": "fg-button btn btn-default btn-sm ui-corner-left",
+		"sPagePrevDisabled": "fg-button  btn btn-default btn-sm ui-state-disabled",
+		"sPageNextEnabled": "fg-button  btn btn-default btn-sm",
+		"sPageNextDisabled": "fg-button  btn btn-default btn-sm ui-state-disabled",
 		"sPageJUINext": "icon-chevron-right",
 		"sPageJUIPrev": "icon-chevron-left",
 		

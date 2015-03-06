@@ -1,0 +1,37 @@
+
+.page-signin {
+    background: $signinBackgroundColor;
+
+    .error-message {
+        display: none;
+    }
+
+    article {
+        position: relative;
+        margin-top:15%;
+        margin-right:auto;
+        margin-left:auto;
+        width:356px;
+        padding:20px;
+        background: $signinBoxBackgroundColor;
+        box-shadow:3px 2px 5px #BFBFBF;
+    }
+/*
+    .btn {
+        margin-left: 38px;
+        margin-top: 0px;
+        margin-bottom: 10px;
+        position: relative;
+    }*/
+}
+
+/* Dans le cas ou le navigateur est pas supporté */
+.error .page-signin {
+    form {
+        display: none;
+    }
+    .error-message {
+        display: block;
+    }
+}
+

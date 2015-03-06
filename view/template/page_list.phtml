@@ -33,8 +33,9 @@
 <?php
                 }
 ?>
-                                    <?php echo $page->getMeta('titre'); ?>
-                                    <br>
+                                        <?php echo $page->getMeta('titre'); ?>
+
+                                        <br>
 <?php
                 if ($page->getMeta('date_modif') != '0000-00-00 00:00:00'
                     && $page->getMeta('rewriting') != ''
@@ -94,7 +95,7 @@
                     || $page->getMeta('id_gabarit') == 2
                 ) {
 ?>
-                                                <a href="back/page/display.html?id_gab_page=<?php echo $page->getMeta('id'); ?>" class="btn btn-small btn-info" title="Modifier '<?php echo $page->getMeta('titre'); ?>'"><i class="icon-pencil"></i></a>
+                                                <a href="back/page/display.html?id_gab_page=<?php echo $page->getMeta('id'); ?>" class="btn btn-sm btn-info" title="Modifier '<?php echo $page->getMeta('titre'); ?>'"><i class="fa fa-pencil"></i></a>
 <?php
                 } else {
 ?>
@@ -105,14 +106,14 @@
                         )
                     ) {
 ?>
-                                                <a href="#" class="btn btn-info btn-small sort-move" title="Déplacer '<?php echo $page->getMeta('titre'); ?>'"><i class="icon-retweet"></i></a>
+                                                <a href="#" class="btn btn-info btn-sm sort-move" title="Déplacer '<?php echo $page->getMeta('titre'); ?>'"><i class="fa fa-retweet"></i></a>
 <?php
                     }
                     if ($this->utilisateur->get('niveau') == 'solire'
                         || $gabarit['editable']
                     ) {
 ?>
-                                                <a href="back/page/display.html?id_gab_page=<?php echo $page->getMeta('id'); ?>" class="btn btn-small btn-info" title="Modifier '<?php echo $page->getMeta('titre'); ?>'"><i class="icon-pencil"></i></a>
+                                                <a href="back/page/display.html?id_gab_page=<?php echo $page->getMeta('id'); ?>" class="btn btn-sm btn-info" title="Modifier '<?php echo $page->getMeta('titre'); ?>'"><i class="fa fa-pencil"></i></a>
 <?php
                     }
 
@@ -129,16 +130,22 @@
                             && $page->getMeta('rewriting') != ''
                         ) {
 ?>
-                                                <a class="btn btn-small <?php echo ($page->getMeta('visible') > 0 ? 'btn-success' : 'btn-default') ?> visible-lang"  title="Rendre '<?php echo $page->getMeta('titre'); ?>' <?php echo ($page->getMeta('visible') > 0 ? 'invisible' : 'visible' ) ?> sur le site">
-                                                    <input type="checkbox" value="<?php echo $page->getMeta('id'); ?>|<?php echo $page->getMeta('id_version'); ?>" style="display:none;" class="visible-lang-<?php echo $page->getMeta('id'); ?>-<?php echo $page->getMeta('id_version'); ?>" <?php echo ($page->getMeta('visible') > 0 ? ' checked="checked"' : '') ?> />
-                                                    <i class="<?php echo ($page->getMeta('visible') > 0 ? 'icon-eye-open' : 'icon-eye-close') ?>"></i>
-                                                </a>
+                                                <button
+                                                    class="btn btn-sm <?php echo ($page->getMeta('visible') > 0 ? 'btn-success' : 'btn-default') ?> visible-lang exec-onclick-ajax"
+                                                    data-url="back/page/visible.html"
+                                                    data-id="<?php echo $page->getMeta('id'); ?>"
+                                                    data-id_version="<?php echo $page->getMeta('id_version'); ?>"
+                                                    data-visible="<?php echo $page->getMeta('visible'); ?>"
+                                                    title="Rendre '<?php echo $page->getMeta('titre'); ?>' <?php echo ($page->getMeta('visible') > 0 ? 'invisible' : 'visible' ) ?> sur le site">
+                                                    
+                                                    <i class="fa <?php echo ($page->getMeta('visible') > 0 ? 'fa-eye' : 'fa-eye-slash') ?>"></i>
+                                                </button>
 
 <?php
                         } else {
 ?>
-                                                <span class="btn btn-small disabled <?php echo ($page->getMeta('visible') > 0 ? 'btn-success' : 'btn-default') ?>" title="Vous n'avez pas les droits pour exécuter cette action" style="cursor:not-allowed;">
-                                                    <i class="<?php echo ($page->getMeta('visible') > 0 ? 'icon-eye-open' : 'icon-eye-close') ?>"></i>
+                                                <span class="btn btn-sm disabled <?php echo ($page->getMeta('visible') > 0 ? 'btn-success' : 'btn-default') ?>" title="Vous n'avez pas les droits pour exécuter cette action" style="cursor:not-allowed;">
+                                                    <i class="fa <?php echo ($page->getMeta('visible') > 0 ? 'fa-eye' : 'fa-eye-slash') ?>"></i>
                                                 </span>
 
 <?php
@@ -147,7 +154,7 @@
 
                     if ($page->getMeta('rewriting') == '') {
 ?>
-                                                <a href="back/page/display.html?id_gab_page=<?php echo $page->getMeta('id'); ?>" class="btn btn-small btn-danger" title="Non traduit"><i class="icon-globe"></i></a>
+                                                <a href="back/page/display.html?id_gab_page=<?php echo $page->getMeta('id'); ?>" class="btn btn-sm btn-danger" title="Non traduit"><i class="fa fa-globe"></i></a>
 <?php
                     }
 
@@ -155,7 +162,23 @@
                         && $page->getMeta('nbre_enfants') == 0
                     ) {
 ?>
-                                                <a href="#" style="display:<?php echo $page->getMeta('nbre_enfants') > 0 ? 'none' : 'inline-block'; ?>;" class="btn btn-small btn-warning supprimer" title="Supprimer '<?php echo $page->getMeta('titre'); ?>'"><i class="icon-trash"></i></a>
+                                                <button
+                                                    class="btn btn-sm btn-warning exec-onclick-ajax"
+                                                    data-url="back/page/delete.html"
+                                                    data-confirm="true"
+                                                    data-element-title="<?php echo $page->getMeta('titre'); ?>"
+                                                    data-title="Confirmation de suppression de &laquo; <?php echo $page->getMeta('titre'); ?> &raquo;"
+                                                    data-content="Êtes-vous sûr de vouloir supprimer &laquo; <?php echo $page->getMeta('titre'); ?> &raquo;"
+                                                    data-cancelbuttontxt="Annuler"
+                                                    data-confirmbuttontxt="Confirmer"
+                                                    data-id="<?php echo $page->getMeta('id'); ?>"
+                                                    data-id_version="<?php echo $page->getMeta('id_version'); ?>"
+                                                    data-visible="<?php echo $page->getMeta('visible'); ?>"
+                                                    style="display:<?php echo $page->getMeta('nbre_enfants') > 0 ? 'none' : 'inline-block'; ?>;"
+                                                    title="Supprimer '<?php echo $page->getMeta('titre'); ?>'">
+
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
 <?php
                     }
                 }

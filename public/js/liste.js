@@ -15,8 +15,8 @@ $(function(){
         open: function(){
             $('.ui-widget-overlay').hide().fadeIn();
             if(!$('.ui-dialog-buttonset button').hasClass('btn')) {
-                $('.ui-dialog-buttonset button:eq(0)').attr('class', '').addClass('btn btn-warning btn-small').unbind('mouseout keyup mouseup hover mouseenter mouseover focusin focusout mousedown focus').wrapInner('<a></a>');
-                $('.ui-dialog-buttonset button:eq(1)').attr('class', '').addClass('btn btn-default btn-small').unbind('mouseout keyup mouseup hover mouseenter mouseover focusin focusout mousedown focus').wrapInner('<a></a>');
+                $('.ui-dialog-buttonset button:eq(0)').attr('class', '').addClass('btn btn-warning btn-sm').unbind('mouseout keyup mouseup hover mouseenter mouseover focusin focusout mousedown focus').wrapInner('<a></a>');
+                $('.ui-dialog-buttonset button:eq(1)').attr('class', '').addClass('btn btn-default btn-sm').unbind('mouseout keyup mouseup hover mouseenter mouseover focusin focusout mousedown focus').wrapInner('<a></a>');
             }
         },
         beforeClose: function(){
