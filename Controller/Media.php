@@ -9,6 +9,7 @@
 namespace Solire\Back\Controller;
 
 use Solire\Lib\Path;
+use Solire\Lib\FrontController;
 
 /**
  * Controller des medias
@@ -159,24 +160,18 @@ class Media extends Main
         $datatableClassName = '\\App\\Back\\Datatable\\File';
 
         $datatable = null;
-
-        foreach (\Solire\Lib\FrontController::getAppDirs() as $appDir) {
-            $datatableClassName = '\\' . $appDir['name']
-                                . '\\Back'
-                                . '\\Datatable'
-                                . '\\' . $configName;
-            if (class_exists($datatableClassName)) {
-                $datatable = new $datatableClassName(
-                    $_GET,
-                    $configPath,
-                    $this->db,
-                    'back/css/datatable/',
-                    'back/js/datatable/',
-                    'back/img/datatable/'
-                );
-
-                break;
-            }
+        $datatableClassName = FrontController::searchClass(
+            'Back\\Datatable\\' . ucfirst($configName)
+        );
+        if ($datatableClassName) {
+            $datatable = new $datatableClassName(
+                $_GET,
+                $configPath,
+                $this->db,
+                'back/css/datatable/',
+                'back/js/datatable/',
+                'back/img/datatable/'
+            );
         }
 
         if ($datatable == null) {
