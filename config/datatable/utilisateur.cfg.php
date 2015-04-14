@@ -175,7 +175,7 @@ $config = array(
             'filter_field' => 'text',
             'title' => 'Date de création',
             'format' => array(
-                "dateTime::RelativeTime" => array(
+                "DateTime::RelativeTime" => array(
                     "type"   => "RelativeTime",
                     "modeDate"  =>  true,
                 ),

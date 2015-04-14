@@ -41,7 +41,7 @@ $config = array(
             "name" => "taille",
             "title" => "Taille",
             'format' => array(
-                "number" => array(
+                "Number" => array(
                     "type"   => "formatSize",
                 ),
             ),
@@ -60,7 +60,7 @@ $config = array(
         array(
             "name" => "date_crea",
             'format' => array(
-                "datetime" => array(
+                "DateTime" => array(
                     "type"   => "RelativeTime",
                     "modeDate"  =>  true,
                 ),
