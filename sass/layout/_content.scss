@@ -1,4 +1,14 @@
 
+
+body {
+    background: $bodyBackgroundColor;
+}
+
 body > .container {
     padding-top: 60px;
+    background: $containerBackgroundColor;
+}
+
+.mainContainer {
+    margin-bottom: 25px
 }

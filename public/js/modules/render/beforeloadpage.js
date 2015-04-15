@@ -5,7 +5,7 @@ define(['jquery', 'modules/helper/dialog'], function ($, helperDialog) {
                 return false;
             }
             var dialogParams = {
-                'html': $('#modalMore')
+                'html': $('#modalMore').removeClass('hidden')
             }
             helperDialog.run(null, dialogParams);
         }

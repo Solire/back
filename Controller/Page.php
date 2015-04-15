@@ -1189,7 +1189,7 @@ class Page extends Main
          */
         $this->filter->errors['len_words'] = true;
         for ($i = 0, $I = count($this->filter->words); $i < $I; $i++) {
-            if (trim($this->filter->words[$i]) != '' && strlen(trim($this->filter->words[$i])) >= 2) {
+            if (trim($this->filter->words[$i]) != '' && strlen(trim($this->filter->words[$i])) >= 1) {
                 $this->filter->errors['len_words'] = false;
             }
         }
@@ -1208,7 +1208,7 @@ class Page extends Main
         $i = 0;
         foreach ($this->filter->words as $t1) {
             foreach ($mode as $m) {
-                if (strlen($t1) >= 2) {
+                if (strlen($t1) >= 1) {
                     if ($m == 's') {
                         $this->filter->wordsAdvanced[$i++] = $this->singulier($t1);
                     } else {

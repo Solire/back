@@ -405,7 +405,7 @@ class Main extends \Solire\Lib\Controller
         );
 
         /* Sortable */
-        $this->requireJs->addLibrary('back/bower_components/Sortable/Sortable.min.js',
+        $this->requireJs->addLibrary('back/bower_components/Sortable/Sortable.js',
             array(
                 'name' => 'sortable',
             )
@@ -431,9 +431,33 @@ class Main extends \Solire\Lib\Controller
             )
         );
 
-//        $this->css->addLibrary('back/bower_components/bootstrap/dist/css/bootstrap.min.css');
+        $this->css->addLibrary('back/bower_components/bootstrap/dist/css/bootstrap.min.css');
+
+        /* Bootstrap meteriel design */
+        $this->requireJs->addLibrary('back/bower_components/bootstrap-material-design/dist/js/ripples.min.js',
+            array(
+                'name' => 'ripples',
+                'deps' => array(
+                    'bootstrap',
+                )
+            )
+        );
+
+        $this->requireJs->addLibrary('back/bower_components/bootstrap-material-design/dist/js/material.min.js',
+            array(
+                'name' => 'material',
+                'deps' => array(
+                    'bootstrap',
+                )
+            )
+        );
+
+        $this->css->addLibrary('back/bower_components/bootstrap-material-design/dist/css/roboto.min.css');
+        $this->css->addLibrary('back/bower_components/bootstrap-material-design/dist/css/material.min.css');
+        $this->css->addLibrary('back/bower_components/bootstrap-material-design/dist/css/ripples.min.css');
+
 //        $this->css->addLibrary('back/bower_components/bootstrap/dist/css/bootstrap-theme.min.css');
-        $this->css->addLibrary('back/css/bootstrap-theme/bootstrap.min.css');
+//        $this->css->addLibrary('back/css/bootstrap-theme/bootstrap.min.css');
 
         /* Bootstrap datepicker */
         $this->requireJs->addLibrary('back/bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js',
@@ -468,6 +492,16 @@ class Main extends \Solire\Lib\Controller
         );
 
         $this->css->addLibrary('back/bower_components/select2/dist/css/select2.min.css');
+
+        /* Bootstrap typeahead */
+        $this->requireJs->addLibrary('back/bower_components/typeahead.js/dist/typeahead.jquery.min.js',
+            array(
+                'name' => 'typeahead',
+                'deps' => array(
+                    'jquery',
+                )
+            )
+        );
 
         /* Datatables */
         $this->requireJs->addLibrary('back/bower_components/datatables/media/js/jquery.dataTables.min.js',
@@ -579,6 +613,7 @@ class Main extends \Solire\Lib\Controller
             'modules/helper/dialog',
             'modules/helper/wysiwyg',
             'modules/helper/datepicker',
+            'modules/helper/search',
             'modules/helper/autocomplete',
             'modules/helper/autocompleteFile',
             'modules/helper/autocompleteJoin',
@@ -587,6 +622,7 @@ class Main extends \Solire\Lib\Controller
             'modules/helper/datatable',
             'modules/helper/ajaxform',
             'modules/helper/uploader',
+            'modules/helper/sortable',
             'modules/page/upload',
             'modules/helper/ajaxcall',
             'modules/helper/zoom',

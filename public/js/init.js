@@ -9,9 +9,10 @@ require.config({
 
 
 require(
-    ['jquery', 'bootstrap'],
+    ['jquery', 'bootstrap', 'material', 'ripples'],
     function ($) {
         $(function(){
+            $.material.init();
             $('[data-amd]').each(function(){
                 var wrap = $(this),
                     modules = $(wrap).data('amd').split(',');

@@ -22,7 +22,6 @@ define(['jquery', 'jqueryCookie', 'sortable', 'modules/helper/confirm', 'noty'],
                         handle: '.sort-move',
                         items: '> .sort-elmt',
                         onSort: function () {
-                            console.log($(this))
                             $(this).children().each(function (i) {
                                 var domId = $(this).attr('id'),
                                         tabId = domId.split('_'),

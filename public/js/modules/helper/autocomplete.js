@@ -20,7 +20,6 @@ define(['jquery', 'autocomplete'], function ($) {
             // Surcharge via les attributs data
             var optionsFromData = $(wrap).data();
             options = $.extend(true, {}, options, optionsFromData);
-
             $(wrap).select2({
                 ajax: {
                     url: options.url,

@@ -33,12 +33,6 @@ define(['jquery', 'jqueryCookie'], function ($, jqueryCookie) {
 //            });
 
             $(function () {
-                delBtnClone = $('.delBloc:first'),
-                        sortBtnClone = $('.sort-move:first');
-
-
-                $('.delBloc.to-remove').remove();
-                $('.sort-move.to-remove').remove();
 
                 $.cookie('id_gab_page', $('input[name=id_gab_page]').val(), {
                     path: '/'
@@ -76,7 +70,7 @@ define(['jquery', 'jqueryCookie'], function ($, jqueryCookie) {
 //                $('.sort-box').each(function () {
 //                    $(this).sortable({
 //                        placeholder: 'empty',
-//                        items: '.sort-elmt',
+//                        items: '.block-to-sort',
 //                        handle: '.sort-move',
 //                        start: function (e, ui) {
 //                            $('textarea', ui.item).tinymce('disable');
@@ -89,19 +83,19 @@ define(['jquery', 'jqueryCookie'], function ($, jqueryCookie) {
 
                 
 
-                $(document.body).on('click', '.301-add', function(e) {
-                    e.preventDefault();
-
-                    var $this = $(this).parents('fieldset:first').find('.line:first');
-                    var $fieldSet301 = $(this).parents('fieldset:first');
-                    var adupliquer = $this;
-                    var clone = adupliquer.clone(false).clearForm();
-                    $('.301-remove', clone).removeClass('disabled');
-                    clone.insertAfter($(this).parents('fieldset:first').find('.line:last'));
-                    if ($('.301-remove', $fieldSet301).length > 1) {
-                        $('.301-remove', $fieldSet301).removeClass('disabled');
-                    }
-                });
+//                $(document.body).on('click', '.301-add', function(e) {
+//                    e.preventDefault();
+//
+//                    var $this = $(this).parents('fieldset:first').find('.line:first');
+//                    var $fieldSet301 = $(this).parents('fieldset:first');
+//                    var adupliquer = $this;
+//                    var clone = adupliquer.clone(false).clearForm();
+//                    $('.301-remove', clone).removeClass('disabled');
+//                    clone.insertAfter($(this).parents('fieldset:first').find('.line:last'));
+//                    if ($('.301-remove', $fieldSet301).length > 1) {
+//                        $('.301-remove', $fieldSet301).removeClass('disabled');
+//                    }
+//                });
 
                 $(document.body).on('click', '.301-remove:not(.disabled)', function(e) {
                     e.preventDefault();
@@ -116,7 +110,7 @@ define(['jquery', 'jqueryCookie'], function ($, jqueryCookie) {
 
                 $(document.body).on('click', '.btn-changevisible', function(e) {
                     e.preventDefault()
-                    var $this = $('.changevisible:checkbox', $(this).parents('.sort-elmt:first'));
+                    var $this = $('.changevisible:checkbox', $(this).parents('.block-to-sort:first'));
 
                     if ($this.is(':checked')) {
                         $this.removeAttr('checked');
@@ -149,7 +143,7 @@ define(['jquery', 'jqueryCookie'], function ($, jqueryCookie) {
                     e.preventDefault();
 
                     if (!$(this).hasClass('translucide')) {
-                        sort_elmt = $(this).parents('.sort-elmt').first();
+                        sort_elmt = $(this).parents('.block-to-sort').first();
                         sortpar = sort_elmt.parent();
 
                         var heading = 'Confirmation de suppression d\'un bloc',
@@ -165,7 +159,7 @@ define(['jquery', 'jqueryCookie'], function ($, jqueryCookie) {
                             if (sort_elmt.find('textarea.tiny').length > 0)
                                 sort_elmt.find('textarea.tiny').tinymce('disable');
 
-                            if ($('.sort-elmt', sortpar).length < 3) {
+                            if ($('.block-to-sort', sortpar).length < 3) {
                                 $('.delBloc', sortpar).hide();
                                 $('.sort-move', sortpar).hide();
                             }
@@ -184,7 +178,7 @@ define(['jquery', 'jqueryCookie'], function ($, jqueryCookie) {
 
                 $(document.body).on('click', '.expand', function(e) {
                     e.preventDefault();
-                    $(this).parent().nextAll('fieldset').each(function () {
+                    $(this).parent().next().children('fieldset').each(function () {
                         if ($('div', this).first().is(':hidden')) {
                             $('legend', this).first().click();
                         }
@@ -193,7 +187,7 @@ define(['jquery', 'jqueryCookie'], function ($, jqueryCookie) {
 
                 $(document.body).on('click', '.collapse', function(e) {
                     e.preventDefault();
-                    $(this).parent().nextAll('fieldset').each(function () {
+                    $(this).parent().next().children('fieldset').each(function () {
                         if ($('div', this).first().is(':visible')) {
                             $('legend', this).first().click();
                         }
@@ -234,8 +228,8 @@ define(['jquery', 'jqueryCookie'], function ($, jqueryCookie) {
                                 }
                             })
                             openingLegend[indexLegend] = false;
-                            if ($(this).parent('.sort-elmt').parents('fieldset:first').find('.expand-collapse').length) {
-                                disabledExpandCollaspse($(this).parent('.sort-elmt').parents('fieldset:first'));
+                            if ($(this).parent('.block-to-sort').parents('fieldset:first').find('.expand-collapse').length) {
+                                disabledExpandCollaspse($(this).parent('.block-to-sort').parents('fieldset:first'));
                             }
                         });
                     }
@@ -408,7 +402,7 @@ define(['jquery', 'jqueryCookie'], function ($, jqueryCookie) {
 
                 $(document.body).on('click', '.rendrevisible', function(e) {
                     var $this = $(this),
-                            id_gab_page = parseInt($this.parents('.sort-elmt').first().attr('id').split('_').pop()),
+                            id_gab_page = parseInt($this.parents('.block-to-sort').first().attr('id').split('_').pop()),
                             checked = $this.is(':checked');
 
                     $.post(
@@ -513,7 +507,7 @@ define(['jquery', 'jqueryCookie'], function ($, jqueryCookie) {
             function disabledExpandCollaspse($fieldset) {
                 var expand = false;
                 var collapse = false;
-                $fieldset.find('.sort-box > fieldset').each(function () {
+                $fieldset.find('.block-to-sort:not(.block-to-sort .block-to-sort)').each(function () {
                     if ($(' > div:first', this).is(':visible')) {
                         collapse = true;
                     } else {
@@ -522,15 +516,15 @@ define(['jquery', 'jqueryCookie'], function ($, jqueryCookie) {
                 });
 
                 if (expand) {
-                    $fieldset.find(' > .sort-box > .expand-collapse .expand').removeClass('disabled');
+                    $fieldset.find('.expand-collapse:first .expand').removeClass('disabled');
                 } else {
-                    $fieldset.find(' > .sort-box > .expand-collapse .expand').addClass('disabled');
+                    $fieldset.find('.expand-collapse:first .expand').addClass('disabled');
                 }
 
                 if (collapse) {
-                    $fieldset.find(' > .sort-box > .expand-collapse .collapse').removeClass('disabled');
+                    $fieldset.find('.expand-collapse:first .collapse').removeClass('disabled');
                 } else {
-                    $fieldset.find(' > .sort-box > .expand-collapse .collapse').addClass('disabled');
+                    $fieldset.find('.expand-collapse:first .collapse').addClass('disabled');
                 }
             }
         }

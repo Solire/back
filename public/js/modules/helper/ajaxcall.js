@@ -21,6 +21,14 @@ define(['jquery', 'modules/helper/dialog', 'modules/helper/confirm'], function (
                 if (typeof data.url == 'undefined') {
                     return;
                 }
+
+               /*
+                * Correction d'une erreur causée par le plugin ripple qui s'ajoute
+                * au metadata de l'objet
+                */
+                if (typeof data.plugin_ripples != 'undefined') {
+                    delete data.plugin_ripples
+                }
                 $.ajax({
                     url: ajaxCallUrl,
                     data: data,

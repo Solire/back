@@ -1,33 +1,33 @@
 <ul data-amd="modules/page/apichange" class="nav navbar-nav">
-    <?php
-    $mobile = false;
-    if (count($this->apis) > 1) {
-        ?>
-        <li class="dropdown">
-            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                <?php echo $this->api["label"]; ?> <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu">
-                <?php
-                $prefix = "../";
-                if ($this->api["id"] == 1) {
-                    $prefix = "./";
-                }
-
-                foreach ($this->apis as $idApi => $api) {
-                    ?>
-                    <li>
-                        <a href="./back/" data-api-name="<?php echo $api['name']; ?>">
-                            <?php echo $api["label"]; ?>
-                        </a>
-                    </li>
-                    <?php
-                }
-                ?>
-            </ul>
-        </li>
 <?php
-    }
-    $this->add('menu-' . $this->api['id']);
+$mobile = false;
+if (count($this->apis) > 1) {
+    ?>
+    <li class="dropdown">
+        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+            <?php echo $this->api["label"]; ?> <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+            <?php
+            $prefix = "../";
+            if ($this->api["id"] == 1) {
+                $prefix = "./";
+            }
+
+            foreach ($this->apis as $idApi => $api) {
+                ?>
+                <li>
+                    <a href="./back/" data-api-name="<?php echo $api['name']; ?>">
+                        <?php echo $api["label"]; ?>
+                    </a>
+                </li>
+                <?php
+            }
+            ?>
+        </ul>
+    </li>
+    <?php
+}
+$this->add('menu-' . $this->api['id']);
 ?>
 </ul>

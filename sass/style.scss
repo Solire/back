@@ -2,7 +2,8 @@
 // External
 @import 'compass';
 
-@import 'config';
+@import 'config/colors';
+@import 'config/elements';
 
 // global
 
@@ -11,8 +12,10 @@
 @import 'layout/content';
 @import 'layout/footer';
 @import 'layout/fieldset';
+@import 'layout/field';
 @import 'layout/form';
 @import 'layout/select2';
+@import 'layout/typeahead';
 @import 'layout/button';
 @import 'layout/sortable';
 @import 'layout/dialog';

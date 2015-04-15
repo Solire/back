@@ -38,9 +38,17 @@ fieldset.meta {
     border: none;
     padding: 2px 20px 6px;
 
-    legend {
+    & > legend {
         font-size: 12px;
         margin-top: 47px;
+    }
+    
+    fieldset {
+        padding: 2px 20px 6px;
+        
+        legend {
+            font-size: 12px;
+        }
     }
 }
 
