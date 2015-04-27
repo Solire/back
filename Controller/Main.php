@@ -30,35 +30,35 @@ class Main extends \Solire\Lib\Controller
      *
      * @var \Solire\Lib\Session
      */
-    protected $utilisateur;
+    public $utilisateur;
 
     /**
      * Api en cours
      *
      * @var array
      */
-    protected $api;
+    public $api;
 
     /**
      * Manager des requetes liées aux pages
      *
      * @var \Solire\Lib\Model\GabaritManager
      */
-    protected $gabaritManager = null;
+    public $gabaritManager = null;
 
     /**
      * Manager fichiers
      *
      * @var \Solire\Lib\Model\FileManager
      */
-    protected $fileManager = null;
+    public $fileManager = null;
 
     /**
      * Manager fichiers
      *
      * @var \Solire\Lib\Log
      */
-    protected $log = null;
+    public $log = null;
 
     /**
      * Always execute before other method in controller
@@ -340,8 +340,26 @@ class Main extends \Solire\Lib\Controller
         $hook = new Hook();
         $hook->setSubdirName('back');
 
-        $hook->ctrl = $this;
+        $hook->controller = $this;
 
         $hook->exec('start');
+    }
+
+    /**
+     * Fonction éxécutée après l'execution de la fonction relative à la page en cours
+     *
+     * @return void
+     * @hook back/ shutdown Avant l'inclusion de la vue
+     */
+    public function shutdown()
+    {
+        parent::shutdown();
+
+        $hook = new Hook();
+        $hook->setSubdirName('back');
+
+        $hook->controller = $this;
+
+        $hook->exec('shutdown');
     }
 }
