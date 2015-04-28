@@ -1316,7 +1316,6 @@ form label {
     font-weight: 200;
     line-height: 1;
     padding: 6px 7px;
-    max-width: 100px;
     border-right:1px solid #fff;
 }
 
@@ -2442,5 +2441,5 @@ form fieldset fieldset{
 }
 
 .soTable td {
-    
+
 }
