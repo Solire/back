@@ -116,10 +116,8 @@ h1, h2, h3 {
 
 #footer{
     clear: both;
-    background: #fff url(images/solire-sprite.png) top left repeat-x;
     height:98px;
     padding:0;
-/*    width: 1060px;*/
 }
 
 #footer .bloc {
@@ -127,7 +125,6 @@ h1, h2, h3 {
     width: 100%;
     display:block;
     float:left;
-    background: #fff url(images/solire-sprite.png) 0 -650px scroll repeat-x;
 }
 
 #footer .bloc p {
@@ -163,7 +160,6 @@ html { min-height: 100%; margin-bottom: 1px; }
     min-height:500px;
     padding:10px;
     display:block;
-    background: #fff url(images/solire-sprite.png) 0 -650px scroll repeat-x;
 }
 
 h1  {
@@ -196,11 +192,6 @@ h3 {
 
 
 /* LOGO */
-
-.logo {
-    background:url(images/solire-sprite.png) -234px -394px no-repeat;
-}
-
 .logo a{
     display:block;
     height:98px;
@@ -392,7 +383,6 @@ li.sepa {
     height:96px;
     display:block;
     float:left;
-    background:url(images/solire-sprite.png) -239px -499px scroll repeat-x;
 }
 
 /* Menu Body */
@@ -432,7 +422,6 @@ ul#menu li a {
 }
 /* Specify width and background position attributes specifically for the class: "home" */
 ul#menu li a.bouton {
-    background:url(images/solire-sprite.png) no-repeat scroll bottom left;
     min-width:40px;
     height:60px;
     background-position:-0px -98px;
@@ -472,7 +461,6 @@ ul#menu li.bis a:hover, ul#menu li.gen a:hover  {
 
 /* Span (on hover) - common attributes */
 ul#menu li a span {
-    background:url(images/solire-sprite.png) no-repeat scroll bottom left;
     display:block;
     position:absolute;
     top:0;
@@ -485,7 +473,6 @@ ul#menu li a span {
 
 /* Span (on hover) - display pointer */
 ul#menu li a span:hover {
-    background:url(images/solire-sprite.png) no-repeat scroll bottom left;
     cursor:pointer;
     height:97px;
 }
@@ -615,7 +602,6 @@ a:hover span.bleu2 {
 }
 
 #contentfooter {
-    background: #fff url(images/solire-sprite.png) 0 -650px scroll repeat-x;
     background-color:transparent;
     height:263px;
     width:100%;
@@ -700,7 +686,6 @@ form label {
 
 
 form input   {
-    /*	background: url(images/solire-sprite.png) 0 0px scroll repeat-x;*/
     background: linear-gradient(center top , #a1a1a1 0%, #EFEFEF 100%) repeat scroll 0 0 transparent;
     background: -o-linear-gradient(center top , #a1a1a1 0%, #EFEFEF 100%) repeat scroll 0 0 transparent;
     background: -moz-linear-gradient(center top , #a1a1a1 0%, #EFEFEF 100%) repeat scroll 0 0 transparent;
@@ -755,7 +740,6 @@ form input:disabled:hover {
 }
 
 form input[type=file], form input.file   {
-    background: url(images/solire-sprite.png) 0 0px scroll repeat-x;
     border:1px solid #a1a1a1;
     padding:2px;
     font-size:14px;
@@ -766,13 +750,11 @@ form input[type=file], form input.file   {
 
 
 form input[type=file]:hover, form input.file :hover    {
-    background: url(images/solire-sprite.png) 0 -40px scroll repeat-x;
     border:1px solid #3485c9;
     color:#000;
 }
 
 form input[type=checkbox] {
-    background: url(images/solire-sprite.png) 0 0px scroll repeat-x;
     border:1px solid #a1a1a1;
     font-size:12px;
     color:#38393C;
@@ -796,7 +778,6 @@ form select:focus {
 }
 
 form select.mini, select.filter {
-    background: url(images/solire-sprite.png) 0 0px scroll repeat-x;
     border:1px solid #a1a1a1;
     padding:2px;
     font-size:12px;
