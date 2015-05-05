@@ -107,77 +107,7 @@
     }
 
     if (isset($_GET['popup']) && $_GET['popup'] == 'more') {
-?>
-                        <div style="width: 616px;margin-left: -308px" class="modal  hide fade" id="modalMore" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h3 id="myModalLabel">Que voulez-vous faire ?</h3>
-                            </div>
-
-                            <div class="modal-body">
-                                <dl class="">
-
-<?php
-        $page = $this->pages[BACK_ID_VERSION];
-
-        if ($page->getMeta("rewriting") != '') {
-            if ($this->utilisateur->get("niveau") == "solire"
-                || ($page->makeHidden && $page->getMeta('visible') == 1)
-                || ($page->makeVisible && $page->getMeta('visible') == 0)
-            ) {
-?>
-                                    <dt>Gérer la visibité :</dt>
-                                    <br />
-                                    <dd>
-                                        <div class="btn-group">
-                                            <a title="<?php echo $version['nom']; ?>" class="btn btn-default btn-small">
-                                                <img src="public/default/back/img/flags/png/<?php echo strtolower($this->mainVersions[$page->getMeta("id_version")]["suf"]); ?>.png" alt="<?php echo $this->mainVersions[$page->getMeta("id_version")]["nom"]; ?>" />
-                                            </a>
-                                            <a class="btn btn-small <?php echo $page->getMeta("visible") > 0 ? 'btn-success' : 'btn-default'; ?> visible-lang"  title="Rendre '<?php echo $page->getMeta('titre'); ?>' <?php echo ($page->getMeta("visible") > 0 ? 'invisible' : 'visible' ) ?> sur le site">
-                                                <input type="checkbox" value="<?php echo $page->getMeta("id"); ?>|<?php echo BACK_ID_VERSION; ?>" style="display:none;" class="visible-lang-<?php echo $page->getMeta("id"); ?>-<?php echo BACK_ID_VERSION; ?>" <?php echo ($page->getMeta("visible") > 0 ? ' checked="checked"' : '') ?> />
-                                                <i class="<?php echo $page->getMeta("visible") > 0 ? 'icon-eye-open' : 'icon-eye-close'; ?>"></i>
-                                            </a>
-                                        </div>
-                                    </dd>
-                                    <br />
-                                    <br />
-<?php
-            }
-        }
-?>
-                                    <dt>Editer une autre page :</dt>
-                                    <br />
-                                    <dd>
-                                        <div>
-                                            <input type="text" placeholder="Recherche" class="search live-search ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true">
-                                        </div>
-                                    </dd>
-                                    <br />
-
-                                    <dt>Créer un nouveau contenu :</dt>
-                                    <br />
-                                    <dd>
-                                        <div style="min-height: 90px;">
-                                            <?php $this->add('template/button'); ?>
-                                        </div>
-                                    </dd>
-                                </dl>
-                            </div>
-
-                            <div class="modal-footer">
-                                <button class="btn btn-default  btn-small" onclick="var link = $('.back-to-list').attr('href');window.location = link;">Retour à la liste des pages</button>
-<?php
-        $page = $this->pages[BACK_ID_VERSION];
-        if ($page->getGabarit()->getView()) {
-?>
-                                <a class="btn btn-default  btn-small"  href="<?php echo $this->pagePath; ?>" target="_blank">Consulter cette page dans le site</a>
-<?php
-        }
-?>
-                                <button class="btn btn-default  btn-small" data-dismiss="modal" aria-hidden="true">Reprendre l'édition de cette page</button>
-                            </div>
-                        </div>
-<?php
+        $this->add('template/pagedialog');
     }
 
     $this->add('template/cropdialog');

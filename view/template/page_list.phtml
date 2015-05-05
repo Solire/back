@@ -8,29 +8,21 @@
                     $htmlUrl .= ' data-url="' . $this->urlRedir . $page->getMeta('id') . '"';
                 }
 
-                if (isset($this->urlAjax)) {
-                    $urlAjax = $this->urlAjax;
-                } else {
-                    $urlAjax = 'back/page/children.html';
-                }
-
-                if ((isset($this->noChild) && $this->noChild === true)
-                    || $page->getMeta('nbre_enfants') == 0
+                $noChild = false;
+                if ($this->noChild === false
+                    && ($page->getMeta('nbre_enfants') > 0 || isset($this->gabaritsChildren[$page->getMeta('id_gabarit')]))
                 ) {
-                    $class = ' class="noChild"';
-                } else {
                     $class = ' class="solire-js-toggle"';
+                } else {
+                    $noChild = true;
+                    $class = ' class="noChild"';
                 }
 ?>
                             <fieldset data-titre="<?php echo $page->getMeta('titre'); ?>" style="<?php echo isset($this->margin) ? 'margin-left:30px;' : '' ; ?>" class="<?php if ($this->utilisateur->get('niveau') == 'solire' || $gabarit['sortable']) { ?>sort-elmt<?php } ?>" id="gab_page_<?php echo $page->getMeta('id'); ?>">
-                                <legend<?php echo $htmlUrl; ?> data-ajax="<?php echo $urlAjax; ?>" title="<?php echo $page->getMeta('rewriting') ?>"<?php echo $class; ?>>
+                                <legend<?php echo $htmlUrl; ?> data-ajax="<?php echo $this->urlAjax; ?>" title="<?php echo $page->getMeta('rewriting') ?>"<?php echo $class; ?>>
 <?php
                 $link = false;
-                if ($page->getMeta('nbre_enfants') > 0
-                    && (isset($this->noChild) && $this->noChild === false
-                        || !isset($this->noChild)
-                    )
-                ) {
+                if ($noChild === false) {
 ?>
                                     <i class="fa fa-folder"></i>
 <?php
@@ -42,7 +34,7 @@
                 }
 ?>
                                     <?php echo $page->getMeta('titre'); ?>
-                                    <br />
+                                    <br>
 <?php
                 if ($page->getMeta('date_modif') != '0000-00-00 00:00:00'
                     && $page->getMeta('rewriting') != ''
@@ -125,14 +117,14 @@
                     }
 
                     if ($page->getMeta('rewriting') != ''
-                        && ($this->utilisateur->get("niveau") == "solire"
+                        && ($this->utilisateur->get('niveau') == 'solire'
                             || $gabarit['make_hidden'] > 0
                             || $page->getMeta('visible') == 0
                         )
                     ) {
                         if ((
-                                ($page->makeHidden && $page->getMeta('visible') == 1)
-                            || ($page->makeVisible && $page->getMeta('visible') == 0)
+                                $page->makeHidden && $page->getMeta('visible') == 1
+                                || $page->makeVisible && $page->getMeta('visible') == 0
                             )
                             && $page->getMeta('rewriting') != ''
                         ) {

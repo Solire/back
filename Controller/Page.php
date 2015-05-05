@@ -215,11 +215,13 @@ class Page extends Main
         /*
          * Option de blocage de l'affichage des gabarits enfants
          */
+        $this->view->noChild = false;
         if (isset($currentConfigPageModule['noChild'])
             && $currentConfigPageModule['noChild'] === true
         ) {
             $this->view->noChild = true;
         }
+
         if (isset($currentConfigPageModule['urlRedir'])) {
             $this->view->urlRedir = $currentConfigPageModule['urlRedir'];
         }
@@ -231,6 +233,7 @@ class Page extends Main
             $this->view->label = $currentConfigPageModule['label'];
         }
 
+        $this->view->urlAjax = 'back/page/children.html';
         if (isset($currentConfigPageModule['urlAjax'])) {
             $this->view->urlAjax = $currentConfigPageModule['urlAjax'];
         }
@@ -324,11 +327,20 @@ class Page extends Main
         $this->gabarits = $this->db->query($query)->fetchAll(
             \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC
         );
+        $query  = 'SELECT `gab_gabarit`.id_parent, `gab_gabarit`.id'
+                . ' FROM `gab_gabarit`'
+                . ' WHERE `gab_gabarit`.id_parent > 0'
+                . ' AND `gab_gabarit`.`id_api` = ' . $this->api['id'];
+        $this->gabaritsChildren = $this->db->query($query)->fetchAll(
+            \PDO::FETCH_GROUP | \PDO::FETCH_COLUMN
+        );
+
         $this->getButton($currentConfigPageModule);
 
         $this->checkPrivileges($this->pages, $this->gabarits);
 
         $this->view->gabarits = $this->gabarits;
+        $this->view->gabaritsChildren = $this->gabaritsChildren;
         $this->view->pages = $this->pages;
 
         $this->view->breadCrumbs[] = [
@@ -442,11 +454,20 @@ class Page extends Main
             \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC
         );
 
+        $query  = 'SELECT `gab_gabarit`.id_parent, `gab_gabarit`.id'
+                . ' FROM `gab_gabarit`'
+                . ' WHERE `gab_gabarit`.id_parent > 0'
+                . ' AND `gab_gabarit`.`id_api` = ' . $this->api['id'];
+        $this->gabaritsChildren = $this->db->query($query)->fetchAll(
+            \PDO::FETCH_GROUP | \PDO::FETCH_COLUMN
+        );
+
         $this->checkPrivileges($this->pages, $this->gabarits);
 
         $this->view->pages = $this->pages;
 
         $this->view->gabarits = $this->gabarits;
+        $this->view->gabaritsChildren = $this->gabaritsChildren;
     }
 
     /**
