@@ -372,6 +372,7 @@ class Page extends Main
         $gabaritsListUser = $configPageModule['gabarits'];
 
         /* Option de blocage de l'affichage des gabarits enfants */
+        $this->view->noChild = false;
         if (isset($currentConfigPageModule['noChild'])
             && $currentConfigPageModule['noChild'] === true
         ) {
