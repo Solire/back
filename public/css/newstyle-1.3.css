@@ -2386,7 +2386,7 @@ option:disabled {
 }
 
 .ui-autocomplete {
-    max-height:100px;
+    max-height:300px;
     overflow-y:auto;
     overflow-x:hidden;
     padding-right:20px;
