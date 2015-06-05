@@ -382,6 +382,7 @@ class Page extends Main
             $this->view->urlRedir = $currentConfigPageModule['urlRedir'];
         }
 
+        $this->view->urlAjax = 'back/page/children.html';
         if (isset($currentConfigPageModule['urlAjax'])) {
             $this->view->urlAjax = $currentConfigPageModule['urlAjax'];
         }
