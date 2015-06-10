@@ -372,6 +372,10 @@ class Media extends Main
                     'url' => $this->view->prefixFileUrl . $id_gab_page
                              . '/' . $response['filename']
                 );
+
+                // Génération de miniatures additionnelles
+                $filePath = $this->view->prefixFileUrl . $response['path'];
+                $this->miniatureProcess($gabaritId, $filePath);
             }
 
             $response['url']       = $this->view->prefixFileUrl . $response['url'];
@@ -468,6 +472,16 @@ class Media extends Main
      */
     public function cropAction()
     {
+        $gabaritId = 0;
+        if(isset($_REQUEST['gabaritId'])) {
+            $gabaritId = (int)$_REQUEST['gabaritId'];
+        }
+
+        $this->view->prefixFileUrl = null;
+        if(isset($_REQUEST['prefix_url'])) {
+            $this->view->prefixFileUrl = $_REQUEST['prefix_url'] . DIRECTORY_SEPARATOR;
+        }
+
         if (isset($_GET['id_gab_page']) && $_GET['id_gab_page'] > 0) {
             $id_gab_page = $_GET['id_gab_page'];
         } elseif (isset($_COOKIE['id_gab_page']) && $_COOKIE['id_gab_page'] > 0) {
@@ -611,15 +625,16 @@ class Media extends Main
                         . $targetDir . Path::DS
                         . $response['filename'];
 
-            if (\Solire\Lib\Model\fileManager::isImage($response['filename'])) {
-                $sizes = getimagesize($serverpath);
-                $size = $sizes[0] . ' x ' . $sizes[1];
-                $response['vignette'] = $vignette;
-                $response['label'] = $response['filename'];
-                $response['size'] = $size;
-                $response['value'] = $response['filename'];
-                $response['utilise'] = 1;
-            }
+            $sizes = getimagesize($serverpath);
+            $size = $sizes[0] . ' x ' . $sizes[1];
+            $response['vignette'] = $vignette;
+            $response['label'] = $response['filename'];
+            $response['size'] = $size;
+            $response['value'] = $response['filename'];
+            $response['utilise'] = 1;
+
+            $filePath = $this->view->prefixFileUrl . $this->upload_path . Path::DS . $response['path'];
+            $this->miniatureProcess($gabaritId, $filePath);
         }
 
         $this->view->enable(false);

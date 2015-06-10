@@ -90,13 +90,15 @@ $(function(){
             $('#modalCrop').modal('hide');
             return false;
         }
-        var action = 'back/' + $('.form-crop').attr('action');
+        var action = 'back/' + $('.form-crop').attr('action')
+            + '?gabaritId=' + $('[name=id_gabarit]').val();
+
         var data = $('.form-crop').serialize();
         $.post(action, data, function(response) {
             $('#modalCrop').modal('hide');
             $inputFile.val(response.filename);
             $inputFile.siblings('.previsu').attr('href', response.path);
-            
+
             var previsu = $inputFile.parent().siblings('.previsu');
 
             if (previsu.length > 0) {
@@ -108,9 +110,9 @@ $(function(){
                 $('.champ-image-size', previsu).prev().show();
 
                 $('.champ-image-vignette', previsu).attr('src', response.vignette).show();
-               
+
             }
-            
+
         }, 'json');
 
     });
