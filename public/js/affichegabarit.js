@@ -385,13 +385,16 @@ $(function() {
                     }
                 }
             }).focus(function() {
-                if (this.value == '') {
+                if (tthis.val() == '') {
                     clearTimeout(timer);
                     timer = setTimeout(function() {
                         if (tthis.val() == '') {
                             tthis.autocomplete('search', '');
                         }
                     }, 220);
+                } else {
+                    tthis.select();
+                    tthis.autocomplete('search', '');
                 }
             });
 

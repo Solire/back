@@ -46,7 +46,7 @@ $(function(){
                 var itemText = '';
                 if (item.gabarit_label) {
                     itemText = '&nbsp; > ' + item.gabarit_label;
-                } 
+                }
                 return $("<li></li>")
                     .data("item.autocomplete", item)
                     .append('<a><span>' + item.label + '</span><br /><span style="font-style:italic">' + itemText + '</span></a>')
@@ -71,6 +71,8 @@ $(function(){
                         220
                     );
                     $(this).prop('opentimer', timer);
+                } else {
+                    $(this).select();
                 }
             }).keyup(function(){
                 $(this).next('.join').val('');
@@ -91,12 +93,13 @@ $(function(){
                 $.getJSON(
                     'sitemap.xml?json=1&visible=0',
                     {
-                    term : request.term,
-                    id_version : $('[name=id_version]', form).val(),
-                    id_api : $('[name=id_api]', form).val()
+                        term : request.term,
+                        id_version : $('[name=id_version]', form).val(),
+                        id_api : $('[name=id_api]', form).val()
                     }, function( data, status, xhr ) {
-                    response( data );
-                    })
+                        response( data );
+                    }
+                );
             },
             minLength: 0,
             select: function(e, ui) {
@@ -104,7 +107,7 @@ $(function(){
                 return false;
             }
         }).focus(function() {
-            if (this.value == "") {
+            if (this.value == '') {
                 clearTimeout(timer);
                 timer = setTimeout(
                     function(){
