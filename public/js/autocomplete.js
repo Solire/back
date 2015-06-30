@@ -60,6 +60,9 @@ $(function(){
                 var self = this,
                     timer = $(this).prop('opentimer');
 
+                $(this).removeAttr('placeholder');
+                $(this).removeClass('translucide');
+
                 if (this.value == '') {
                     clearTimeout(timer);
                     timer = setTimeout(
