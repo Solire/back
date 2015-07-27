@@ -1098,9 +1098,9 @@ class Page extends Main
 
         $quotedTerm = $this->db->quote('%' . $term . '%');
 
-        $sql    = 'SELECT `' . $labelField . '` label'
+        $sql    = 'SELECT ' . $labelField . ' label'
                 . ' FROM `' . $table . '`'
-                . ' WHERE `' . $labelField . '` LIKE ' . $quotedTerm;
+                . ' WHERE ' . $labelField . ' LIKE ' . $quotedTerm;
 
         $json = $this->db->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
 
