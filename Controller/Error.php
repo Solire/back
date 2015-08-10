@@ -8,13 +8,15 @@
 
 namespace Solire\Back\Controller;
 
+use Solire\Lib\Controller;
+
 /**
  * Controleur des Erreurs
  *
  * @author  dev <dev@solire.fr>
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
  */
-class Error extends Main
+class Error extends Controller
 {
     /**
      * Méthode toujours exécuté
@@ -24,6 +26,15 @@ class Error extends Main
     public function start()
     {
         parent::start();
+        $this->view->site    = \Solire\Lib\Registry::get('project-name');
+        $this->view->code    = null;
+        $this->view->title   = 'OOPS! - Une erreur est survenue';
+        $this->view->btn     = [
+            'content' => 'Retour',
+            'href'    => 'javascript:history.back();',
+        ];
+
+        $this->view->setMainPath('error/errorMain');
     }
 
     /**
@@ -33,5 +44,39 @@ class Error extends Main
      */
     public function error404Action()
     {
+        $this->view->code    = 404;
+        $this->view->title   = 'OOPS! - Page non trouvée';
     }
+
+    /**
+     * Action de page Trop de requetes
+     *
+     * @return void
+     */
+    public function error429Action()
+    {
+        $timeRemaining = null;
+        if (isset($_SESSION['so_fail2ban'])
+            && isset($_SESSION['so_fail2ban']['remainingTime'])
+        ) {
+            $timeRemaining = $_SESSION['so_fail2ban']['remainingTime'];
+        }
+        $this->view->code    = 429;
+        $this->view->title   = 'OOPS! - Trop de requêtes';
+        $this->view->message = 'La protection de l\'authentification contre les'
+                . ' attaques par force brute a été activée.';
+        if ($timeRemaining == null) {
+            $this->view->message .= ' Merci de réitérer ultérieurement.';
+        } else {
+            $this->view->message = 'La prochaine tentative'
+                    . ' d\'authentification sera possible dans '
+                    . '<span id="remaining-time">' . $timeRemaining . '</span> secondes.';
+        }
+
+        $this->view->btn     = [
+            'content' => 'Rafraichir la page',
+            'href'    => 'javascript:location.reload();',
+        ];
+    }
+    
 }

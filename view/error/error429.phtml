@@ -1,0 +1,13 @@
+<?php $this->add('error/error'); ?>
+<script type="text/javascript">
+// update the tag with id "countdown" every 1 second
+    var remainingInterval = setInterval(function () {
+        var currentSeconds = document.getElementById('remaining-time').innerHTML;
+        var newSeconds = Math.max(currentSeconds - 1, 0);
+        document.getElementById('remaining-time').innerHTML = newSeconds;
+        if (newSeconds <= 0) {
+            location.reload();
+            clearInterval(remainingInterval);
+        }
+    }, 1000);
+</script>
