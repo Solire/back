@@ -76,14 +76,14 @@ class Main extends \Solire\Lib\Controller
         $antiBruteforce = new AntiBruteforce($securityConfig->antibruteforce, $_SERVER['REMOTE_ADDR']);
 
         if ($antiBruteforce->isBlocking()) {
-            header('HTTP/1.0 429 Not Found');
+            header('HTTP/1.0 429 Too Many Requests');
             /*
              * On garde en session le temps restant pour s'en servir
              */
             $_SESSION['so_fail2ban'] = array(
                 'remainingTime' => $antiBruteforce->unblockRemainingTime()
             );
-            FrontController::run('Error', 'error429');
+            FrontController::run('Error', 'error429Fail2ban');
             die;
         }
 
