@@ -15,6 +15,8 @@ use Solire\Lib\FrontController;
 use Solire\Lib\Model\FileManager;
 use Solire\Lib\Model\GabaritManager;
 use Solire\Lib\Hook;
+use Solire\Lib\Security\AntiBruteforce;
+use Solire\Conf\Loader as ConfLoader;
 
 /**
  * Controleur principal du back
@@ -68,7 +70,27 @@ class Main extends \Solire\Lib\Controller
      */
     public function start()
     {
+        /* Antibruteforce */
+        $securityConfigPath = FrontController::search('config/security.yml');
+        $securityConfig = ConfLoader::load($securityConfigPath);
+        $antiBruteforce = new AntiBruteforce($securityConfig->antibruteforce, $_SERVER['REMOTE_ADDR']);
+
+        if ($antiBruteforce->isBlocking()) {
+            header('HTTP/1.0 429 Not Found');
+            /*
+             * On garde en session le temps restant pour s'en servir
+             */
+            $_SESSION['so_fail2ban'] = array(
+                'remainingTime' => $antiBruteforce->unblockRemainingTime()
+            );
+            FrontController::run('Error', 'error429');
+            die;
+        }
+
         parent::start();
+        $path = FrontController::search(
+            'config/page-' . BACK_ID_API . '.cfg.php'
+        );
 
         /*
          * Système de log en BDD

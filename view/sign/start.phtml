@@ -135,7 +135,12 @@
                         }
 
 
-                    }, 'json');
+                    }, 'json')
+                    .error(function(jqXHR, textStatus, errorThrown) {
+                        if (jqXHR.status == 429) {
+                            location.reload();
+                        }
+                    });
 
 
 
