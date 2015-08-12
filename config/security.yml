@@ -1,0 +1,18 @@
+antibruteforce:
+  bantime: 900 # en seconde
+  ignoreip:
+    - 127.0.0.1
+  filter:
+    apache-denied:
+      enabled: true
+      maxretry: 5
+      findtime: 60 # en seconde
+      log:
+        back_log:
+          handler: Db
+          table: back_log
+          datetime-column: CONCAT(logDate, ' ' , logTime)
+          ip-column: logIp
+          search-column: logString
+          failregex:
+            - '%Connexion échouée%'
