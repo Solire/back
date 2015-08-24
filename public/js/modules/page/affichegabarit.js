@@ -32,8 +32,6 @@ define(['jquery', 'jqueryCookie'], function ($, jqueryCookie) {
 //                content_css: 'default/back/css/style-tinymce.css'
 //            });
 
-            $(function () {
-
                 $.cookie('id_gab_page', $('input[name=id_gab_page]').val(), {
                     path: '/'
                 });
@@ -176,7 +174,7 @@ define(['jquery', 'jqueryCookie'], function ($, jqueryCookie) {
                     }
                 });
 
-                $(document.body).on('click', '.expand', function(e) {
+                $(document.body).on('click', '.expand-collapse .expand', function(e) {
                     e.preventDefault();
                     $(this).parent().next().children('fieldset').each(function () {
                         if ($('div', this).first().is(':hidden')) {
@@ -185,7 +183,7 @@ define(['jquery', 'jqueryCookie'], function ($, jqueryCookie) {
                     });
                 });
 
-                $(document.body).on('click', '.collapse', function(e) {
+                $(document.body).on('click', '.expand-collapse .collapse', function(e) {
                     e.preventDefault();
                     $(this).parent().next().children('fieldset').each(function () {
                         if ($('div', this).first().is(':visible')) {
@@ -502,7 +500,6 @@ define(['jquery', 'jqueryCookie'], function ($, jqueryCookie) {
                     });
 
                 });
-            });
 
             function disabledExpandCollaspse($fieldset) {
                 var expand = false;
