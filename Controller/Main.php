@@ -88,9 +88,6 @@ class Main extends \Solire\Lib\Controller
         }
 
         parent::start();
-        $path = FrontController::search(
-            'config/page-' . BACK_ID_API . '.cfg.php'
-        );
 
         /*
          * Système de log en BDD
