@@ -515,19 +515,6 @@ class Main extends \Solire\Lib\Controller
 
         $this->css->addLibrary('back/bower_components/datatables/media/css/jquery.dataTables.min.css');
 
-        $this->requireJs->addLibrary('back/bower_components/datatables-responsive/js/dataTables.responsive.js',
-            array(
-                'name' => 'datatables-responsive',
-                'deps' => array(
-                    'datatables',
-                )
-            )
-        );
-
-        $this->css->addLibrary('back/bower_components/datatables-responsive/css/dataTables.responsive.css');
-
-        
-        
         /* Plupload */
         $this->requireJs->addLibrary('back/bower_components/plupload/js/plupload.full.min.js',
             array(
