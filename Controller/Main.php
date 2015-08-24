@@ -533,7 +533,7 @@ class Main extends Controller
 
         /* Datatables */
         $this->requireJs->addLibrary(
-            'back/bower_components/datatables/media/js/jquery.dataTables.min.js',
+            'back/bower_components/datatables/media/js/jquery.dataTables.js',
             [
                 'name' => 'datatables',
                 'deps' => [
@@ -542,7 +542,19 @@ class Main extends Controller
             ]
         );
 
-        $this->css->addLibrary('back/bower_components/datatables/media/css/jquery.dataTables.min.css');
+        $this->requireJs->addLibrary(
+            'back/bower_components/datatables/media/js/dataTables.bootstrap.min.js',
+            [
+                'name' => 'datatablesBootstrap',
+                'deps' => [
+                    'datatables',
+                ]
+            ]
+        );
+
+        $this->css->addLibrary(
+            'back/bower_components/datatables/media/css/dataTables.bootstrap.min.css'
+        );
 
         /* Plupload */
         $this->requireJs->addLibrary(
@@ -560,8 +572,6 @@ class Main extends Controller
                 ]
             ]
         );
-
-        $this->css->addLibrary('back/bower_components/datatables/media/css/jquery.dataTables.min.css');
 
         /* Noty */
         $this->requireJs->addLibrary(
