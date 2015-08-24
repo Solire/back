@@ -10,8 +10,10 @@ namespace Solire\Back\Controller;
 
 use Monolog\Logger;
 use Solire\Lib\Monolog\Handler\PDOHandler;
+use Solire\Lib\Controller;
+use Solire\Lib\Log;
+use Solire\Lib\Registry;
 use Solire\Lib\Session;
-use Solire\Lib\Path;
 use Solire\Lib\FrontController;
 use Solire\Lib\Model\FileManager;
 use Solire\Lib\Model\GabaritManager;
@@ -21,18 +23,18 @@ use Solire\Conf\Loader as ConfLoader;
 use Solire\Lib\Loader\RequireJs;
 
 /**
- * Controleur principal du back
+ * Contrôleur principal du back
  *
  * @author  dev <dev@solire.fr>
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
  */
-class Main extends \Solire\Lib\Controller
+class Main extends Controller
 {
 
     /**
      * Session en cours
      *
-     * @var \Solire\Lib\Session
+     * @var Session
      */
     public $utilisateur;
 
@@ -44,16 +46,16 @@ class Main extends \Solire\Lib\Controller
     public $api;
 
     /**
-     * Manager des requetes liées aux pages
+     * Manager des requêtes liées aux pages
      *
-     * @var \Solire\Lib\Model\GabaritManager
+     * @var GabaritManager
      */
     public $gabaritManager = null;
 
     /**
      * Manager fichiers
      *
-     * @var \Solire\Lib\Model\FileManager
+     * @var FileManager
      */
     public $fileManager = null;
 
@@ -67,22 +69,27 @@ class Main extends \Solire\Lib\Controller
     /**
      * Chargeur de script pour requireJS
      *
-     * @var \Solire\Lib\RequireJs
+     * @var RequireJs
      */
     protected $requireJs = null;
 
     /**
-     * Always execute before other method in controller
+     * Fonction appelé avant l'appel à la méthode du contrôleur
      *
-     * @return void
+     * @throws \Exception
+     * @throws \Solire\Conf\Exception
+     * @throws \Solire\Lib\Exception\HttpError
+     * @throws \Solire\Lib\Exception\lib
+     * @throws \Solire\Lib\Security\Exception\InvalidIpException
      * @hook back/ start Ajouter facilement des traitements au start du back
+     * @return void
      */
     public function start()
     {
         /* Antibruteforce */
         $securityConfigPath = FrontController::search('config/security.yml');
-        $securityConfig = ConfLoader::load($securityConfigPath);
-        $antiBruteforce = new AntiBruteforce($securityConfig->antibruteforce, $_SERVER['REMOTE_ADDR']);
+        $securityConfig     = ConfLoader::load($securityConfigPath);
+        $antiBruteforce     = new AntiBruteforce($securityConfig->antibruteforce, $_SERVER['REMOTE_ADDR']);
 
         if ($antiBruteforce->isBlocking()) {
             header('HTTP/1.0 429 Too Many Requests');
@@ -184,7 +191,7 @@ class Main extends \Solire\Lib\Controller
 
         $this->loadRessources();
 
-        $this->view->site = \Solire\Lib\Registry::get('project-name');
+        $this->view->site = Registry::get('project-name');
 
         if (isset($_GET['controller'])) {
             $this->view->controller = $_GET['controller'];
@@ -217,14 +224,14 @@ class Main extends \Solire\Lib\Controller
 
         if (isset($_GET['id_version'])) {
             $id_version = $_GET['id_version'];
-            $url = '/' . \Solire\Lib\Registry::get('baseroot');
+            $url = '/' . Registry::get('baseroot');
             setcookie('id_version', $id_version, 0, $url);
             if (!defined('BACK_ID_VERSION')) {
                 define('BACK_ID_VERSION', $id_version);
             }
         } elseif (isset($_POST['id_version'])) {
             $id_version = $_POST['id_version'];
-            $url = '/' . \Solire\Lib\Registry::get('baseroot');
+            $url = '/' . Registry::get('baseroot');
             setcookie('back_id_version', $id_version, 0, $url);
             if (!defined('BACK_ID_VERSION')) {
                 define('BACK_ID_VERSION', $id_version);
@@ -281,7 +288,7 @@ class Main extends \Solire\Lib\Controller
         $this->view->appConfig = $this->appConfig;
 
         /*
-         * On recupere la configuration du module pages (Menu + liste)
+         * On récupère la configuration du module pages (Menu + liste)
          */
         $completConfig = [];
         $path = FrontController::search(
@@ -387,6 +394,13 @@ class Main extends \Solire\Lib\Controller
         $hook->exec('Shutdown');
     }
 
+    /**
+     * Initialisation et chargement des ressources
+     *
+     * @throws \Solire\Lib\Exception\Lib
+     *
+     * @return void;
+     */
     protected function loadRessources()
     {
         /* Chargement de requireJS */
@@ -405,14 +419,16 @@ class Main extends \Solire\Lib\Controller
         );
 
         /* Sortable */
-        $this->requireJs->addLibrary('back/bower_components/Sortable/Sortable.js',
+        $this->requireJs->addLibrary(
+            'back/bower_components/Sortable/Sortable.js',
             array(
                 'name' => 'sortable',
             )
         );
 
         /* Jquery cookie */
-        $this->requireJs->addLibrary('back/bower_components/jquery.cookie/jquery.cookie.js',
+        $this->requireJs->addLibrary(
+            'back/bower_components/jquery.cookie/jquery.cookie.js',
             array(
                 'name' => 'jqueryCookie',
                 'deps' => array(
@@ -422,7 +438,8 @@ class Main extends \Solire\Lib\Controller
         );
 
         /* Bootstrap */
-        $this->requireJs->addLibrary('back/bower_components/bootstrap/dist/js/bootstrap.min.js',
+        $this->requireJs->addLibrary(
+            'back/bower_components/bootstrap/dist/js/bootstrap.min.js',
             array(
                 'name' => 'bootstrap',
                 'deps' => array(
@@ -434,7 +451,8 @@ class Main extends \Solire\Lib\Controller
         $this->css->addLibrary('back/bower_components/bootstrap/dist/css/bootstrap.min.css');
 
         /* Bootstrap meteriel design */
-        $this->requireJs->addLibrary('back/bower_components/bootstrap-material-design/dist/js/ripples.min.js',
+        $this->requireJs->addLibrary(
+            'back/bower_components/bootstrap-material-design/dist/js/ripples.min.js',
             array(
                 'name' => 'ripples',
                 'deps' => array(
@@ -443,7 +461,8 @@ class Main extends \Solire\Lib\Controller
             )
         );
 
-        $this->requireJs->addLibrary('back/bower_components/bootstrap-material-design/dist/js/material.min.js',
+        $this->requireJs->addLibrary(
+            'back/bower_components/bootstrap-material-design/dist/js/material.min.js',
             array(
                 'name' => 'material',
                 'deps' => array(
@@ -460,7 +479,8 @@ class Main extends \Solire\Lib\Controller
 //        $this->css->addLibrary('back/css/bootstrap-theme/bootstrap.min.css');
 
         /* Bootstrap datepicker */
-        $this->requireJs->addLibrary('back/bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js',
+        $this->requireJs->addLibrary(
+            'back/bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js',
             array(
                 'name' => 'bootstrapDatepicker',
                 'deps' => array(
@@ -472,7 +492,8 @@ class Main extends \Solire\Lib\Controller
         $this->css->addLibrary('back/bower_components/bootstrap-datepicker/css/datepicker3.css');
 
         // Fichier de traduction FR du datepicker
-        $this->requireJs->addLibrary('back/bower_components/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js',
+        $this->requireJs->addLibrary(
+            'back/bower_components/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js',
             array(
                 'name' => 'bootstrapDatepickerFr',
                 'deps' => array(
@@ -482,7 +503,8 @@ class Main extends \Solire\Lib\Controller
         );
 
         /* Bootstrap autocomplete */
-        $this->requireJs->addLibrary('back/bower_components/select2/dist/js/select2.full.min.js',
+        $this->requireJs->addLibrary(
+            'back/bower_components/select2/dist/js/select2.full.min.js',
             array(
                 'name' => 'autocomplete',
                 'deps' => array(
@@ -494,7 +516,8 @@ class Main extends \Solire\Lib\Controller
         $this->css->addLibrary('back/bower_components/select2/dist/css/select2.min.css');
 
         /* Bootstrap typeahead */
-        $this->requireJs->addLibrary('back/bower_components/typeahead.js/dist/typeahead.jquery.min.js',
+        $this->requireJs->addLibrary(
+            'back/bower_components/typeahead.js/dist/typeahead.jquery.min.js',
             array(
                 'name' => 'typeahead',
                 'deps' => array(
@@ -504,7 +527,8 @@ class Main extends \Solire\Lib\Controller
         );
 
         /* Datatables */
-        $this->requireJs->addLibrary('back/bower_components/datatables/media/js/jquery.dataTables.min.js',
+        $this->requireJs->addLibrary(
+            'back/bower_components/datatables/media/js/jquery.dataTables.min.js',
             array(
                 'name' => 'datatables',
                 'deps' => array(
@@ -516,12 +540,14 @@ class Main extends \Solire\Lib\Controller
         $this->css->addLibrary('back/bower_components/datatables/media/css/jquery.dataTables.min.css');
 
         /* Plupload */
-        $this->requireJs->addLibrary('back/bower_components/plupload/js/plupload.full.min.js',
+        $this->requireJs->addLibrary(
+            'back/bower_components/plupload/js/plupload.full.min.js',
             array(
                 'name' => 'plupload'
             )
         );
-        $this->requireJs->addLibrary('back/bower_components/jquery-pluploader/dist/jquery.pluploader.min.js',
+        $this->requireJs->addLibrary(
+            'back/bower_components/jquery-pluploader/dist/jquery.pluploader.min.js',
             array(
                 'name' => 'jqueryPluploader',
                 'deps' => array(
@@ -533,7 +559,8 @@ class Main extends \Solire\Lib\Controller
         $this->css->addLibrary('back/bower_components/datatables/media/css/jquery.dataTables.min.css');
 
         /* Noty */
-        $this->requireJs->addLibrary('back/bower_components/noty/js/noty/packaged/jquery.noty.packaged.min.js',
+        $this->requireJs->addLibrary(
+            'back/bower_components/noty/js/noty/packaged/jquery.noty.packaged.min.js',
             array(
                 'name' => 'noty',
                 'deps' => array(
@@ -543,11 +570,13 @@ class Main extends \Solire\Lib\Controller
         );
 
         /* SoModal */
-        $this->requireJs->addLibrary('back/bower_components/jquery.transit/jquery.transit.js',
+        $this->requireJs->addLibrary(
+            'back/bower_components/jquery.transit/jquery.transit.js',
             array('name' => 'jqueryTransit')
         );
 
-        $this->requireJs->addLibrary('back/bower_components/jquery-somodal/dist/js/jquery.somodal.min.js',
+        $this->requireJs->addLibrary(
+            'back/bower_components/jquery-somodal/dist/js/jquery.somodal.min.js',
             array(
                 'name' => 'jquerySoModal',
                 'deps' => array(
@@ -560,27 +589,28 @@ class Main extends \Solire\Lib\Controller
         $this->css->addLibrary('back/bower_components/jquery-somodal/dist/css/jquery.somodal.min.css');
 
         /* JSTREE */
-        $this->requireJs->addLibrary('back/bower_components/jstree/dist/jstree.min.js',
+        $this->requireJs->addLibrary(
+            'back/bower_components/jstree/dist/jstree.min.js',
             array('name' => 'jsTree')
         );
-
-        // Thème par défaut de jstree
-//        $this->css->addLibrary('back/bower_components/jstree/dist/themes/default/style.min.css');
 
         // Thème Bootstrap de jstree
         $this->css->addLibrary('back/bower_components/jstree-bootstrap-theme/dist/themes/proton/style.min.css');
 
         /* tinyMCE */
-        $this->requireJs->addLibrary('back/bower_components/tinymce/tinymce.min.js',
+        $this->requireJs->addLibrary(
+            'back/bower_components/tinymce/tinymce.min.js',
             array('name' => 'tinyMCE_source')
         );
 
-        $this->requireJs->addLibrary('back/bower_components/bower-tinymce-amd/tinyMCE.js',
+        $this->requireJs->addLibrary(
+            'back/bower_components/bower-tinymce-amd/tinyMCE.js',
             array('name' => 'tinyMCE')
         );
 
         /* Jquery Form controle */
-        $this->requireJs->addLibrary('back/bower_components/jquery-controle/jquery.controle.min.js',
+        $this->requireJs->addLibrary(
+            'back/bower_components/jquery-controle/jquery.controle.min.js',
             array(
                 'name' => 'jqueryControle',
                 'deps' => array(
@@ -628,16 +658,5 @@ class Main extends \Solire\Lib\Controller
 
         /* Librairies Solire */
         $this->css->addLibrary('back/css/style.css');
-
-
-        /* Reste des librairies à nettoyer */
-
-//        $this->javascript->addLibrary('back/js/main.js');
-//        $this->javascript->addLibrary('back/js/jquery/jquery.cookie.js');
-//        $this->javascript->addLibrary('back/js/jquery/sticky.js');
-//        $this->javascript->addLibrary('back/js/jquery/jquery.livequery.min.js');
-//        $this->javascript->addLibrary('back/js/jquery/jquery.stickyPanel.min.js');
-//        $this->javascript->addLibrary('back/js/newstyle.js');
-//        $this->css->addLibrary('back/css/sticky.css');
     }
 }
