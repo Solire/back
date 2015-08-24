@@ -96,9 +96,9 @@ class Main extends Controller
             /*
              * On garde en session le temps restant pour s'en servir
              */
-            $_SESSION['so_fail2ban'] = array(
+            $_SESSION['so_fail2ban'] = [
                 'remainingTime' => $antiBruteforce->unblockRemainingTime()
-            );
+            ];
             FrontController::run('Error', 'error429Fail2ban');
             die;
         }
@@ -150,7 +150,7 @@ class Main extends Controller
 
             $message = 'Connexion réussie, vous allez être redirigé';
 
-            exit(json_encode(array('success' => true, 'message' => $message)));
+            exit(json_encode(['success' => true, 'message' => $message]));
         }
 
         if (!$this->utilisateur->isConnected()
@@ -166,8 +166,8 @@ class Main extends Controller
         }
 
         $query = 'SELECT id '
-               . 'FROM gab_api '
-               . 'WHERE name = ' . $this->db->quote($nameApi) . ' ';
+            . 'FROM gab_api '
+            . 'WHERE name = ' . $this->db->quote($nameApi) . ' ';
 
         $idApi = $this->db->query($query)->fetch(\PDO::FETCH_COLUMN);
 
@@ -175,16 +175,17 @@ class Main extends Controller
             $idApi = 1;
         }
 
-        $query = 'SELECT * '
-               . 'FROM gab_api '
-               . 'WHERE id = ' . $idApi . ' ';
+        $query     = 'SELECT * '
+            . 'FROM gab_api '
+            . 'WHERE id = ' . $idApi . ' ';
         $this->api = $this->db->query($query)->fetch(\PDO::FETCH_ASSOC);
 
-        $query = 'SELECT * '
-               . 'FROM gab_api ';
+        $query      = 'SELECT * '
+            . 'FROM gab_api ';
         $this->apis = $this->db->query($query)->fetchAll(
             \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC
-        );
+        )
+        ;
         if (!defined('BACK_ID_API')) {
             define('BACK_ID_API', $this->api['id']);
         }
@@ -215,23 +216,24 @@ class Main extends Controller
         $this->fileManager = new FileManager();
 
         $query = 'SELECT `version`.id, `version`.* '
-               . 'FROM `version` '
-               . 'WHERE `version`.`id_api` = ' . $this->api['id'] . ' ';
+            . 'FROM `version` '
+            . 'WHERE `version`.`id_api` = ' . $this->api['id'] . ' ';
 
         $this->versions = $this->db->query($query)->fetchAll(
             \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC
-        );
+        )
+        ;
 
         if (isset($_GET['id_version'])) {
             $id_version = $_GET['id_version'];
-            $url = '/' . Registry::get('baseroot');
+            $url        = '/' . Registry::get('baseroot');
             setcookie('id_version', $id_version, 0, $url);
             if (!defined('BACK_ID_VERSION')) {
                 define('BACK_ID_VERSION', $id_version);
             }
         } elseif (isset($_POST['id_version'])) {
             $id_version = $_POST['id_version'];
-            $url = '/' . Registry::get('baseroot');
+            $url        = '/' . Registry::get('baseroot');
             setcookie('back_id_version', $id_version, 0, $url);
             if (!defined('BACK_ID_VERSION')) {
                 define('BACK_ID_VERSION', $id_version);
@@ -251,38 +253,39 @@ class Main extends Controller
         if (isset($_POST['log']) && isset($_POST['pwd'])
             && ($_POST['log'] == '' || $_POST['pwd'] == '')
         ) {
-            $retour = array(
+            $retour = [
                 'success' => false,
                 'message' => 'Veuillez renseigner l\'identifiant et le mot de passe'
-            );
+            ];
             exit(json_encode($retour));
         }
 
-        $this->view->utilisateur = $this->utilisateur;
-        $this->view->apis = $this->apis;
-        $this->view->api = $this->api;
-        $this->view->javascript = $this->javascript;
-        $this->view->requireJs = $this->requireJs;
-        $this->view->css = $this->css;
-        $this->view->mainVersions = $this->versions;
-        $query = 'SELECT `version`.id, `version`.* '
-               . 'FROM `version` '
-               . 'WHERE `version`.id_api = ' . $this->api['id'] . ' ';
-        $this->view->mainVersions = $this->db->query($query)->fetchAll(
+        $this->view->utilisateur   = $this->utilisateur;
+        $this->view->apis          = $this->apis;
+        $this->view->api           = $this->api;
+        $this->view->javascript    = $this->javascript;
+        $this->view->requireJs     = $this->requireJs;
+        $this->view->css           = $this->css;
+        $this->view->mainVersions  = $this->versions;
+        $query                     = 'SELECT `version`.id, `version`.* '
+            . 'FROM `version` '
+            . 'WHERE `version`.id_api = ' . $this->api['id'] . ' ';
+        $this->view->mainVersions  = $this->db->query($query)->fetchAll(
             \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC
-        );
-        $this->view->breadCrumbs = array();
-        $this->view->breadCrumbs[] = array(
+        )
+        ;
+        $this->view->breadCrumbs   = [];
+        $this->view->breadCrumbs[] = [
             'label' => '<i class="fa fa-home"></i>'
-                    . ' '
-                    . $this->view->site,
-        );
+                . ' '
+                . $this->view->site,
+        ];
 
         /* On indique que l'on est dans une autre api **/
         if ($this->api['id'] != 1) {
-            $this->view->breadCrumbs[] = array(
-                    'label' => $this->api['label'],
-            );
+            $this->view->breadCrumbs[] = [
+                'label' => $this->api['label'],
+            ];
         }
 
         $this->view->appConfig = $this->appConfig;
@@ -291,7 +294,7 @@ class Main extends Controller
          * On récupère la configuration du module pages (Menu + liste)
          */
         $completConfig = [];
-        $path = FrontController::search(
+        $path          = FrontController::search(
             'config/page-' . BACK_ID_API . '.cfg.php'
         );
         if ($path !== false) {
@@ -345,28 +348,30 @@ class Main extends Controller
         $this->view->menuPage = [];
         foreach ($this->configPageModule as $configPage) {
             $this->view->menuPage[] = [
-                'label' => $configPage['label'],
+                'label'   => $configPage['label'],
                 'display' => $configPage['display'],
             ];
         }
 
-        $query = 'SELECT gab_gabarit.id, gab_gabarit.* '
-               . 'FROM gab_gabarit '
-               . 'WHERE gab_gabarit.id_api = ' . $this->api['id'] . ' ';
+        $query          = 'SELECT gab_gabarit.id, gab_gabarit.* '
+            . 'FROM gab_gabarit '
+            . 'WHERE gab_gabarit.id_api = ' . $this->api['id'] . ' ';
         $this->gabarits = $this->db->query($query)->fetchAll(
             \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC
-        );
+        )
+        ;
 
         $query = 'SELECT * '
-               . 'FROM gab_page gp '
-               . 'WHERE rewriting = "" '
-               . ' AND gp.suppr = 0 '
-               . ' AND id_api = ' . BACK_ID_API
-               . ' AND id_version = ' . BACK_ID_VERSION;
+            . 'FROM gab_page gp '
+            . 'WHERE rewriting = "" '
+            . ' AND gp.suppr = 0 '
+            . ' AND id_api = ' . BACK_ID_API
+            . ' AND id_version = ' . BACK_ID_VERSION;
 
         $this->view->pagesNonTraduites = $this->db->query($query)->fetchAll(
             \PDO::FETCH_ASSOC
-        );
+        )
+        ;
 
         $hook = new Hook();
         $hook->setSubdirName('back');
@@ -407,7 +412,7 @@ class Main extends Controller
         $requireInitPath = $this->javascript->getPath('back/js/init.js');
         $this->javascript->addLibrary(
             'back/bower_components/requirejs/require.js',
-            array('data-main' => $requireInitPath)
+            ['data-main' => $requireInitPath]
         );
 
         $this->requireJs = new RequireJs(FrontController::$publicDirs);
@@ -415,37 +420,37 @@ class Main extends Controller
         /* Jquery */
         $this->requireJs->addLibrary(
             'back/bower_components/jquery/dist/jquery.min.js',
-            array('name' => 'jquery')
+            ['name' => 'jquery']
         );
 
         /* Sortable */
         $this->requireJs->addLibrary(
             'back/bower_components/Sortable/Sortable.js',
-            array(
+            [
                 'name' => 'sortable',
-            )
+            ]
         );
 
         /* Jquery cookie */
         $this->requireJs->addLibrary(
             'back/bower_components/jquery.cookie/jquery.cookie.js',
-            array(
+            [
                 'name' => 'jqueryCookie',
-                'deps' => array(
+                'deps' => [
                     'jquery',
-                )
-            )
+                ]
+            ]
         );
 
         /* Bootstrap */
         $this->requireJs->addLibrary(
             'back/bower_components/bootstrap/dist/js/bootstrap.min.js',
-            array(
+            [
                 'name' => 'bootstrap',
-                'deps' => array(
+                'deps' => [
                     'jquery',
-                )
-            )
+                ]
+            ]
         );
 
         $this->css->addLibrary('back/bower_components/bootstrap/dist/css/bootstrap.min.css');
@@ -453,22 +458,22 @@ class Main extends Controller
         /* Bootstrap meteriel design */
         $this->requireJs->addLibrary(
             'back/bower_components/bootstrap-material-design/dist/js/ripples.min.js',
-            array(
+            [
                 'name' => 'ripples',
-                'deps' => array(
+                'deps' => [
                     'bootstrap',
-                )
-            )
+                ]
+            ]
         );
 
         $this->requireJs->addLibrary(
             'back/bower_components/bootstrap-material-design/dist/js/material.min.js',
-            array(
+            [
                 'name' => 'material',
-                'deps' => array(
+                'deps' => [
                     'bootstrap',
-                )
-            )
+                ]
+            ]
         );
 
         $this->css->addLibrary('back/bower_components/bootstrap-material-design/dist/css/roboto.min.css');
@@ -481,12 +486,12 @@ class Main extends Controller
         /* Bootstrap datepicker */
         $this->requireJs->addLibrary(
             'back/bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js',
-            array(
+            [
                 'name' => 'bootstrapDatepicker',
-                'deps' => array(
+                'deps' => [
                     'bootstrap',
-                )
-            )
+                ]
+            ]
         );
 
         $this->css->addLibrary('back/bower_components/bootstrap-datepicker/css/datepicker3.css');
@@ -494,23 +499,23 @@ class Main extends Controller
         // Fichier de traduction FR du datepicker
         $this->requireJs->addLibrary(
             'back/bower_components/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js',
-            array(
+            [
                 'name' => 'bootstrapDatepickerFr',
-                'deps' => array(
+                'deps' => [
                     'bootstrapDatepicker',
-                )
-            )
+                ]
+            ]
         );
 
         /* Bootstrap autocomplete */
         $this->requireJs->addLibrary(
             'back/bower_components/select2/dist/js/select2.full.min.js',
-            array(
+            [
                 'name' => 'autocomplete',
-                'deps' => array(
+                'deps' => [
                     'jquery',
-                )
-            )
+                ]
+            ]
         );
 
         $this->css->addLibrary('back/bower_components/select2/dist/css/select2.min.css');
@@ -518,23 +523,23 @@ class Main extends Controller
         /* Bootstrap typeahead */
         $this->requireJs->addLibrary(
             'back/bower_components/typeahead.js/dist/typeahead.jquery.min.js',
-            array(
+            [
                 'name' => 'typeahead',
-                'deps' => array(
+                'deps' => [
                     'jquery',
-                )
-            )
+                ]
+            ]
         );
 
         /* Datatables */
         $this->requireJs->addLibrary(
             'back/bower_components/datatables/media/js/jquery.dataTables.min.js',
-            array(
+            [
                 'name' => 'datatables',
-                'deps' => array(
+                'deps' => [
                     'jquery',
-                )
-            )
+                ]
+            ]
         );
 
         $this->css->addLibrary('back/bower_components/datatables/media/css/jquery.dataTables.min.css');
@@ -542,18 +547,18 @@ class Main extends Controller
         /* Plupload */
         $this->requireJs->addLibrary(
             'back/bower_components/plupload/js/plupload.full.min.js',
-            array(
+            [
                 'name' => 'plupload'
-            )
+            ]
         );
         $this->requireJs->addLibrary(
             'back/bower_components/jquery-pluploader/dist/jquery.pluploader.min.js',
-            array(
+            [
                 'name' => 'jqueryPluploader',
-                'deps' => array(
+                'deps' => [
                     'plupload',
-                )
-            )
+                ]
+            ]
         );
 
         $this->css->addLibrary('back/bower_components/datatables/media/css/jquery.dataTables.min.css');
@@ -561,29 +566,29 @@ class Main extends Controller
         /* Noty */
         $this->requireJs->addLibrary(
             'back/bower_components/noty/js/noty/packaged/jquery.noty.packaged.min.js',
-            array(
+            [
                 'name' => 'noty',
-                'deps' => array(
+                'deps' => [
                     'jquery',
-                )
-            )
+                ]
+            ]
         );
 
         /* SoModal */
         $this->requireJs->addLibrary(
             'back/bower_components/jquery.transit/jquery.transit.js',
-            array('name' => 'jqueryTransit')
+            ['name' => 'jqueryTransit']
         );
 
         $this->requireJs->addLibrary(
             'back/bower_components/jquery-somodal/dist/js/jquery.somodal.min.js',
-            array(
+            [
                 'name' => 'jquerySoModal',
-                'deps' => array(
+                'deps' => [
                     'jquery',
                     'jqueryTransit',
-                )
-            )
+                ]
+            ]
         );
 
         $this->css->addLibrary('back/bower_components/jquery-somodal/dist/css/jquery.somodal.min.css');
@@ -591,7 +596,7 @@ class Main extends Controller
         /* JSTREE */
         $this->requireJs->addLibrary(
             'back/bower_components/jstree/dist/jstree.min.js',
-            array('name' => 'jsTree')
+            ['name' => 'jsTree']
         );
 
         // Thème Bootstrap de jstree
@@ -600,33 +605,33 @@ class Main extends Controller
         /* tinyMCE */
         $this->requireJs->addLibrary(
             'back/bower_components/tinymce/tinymce.min.js',
-            array('name' => 'tinyMCE_source')
+            ['name' => 'tinyMCE_source']
         );
 
         $this->requireJs->addLibrary(
             'back/bower_components/bower-tinymce-amd/tinyMCE.js',
-            array('name' => 'tinyMCE')
+            ['name' => 'tinyMCE']
         );
 
         /* Jquery Form controle */
         $this->requireJs->addLibrary(
             'back/bower_components/jquery-controle/jquery.controle.min.js',
-            array(
+            [
                 'name' => 'jqueryControle',
-                'deps' => array(
+                'deps' => [
                     'jquery',
-                )
-            )
+                ]
+            ]
         );
 
 
         /* Modules Solire */
-        $requireJsModules = array(
+        $requireJsModules = [
             'modules/page/liste',
             'modules/page/affichegabarit',
             'modules/page/listefichiers',
             'modules/page/signin',
-//            'modules/page/form',
+            //            'modules/page/form',
             'modules/helper/dialog',
             'modules/helper/wysiwyg',
             'modules/helper/datepicker',
@@ -649,7 +654,7 @@ class Main extends Controller
             'modules/render/aftersavepage',
             'modules/page/block',
             'modules/page/apichange',
-        );
+        ];
 
         $this->requireJs->addModules($requireJsModules);
 
