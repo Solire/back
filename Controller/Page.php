@@ -879,27 +879,40 @@ class Page extends Main
                 );
 
                 if ($json['status'] == 'error') {
-                    $logTitle = $typeSave . 'de page échouée';
-                    $logMessage = '<b>Id</b> : ' . $this->page->getMeta('id')
-                                . '<br /><img src="public/default/back/img/flags/png/'
-                                . $flagName . '.png" alt="'
-                                . $this->versions[$_POST['id_version']]['nom']
-                                . '" /></a><br />'
-                                . '<span style="color:red;">Error</span>';
+                    $this->userLog->addError(
+                        $typeSave . 'de page échouée',
+                        [
+                            'user' => [
+                                'id'    => $this->utilisateur->id,
+                                'login' => $this->utilisateur->login,
+                            ],
+                            'page' => [
+                                'id'      => $this->page->getMeta('id'),
+                                'version' => [
+                                    'id'   => (int) $_POST['id_version'],
+                                    'name' => $this->versions[$_POST['id_version']]['nom'],
+                                ],
+                            ]
+                        ]
+                    );
                 } else {
-                    $logTitle = $typeSave . 'de page réussie';
-                    $logMessage = '<b>Id</b> : ' . $this->page->getMeta('id')
-                                . '<br /><img src="public/default/back/img/flags/png/'
-                                . $flagName . '.png" alt="'
-                                . $this->versions[$_POST['id_version']]['nom']
-                                . '" /></a>';
+                    $this->userLog->addInfo(
+                        $typeSave . 'de page réussie',
+                        [
+                            'user' => [
+                                'id'    => $this->utilisateur->id,
+                                'login' => $this->utilisateur->login,
+                            ],
+                            'page' => [
+                                'id'      => $this->page->getMeta('id'),
+                                'version' => [
+                                    'id'   => (int) $_POST['id_version'],
+                                    'name' => $this->versions[$_POST['id_version']]['nom'],
+                                ],
+                            ]
+                        ]
+                    );
                 }
-
-                $this->log->logThis(
-                    $logTitle,
-                    $this->utilisateur->get('id'),
-                    $logMessage
-                );
             }
         }
 
@@ -1389,20 +1402,33 @@ class Page extends Main
             $delete = $this->gabaritManager->delete($_POST['id_gab_page']);
 
             if ($delete) {
-                $logTitle = 'Suppression de page réussie';
-                $logMessage = '<b>Id</b> : ' . $_POST['id_gab_page'];
+                $this->userLog->addInfo(
+                    'Suppression de page réussie',
+                    [
+                        'user' => [
+                            'id'    => $this->utilisateur->id,
+                            'login' => $this->utilisateur->login,
+                        ],
+                        'page' => [
+                            'id' => (int) $_POST['id_gab_page'],
+                        ]
+                    ]
+                );
                 $json['status'] = 'success';
             } else {
-                $logTitle = 'Suppression de page échouée';
-                $logMessage = '<b>Id</b> : ' . $_POST['id_gab_page']
-                            . '<br /><span style="color:red;">Error</span>';
+                $this->userLog->addError(
+                    'Suppression de page échouée',
+                    [
+                        'user' => [
+                            'id'    => $this->utilisateur->id,
+                            'login' => $this->utilisateur->login,
+                        ],
+                        'page' => [
+                            'id' => (int) $_POST['id_gab_page'],
+                        ]
+                    ]
+                );
             }
-
-            $this->log->logThis(
-                $logTitle,
-                $this->utilisateur->get('id'),
-                $logMessage
-            );
         }
 
         header('Cache-Control: no-cache, must-revalidate');
@@ -1464,23 +1490,35 @@ class Page extends Main
             }
 
             if ($ok) {
-                $logTitle = 'Changement d\'ordre réalisé avec succès';
-                $logMessage = '<b>Id</b> : ' . $id . '<br />'
-                            . '<b>Ordre</b> : ' . $ordre . '<br />';
-
+                $this->userLog->addInfo(
+                    'Changement d\'ordre réalisé avec succès',
+                    [
+                        'user' => [
+                            'id'    => $this->utilisateur->id,
+                            'login' => $this->utilisateur->login,
+                        ],
+                        'page' => [
+                            'id'    => (int) $id,
+                            'order' => (int) $ordre,
+                        ]
+                    ]
+                );
                 $json['status'] = 'success';
             } else {
-                $logTitle = 'Changement d\'ordre échoué';
-                $logMessage = '<b>Id</b> : ' . $id . ''
-                            . '<b>Ordre</b> : ' . $ordre . '<br />'
-                            . '<br /><span style="color:red;">Error</span>';
+                $this->userLog->addError(
+                    'Changement d\'ordre échoué',
+                    [
+                        'user' => [
+                            'id'    => $this->utilisateur->id,
+                            'login' => $this->utilisateur->login,
+                        ],
+                        'page' => [
+                            'id'    => (int) $id,
+                            'order' => (int) $ordre,
+                        ]
+                    ]
+                );
             }
-
-            $this->log->logThis(
-                $logTitle,
-                $this->utilisateur->get('id'),
-                $logMessage
-            );
         }
 
         header('Cache-Control: no-cache, must-revalidate');

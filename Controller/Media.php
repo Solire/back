@@ -440,26 +440,6 @@ class Media extends Main
             }
         }
 
-        if ($response['status'] == 'error') {
-            $logTxt = '<b>Nom</b> : ' . $_REQUEST['name'] . '<br /><b>Page</b> : '
-                    . $id_gab_page . '<br /><span style="color:red;">Error '
-                    . $response['error']['code'] . ' : ' . $response['error']['message']
-                    . '</span>';
-            $this->log->logThis(
-                'Upload échoué',
-                $this->utilisateur->get('id'),
-                $logTxt
-            );
-        } else {
-            $logTxt = '<b>Nom</b> : ' . $_REQUEST['name']. '<br /><b>Page</b> : '
-                    . $id_gab_page;
-            $this->log->logThis(
-                'Upload réussi',
-                $this->utilisateur->get('id'),
-                $logTxt
-            );
-        }
-
         $this->view->enable(false);
         $this->view->unsetMain();
         echo json_encode($response);
@@ -662,23 +642,34 @@ class Media extends Main
         $success = $this->db->exec($query);
 
         if (!$success) {
-            $status = 'error';
-            $logTitle = 'Suppression de fichier échouée';
-            $logMessage = '<b>Id</b> : ' . $id_media_fichier . ' '
-                        . '| <b>Table</b>' . $this->mediaTableName
-                        . '<br /><span style="color:red;">Error</span>';
+            $this->userLog->addError(
+                'Suppression de fichier échouée',
+                [
+                    'user' => [
+                        'id'    => $this->utilisateur->id,
+                        'login' => $this->utilisateur->login,
+                    ],
+                    'file' => [
+                        'id'    => $id_media_fichier,
+                        'table' => $this->mediaTableName,
+                    ]
+                ]
+            );
         } else {
-            $status = 'success';
-            $logTitle = 'Suppression de fichier réussie';
-            $logMessage = '<b>Id</b> : ' . $id_media_fichier . ' '
-                        . '| <b>Table</b>' . $this->mediaTableName . '';
+            $this->userLog->addInfo(
+                'Suppression de fichier réussie',
+                [
+                    'user' => [
+                        'id'    => $this->utilisateur->id,
+                        'login' => $this->utilisateur->login,
+                    ],
+                    'file' => [
+                        'id'    => $id_media_fichier,
+                        'table' => $this->mediaTableName,
+                    ]
+                ]
+            );
         }
-
-        $this->log->logThis(
-            $logTitle,
-            $this->utilisateur->get('id'),
-            $logMessage
-        );
 
         $response = array(
             'status' => $status

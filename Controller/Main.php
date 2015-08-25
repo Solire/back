@@ -8,7 +8,8 @@
 
 namespace Solire\Back\Controller;
 
-use Solire\Lib\Log;
+use Monolog\Logger;
+use Solire\Lib\Monolog\Handler\PDOHandler;
 use Solire\Lib\Session;
 use Solire\Lib\Path;
 use Solire\Lib\FrontController;
@@ -56,11 +57,11 @@ class Main extends \Solire\Lib\Controller
     public $fileManager = null;
 
     /**
-     * Manager fichiers
+     * Logger relatif aux actions de l'utilisateur
      *
-     * @var \Solire\Lib\Log
+     * @var Logger
      */
-    public $log = null;
+    public $userLog = null;
 
     /**
      * Always execute before other method in controller
@@ -92,7 +93,9 @@ class Main extends \Solire\Lib\Controller
         /*
          * Système de log en BDD
          */
-        $this->log = new Log($this->db, '', 0, 'back_log');
+        $userLog = new Logger('backUser');
+        $userLog->pushHandler(new PDOHandler($this->db));
+        $this->userLog = $userLog;
 
         /*
          * Utilisateur connecté ?
@@ -108,12 +111,27 @@ class Main extends \Solire\Lib\Controller
                     $_POST['pwd']
                 );
             } catch (\Exception $exc) {
-                $log = 'Identifiant : ' . $_POST['log'];
-                $this->log->logThis('Connexion échouée', 0, $log);
+                $login = filter_var($_POST['log'], FILTER_SANITIZE_STRING);
+                $this->userLog->addError(
+                    'Connexion échouée',
+                    [
+                        'user' => [
+                            'login' => $login,
+                        ]
+                    ]
+                );
                 throw $exc;
             }
 
-            $this->log->logThis('Connexion réussie', $this->utilisateur->id);
+            $this->userLog->addInfo(
+                'Connexion réussie',
+                [
+                    'user' => [
+                        'id'    => $this->utilisateur->id,
+                        'login' => $this->utilisateur->login,
+                    ]
+                ]
+            );
 
             $message = 'Connexion réussie, vous allez être redirigé';
 
