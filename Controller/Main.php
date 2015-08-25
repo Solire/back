@@ -16,7 +16,7 @@ use Solire\Lib\FrontController;
 use Solire\Lib\Model\FileManager;
 use Solire\Lib\Model\GabaritManager;
 use Solire\Lib\Hook;
-use Solire\Lib\Security\AntiBruteforce;
+use Solire\Lib\Security\AntiBruteforce\AntiBruteforce;
 use Solire\Conf\Loader as ConfLoader;
 
 /**
