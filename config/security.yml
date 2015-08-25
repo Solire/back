@@ -9,10 +9,12 @@ antibruteforce:
       findtime: 60 # en seconde
       log:
         back_log:
-          handler: Db
-          table: back_log
-          datetime-column: CONCAT(logDate, ' ' , logTime)
-          ip-column: logIp
-          search-column: logString
+          handler: MonologPDO
+          table: monolog
+          channel-column: channel
+          datetime-column: FROM_UNIXTIME(time)
+          ip-column: remoteip
+          search-column: message
+          channel: backUser
           failregex:
             - '%Connexion échouée%'
