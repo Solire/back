@@ -642,7 +642,7 @@ class Media extends Main
         $success = $this->db->exec($query);
 
         if (!$success) {
-            $this->userLog->addError(
+            $this->userLogger->addError(
                 'Suppression de fichier échouée',
                 [
                     'user' => [
@@ -656,7 +656,7 @@ class Media extends Main
                 ]
             );
         } else {
-            $this->userLog->addInfo(
+            $this->userLogger->addInfo(
                 'Suppression de fichier réussie',
                 [
                     'user' => [

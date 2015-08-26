@@ -879,7 +879,7 @@ class Page extends Main
                 );
 
                 if ($json['status'] == 'error') {
-                    $this->userLog->addError(
+                    $this->userLogger->addError(
                         $typeSave . 'de page échouée',
                         [
                             'user' => [
@@ -896,7 +896,7 @@ class Page extends Main
                         ]
                     );
                 } else {
-                    $this->userLog->addInfo(
+                    $this->userLogger->addInfo(
                         $typeSave . 'de page réussie',
                         [
                             'user' => [
@@ -1402,7 +1402,7 @@ class Page extends Main
             $delete = $this->gabaritManager->delete($_POST['id_gab_page']);
 
             if ($delete) {
-                $this->userLog->addInfo(
+                $this->userLogger->addInfo(
                     'Suppression de page réussie',
                     [
                         'user' => [
@@ -1416,7 +1416,7 @@ class Page extends Main
                 );
                 $json['status'] = 'success';
             } else {
-                $this->userLog->addError(
+                $this->userLogger->addError(
                     'Suppression de page échouée',
                     [
                         'user' => [
@@ -1490,7 +1490,7 @@ class Page extends Main
             }
 
             if ($ok) {
-                $this->userLog->addInfo(
+                $this->userLogger->addInfo(
                     'Changement d\'ordre réalisé avec succès',
                     [
                         'user' => [
@@ -1505,7 +1505,7 @@ class Page extends Main
                 );
                 $json['status'] = 'success';
             } else {
-                $this->userLog->addError(
+                $this->userLogger->addError(
                     'Changement d\'ordre échoué',
                     [
                         'user' => [

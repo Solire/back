@@ -61,7 +61,7 @@ class Main extends \Solire\Lib\Controller
      *
      * @var Logger
      */
-    public $userLog = null;
+    public $userLogger = null;
 
     /**
      * Always execute before other method in controller
@@ -93,9 +93,9 @@ class Main extends \Solire\Lib\Controller
         /*
          * Système de log en BDD
          */
-        $userLog = new Logger('backUser');
-        $userLog->pushHandler(new PDOHandler($this->db));
-        $this->userLog = $userLog;
+        $userLogger = new Logger('backUser');
+        $userLogger->pushHandler(new PDOHandler($this->db));
+        $this->userLogger = $userLogger;
 
         /*
          * Utilisateur connecté ?
@@ -112,7 +112,7 @@ class Main extends \Solire\Lib\Controller
                 );
             } catch (\Exception $exc) {
                 $login = filter_var($_POST['log'], FILTER_SANITIZE_STRING);
-                $this->userLog->addError(
+                $this->userLogger->addError(
                     'Connexion échouée',
                     [
                         'user' => [
@@ -123,7 +123,7 @@ class Main extends \Solire\Lib\Controller
                 throw $exc;
             }
 
-            $this->userLog->addInfo(
+            $this->userLogger->addInfo(
                 'Connexion réussie',
                 [
                     'user' => [
