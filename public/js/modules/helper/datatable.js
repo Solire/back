@@ -1,4 +1,4 @@
-define(['jquery', 'datatablesBootstrap'], function ($) {
+define(['jquery', 'datatablesMaterialDesign'], function ($) {
     return {
         datatables: [],
         run: function (wrap, response) {

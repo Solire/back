@@ -531,6 +531,21 @@ class Main extends Controller
             ]
         );
 
+        /* Youtube loading Bar */
+        $this->requireJs->addLibrary(
+            'back/bower_components/youtube-loading-bar/dist/js/youtubeLoadingBar.min.js',
+            [
+                'name' => 'youtubeLoadingBar',
+                'deps' => [
+                    'jquery',
+                ]
+            ]
+        );
+
+        $this->css->addLibrary(
+            'back/bower_components/youtube-loading-bar/dist/css/youtubeLoadingBar.min.css'
+        );
+
         /* Datatables */
         $this->requireJs->addLibrary(
             'back/bower_components/datatables/media/js/jquery.dataTables.js',
@@ -543,17 +558,18 @@ class Main extends Controller
         );
 
         $this->requireJs->addLibrary(
-            'back/bower_components/datatables/media/js/dataTables.bootstrap.min.js',
+            'back/bower_components/datatables-material-design/dist/js/dataTables.materialdesign.min.js',
             [
-                'name' => 'datatablesBootstrap',
+                'name' => 'datatablesMaterialDesign',
                 'deps' => [
                     'datatables',
+                    'youtubeLoadingBar',
                 ]
             ]
         );
 
         $this->css->addLibrary(
-            'back/bower_components/datatables/media/css/dataTables.bootstrap.min.css'
+            'back/bower_components/datatables-material-design/dist/css/dataTables.materialdesign.min.css'
         );
 
         /* Plupload */
