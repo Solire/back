@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>Erreur | <?php echo $this->site; ?></title>
+        <title>Erreur | {{ site }}</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'></head>
     <style>
@@ -110,7 +110,9 @@
 
     <body>
         <div class="wrap">
-            <?php $this->content(); ?>
+            {% block content %}
+            {% endblock %}
+
         </div>
     </body>
 

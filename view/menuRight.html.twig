@@ -1,0 +1,42 @@
+<ul class="nav navbar-nav navbar-right">
+    <li class="dropdown">
+        <a data-toggle="dropdown" class="dropdown-toggle nav_condensed" href="#">
+            <img alt="{{ mainVersions[backIdVersion].nom }}"
+                 src="public/default/back/img/flags/all/24/{{ mainVersions[backIdVersion].suf|lower }}.png"/>
+            <i class="fa fa-caret-down"></i>
+        </a>
+
+        <ul class="dropdown-menu">
+            {% for version in mainVersions %}
+                <li>
+                    <a style="cursor:pointer;"
+                       onclick="$.cookie('back_id_version', {{ version.id }}, {path: '/'}); document.location.href = document.location.href; return false;">
+                        <img style="width: 16px; height: 16px;display: block;float: left;margin-top: 1px;" alt=""
+                             src="public/default/back/img/flags/all/16/{{ version.suf|lower }}.png"/>
+                        &nbsp;&nbsp;{{ version.nom }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li class="dropdown{{ controller == 'back/user' and action == 'start' ? ' active' }}">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+        </a>
+        <ul class="dropdown-menu">
+            <li class="{{ controller == 'back/user' and action == 'start' ? ' active' }}">
+                <a href="back/user/start.html">
+                    <b>Mon profil ({{ utilisateur.nom }} {{ utilisateur.prenom }})</b>
+                </a>
+            </li>
+            <li class="divider"></li>
+            <li><a href="back/sign/signout.html"><b>Déconnexion</b></a></li>
+        </ul>
+    </li>
+</ul>
+<form class="navbar-form navbar-right" role="search">
+    <div class="form-group">
+        <input data-amd="modules/helper/search" data-url="back/page/livesearch.html" type="text"
+               class="form-control live-search" placeholder="Recherche">
+    </div>
+</form>

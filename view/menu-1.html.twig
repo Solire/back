@@ -1,0 +1,39 @@
+{# Si le tableau de bord est activé #}
+{% if appConfig.get('board', 'active') %}
+    <li><a class="{{ controller == 'back/board' ? ' active' }}" href="back/board/start.html">Tableau de bord</a></li>
+{% endif %}
+
+{% if menuPage|length > 1 %}
+    {# Cas où la liste des pages du site est séparée en fonction de gabarit (menu déroulant) #}
+    <li class="{{ controller == 'back/page' ? ' active' }}">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Pages <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            {% for indexMenuPage, menuPage in mPage %}
+                <li class="{{ currentMenuPage is same as(indexMenuPage) ? ' active' }}">
+                    <a href="back/page/liste.html?c={{ indexMenuPage }}"> {{ mPage.label }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </li>
+{% else %}
+    {# Cas où la liste des pages du site est une et une seule page #}
+    <li class="{{ controller == 'back/page' ? ' active' }}"><a href="back/page/liste.html">Pages</a></li>
+{% endif %}
+
+
+<li class="{{ controller == 'back/media' ? ' active' }}"><a href="back/media/start.html">Fichiers</a></li>
+<li><a href="back/datatable/list.html?name=translate">Textes statiques</a></li>
+
+{% if utilisateur.get("niveau") == 'solire' %}
+    <li>
+        <a href="back/datatable/list.html?name=redirection">Redirections 301</a>
+    </li>
+    <li>
+        <a href="back/dashboard/start.html?name=back_log">Logs</a>
+    </li>
+    <li>
+        <a href="back/user/liste.html">Utilisateurs</a>
+    </li>
+{% endif %}
+
+{% include 'menuadd-1.html.twig' ignore missing %}

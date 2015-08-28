@@ -57,7 +57,7 @@ class Media extends Main
     public function startAction()
     {
 
-        $this->fileDatatable();
+//        $this->fileDatatable();
 //        $this->javascript->addLibrary('back/js/jquery/jquery.hotkeys.js');
 //        $this->javascript->addLibrary('back/js/jstree/jquery.jstree.js');
         //$this->javascript->addLibrary('back/js/jquery/jquery.dataTables.min.js');
@@ -70,7 +70,7 @@ class Media extends Main
 //        $this->css->addLibrary('back/css/jquery.scroller.css');
 
         $this->view->breadCrumbs[] = array(
-            'label' => 'Gestion des fichiers',
+            'title' => 'Gestion des fichiers',
             'url' => '',
         );
     }

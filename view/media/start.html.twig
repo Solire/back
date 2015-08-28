@@ -1,0 +1,24 @@
+{% extends 'main.html.twig' %}
+{% import "util/breadcrumbs.html.twig" as breadcrumbs %}
+
+{% block content %}
+    <div data-amd="modules/page/listefichiers">
+        <h1>Gestion des fichiers</h1>
+
+        {{ breadcrumbs.breadcrumbs(breadCrumbs) }}
+
+        <div class="row">
+            <div class="col-md-4">
+                <a href="#" class="btn btn-sm btn-success" id="pickfiles" style="display: none;">
+                    <i class="icon-folder-open"></i> Ajouter un fichier
+                </a>
+                <div id="folders"></div>
+            </div>
+            <div class="col-md-8">
+                <div class="alert alert-danger" role="alert">
+                    @TODO Remplacer l'ancien datatable par Trieur
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

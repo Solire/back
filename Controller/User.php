@@ -30,7 +30,7 @@ class User extends Main
         $this->javascript->addLibrary('back/js/formgabarit.js');
 
         $this->view->breadCrumbs[] = array(
-            'label' => 'Mon profil',
+            'title' => 'Mon profil',
             'url' => '',
         );
     }

@@ -276,7 +276,7 @@ class Main extends Controller
         ;
         $this->view->breadCrumbs   = [];
         $this->view->breadCrumbs[] = [
-            'label' => '<i class="fa fa-home"></i>'
+            'title' => '<i class="fa fa-home"></i>'
                 . ' '
                 . $this->view->site,
         ];
@@ -284,7 +284,7 @@ class Main extends Controller
         /* On indique que l'on est dans une autre api **/
         if ($this->api['id'] != 1) {
             $this->view->breadCrumbs[] = [
-                'label' => $this->api['label'],
+                'title' => $this->api['label'],
             ];
         }
 
@@ -397,6 +397,24 @@ class Main extends Controller
         $hook->controller = $this;
 
         $hook->exec('Shutdown');
+
+        $title = 'Module de gestion du site ' . Registry::get('project-name');
+        if (isset($this->breadCrumbs) && count($this->breadCrumbs) > 1) {
+            foreach ($this->breadCrumbs as $iLink => $link) {
+                if ($iLink == 0) {
+                    continue;
+                }
+
+                if ($iLink == count($this->breadCrumbs) - 1) {
+                    $title .= ' ' . $link['title'];
+                } else {
+                    $title .= ' ' . $link['title'] . ' > ';
+                }
+            }
+        }
+        $this->seo->setTitle($title);
+
+        $this->view->backIdVersion = BACK_ID_VERSION;
     }
 
     /**
