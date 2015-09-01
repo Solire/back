@@ -1,0 +1,55 @@
+# -------------------------
+# CONFIG
+
+# Js Config
+driver:
+  name: dataTables
+  conf:
+    itemName: texte
+    itemsName: textes
+    # masculin ou féminin
+    # "e"|""
+    itemGenre:
+    requestUrl: back/datatable/listdata.html?name=translate
+    requestMethod: POST
+    separator: "~"
+    dom: <"H"TClfr>t<"F"ip>
+    defaultSort:
+    - [0, asc]
+
+source:
+  name: doctrine
+  conf:
+    select:
+      - t.cle
+      - t.valeur
+
+    from:
+      name: traduction
+      alias: t
+
+
+## COLUMNS
+
+columns:
+#  columnName:
+#    label: columnLabel
+#    sort: 1|0
+#    filter: 1|0
+#    filterType: text, dateRange...
+#    source: source expression (for example a column)
+#    sourceFilter: source expression (for example a column)
+#    sourceSort: source expression (for example a column)
+#    ...
+
+  cle:
+    label: Texte initial
+    filter: 1
+    sort: 1
+    source: t.cle
+
+  valeur:
+    label: Correspondance
+    filter: 1
+    sort: 1
+    source: t.valeur
