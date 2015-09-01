@@ -1,6 +1,6 @@
 {# Si le tableau de bord est activé #}
 {% if appConfig.get('board', 'active') %}
-    <li><a class="{{ controller == 'back/board' ? ' active' }}" href="back/board/start.html">Tableau de bord</a></li>
+    <li><a class="{{ controller == 'back/board' ? ' active' }}" href="back/board/list.html?name=board">Tableau de bord</a></li>
 {% endif %}
 
 {% if menuPage|length > 1 %}

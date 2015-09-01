@@ -24,7 +24,7 @@ class Datatable extends Main
      */
     public function listAction()
     {
-
+        $this->view->name = isset($_GET['name']) ? $_GET['name'] : null;
     }
 
     /**
@@ -40,6 +40,9 @@ class Datatable extends Main
 
         // Defining the trieur configuration
         $trieurConfigPath = FrontController::search('config/' . $configName . '.yml');
+        if ($trieurConfigPath === false) {
+            $trieurConfigPath = FrontController::search('config/datatable/' . $configName . '.yml');
+        }
         $trieurConfig     = ConfLoader::load($trieurConfigPath);
 
         $trieur = new Trieur($trieurConfig);
@@ -67,6 +70,9 @@ class Datatable extends Main
 
         // Defining the trieur configuration
         $trieurConfigPath = FrontController::search('config/' . $configName . '.yml');
+        if ($trieurConfigPath === false) {
+            $trieurConfigPath = FrontController::search('config/datatable/' . $configName . '.yml');
+        }
         $trieurConfig     = ConfLoader::load($trieurConfigPath);
 
         $configDb = $this->envConfig->get('database');
