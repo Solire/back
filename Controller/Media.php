@@ -8,8 +8,11 @@
 
 namespace Solire\Back\Controller;
 
+use Solire\Lib\Format\String;
+use Solire\Lib\Model\FileManager;
 use Solire\Lib\Path;
-use Solire\Lib\FrontController;
+use Solire\Lib\Registry;
+use Solire\Lib\Tools;
 
 /**
  * Controller des medias
@@ -56,23 +59,10 @@ class Media extends Main
      */
     public function startAction()
     {
-
-//        $this->fileDatatable();
-//        $this->javascript->addLibrary('back/js/jquery/jquery.hotkeys.js');
-//        $this->javascript->addLibrary('back/js/jstree/jquery.jstree.js');
-        //$this->javascript->addLibrary('back/js/jquery/jquery.dataTables.min.js');
-//        $this->javascript->addLibrary('back/js/plupload/plupload.full.js');
-//        $this->javascript->addLibrary('back/js/plupload/jquery.pluploader.min.js');
-//        $this->javascript->addLibrary('back/js/listefichiers.js');
-//        $this->javascript->addLibrary('back/js/jquery/jquery.scroller-1.0.min.js');
-
-        //$this->css->addLibrary('back/css/demo_table_jui.css');
-//        $this->css->addLibrary('back/css/jquery.scroller.css');
-
-        $this->view->breadCrumbs[] = array(
+        $this->view->breadCrumbs[] = [
             'title' => 'Gestion des fichiers',
             'url' => '',
-        );
+        ];
     }
 
     /**
@@ -83,7 +73,7 @@ class Media extends Main
     public function listAction()
     {
         $this->view->unsetMain();
-        $this->files = array();
+        $this->files = [];
 
         /** Permet plusieurs liste de fichier dans la meme page **/
         $this->view->idFilesList = null;
@@ -108,7 +98,7 @@ class Media extends Main
             $this->files = $this->fileManager->getList($this->page->getMeta('id'), 0, $search, $orderby, $sens);
         }
 
-        $this->view->files = array();
+        $this->view->files = [];
         foreach ($this->files as $file) {
             $ext = strtolower(array_pop(explode('.', $file['rewriting'])));
             $prefixPath = $this->api['id'] == 1 ? '' : '..' . Path::DS;
@@ -123,7 +113,7 @@ class Media extends Main
 
             $file['class'] = 'hoverprevisu vignette';
 
-            if (array_key_exists($ext, \Solire\Lib\Model\FileManager::$extensions['image'])) {
+            if (array_key_exists($ext, FileManager::$extensions['image'])) {
                 $file['path_mini']  = $this->view->prefixFileUrl
                                     . $file['id_gab_page'] . '/'
                                     . $this->upload_vignette . '/'
@@ -137,64 +127,10 @@ class Media extends Main
                 $file['class']      = 'vignette';
                 $file['path_mini']  = 'public/default/back/img/filetype/' . $ext . '.png';
             }
-            $file['poids'] = \Solire\Lib\Tools::formatTaille($file['taille']);
+            $file['poids'] = Tools::formatTaille($file['taille']);
 
             $this->view->files[] = $file;
         }
-    }
-
-    /**
-     * Génération du datatable des fichiers
-     *
-     * @return void
-     */
-    private function fileDatatable()
-    {
-        $configName = 'file';
-        $gabarits = array();
-
-        $configPath = \Solire\Lib\FrontController::search(
-            'config/datatable/' . $configName . '.cfg.php'
-        );
-
-        $datatableClassName = '\\App\\Back\\Datatable\\File';
-
-        $datatable = null;
-        $datatableClassName = FrontController::searchClass(
-            'Back\\Datatable\\' . ucfirst($configName)
-        );
-        if ($datatableClassName) {
-            $datatable = new $datatableClassName(
-                $_GET,
-                $configPath,
-                $this->db,
-                'back/css/datatable/',
-                'back/js/datatable/',
-                'back/img/datatable/'
-            );
-        }
-
-        if ($datatable == null) {
-            $datatable = new \Solire\Lib\Datatable\Datatable(
-                $_GET,
-                $configPath,
-                $this->db,
-                'back/css/datatable/',
-                'back/js/datatable/',
-                'back/img/datatable/'
-            );
-        }
-
-        $datatable->start();
-
-        if (isset($_GET['json'])
-            || isset($_GET['nomain']) && $_GET['nomain'] == 1
-        ) {
-            echo $datatable;
-            exit();
-        }
-
-        $this->view->datatableRender = $datatable;
     }
 
     /**
@@ -217,15 +153,15 @@ class Media extends Main
         $this->view->unsetMain();
         $this->view->enable(false);
 
-        $nodes = array();
+        $nodes = [];
 
         if ($_REQUEST['id'] === '') {
-            $nodes[] = array(
+            $nodes[] = [
                 'id'       => 'node_0',
                 'text'     => 'Ressources',
-                "children" => true,
-                'icon' => 'fa fa-folder',
-            );
+                'children' => true,
+                'icon'     => 'fa fa-folder',
+            ];
         } else {
             $rubriques = $this->gabaritManager->getList(BACK_ID_VERSION, $this->api['id'], (int) $_REQUEST['id']);
             $configPageModule = $this->configPageModule[$this->utilisateur->gabaritNiveau];
@@ -243,7 +179,7 @@ class Media extends Main
                 /*
                  * On recupere les enfants
                  */
-                $childrenNodes = array();
+                $childrenNodes = [];
                 $children = $this->gabaritManager->getList(
                     BACK_ID_VERSION,
                     $this->api['id'],
@@ -251,13 +187,13 @@ class Media extends Main
                 );
 
                 $title = $rubrique->getMeta('titre');
-                $node = array(
+                $node = [
                     'id'       => 'node_' . $rubrique->getMeta('id'),
                     'text'     => $title . (count($children) > 0 ? ' (' . count($children) . ')' : ''),
                     'rel'      => 'category',
-                    "icon"     => count($children) > 0 ? "fa fa-folder" : "fa fa-file-text",
-                    "children" => count($children) > 0 ? true : false
-                );
+                    'icon'     => count($children) > 0 ? 'fa fa-folder' : 'fa fa-file-text',
+                    'children' => count($children) > 0 ? true : false
+                ];
                 $nodes[] = $node;
             }
         }
@@ -292,7 +228,7 @@ class Media extends Main
 
         $gabaritId = 0;
         if (isset($_REQUEST['gabaritId'])) {
-            $gabaritId = (int)$_REQUEST['gabaritId'];
+            $gabaritId = (int) $_REQUEST['gabaritId'];
         }
 
         if ($id_gab_page) {
@@ -316,17 +252,17 @@ class Media extends Main
                 exit();
             }
 
-            $response['size'] = \Solire\Lib\Tools::formatTaille($response['size']);
+            $response['size'] = Tools::formatTaille($response['size']);
 
             if (isset($response['mini_path'])) {
                 $response['mini_path'] = $this->view->prefixFileUrl
                                    . $response['mini_path'];
                 $response['mini_url'] = $this->view->prefixFileUrl
                                   . $response['mini_url'];
-                $response['image'] = array(
+                $response['image'] = [
                     'url' => $this->view->prefixFileUrl . $id_gab_page
                              . '/' . $response['filename']
-                );
+                ];
 
                 // Génération de miniatures additionnelles
                 $filePath = $this->view->prefixFileUrl . $response['path'];
@@ -334,15 +270,15 @@ class Media extends Main
             }
 
             $response['url']       = $this->view->prefixFileUrl . $response['url'];
-            $response['isImage']   = \Solire\Lib\Model\FileManager::isImage($response['filename']) !== false;
+            $response['isImage']   = FileManager::isImage($response['filename']) !== false;
 
             if (isset($response['minipath'])) {
                 $response['minipath'] = $this->view->prefixFileUrl
                                   . $response['minipath'];
-                $response['image'] = array(
+                $response['image'] = [
                     'url' => $this->view->prefixFileUrl . $id_gab_page
                              . '/' . $response['filename']
-                );
+                ];
                 $response['path'] = $this->view->prefixFileUrl . $response['path'];
             }
         } else {
@@ -380,9 +316,9 @@ class Media extends Main
                 if (isset($response['mini_path'])) {
                     $response['mini_path'] = $this->view->prefixFileUrl . $response['mini_path'];
                     $response['mini_url'] = $this->view->prefixFileUrl . $response['mini_url'];
-                    $response['image'] = array(
+                    $response['image'] = [
                         'url' => $this->view->prefixFileUrl . $id_gab_page . Path::DS . $response['filename']
-                    );
+                    ];
 
                     // Génération de miniatures additionnelles
                     $filePath = $this->view->prefixFileUrl . $response['path'];
@@ -391,9 +327,9 @@ class Media extends Main
                 }
                 $response['path'] = $this->view->prefixFileUrl . $response['path'];
                 $response['url'] = $this->view->prefixFileUrl . $response['url'];
-                $response['size'] = \Solire\Lib\Tools::formatTaille($response['size']);
+                $response['size'] = Tools::formatTaille($response['size']);
                 $response['id_temp'] = $id_temp;
-                $response['isImage'] = \Solire\Lib\Model\FileManager::isImage($response['filename']) !== false;
+                $response['isImage'] = FileManager::isImage($response['filename']) !== false;
             }
         }
 
@@ -410,12 +346,12 @@ class Media extends Main
     public function cropAction()
     {
         $gabaritId = 0;
-        if(isset($_REQUEST['gabaritId'])) {
-            $gabaritId = (int)$_REQUEST['gabaritId'];
+        if (isset($_REQUEST['gabaritId'])) {
+            $gabaritId = (int) $_REQUEST['gabaritId'];
         }
 
         $this->view->prefixFileUrl = null;
-        if(isset($_REQUEST['prefix_url'])) {
+        if (isset($_REQUEST['prefix_url'])) {
             $this->view->prefixFileUrl = $_REQUEST['prefix_url'] . DIRECTORY_SEPARATOR;
         }
 
@@ -434,7 +370,7 @@ class Media extends Main
         $h = $_POST['h'];
 
         /* Information sur le fichier */
-        $newImageName   = \Solire\Lib\Format\String::urlSlug(
+        $newImageName   = String::urlSlug(
             $_POST['image-name'],
             '-',
             255
@@ -541,19 +477,17 @@ class Media extends Main
             );
 
             if (isset($response['minipath'])) {
-                $response['minipath'] = $response['minipath'];
-                $response['path'] = $response['path'];
-                $response['size'] = \Solire\Lib\Tools::formatTaille($response['size']);
-                $response['id_temp'] = $id_temp;
+                $response['size']     = Tools::formatTaille($response['size']);
+                $response['id_temp']  = $id_temp;
             }
         }
 
-        $response = array();
+        $response = [];
         $response['path']           = $targetDir . Path::DS . $target;
         $response['filename']       = $target;
         $response['filename_front'] = $targetDir . '/' . $target;
 
-        if (\Solire\Lib\Model\fileManager::isImage($response['filename'])) {
+        if (FileManager::isImage($response['filename'])) {
             $path       = $response['path'];
             $vignette   = $targetDir . Path::DS
                         . $this->upload_vignette . Path::DS
@@ -628,9 +562,9 @@ class Media extends Main
             );
         }
 
-        $response = array(
+        $response = [
             'status' => $status
-        );
+        ];
 
         $this->view->enable(false);
         $this->view->unsetMain();
@@ -671,8 +605,8 @@ class Media extends Main
             $extensions = false;
         }
 
-        $json = array();
-        $items = array();
+        $json = [];
+        $items = [];
 
         $term = isset($_GET['term']) ? $_GET['term'] : '';
         $tinyMCE = isset($_GET['tinyMCE']);
@@ -682,10 +616,13 @@ class Media extends Main
                 $term, $id_gab_page, $id_temp, $extensions
             );
 
-            $dir = $id_gab_page ? $id_gab_page : 'temp-' . $id_temp;
+            $dir = 'temp-' . $id_temp;
+            if ($id_gab_page) {
+                $dir = $id_gab_page;
+            }
 
             foreach ($files as $file) {
-                if (!$tinyMCE || \Solire\Lib\Model\FileManager::isImage($file['rewriting'])) {
+                if (!$tinyMCE || FileManager::isImage($file['rewriting'])) {
                     $url = $dir . '/' . $file['rewriting'];
                     $vignette = $dir . '/'
                               . $this->upload_vignette . '/'
@@ -698,8 +635,8 @@ class Media extends Main
                         continue;
                     }
 
-                    $absUrl = \Solire\Lib\Registry::get('basehref') . $url;
-                    if (\Solire\Lib\Model\FileManager::isImage($file['rewriting'])) {
+                    $absUrl = Registry::get('basehref') . $url;
+                    if (FileManager::isImage($file['rewriting'])) {
                         $sizes = getimagesize($serverpath);
                         $size = $sizes[0] . ' x ' . $sizes[1];
                     } else {
@@ -707,30 +644,30 @@ class Media extends Main
                     }
 
                     if ($tinyMCE) {
-                        $items[] = array(
+                        $items[] = [
                             'title' => $file['rewriting'] . ($size ? ' (' . $size . ')' : ''),
                             'value' => $absUrl,
-                        );
+                        ];
                     } else {
-                        $items[] = array(
+                        $items[] = [
                             'path' => $url,
                             'vignette' => $vignette,
-                            'isImage' => \Solire\Lib\Model\FileManager::isImage($file['rewriting']) !== false,
+                            'isImage' => FileManager::isImage($file['rewriting']) !== false,
                             'label' => $file['rewriting'],
                             'utilise' => $file['utilise'],
                             'size' => ($size ? $size : ''),
                             'value' => $file['rewriting'],
                             'text' => $file['rewriting'],
                             'id' => $file['rewriting'],
-                        );
+                        ];
                     }
                 }
             }
         }
 
-        $json = array(
+        $json = [
             'items' => $items,
-        );
+        ];
 
         header('Cache-Control: no-cache, must-revalidate');
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
@@ -767,7 +704,7 @@ class Media extends Main
             $ext            = pathinfo($filePath, PATHINFO_EXTENSION);
             $miniatureDir   = pathinfo($filePath, PATHINFO_DIRNAME);
             $miniatureName  = pathinfo($filePath, PATHINFO_BASENAME);
-            $miniatureSizes = array();
+            $miniatureSizes = [];
 
             // Parcours des champs du gabarit
             foreach ($gabarit->getChamps() as $champsGroupe) {
