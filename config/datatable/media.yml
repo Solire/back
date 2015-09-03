@@ -1,0 +1,55 @@
+# -------------------------
+# CONFIG
+
+# Js Config
+driver:
+  name: dataTables
+  conf:
+    itemName: média
+    itemsName: médias
+    # masculin ou féminin
+    # "e"|""
+    itemGenre:
+    requestUrl: back/datatable/listdata.html?name=media
+    requestMethod: POST
+    separator: "~"
+    dom: <"H"TClfr>t<"F"ip>
+    defaultSort:
+    - [1, desc]
+
+source:
+  name: doctrine
+  conf:
+    select:
+      - m.rewriting
+      - m.date_crea
+
+
+    from:
+      name: media_fichier
+      alias: m
+
+## COLUMNS
+
+columns:
+#  columnName:
+#    label: columnLabel
+#    sort: 1|0
+#    filter: 1|0
+#    filterType: text, dateRange...
+#    source: source expression (for example a column)
+#    sourceFilter: source expression (for example a column)
+#    sourceSort: source expression (for example a column)
+#    ...
+
+  rewriting:
+    label: Rewriting
+    filter: 1
+    sort: 1
+    source: m.rewriting
+
+  date_crea:
+    label: Date import
+    filter: 1
+    sort: 1
+    source: m.date_crea

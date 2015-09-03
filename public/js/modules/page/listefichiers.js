@@ -1,4 +1,4 @@
-define(['jquery', 'jsTree'], function ($) {
+define(['jquery', 'jsTree', 'modules/helper/datatable'], function ($, jsTree, helperDatatable) {
     return {
         run: function (wrap, response) {
             var tree;
@@ -139,8 +139,17 @@ define(['jquery', 'jsTree'], function ($) {
                 ]
             })
             
-            $('#folders').on('open_node.jstree', function (e, data) { $('#' + data.node.id + ' .jstree-anchor:first i').addClass('fa-folder-open')});
-            $('#folders').on('close_node.jstree', function (e, data) { $('#' + data.node.id + ' .jstree-anchor:first i').removeClass('fa-folder-open') });
+            $('#folders')
+                .on('open_node.jstree', function (e, data) {
+                    $('#' + data.node.id + ' .jstree-anchor:first i').addClass('fa-folder-open')
+                })
+                .on('close_node.jstree', function (e, data) {
+                    $('#' + data.node.id + ' .jstree-anchor:first i').removeClass('fa-folder-open')
+                })
+                .on('select_node.jstree', function (e, data) {
+                    // Chargement du datatable
+                    helperDatatable.run($('#datatable'));
+                });
 
 
             //////////////////// PLUPLOAD ////////////////////

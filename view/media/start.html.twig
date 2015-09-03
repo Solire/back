@@ -12,12 +12,12 @@
                 <a href="#" class="btn btn-sm btn-success" id="pickfiles" style="display: none;">
                     <i class="icon-folder-open"></i> Ajouter un fichier
                 </a>
+
                 <div id="folders"></div>
             </div>
             <div class="col-md-8">
-                <div class="alert alert-danger" role="alert">
-                    @TODO Remplacer l'ancien datatable par Trieur
-                </div>
+                <table data-datatable-name="media"
+                       id="datatable" class="table table-condensed"></table>
             </div>
         </div>
     </div>

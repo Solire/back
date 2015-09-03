@@ -14,6 +14,7 @@ define([
         helperZoom
         ) {
     return {
+        /* Paramètres pour l'uploader */
         uploaderParams: {
             basehref: $('base').attr('href'),
             runtimes: 'gears,html5,silverlight,flash,html4',
@@ -47,14 +48,15 @@ define([
             unique_names: false,
             multiple_queues: true,
             FilesAdded: function (base, up, files) {
+                /* Pour chaque fichier ajouté, on ajoute une progress bar */
                 $.each(files, function (i, file) {
                     var tr, td;
                     if (!file.error) {
                         tr = $('<tr>');
                         $('<td>', {
-                            colspan: 4
+                            colspan: $('.table-media thead').find('th, td').length
                         }).html(file.name + '<div class="progress hidden">' + 
-                                                '<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="0" style="width: 0%;">' +
+                                                '<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="0" style="width: 0;">' +
                                                 '0%' +
                                                 '</div>' +
                                             '</div>').appendTo(tr);
@@ -67,7 +69,7 @@ define([
                 $.each(files, function (i, file) {
                     if (!file.error) {
                         if (i == 0) {
-                            file.tr.prependTo($('#foldercontent'));
+                            file.tr.prependTo($('.table-media tbody'));
                         } else {
                             file.tr.insertAfter(files[i - 1].tr);
                         }
@@ -78,7 +80,7 @@ define([
                 up.start();
             },
             UploadProgress: function (base, up, file) {
-                $('.progress', file.tr).removeClass('hidden')
+                $('.progress', file.tr).removeClass('hidden');
                 $('.progress-bar', file.tr).css({
                     width: file.percent + '%'
                 });
@@ -86,7 +88,6 @@ define([
             },
             FileUploaded: function (base, up, file, info) {
                 $('.progress', file.tr).remove();
-                var row = []
 
                 var response = $.parseJSON(info.response);
 
@@ -98,33 +99,14 @@ define([
                         });
                     }
 
-                    $('.atelecharger-' + file.id).val(response.filename);
-
-                    var ligne = '';
-                    ligne += '<a href="' + response.url + '" id="fileid_' + response.id + '" target="_blank" class="previsu">';
-
-                    var ext = file.name.split('.').pop().toLowerCase();
-
-                    if (response.isImage) {
-                        ligne += '<img class="vignette img-thumbnail img-responsive" src="' + response.mini_url + '" alt="' + ext + '" /></a>';
-                    } else {
-                        ligne += '<img class="vignette" src="public/default/back/img/filetype/' + ext + '.png" alt="' + ext + '" /></a>';
-                    }
-                    row.push(ligne)
-                    row.push(response.size)
-                    row.push(response.date.substr(0, 10) + '<br />' + response.date.substr(11))
-                    row.push('<div class="btn-group"><a title="Visualiser" target="_blank"  class="btn btn-info previsu" href="' + response.path + '"><i class="fa fa-camera"></i></a></div>')
-                    row.DT_RowId = 'fileid_' + response.id;
-                    helperDatatable.addRow($('#tableau'), row);
-//                    file.tr.attr('id', 'fileid_' + response.id);
-//                    file.tr.html(ligne);
+                    helperDatatable.reload($('.table-media'));
                 } else {
                     file.tr.remove();
                 }
 
                 up.splice(0, 1);
                 if (up.files.length == 0) {
-                    helperDatatable.run($('#tableau'));
+                    helperDatatable.run($('.table-media'));
                 }
 
             },
@@ -142,13 +124,14 @@ define([
             $('.uploader_popup').click(function (e) {
                 e.preventDefault();
                 $.get('back/media/popuplistefichiers.html?id_gab_page=' + $('[name=id_gab_page]').val(), function (response) {
-                    $('<div>').html(response).attr('id', 'uploader_popup').appendTo('body')
+                    $('<div>').html(response).attr('id', 'uploader_popup').appendTo('body');
                     var dialogParams = {
                         'html': $('#uploader_popup')
-                    }
+                    };
+                    var $tableMedia = $('.table-media');
                     helperDialog.run(null, dialogParams);
-                    helperDatatable.run($('#tableau'));
-                    helperZoom.run($('#tableau'));
+                    helperDatatable.run($tableMedia);
+                    helperZoom.run($tableMedia);
                     helperUploader.run($('#pickfiles'), currentModule.uploaderParams);
                 });
             });

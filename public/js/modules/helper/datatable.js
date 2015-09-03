@@ -15,6 +15,11 @@ define(['jquery', 'datatablesMaterialDesign'], function ($) {
                 });
             }
         },
+        reload: function (wrap, response) {
+            if (this.datatables[$(wrap).attr('id')]) {
+                this.datatables[$(wrap).attr('id')].ajax.reload();
+            }
+        },
         addRow: function (wrap, row) {
             if (this.datatables[$(wrap).attr('id')]) {
                 this.datatables[$(wrap).attr('id')].row.add(row);
