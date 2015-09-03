@@ -1,0 +1,69 @@
+# -------------------------
+# CONFIG
+
+# Js Config
+driver:
+  name: dataTables
+  conf:
+    itemName: redirection
+    itemsName: redirections
+    # masculin ou féminin
+    # "e"|""
+    itemGenre: e
+    requestUrl: back/datatable/listdata.html?name=redirection
+    requestMethod: POST
+    separator: "~"
+    dom: <"H"TClfr>t<"F"ip>
+    defaultSort:
+    - [1, desc]
+
+source:
+  name: doctrine
+  conf:
+    select:
+      - r.old
+      - r.new
+      - r.id_version
+      - r.id_api
+
+
+    from:
+      name: redirection
+      alias: r
+
+## COLUMNS
+
+columns:
+#  columnName:
+#    label: columnLabel
+#    sort: 1|0
+#    filter: 1|0
+#    filterType: text, dateRange...
+#    source: source expression (for example a column)
+#    sourceFilter: source expression (for example a column)
+#    sourceSort: source expression (for example a column)
+#    ...
+
+  old:
+    label: Ancienne url
+    filter: 1
+    sort: 1
+    source: r.old
+
+  new:
+    label: Nouvelle url
+    filter: 1
+    sort: 1
+    source: r.new
+
+  id_version:
+    label: id_version
+    filter: 1
+    sort: 1
+    source: r.id_version
+
+  id_api:
+    label: id_api
+    filter: 1
+    sort: 1
+    source: r.id_api
