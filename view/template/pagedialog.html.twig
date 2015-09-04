@@ -27,14 +27,14 @@
                             </a>
 
                             <button
-                                    class="btn btn-sm <?php echo ($page->getMeta('visible') > 0 ? 'btn-success' : 'btn-default') ?> exec-onclick-ajax"
+                                    class="btn btn-sm {{ page.getMeta('visible') ? 'btn-success' : 'btn-default' }} exec-onclick-ajax"
                                     data-url="back/page/visible.html"
-                                    data-id="<?php echo $page->getMeta('id'); ?>"
-                                    data-id_version="<?php echo BACK_ID_VERSION; ?>"
-                                    data-visible="<?php echo $page->getMeta('visible'); ?>"
-                                    title="Rendre '<?php echo $page->getMeta('titre'); ?>' <?php echo ($page->getMeta('visible') > 0 ? 'invisible' : 'visible' ) ?> sur le site">
+                                    data-id="{{ page.getMeta('id') }}"
+                                    data-id_version="{{ backIdVersion }}"
+                                    data-visible="{{ page.getMeta('visible') }}"
+                                    title="Rendre '{{ page.getMeta('title') }}' {{ page.getMeta('visible') ? 'visible' : 'invisible' }} sur le site">
 
-                                <i class="fa <?php echo ($page->getMeta('visible') > 0 ? 'fa-eye' : 'fa-eye-slash') ?>"></i>
+                                <i class="fa {{ page.getMeta('visible') ? 'fa-eye' : 'fa-eye-slash' }}"></i>
                             </button>
                         </div>
                     {% endif %}
