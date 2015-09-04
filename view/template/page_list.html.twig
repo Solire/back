@@ -16,7 +16,7 @@
                 title="{{ page.getMeta('rewriting') }}" class="{{ noChild ? 'noChild' : 'solire-js-toggle' }}">
             {% if not noChild %}
                 {# Cas des rubriques ayant des enfants à afficher #}
-                <i class="fa fa-folder"></i> {{ page.getMeta('titre') }}cd
+                <i class="fa fa-folder"></i> {{ page.getMeta('titre') }}
             {% else %}
                 {# Cas des rubriques/ pages n'ayant aucun enfant à afficher #}
                 {% if utilisateur.get('niveau') == 'solire' or gabarit.editable %}
