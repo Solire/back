@@ -898,7 +898,7 @@ class Page extends Main
                     $this->versions[$_POST['id_version']]['suf']
                 );
 
-                if ($json['status'] == 'error') {
+                if ($jsonResponse['status'] == 'error') {
                     $this->userLogger->addError(
                         $typeSave . 'de page échouée',
                         [
@@ -1363,12 +1363,19 @@ class Page extends Main
             );
 
             if ($success) {
-                $title   = $htmlResponse . ' avec succès';
-                $message = '<b>Id</b> : ' . $_POST['id'] . '<br />'
-                    . '<img src="public/default/back/img/flags/png/'
-                    . strtolower($this->versions[$idVersion]['suf'])
-                    . '.png" alt="' . $this->versions[$idVersion]['nom']
-                    . '" />';
+                $this->userLogger->addInfo(
+                    $htmlResponse,
+                    [
+                        'user' => [
+                            'id'    => $this->utilisateur->id,
+                            'login' => $this->utilisateur->login,
+                        ],
+                        'page' => [
+                            'id'        => (int) $_POST['id'],
+                            'versionId' => (int) $idVersion,
+                        ]
+                    ]
+                );
 
                 $jsonResponse = array(
                     'status'  => 'success',
@@ -1380,19 +1387,20 @@ class Page extends Main
                     ),
                 );
             } else {
-                $title   = $htmlResponse . ' échouée';
-                $message = '<b>Id</b> : ' . $_POST['id'] . '<br />'
-                    . '<img src="public/default/back/img/flags/png/'
-                    . strtolower($this->versions[$idVersion]['suf'])
-                    . '.png" alt="' . $this->versions[$idVersion]['nom']
-                    . '" /><br /><span style="color:red;">Error</span>';
+                $this->userLogger->addError(
+                    $htmlResponse,
+                    [
+                        'user' => [
+                            'id'    => $this->utilisateur->id,
+                            'login' => $this->utilisateur->login,
+                        ],
+                        'page' => [
+                            'id'        => (int) $_POST['id'],
+                            'versionId' => (int) $idVersion,
+                        ]
+                    ]
+                );
             }
-
-            $this->log->logThis(
-                $title,
-                $this->utilisateur->get('id'),
-                $message
-            );
         }
 
         header('Cache-Control: no-cache, must-revalidate');
