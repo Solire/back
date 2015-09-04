@@ -7,7 +7,7 @@
         {% set gabarit = gabarit|merge({'editable': true, 'sortable': true, 'make_hidden': true, 'deletable': true}) %}
     {% endif %}
 
-    {% set noChild = noChild or (page.getMeta('nbre_enfants') == 0 and not gabaritsChildren[page.getMeta('id_gabarit')]) %}
+    {% set noChild = (page.getMeta('nbre_enfants') == 0 and not gabaritsChildren[page.getMeta('id_gabarit')]) %}
 
     <fieldset data-titre="{{ page.getMeta('titre') }}" style="{{ margin ? 'margin-left:30px;' }}"
               class="{{ gabarit.sortable ? ' sort-elmt' }}"
@@ -16,7 +16,7 @@
                 title="{{ page.getMeta('rewriting') }}" class="{{ noChild ? 'noChild' : 'solire-js-toggle' }}">
             {% if not noChild %}
                 {# Cas des rubriques ayant des enfants à afficher #}
-                <i class="fa fa-folder"></i>
+                <i class="fa fa-folder"></i> {{ page.getMeta('titre') }}cd
             {% else %}
                 {# Cas des rubriques/ pages n'ayant aucun enfant à afficher #}
                 {% if utilisateur.get('niveau') == 'solire' or gabarit.editable %}
