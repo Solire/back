@@ -2,12 +2,12 @@ define(['jquery'], function ($) {
     return {
         run: function (wrap, response) {
             var currentModule = this;
-            $(wrap).on('click', '.exec-onclick-addblock', function(e) {
+            $(wrap).on('click', '.exec-onclick-addblock', function (e) {
                 e.preventDefault();
 
-                var that = this,
+                var that       = this,
                     adupliquer = $('.block-to-duplicate:first', wrap),
-                    sortBox = wrap,
+                    sortBox    = wrap,
                     clone;
 
                 clone = adupliquer.clone(false);
@@ -16,18 +16,18 @@ define(['jquery'], function ($) {
                 currentModule.initBlock(clone);
 
                 //On autorise la suppression car plus qu'un bloc
-                $('.block-to-duplicate', sortBox).each(function() {
+                $('.block-to-duplicate', sortBox).each(function () {
                     $('.exec-onclick-removeblock', this).prop('disabled', false)
                 })
             });
 
-            $(wrap).on('click', '.exec-onclick-removeblock', function(e) {
+            $(wrap).on('click', '.exec-onclick-removeblock', function (e) {
                 var that = this;
                 $(that).parents('.block-to-duplicate:first').slideUp('fast', function () {
                     $(this).remove();
                     //On autorise la suppression que si plus d'un bloc
                     if ($('.block-to-duplicate', wrap).length > 1) {
-                        $('.block-to-duplicate', wrap).each(function() {
+                        $('.block-to-duplicate', wrap).each(function () {
                             $('.exec-onclick-removeblock', this).prop('disabled', false)
                         })
                     } else {
@@ -35,8 +35,24 @@ define(['jquery'], function ($) {
                     }
                 });
             });
+
+            $(wrap).on('click', '.exec-onclick-togglevisible', function (e) {
+                e.preventDefault();
+                var that = this;
+                if ($(that).hasClass('btn-success')) {
+                    $(that).removeClass("btn-success")
+                        .addClass("btn-default");
+
+                    $(that).find("i").addClass("fa-eye-slash").removeClass("fa-eye")
+                } else {
+                    $(that).removeClass("btn-default")
+                        .addClass("btn-success");
+
+                    $(that).find("i").removeClass("fa-eye-slash").addClass("fa-eye")
+                }
+            });
         },
-        resetBlock: function(blockClone) {
+        resetBlock: function (blockClone) {
             blockClone.find('input, textarea, select').not('[name="visible[]"]')
                 .not('.join-param')
                 .not('.extensions')
@@ -52,7 +68,7 @@ define(['jquery'], function ($) {
                                 $(this).val($(this).children('option:first').val());
                         }
                     }
-            });
+                });
 
             blockClone.find('.previsu').attr('href', '');
             blockClone.find('.previsu').hide();
@@ -60,7 +76,7 @@ define(['jquery'], function ($) {
 
             $('legend', blockClone).html('Bloc en cours de création');
         },
-        initBlock: function(blockClone) {
+        initBlock: function (blockClone) {
             var idnew;
             blockClone.find('input, textarea, select').not('[name="visible[]"]')
                 .not('.join-param')
@@ -69,7 +85,7 @@ define(['jquery'], function ($) {
                     idnew = $(this).attr('id') + 'a';
                     $(this).attr('id', idnew);
                     $(this).prev('label').attr('for', idnew);
-            });
+                });
         }
     };
 });
