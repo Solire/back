@@ -2,77 +2,47 @@ define(['jquery', 'modules/helper/autocomplete'], function ($, helperAutocomplet
     return {
         autocompleteOptions: {
             url: "back/media/autocomplete.html",
-            format: function (file) {
-                var ext = file.text.split('.').pop(),
-                    thumbnail = '';
+            templateResult: function (file) {
+                if (file.id) {
+                    var ext       = file.text.split('.').pop(),
+                        thumbnail = '';
 
-                if (file.isImage) {
-                    thumbnail = '<img class="img-thumbnail img-responsive" src="' + file.vignette + '">';
-                } else {
-                    thumbnail = '<img src="public/default/back/img/filetype/' + ext + '.png" height="25">';
-                }
-
-                /* @todo À commenter */
-                var inputs = [];
-                $('.form-file').not(this).filter(function () {
-                    return $(this).val() == file.text;
-                }).each(function () {
-                    inputs.push($(this).val());
-                });
-
-                /* Alert si image trop petite */
-                var alert = '';
-                if (file.isImage && $(this).attr('data-min-width') && $(this).attr('data-min-width') > 0) {
-                    var size = file.size.split('x');
-                    if (parseInt(size[0]) < $(this).attr('data-min-width')) {
-                        alert = '<dt style="color: red">Attention</dt><dd><span style="color: red">La largeur de l\'image est trop petite<span></dd>';
-                    }
-                }
-
-                var markup = '<div class="row">'
-                                + '<div class="col-sm-4">' + thumbnail + '</div>'
-                                + '<div class="col-sm-8">'
-                                + '<dl class="dl-horizontal"><dt>Nom de fichier</dt><dd><span>' + file.label + '<span></dd><dt>Taille</dt><dd><span>' + file.size + '<span></dd>' + alert + '</dl>'
-                                + '</div>'
-                            + '</div>'
-
-                return markup;
-            },
-            formatSelection: function (file) {
-                var previsu = $(this).parents('.form-group:first').find('.previsu');
-                if (typeof file.path != 'undefined') {
-                    var ext = file.path.split('.').pop();
                     if (file.isImage) {
-                        $(this).siblings('.crop').show();
-                        $(this).siblings('.solire-js-empty').show();
+                        thumbnail = '<img class="img-thumbnail img-responsive" src="' + file.vignette + '">';
                     } else {
-                        $(this).siblings('.crop').hide();
-                        $(this).siblings('.solire-js-empty').hide();
+                        thumbnail = '<img src="public/default/back/img/filetype/' + ext + '.png" height="25">';
                     }
 
-                    if (previsu.length > 0) {
-                        previsu.attr('href', file.path);
-                        previsu.show();
-                        $('.champ-image-value', previsu).text(file.value);
+                    /* @todo À commenter */
+                    var inputs = [];
+                    $('.form-file').not(this).filter(function () {
+                        return $(this).val() == file.text;
+                    }).each(function () {
+                        inputs.push($(this).val());
+                    });
 
-                        if (file.isImage) {
-                            $('.champ-image-size', previsu).text(file.size).show();
-                            $('.champ-image-size', previsu).prev().show();
-
-                            $('.champ-image-vignette', previsu).attr('src', file.vignette).show();
-                        } else {
-                            $('.champ-image-size', previsu).hide();
-                            $('.champ-image-size', previsu).prev().hide();
-
-                            $('.champ-image-vignette', previsu).hide();
+                    /* Alert si image trop petite */
+                    var alert = '';
+                    if (file.isImage && $(this).attr('data-min-width') && $(this).attr('data-min-width') > 0) {
+                        var size = file.size.split('x');
+                        if (parseInt(size[0]) < $(this).attr('data-min-width')) {
+                            alert = '<dt style="color: red">Attention</dt><dd><span style="color: red">La largeur de l\'image est trop petite<span></dd>';
                         }
                     }
 
-    //                if (file.isImage) {
-    //                    openCropDialog.call($(this).siblings('.crop'));
-    //                }
+                    var markup = '<div class="row">'
+                        + '<div class="col-sm-4">' + thumbnail + '</div>'
+                        + '<div class="col-sm-8">'
+                        + '<dl class="dl-horizontal"><dt>Nom de fichier</dt><dd><span>' + file.label + '<span></dd><dt>Taille</dt><dd><span>' + file.size + '<span></dd>' + alert + '</dl>'
+                        + '</div>'
+                        + '</div>';
+
+                    return markup;
                 }
 
+                return null;
+            },
+            templateSelection: function (file) {
                 return file.text;
             },
             data: function (params) {
@@ -92,6 +62,46 @@ define(['jquery', 'modules/helper/autocomplete'], function ($, helperAutocomplet
         run: function (wrap, options) {
             options = $.extend(true, {}, this.autocompleteOptions, options);
             helperAutocomplete.run(wrap, options);
+
+            wrap.on("select2:select", function (e) {
+                var fileInfoDiv = $(this).parents('.form-group:first').find('.field-file-info'),
+                    file        = e.params.data;
+
+                if (typeof file.path != 'undefined') {
+                    if (file.isImage) {
+                        $(this).siblings('.crop').show();
+                        $(this).siblings('.solire-js-empty').show();
+                    } else {
+                        $(this).siblings('.crop').hide();
+                        $(this).siblings('.solire-js-empty').hide();
+                    }
+
+                    if (fileInfoDiv.length > 0) {
+                        $('.field-file-link', fileInfoDiv).attr('href', file.path)
+                            .show();
+                        $('.field-file-value', fileInfoDiv).text(file.value);
+
+                        if (file.isImage) {
+                            $('.field-file-size', fileInfoDiv).text(file.size).show();
+                            $('.field-file-size', fileInfoDiv).prev().show();
+
+                            $('.field-file-link', fileInfoDiv).data('zoom-src', file.path)
+                            $('.field-file-thumbnail', fileInfoDiv).attr('src', file.vignette).show();
+                        } else {
+                            $('.field-file-size', fileInfoDiv).hide();
+                            $('.field-file-size', fileInfoDiv).prev().hide();
+
+                            $('.field-file-link', fileInfoDiv).data('zoom-src', '')
+                            $('.field-file-thumbnail', fileInfoDiv).hide();
+                        }
+                    }
+
+                    //                if (file.isImage) {
+                    //                    openCropDialog.call($(this).siblings('.crop'));
+                    //                }
+                }
+
+            });
         }
     };
 });

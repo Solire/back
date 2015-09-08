@@ -539,6 +539,16 @@ class Main extends Controller
         $this->css->addLibrary('back/bower_components/select2/dist/css/select2.min.css');
         $this->css->addLibrary('back/bower_components/select2-bootstrap-theme/dist/select2-bootstrap.min.css');
 
+        $this->requireJs->addLibrary(
+            'back/bower_components/select2/dist/js/i18n/fr.js',
+            [
+                'name' => 'autocompleteFr',
+                'deps' => [
+                    'autocomplete',
+                ]
+            ]
+        );
+
         /* Bootstrap typeahead */
         $this->requireJs->addLibrary(
             'back/bower_components/typeahead.js/dist/typeahead.jquery.min.js',
