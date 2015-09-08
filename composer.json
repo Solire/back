@@ -13,7 +13,8 @@
   ],
   "require": {
     "php": ">=5.5.0",
-    "solire/lib": "5.0.*"
+    "solire/lib": "5.0.*",
+    "solire/trieur": "2.1.*"
   },
   "require-dev": {
     "m6web/coke": "~1.2",
