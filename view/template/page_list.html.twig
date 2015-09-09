@@ -113,7 +113,7 @@
                             </a>
                         {% endif %}
 
-                        {% if deletable and page.getMeta('nbre_enfants') == 0 %}
+                        {% if (utilisateur.get('niveau') == 'solire' or gabarit.deletable) and page.getMeta('nbre_enfants') == 0 %}
                             <button
                                     class="btn btn-sm btn-warning exec-onclick-ajax"
                                     data-url="back/page/delete.html"
