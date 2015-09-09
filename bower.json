@@ -21,6 +21,7 @@
         "datatables-responsive"      : "1.0.*",
         "jquery-pluploader"          : "1.1.*",
         "jstree"                     : "3.0.*",
-        "jstree-bootstrap-theme"     : "1.0.*"
+        "jstree-bootstrap-theme"     : "1.0.*",
+        "Jcrop"                      : "2.0.*"
     }
 }

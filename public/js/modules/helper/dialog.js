@@ -30,6 +30,9 @@ define(['jquery', 'jquerySoModal'], function($){
             options = $.extend(true, {}, this.defaults, options);
             var soModalContainer = $('<div class="soModalContainer" />').html(response.html)
             $.soModal.open(soModalContainer, options);
+        },
+        close : function(options, response){
+            $.soModal.close();
         }
     };
 });

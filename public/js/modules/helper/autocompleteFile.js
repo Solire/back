@@ -39,8 +39,6 @@ define(['jquery', 'modules/helper/autocomplete'], function ($, helperAutocomplet
 
                     return markup;
                 }
-
-                return null;
             },
             templateSelection: function (file) {
                 return file.text;
@@ -63,9 +61,16 @@ define(['jquery', 'modules/helper/autocomplete'], function ($, helperAutocomplet
             options = $.extend(true, {}, this.autocompleteOptions, options);
             helperAutocomplete.run(wrap, options);
 
-            wrap.on("select2:select", function (e) {
-                var fileInfoDiv = $(this).parents('.form-group:first').find('.field-file-info'),
-                    file        = e.params.data;
+            wrap.on("select2:select", function (e, params) {
+                // Dans le cas d'un trigger, on utilise params, sinon on utilise e.params
+                if (typeof e.params != 'undefined') {
+                    params = e.params;
+                }
+
+                var fileDiv     = $(this).parents('.form-group:first'),
+                    fileInfoDiv = fileDiv.find('.field-file-info'),
+                    file        = params.data;
+
 
                 if (typeof file.path != 'undefined') {
                     if (file.isImage) {
@@ -84,21 +89,21 @@ define(['jquery', 'modules/helper/autocomplete'], function ($, helperAutocomplet
                         if (file.isImage) {
                             $('.field-file-size', fileInfoDiv).text(file.size).show();
                             $('.field-file-size', fileInfoDiv).prev().show();
+                            $('.field-file-crop', fileDiv).show();
+                            $('.field-file-crop', fileDiv).data('crop-src', file.path)
 
                             $('.field-file-link', fileInfoDiv).data('zoom-src', file.path)
                             $('.field-file-thumbnail', fileInfoDiv).attr('src', file.vignette).show();
                         } else {
                             $('.field-file-size', fileInfoDiv).hide();
                             $('.field-file-size', fileInfoDiv).prev().hide();
+                            $('.field-file-crop', fileDiv).hide();
+                            $('.field-file-crop', fileDiv).removeData('crop-src')
 
                             $('.field-file-link', fileInfoDiv).data('zoom-src', '')
                             $('.field-file-thumbnail', fileInfoDiv).hide();
                         }
                     }
-
-                    //                if (file.isImage) {
-                    //                    openCropDialog.call($(this).siblings('.crop'));
-                    //                }
                 }
 
             });

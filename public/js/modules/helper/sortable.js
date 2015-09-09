@@ -1,6 +1,10 @@
 define(['jquery', 'sortable'], function ($, Sortable) {
     return {
         run: function (wrap, response) {
+            $(wrap).on('click', '.block-to-sort-handle', function (e) {
+                e.preventDefault()
+            })
+
             Sortable.create(wrap.get(0), {
                 animation: 150,
                 handle: '.block-to-sort-handle',

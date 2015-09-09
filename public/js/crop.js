@@ -162,7 +162,6 @@ $(function(){
         }).load(function() {
             $('div.loading-overlay').remove();
             crop = false;
-//            $('.form-crop-submit').addClass('disabled');
 
             var minWidth = $inputFile.attr('data-min-width');
             var minHeight = $inputFile.attr('data-min-height');

@@ -20,8 +20,9 @@ define(['jquery', 'autocomplete', 'autocompleteFr'], function ($) {
             // Surcharge via les attributs data
             var optionsFromData = $(wrap).data();
             options = $.extend(true, {}, options, optionsFromData);
+
             $(wrap).select2({
-                language: "fr",
+                language: 'fr',
                 ajax: {
                     url: options.url,
                     dataType: 'json',
@@ -36,7 +37,7 @@ define(['jquery', 'autocomplete', 'autocompleteFr'], function ($) {
                 escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
                 minimumInputLength: 0,
                 templateResult: options.templateResult,
-                templateSelection: options.templateSelection
+                templateSelection: options.formatSelection
             })
         }
     };

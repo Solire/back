@@ -371,11 +371,11 @@ class Media extends Main
 
         /* Information sur le fichier */
         $newImageName   = String::urlSlug(
-            $_POST['image-name'],
+            pathinfo($_POST['dest'], PATHINFO_FILENAME),
             '-',
             255
         );
-        $filepath       = $_POST['filepath'];
+        $filepath       = $_POST['src'];
         $filename       = pathinfo($filepath, PATHINFO_BASENAME);
         $ext            = pathinfo($filename, PATHINFO_EXTENSION);
 
@@ -409,27 +409,27 @@ class Media extends Main
             $target = $newImageName . '-' . $count_temp . '.' . $ext;
         }
 
-        switch ($_POST['force-width']) {
-            case 'width':
-                $tw = $_POST['minwidth'];
-                $th = ($_POST['minwidth'] / $w) * $h;
-                break;
+        $tw = false;
+        $th = false;
+        if (isset($_POST['force-width'])) {
+            switch ($_POST['force-width']) {
+                case 'width':
+                    $tw = $_POST['minwidth'];
+                    $th = ($_POST['minwidth'] / $w) * $h;
+                    break;
 
-            case 'height':
-                $th = $_POST['minheight'];
-                $tw = ($_POST['minheight'] / $h) * $w;
-                break;
+                case 'height':
+                    $th = $_POST['minheight'];
+                    $tw = ($_POST['minheight'] / $h) * $w;
+                    break;
 
-            case 'width-height':
-                $tw = $_POST['minwidth'];
-                $th = $_POST['minheight'];
-                break;
-
-            default:
-                $tw = false;
-                $th = false;
-                break;
+                case 'width-height':
+                    $tw = $_POST['minwidth'];
+                    $th = $_POST['minheight'];
+                    break;
+            }
         }
+
 
         if (intval($tw) <= 0) {
             $tw = false;
@@ -503,6 +503,7 @@ class Media extends Main
             $response['size'] = $size;
             $response['value'] = $response['filename'];
             $response['utilise'] = 1;
+            $response['isImage'] = 1;
 
             $filePath = $this->view->prefixFileUrl . $this->upload_path . Path::DS . $response['path'];
             $this->miniatureProcess($gabaritId, $filePath);

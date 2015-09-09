@@ -9,19 +9,11 @@ require.config({
 
 
 require(
-    ['jquery', 'bootstrap', 'material', 'ripples'],
-    function ($) {
+    ['jquery', 'modules/helper/amd', 'bootstrap', 'material', 'ripples'],
+    function ($, helperAmd) {
         $(function(){
             $.material.init();
-            $('[data-amd]').each(function(){
-                var wrap = $(this),
-                    modules = $(wrap).data('amd').split(',');
-                require(modules, function(){
-                    $.each(arguments, function(ii, module){
-                        module.run(wrap);
-                    });
-                });
-            });
+            helperAmd.run(document);
         });
     }
 );

@@ -1,4 +1,4 @@
-define(['jquery'], function ($) {
+define(['jquery', 'modules/helper/amd'], function ($, helperAmd) {
     return {
         run: function (wrap, response) {
             var currentModule = this;
@@ -70,6 +70,7 @@ define(['jquery'], function ($) {
                     }
                 });
 
+            blockClone.find('.select2').remove();
             blockClone.find('.previsu').attr('href', '');
             blockClone.find('.previsu').hide();
             blockClone.find('.crop').hide();
@@ -86,6 +87,8 @@ define(['jquery'], function ($) {
                     $(this).attr('id', idnew);
                     $(this).prev('label').attr('for', idnew);
                 });
+
+            helperAmd.run(blockClone);
         }
     };
 });

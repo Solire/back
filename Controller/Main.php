@@ -560,6 +560,21 @@ class Main extends Controller
             ]
         );
 
+        /* Jcrop */
+        $this->requireJs->addLibrary(
+            'back/bower_components/Jcrop/js/Jcrop.js',
+            [
+                'name' => 'jcrop',
+                'deps' => [
+                    'jquery',
+                ]
+            ]
+        );
+
+        $this->css->addLibrary(
+            'back/bower_components/Jcrop/css/Jcrop.min.css'
+        );
+
         /* Youtube loading Bar */
         $this->requireJs->addLibrary(
             'back/bower_components/youtube-loading-bar/dist/js/youtubeLoadingBar.min.js',
@@ -687,11 +702,14 @@ class Main extends Controller
             'modules/page/listefichiers',
             'modules/page/signin',
             //            'modules/page/form',
+            'modules/helper/amd',
             'modules/helper/dialog',
             'modules/helper/wysiwyg',
             'modules/helper/datepicker',
             'modules/helper/search',
             'modules/helper/autocomplete',
+            'modules/helper/crop',
+            'modules/helper/cropDialog',
             'modules/helper/autocompleteFile',
             'modules/helper/autocompleteJoin',
             'modules/helper/confirm',
