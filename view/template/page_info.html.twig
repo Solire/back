@@ -1,0 +1,28 @@
+<span class="page-info">
+    {% if page.getMeta('date_modif') != '0000-00-00 00:00:00' and page.getMeta('rewriting') %}
+        {# Cas des rubriques/ pages n'ayant aucun enfant à afficher et editable #}
+        <span class="board-human-time" style="color: inherit">
+                        Dernière édition {{ page.getMeta('date_modif') }}
+            <span class="text-danger">@TODO Faire un filtre TWIG pour les dates relatives </span>
+                    </span>
+    {% endif %}
+
+    {% if page.getMeta('id_gabarit') != 1 and page.getMeta('id_gabarit') != 2 %}
+        {% if page.getMeta('date_modif') != '0000-00-00 00:00:00' and page.getMeta('rewriting') %}
+            |
+        {% endif %}
+        {# Cas ni page d'accueil ni éléments communs #}
+        <i>Type : {{ gabarit.label }}</i>
+    {% endif %}
+
+    {% set nbChild = page.getMeta('nbre_enfants') %}
+    {% if not noChild %}
+        {# Cas où il y a des pages enfants #}
+        {% if page.getMeta('aff_enfants') is not empty %}
+            {% set nbChild = page.getMeta('aff_enfants') %}
+        {% endif %}
+
+        | <i><span class="page-nbre-enfants">{{ nbChild }} </span>{{ childName }}</i>
+
+    {% endif %}
+                </span>

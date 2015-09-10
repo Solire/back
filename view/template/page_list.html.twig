@@ -14,10 +14,7 @@
               id="gab_page_{{ page.getMeta('id') }}">
         <legend data-url="{{ urlRedir ? urlRedir ~ page.getMeta('id') }}" data-ajax="{{ urlAjax }}"
                 title="{{ page.getMeta('rewriting') }}" class="{{ noChild ? 'noChild' : 'solire-js-toggle' }}">
-            {% if not noChild %}
-                {# Cas des rubriques ayant des enfants à afficher #}
-                <i class="fa fa-folder"></i> {{ page.getMeta('titre') }}
-            {% else %}
+            {% if noChild %}
                 {# Cas des rubriques/ pages n'ayant aucun enfant à afficher #}
                 {% if utilisateur.get('niveau') == 'solire' or gabarit.editable %}
                     {# Cas des rubriques/ pages n'ayant aucun enfant à afficher et editable #}
@@ -27,39 +24,19 @@
                 <i class="fa fa-file"></i>
                 {{ page.getMeta('titre') }}
                 <br>
-                {% if page.getMeta('date_modif') != '0000-00-00 00:00:00' and page.getMeta('rewriting') %}
-                    {# Cas des rubriques/ pages n'ayant aucun enfant à afficher et editable #}
-                    <span class="board-human-time" style="color: inherit">
-                    Dernière édition {{ page.getMeta('date_modif') }}
-                        <span class="text-danger">@TODO Faire un filtre TWIG pour les dates relatives </span>
-                </span>
 
-                {% endif %}
+                {% include('template/page_info.html.twig') %}
 
-                <span class="page-info">
-                {% if page.getMeta('id_gabarit') != 1 and page.getMeta('id_gabarit') != 2 %}
-                    {% if page.getMeta('date_modif') != '0000-00-00 00:00:00' and page.getMeta('rewriting') %}
-                        |
-                    {% endif %}
-                    {# Cas ni page d'accueil ni éléments communs #}
-                    <i>Type : {{ gabarit.label }}</i>
-                {% endif %}
-
-                    {% set nbChild = page.getMeta('nbre_enfants') %}
-                    {% if nbChild is not empty %}
-                        {# Cas où il y a des pages enfants #}
-                        {% if page.getMeta('aff_enfants') is not empty %}
-                            {% set nbChild = page.getMeta('aff_enfants') %}
-                        {% endif %}
-
-                        | <i><span class="page-nbre-enfants">{{ nbChild }} </span>{{ childName }}</i>
-
-                    {% endif %}
-            </span>
                 {% if utilisateur.get('niveau') == 'solire' or gabarit.editable %}
                     {# Cas des rubriques/ pages n'ayant aucun enfant à afficher et editable #}
                     </a>
                 {% endif %}
+
+            {% else %}
+                {# Cas des rubriques ayant des enfants à afficher #}
+                <i class="fa fa-folder"></i> {{ page.getMeta('titre') }}
+                <br>
+                {% include('template/page_info.html.twig') %}
             {% endif %}
         </legend>
         <div class="sort-box" style="display:none;"></div>
