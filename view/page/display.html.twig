@@ -22,8 +22,7 @@
                         <a title="{{ not pages[BACK_ID_VERSION].getMeta() ? 'Page en cours de création en version : ' }}{{ version.nom }}"
                            class="openlang {{ versionId != backIdVersion ? 'translucide' }} btn btn-default btn-sm">
                             {% if pages[backIdVersion].getMeta() %}
-                                <img src="public/default/back/img/flags/png/{{ version.suf|lower }}.png"
-                                     alt="{{ version.nom }}"/>
+                                <i title="{{ version.nom }}" class="flag-icon flag-icon-{{ version.suf|lower }}"></i>
                             {% else %}
                                 <i class="fa fa-clock-o"
                                    alt="Page en cours de création en version {{ version.nom }}"></i>

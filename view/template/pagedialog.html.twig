@@ -22,8 +22,7 @@
                         <div class="btn-group">
                             <a title="{{ mainVersions[page.getMeta('id_version')].nom }}"
                                class="btn btn-default btn-sm">
-                                <img src="public/default/back/img/flags/png/{{ mainVersions[page.getMeta('id_version')].suf|lower }}.png"
-                                     alt="{{ mainVersions[page.getMeta('id_version')].nom }}">
+                                <i title="{{ mainVersions[page.getMeta('id_version')].nom }}" class="flag-icon flag-icon-{{ mainVersions[page.getMeta('id_version')].suf|lower }}"></i>
                             </a>
 
                             <button

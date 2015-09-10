@@ -22,6 +22,7 @@
         "jquery-pluploader"          : "1.1.*",
         "jstree"                     : "3.0.*",
         "jstree-bootstrap-theme"     : "1.0.*",
-        "Jcrop"                      : "2.0.*"
+        "Jcrop"                      : "2.0.*",
+        "flag-icon-css"              : "0.8.*"
     }
 }

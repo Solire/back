@@ -1,8 +1,7 @@
 <ul class="nav navbar-nav navbar-right">
     <li class="dropdown">
         <a data-toggle="dropdown" class="dropdown-toggle nav_condensed" href="#">
-            <img alt="{{ mainVersions[backIdVersion].nom }}"
-                 src="public/default/back/img/flags/all/24/{{ mainVersions[backIdVersion].suf|lower }}.png"/>
+            <i title="{{ mainVersions[backIdVersion].nom }}" class="flag-icon flag-icon-{{ mainVersions[backIdVersion].suf|lower }}"></i>
             <i class="fa fa-caret-down"></i>
         </a>
 
@@ -11,9 +10,8 @@
                 <li>
                     <a style="cursor:pointer;"
                        onclick="$.cookie('back_id_version', {{ version.id }}, {path: '/'}); document.location.href = document.location.href; return false;">
-                        <img style="width: 16px; height: 16px;display: block;float: left;margin-top: 1px;" alt=""
-                             src="public/default/back/img/flags/all/16/{{ version.suf|lower }}.png"/>
-                        &nbsp;&nbsp;{{ version.nom }}
+                        <i class="flag-icon flag-icon-{{ version.suf|lower }}"></i>
+                        &nbsp;{{ version.nom }}
                     </a>
                 </li>
             {% endfor %}

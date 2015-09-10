@@ -734,6 +734,9 @@ class Main extends Controller
         /* font-awesome */
         $this->css->addLibrary('back/bower_components/font-awesome/css/font-awesome.min.css');
 
+        /* Flags */
+        $this->css->addLibrary('back/bower_components/flag-icon-css/css/flag-icon.min.css');
+
         /* Librairies Solire */
         $this->css->addLibrary('back/css/style.css');
     }
