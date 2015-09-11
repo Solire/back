@@ -22,16 +22,21 @@
          * Si on affiche les pages par type de gabarits
          */
         if (isset($this->gabaritByGroup) && $this->gabaritByGroup) {
+            if ($this->gabaritByGroup === true
+                || (is_array($this->gabaritByGroup) && in_array($this->gabarits[$keyGroup]['id'], $this->gabaritByGroup))
+            ) {
+                $this->gabarits[$keyGroup]['group'] = true;
 ?>
                         <fieldset id="gab_page_6" class="sort-elmt">
-                            <legend title="<?php echo $this->gabarits[$keyGroup]['label']; ?>  ">
+                            <legend class="solire-js-toggle" title="<?php echo $this->gabarits[$keyGroup]['label']; ?>  ">
                                 <?php echo $this->gabarits[$keyGroup]['label']; ?>
                             </legend>
 <?php
+            }
             $this->pages = $group;
         }
 ?>
-                        <div class="sort-box" <?php echo isset($this->gabaritByGroup) && $this->gabaritByGroup ? 'style="display:none;"' : ''; ?>>
+                        <div class="sort-box" <?php echo $this->gabarits[$keyGroup]['group'] ? 'style="display:none;margin-left:30px;"' : ''; ?>>
 <?php
     $this->add('template/page_list');
 ?>
@@ -40,7 +45,9 @@
         /**
          * Si on affiche les pages par type de gabarits
          */
-        if (isset($this->gabaritByGroup) && $this->gabaritByGroup) {
+        if ($this->gabaritByGroup === true
+            || (is_array($this->gabaritByGroup) && in_array($this->gabarits[$keyGroup]['id'], $this->gabaritByGroup))
+        ) {
 ?>
                     </fieldset>
 <?php
