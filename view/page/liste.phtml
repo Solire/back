@@ -36,7 +36,7 @@
             $this->pages = $group;
         }
 ?>
-                        <div class="sort-box" <?php echo $this->gabarits[$keyGroup]['group'] ? 'style="display:none;margin-left:30px;"' : ''; ?>>
+                        <div class="sort-box" <?php echo isset($this->gabarits[$keyGroup]['group']) && $this->gabarits[$keyGroup]['group'] ? 'style="display:none;margin-left:30px;"' : ''; ?>>
 <?php
     $this->add('template/page_list');
 ?>

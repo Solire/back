@@ -123,8 +123,8 @@
                         )
                     ) {
                         if ((
-                                $page->makeHidden && $page->getMeta('visible') == 1
-                                || $page->makeVisible && $page->getMeta('visible') == 0
+                                $gabarit['make_hidden'] && $page->getMeta('visible') == 1
+                                || $gabarit['make_visible'] && $page->getMeta('visible') == 0
                             )
                             && $page->getMeta('rewriting') != ''
                         ) {
@@ -151,7 +151,7 @@
 <?php
                     }
 
-                    if (($this->utilisateur->get('niveau') == 'solire' || $page->deletable)
+                    if (($this->utilisateur->get('niveau') == 'solire' || $gabarit['deletable'])
                         && $page->getMeta('nbre_enfants') == 0
                     ) {
 ?>
