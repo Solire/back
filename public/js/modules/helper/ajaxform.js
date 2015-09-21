@@ -1,4 +1,4 @@
-define(['jquery', 'jqueryControle'], function($){
+define(['jquery', 'jqueryControle', 'modules/helper/wysiwyg'], function($, jqueryControle, HelperWysiwyg){
     return {
         run : function(wrap, response){
             var regExps = {
