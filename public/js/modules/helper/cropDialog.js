@@ -17,7 +17,6 @@ define(['jquery', 'modules/helper/dialog', 'modules/helper/crop'], function ($, 
                 $('<img>', {
                     src: src
                 }).load(function() {
-                    console.log('rere');
                     $('#crop-target', modalCrop).attr('src', src);
 
                     var dialogParams = {
