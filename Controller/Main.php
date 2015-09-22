@@ -712,6 +712,7 @@ class Main extends Controller
             'modules/helper/autocompleteFile',
             'modules/helper/autocompleteJoin',
             'modules/helper/confirm',
+            'modules/helper/message',
             'modules/config/noty',
             'modules/helper/noty',
             'modules/helper/datatable',
@@ -725,6 +726,7 @@ class Main extends Controller
             'modules/render/delete',
             'modules/render/beforeloadpage',
             'modules/render/aftersavepage',
+            'modules/render/afterdeletepage',
             'modules/page/block',
             'modules/page/apichange',
         ];

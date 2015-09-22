@@ -1449,6 +1449,8 @@ class Page extends Main
         if ($permission
             && is_numeric($_POST['id'])
         ) {
+            $page = $this->gabaritManager->getPage(BACK_ID_VERSION, BACK_ID_API, $_POST['id']);
+
             $delete = $this->gabaritManager->delete($_POST['id']);
 
             if ($delete) {
@@ -1460,11 +1462,19 @@ class Page extends Main
                             'login' => $this->utilisateur->login,
                         ],
                         'page' => [
-                            'id' => (int)$_POST['id_gab_page'],
+                            'id' => (int) $_POST['id'],
                         ]
                     ]
                 );
-                $json['status'] = 'success';
+
+                $jsonResponse['status'] = 'success';
+                $jsonResponse['page']   = [
+                    'id'   => (int) $_POST['id'],
+                    'type' => $page->getGabarit()->getLabel(),
+                ];
+                $jsonResponse['after']  = [
+                    'modules/render/afterdeletepage'
+                ];
             } else {
                 $this->userLogger->addError(
                     'Suppression de page échouée',
