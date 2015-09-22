@@ -33,7 +33,7 @@ define(['jquery', 'jqueryControle', 'modules/helper/wysiwyg'], function($, jquer
                     elmt.parents('.form-group:first').addClass('has-error');
                 },
                 ifRight : function(elmt){
-                    elmt.parents('.form-group:first').removeClass('error');
+                    elmt.parents('.form-group:first').removeClass('has-error');
                 },
                 ifFirstWrong : function(elmt){
                     elmt.focus();
