@@ -1,4 +1,4 @@
-define(['jquery', 'jqueryControle'], function($){
+define(['jquery', 'jqueryControle', 'modules/helper/wysiwyg'], function($, jqueryControle, HelperWysiwyg){
     return {
         run : function(wrap, response){
             var regExps = {
@@ -33,7 +33,7 @@ define(['jquery', 'jqueryControle'], function($){
                     elmt.parents('.form-group:first').addClass('has-error');
                 },
                 ifRight : function(elmt){
-                    elmt.parents('.form-group:first').removeClass('error');
+                    elmt.parents('.form-group:first').removeClass('has-error');
                 },
                 ifFirstWrong : function(elmt){
                     elmt.focus();

@@ -1,4 +1,4 @@
-define(['jquery', 'modules/helper/amd'], function ($, helperAmd) {
+define(['jquery', 'modules/helper/amd', 'modules/helper/wysiwyg'], function ($, helperAmd, HelperWysiwyg) {
     return {
         run: function (wrap, response) {
             var currentModule = this;
@@ -6,11 +6,22 @@ define(['jquery', 'modules/helper/amd'], function ($, helperAmd) {
                 e.preventDefault();
 
                 var that       = this,
-                    adupliquer = $('.block-to-duplicate:first', wrap),
+                    adupliquer = $('.block-to-duplicate:last', wrap),
                     sortBox    = wrap,
                     clone;
 
+                var wysiwygToInit = [];
+                $('.wysiwyg-initialised', adupliquer).each(function() {
+                    wysiwygToInit.push($(this));
+                    HelperWysiwyg.destroy($(this));
+                });
+
                 clone = adupliquer.clone(false);
+
+                $.each(wysiwygToInit, function(id, item) {
+                    HelperWysiwyg.run($(this));
+                });
+
                 currentModule.resetBlock(clone);
                 clone.insertAfter($('.block-to-duplicate:last', wrap));
                 currentModule.initBlock(clone);
@@ -21,6 +32,7 @@ define(['jquery', 'modules/helper/amd'], function ($, helperAmd) {
                 })
             });
 
+            // Event click remove block
             $(wrap).on('click', '.exec-onclick-removeblock', function (e) {
                 var that = this;
                 $(that).parents('.block-to-duplicate:first').slideUp('fast', function () {
@@ -36,6 +48,7 @@ define(['jquery', 'modules/helper/amd'], function ($, helperAmd) {
                 });
             });
 
+            // Event click toggle visible
             $(wrap).on('click', '.exec-onclick-togglevisible', function (e) {
                 e.preventDefault();
                 var that = this;
