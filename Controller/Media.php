@@ -1,6 +1,6 @@
 <?php
 /**
- * Controller des medias
+ * Contrôleur des medias
  *
  * @author  dev <dev@solire.fr>
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
@@ -15,7 +15,7 @@ use Solire\Lib\Registry;
 use Solire\Lib\Tools;
 
 /**
- * Controller des medias
+ * Contrôleur des medias
  *
  * @author  dev <dev@solire.fr>
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
@@ -86,14 +86,14 @@ class Media extends Main
             $this->view->prefixFileUrl = $_REQUEST['prefix_url'] . '/';
         }
 
-        $id_gab_page = isset($_REQUEST['id_gab_page']) && $_REQUEST['id_gab_page'] ? $_REQUEST['id_gab_page'] : 0;
+        $gabPageId = isset($_REQUEST['id_gab_page']) && $_REQUEST['id_gab_page'] ? $_REQUEST['id_gab_page'] : 0;
 
-        if ($id_gab_page) {
+        if ($gabPageId) {
             $search = isset($_REQUEST['search']) ? $_REQUEST['search'] : '';
             $orderby = isset($_REQUEST['orderby']['champ']) ? $_REQUEST['orderby']['champ'] : '';
             $sens = isset($_REQUEST['orderby']['sens']) ? $_REQUEST['orderby']['sens'] : '';
 
-            $this->page = $this->gabaritManager->getPage(BACK_ID_VERSION, BACK_ID_API, $id_gab_page);
+            $this->page = $this->gabaritManager->getPage(BACK_ID_VERSION, BACK_ID_API, $gabPageId);
 
             $this->files = $this->fileManager->getList($this->page->getMeta('id'), 0, $search, $orderby, $sens);
         }
@@ -101,7 +101,6 @@ class Media extends Main
         $this->view->files = [];
         foreach ($this->files as $file) {
             $ext = strtolower(array_pop(explode('.', $file['rewriting'])));
-            $prefixPath = $this->api['id'] == 1 ? '' : '..' . Path::DS;
             $file['path'] = $this->view->prefixFileUrl . $file['id_gab_page'] . Path::DS . $file['rewriting'];
 
             $serverpath = $this->upload_path . Path::DS . $file['id_gab_page']
@@ -179,7 +178,6 @@ class Media extends Main
                 /*
                  * On recupere les enfants
                  */
-                $childrenNodes = [];
                 $children = $this->gabaritManager->getList(
                     BACK_ID_VERSION,
                     $this->api['id'],
@@ -378,6 +376,7 @@ class Media extends Main
         $filepath       = $_POST['src'];
         $filename       = pathinfo($filepath, PATHINFO_BASENAME);
         $ext            = pathinfo($filename, PATHINFO_EXTENSION);
+        $id_temp        = null;
 
         if ($id_gab_page) {
             /** Cas d'une édition de page */
@@ -409,34 +408,34 @@ class Media extends Main
             $target = $newImageName . '-' . $count_temp . '.' . $ext;
         }
 
-        $tw = false;
-        $th = false;
+        $targetWidth = false;
+        $targetHeight = false;
         if (isset($_POST['force-width'])) {
             switch ($_POST['force-width']) {
                 case 'width':
-                    $tw = $_POST['minwidth'];
-                    $th = ($_POST['minwidth'] / $w) * $h;
+                    $targetWidth = $_POST['minwidth'];
+                    $targetHeight = ($_POST['minwidth'] / $w) * $h;
                     break;
 
                 case 'height':
-                    $th = $_POST['minheight'];
-                    $tw = ($_POST['minheight'] / $h) * $w;
+                    $targetHeight = $_POST['minheight'];
+                    $targetWidth = ($_POST['minheight'] / $h) * $w;
                     break;
 
                 case 'width-height':
-                    $tw = $_POST['minwidth'];
-                    $th = $_POST['minheight'];
+                    $targetWidth = $_POST['minwidth'];
+                    $targetHeight = $_POST['minheight'];
                     break;
             }
         }
 
 
-        if (intval($tw) <= 0) {
-            $tw = false;
+        if (intval($targetWidth) <= 0) {
+            $targetWidth = false;
         }
 
-        if (intval($th) <= 0) {
-            $th = false;
+        if (intval($targetHeight) <= 0) {
+            $targetHeight = false;
         }
 
         if ($id_gab_page) {
@@ -454,8 +453,8 @@ class Media extends Main
                 $y,
                 $w,
                 $h,
-                $tw,
-                $th
+                $targetWidth,
+                $targetHeight
             );
         } else {
             $response = $this->fileManager->crop(
@@ -472,8 +471,8 @@ class Media extends Main
                 $y,
                 $w,
                 $h,
-                $tw,
-                $th
+                $targetWidth,
+                $targetHeight
             );
 
             if (isset($response['minipath'])) {
@@ -488,7 +487,6 @@ class Media extends Main
         $response['filename_front'] = $targetDir . '/' . $target;
 
         if (FileManager::isImage($response['filename'])) {
-            $path       = $response['path'];
             $vignette   = $targetDir . Path::DS
                         . $this->upload_vignette . Path::DS
                         . $response['filename'];
@@ -521,16 +519,16 @@ class Media extends Main
      */
     public function deleteAction()
     {
-        $id_media_fichier = 0;
+        $mediaFileId = 0;
         if (isset($_COOKIE['id_media_fichier'])) {
-            $id_media_fichier = $_COOKIE['id_media_fichier'];
+            $mediaFileId = $_COOKIE['id_media_fichier'];
         } elseif (isset($_REQUEST['id_media_fichier'])) {
-            $id_media_fichier = $_REQUEST['id_media_fichier'];
+            $mediaFileId = $_REQUEST['id_media_fichier'];
         }
 
         $query = 'UPDATE `' . $this->mediaTableName . '` SET '
                . '`suppr` = NOW() '
-               . 'WHERE `id` = ' . $id_media_fichier;
+               . 'WHERE `id` = ' . $mediaFileId;
         $success = $this->db->exec($query);
 
         if (!$success) {
@@ -542,7 +540,7 @@ class Media extends Main
                         'login' => $this->utilisateur->login,
                     ],
                     'file' => [
-                        'id'    => $id_media_fichier,
+                        'id'    => $mediaFileId,
                         'table' => $this->mediaTableName,
                     ]
                 ]
@@ -556,7 +554,7 @@ class Media extends Main
                         'login' => $this->utilisateur->login,
                     ],
                     'file' => [
-                        'id'    => $id_media_fichier,
+                        'id'    => $mediaFileId,
                         'table' => $this->mediaTableName,
                     ]
                 ]
@@ -581,8 +579,6 @@ class Media extends Main
     {
         $this->view->enable(false);
         $this->view->unsetMain();
-
-        $prefixPath = '';
 
         $id_gab_page = 0;
         if (isset($_GET['id_gab_page'])) {
@@ -614,7 +610,10 @@ class Media extends Main
 
         if ($id_gab_page || $id_temp) {
             $files = $this->fileManager->getSearch(
-                $term, $id_gab_page, $id_temp, $extensions
+                $term,
+                $id_gab_page,
+                $id_temp,
+                $extensions
             );
 
             $dir = 'temp-' . $id_temp;

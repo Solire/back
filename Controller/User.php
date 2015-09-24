@@ -9,7 +9,6 @@
 namespace Solire\Back\Controller;
 
 use Solire\Lib\FrontController;
-use Solire\Lib\Datatable\Datatable;
 
 /**
  * Gestion du profile utilisateur
@@ -63,7 +62,6 @@ class User extends Main
 
         //Si aucune erreur on essaie de modifier le mot de passe
         if (count($errors) == 0) {
-
             $query = 'SELECT pass '
                    . 'FROM utilisateur '
                    . 'WHERE id = ' . $this->utilisateur->id . ' ';

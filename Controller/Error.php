@@ -1,6 +1,6 @@
 <?php
 /**
- * Controleur des Erreurs
+ * Contrôleur des erreurs
  *
  * @author  dev <dev@solire.fr>
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
@@ -9,9 +9,10 @@
 namespace Solire\Back\Controller;
 
 use Solire\Lib\Controller;
+use Solire\Lib\Registry;
 
 /**
- * Controleur des Erreurs
+ * Contrôleur des erreurs
  *
  * @author  dev <dev@solire.fr>
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
@@ -26,7 +27,7 @@ class Error extends Controller
     public function start()
     {
         parent::start();
-        $this->view->site    = \Solire\Lib\Registry::get('project-name');
+        $this->view->site    = Registry::get('project-name');
         $this->view->code    = null;
         $this->view->title   = 'OOPS! - Une erreur est survenue';
         $this->view->btn     = [
@@ -49,7 +50,7 @@ class Error extends Controller
     }
 
     /**
-     * Action de page Trop de requetes
+     * Action de page Trop de requêtes
      *
      * @return void
      */
@@ -60,13 +61,13 @@ class Error extends Controller
         $this->view->message = ' Merci de réitérer ultérieurement.';
 
         $this->view->btn     = [
-            'content' => 'Rafraichir la page',
+            'content' => 'Rafraîchir la page',
             'href'    => 'javascript:location.reload();',
         ];
     }
 
     /**
-     * Action de page Trop de requetes
+     * Action de page Trop de requêtes
      *
      * @return void
      */
@@ -92,9 +93,8 @@ class Error extends Controller
         }
 
         $this->view->btn     = [
-            'content' => 'Rafraichir la page',
+            'content' => 'Rafraîchir la page',
             'href'    => 'javascript:location.reload();',
         ];
     }
-    
 }

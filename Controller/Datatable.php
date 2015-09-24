@@ -2,8 +2,6 @@
 
 namespace Solire\Back\Controller;
 
-use Solire\Lib\DB;
-use Solire\Lib\Format\String;
 use Solire\Lib\FrontController;
 use Solire\Trieur\Trieur;
 use Solire\Conf\Loader as ConfLoader;

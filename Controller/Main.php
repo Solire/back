@@ -1,6 +1,6 @@
 <?php
 /**
- * Controleur principal du back
+ * Contrôleur principal du back
  *
  * @author  dev <dev@solire.fr>
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
@@ -11,7 +11,6 @@ namespace Solire\Back\Controller;
 use Monolog\Logger;
 use Solire\Lib\Monolog\Handler\PDOHandler;
 use Solire\Lib\Controller;
-use Solire\Lib\Log;
 use Solire\Lib\Registry;
 use Solire\Lib\Session;
 use Solire\Lib\FrontController;
@@ -80,7 +79,7 @@ class Main extends Controller
      * @throws \Solire\Conf\Exception
      * @throws \Solire\Lib\Exception\HttpError
      * @throws \Solire\Lib\Exception\lib
-     * @throws \Solire\Lib\Security\Exception\InvalidIpException
+     * @throws \Solire\Lib\Security\AntiBruteforce\Exception\InvalidIpException
      * @hook back/ start Ajouter facilement des traitements au start du back
      * @return void
      */
@@ -307,41 +306,6 @@ class Main extends Controller
                 $completConfig = $config;
             }
         }
-
-//        $completConfig = [];
-//        $appList = \Solire\Lib\FrontController::getAppDirs();
-//        unset($config);
-//        foreach ($appList as $app) {
-//           /**
-//            * On recupere la configuration du module pages (Menu + liste)
-//            *  En cherchant si une configuration a été définie pour l'api courante
-//            * Sinon on récupère le fichier de configuration générale
-//            */
-//            $path = new Path(
-//                $app['dir'] . Path::DS . 'back/config/page-' . BACK_ID_API . '.cfg.php',
-//                Path::SILENT
-//            );
-//            if ($path->get() == false) {
-//                $path = new Path(
-//                    $app['dir'] . Path::DS . 'back/config/page.cfg.php',
-//                    Path::SILENT
-//                );
-//            }
-//
-//            if ($path->get() == false) {
-//                continue;
-//            }
-//            include $path->get();
-//
-//            if (!isset($config)) {
-//                $exc = new \Exception('fichier de config erroné [' . $path->get() . ']');
-//                throw $exc;
-//            }
-//
-//            $completConfig = $completConfig + $config;
-//
-//            unset($config, $key, $value);
-//        }
 
         $this->configPageModule = $completConfig;
         unset($path, $config);
