@@ -13,7 +13,7 @@
   ],
   "require": {
     "php": ">=5.5.0",
-    "solire/lib": "5.0.*",
+    "solire/lib": "dev-feature/refonteback",
     "solire/trieur": "2.1.*"
   },
   "require-dev": {
