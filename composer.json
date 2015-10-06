@@ -13,14 +13,15 @@
   ],
   "require": {
     "php": ">=5.5.0",
-    "solire/lib": "dev-feature/refonteback",
-    "solire/trieur": "2.1.*"
+    "solire/lib": "dev-feature/refonteback"
   },
   "require-dev": {
     "m6web/coke": "~1.2",
     "siwayll/phpcs-norme-dpsi": "~3.0"
   },
   "autoload": {
-    "psr-4": { "Solire\\Back\\": "" }
+    "psr-4": {
+      "Solire\\Back\\": ""
+    }
   }
 }
