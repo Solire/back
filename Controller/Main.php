@@ -695,6 +695,7 @@ class Main extends Controller
             'modules/page/apichange',
         ];
 
+        $this->requireJs->setModuleDir('back/js');
         $this->requireJs->addModules($requireJsModules);
 
         /* font-awesome */
