@@ -560,6 +560,13 @@ class Page extends Main
                 $this->redirections[$versionId] = $this->db->query($query)
                                                             ->fetchAll(\PDO::FETCH_COLUMN)
                 ;
+
+                $query                      = 'SELECT * '
+                    . 'FROM `main_element_commun_author_google` '
+                    . 'WHERE `id_version` = ' . $versionId;
+                $this->authors[$versionId] = $this->db->query($query)
+                                                       ->fetchAll(\PDO::FETCH_ASSOC)
+                ;
             }
         } else {
             $query          = 'SELECT *'
@@ -578,6 +585,13 @@ class Page extends Main
             );
             $this->pages[BACK_ID_VERSION]        = $page;
             $this->redirections[BACK_ID_VERSION] = [];
+
+            $query                          = 'SELECT * '
+                . 'FROM `main_element_commun_author_google` '
+                . 'WHERE `id_version` = ' . BACK_ID_VERSION;
+            $this->authors[BACK_ID_VERSION] = $this->db->query($query)
+                                                       ->fetchAll(\PDO::FETCH_ASSOC)
+            ;
         }
 
         $this->view->versions     = $this->versions;
