@@ -1,4 +1,4 @@
-define(['jquery', 'datatablesMaterialDesign'], function ($) {
+define(['jquery', 'modules/helper/amd', 'datatablesMaterialDesign'], function ($, helperAmd) {
     return {
         datatables: [],
         run: function (wrap, response) {
@@ -11,6 +11,10 @@ define(['jquery', 'datatablesMaterialDesign'], function ($) {
                 currentModule.datatables[$(wrap).attr('id')].draw();
             } else {
                 $.getJSON('back/datatable/listconfig.html', {name: $(wrap).data('datatable-name')}, function(response){
+                    response.config.drawCallback = function(){
+                      helperAmd.run($(wrap));
+                    }
+
                     currentModule.datatables[$(wrap).attr('id')] = $(wrap).DataTable(response.config);
                 });
             }

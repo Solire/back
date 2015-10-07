@@ -21,9 +21,7 @@ source:
   name: doctrine
   conf:
     select:
-      - p.titre
-      - p.date_crea
-      - p.date_modif
+      - p.*
       - g.label
 
     from:
@@ -36,7 +34,7 @@ source:
         alias: g
         'on': g.id = p.id_gabarit
 
-
+    group: p.id
 ## COLUMNS
 
 columns:
@@ -67,9 +65,37 @@ columns:
     filter: 1
     sort: 1
     source: p.date_crea
+    format:
+      class: \Solire\Trieur\Format\Callback
+      name:
+        - Solire\Lib\Format\DateTime
+        - relativeTime
+      cell: timestampOrDate
+#    format:
+#      class: \Solire\Trieur\Format\Callback
+#      name:
+#        - Solire\Lib\Format\DateTime
+#        - sqlTo
+#      cell: dateSql
+#      arguments:
+#        format: "d/m/Y H:i:s"
 
   date_modif:
     label: Édité
     filter: 1
     sort: 1
     source: p.date_modif
+    format:
+      class: \Solire\Trieur\Format\Callback
+      name:
+        - Solire\Lib\Format\DateTime
+        - relativeTime
+      cell: timestampOrDate
+
+  action:
+    label: Action
+    filter: 0
+    sort: 0
+    format:
+      class: Solire\Lib\Trieur\Format\Twig
+      fileName: datatable/board/action.html.twig
