@@ -1,9 +1,17 @@
 <div class="btn-group" data-amd="modules/helper/ajaxcall">
 
-<a href="back/page/display.html?id_gab_page={{ row.id }}" class="btn btn-sm btn-success" type="button">Modifier {{ row.titre }} ?</a>
+    <a href="back/page/display.html?id_gab_page={{ row.id }}" title="Modifier {{ row.titre }} ?"
+       class="btn btn-sm btn-success" type="button">
+        <i class="fa fa-pencil"></i>
+    </a>
 
-<button class="btn btn-sm btn-warning exec-onclick-ajax" data-url="back/page/delete.html" data-confirm="true" data-element-title="{{ row.titre }}" data-title="Confirmation de suppression de « Accueil »" data-content="Êtes-vous sûr de vouloir supprimer « {{ row.titre }} »" data-cancelbuttontxt="Annuler" data-confirmbuttontxt="Confirmer" data-id="1" data-id_version="1" data-visible="1" style="display:inline-block;" title="Supprimer « {{ row.titre }} »">
-  <i class="fa fa-trash"></i>
-  <div class="ripple-wrapper"></div>
-</button>
+    <button class="btn btn-sm btn-warning exec-onclick-ajax" data-url="back/page/delete.html" data-confirm="true"
+            data-element-title="{{ row.titre }}" data-title="Confirmation de suppression de « Accueil »"
+            data-content="Êtes-vous sûr de vouloir supprimer « {{ row.titre }} »" data-cancelbuttontxt="Annuler"
+            data-confirmbuttontxt="Confirmer" data-id="1" data-id_version="1" data-visible="1"
+            style="display:inline-block;" title="Supprimer « {{ row.titre }} »">
+        <i class="fa fa-trash"></i>
+
+        <div class="ripple-wrapper"></div>
+    </button>
 </div>
