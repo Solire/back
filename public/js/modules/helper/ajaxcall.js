@@ -2,7 +2,7 @@ define(['jquery', 'modules/helper/dialog', 'modules/helper/confirm'], function (
     return {
         run: function (wrap, response) {
             var currentModule = this;
-            $(document.body).on('click', '.exec-onclick-ajax', function() {
+            $(wrap).on('click', '.exec-onclick-ajax', function() {
                 var that = this;
                 if ($(that).data('confirm') == true) {
                     var confirmOptions = $(that).data();
