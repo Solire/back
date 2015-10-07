@@ -667,6 +667,7 @@ class Main extends Controller
             'modules/page/signin',
             'modules/helper/amd',
             'modules/helper/dialog',
+            'modules/helper/ajaxDialog',
             'modules/helper/wysiwyg',
             'modules/helper/datepicker',
             'modules/helper/search',
