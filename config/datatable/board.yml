@@ -15,7 +15,7 @@ driver:
     separator: "~"
     dom: <"H"TClfr>t<"F"ip>
     defaultSort:
-    - [0, asc]
+    - [3, desc]
 
 source:
   name: doctrine
@@ -58,7 +58,7 @@ columns:
     label: Type de contenu
     filter: 1
     sort: 1
-    source: g.titre
+    source: g.label
 
   date_crea:
     label: Créé
@@ -91,6 +91,14 @@ columns:
         - Solire\Lib\Format\DateTime
         - relativeTime
       cell: timestampOrDate
+#    format:
+#      class: \Solire\Trieur\Format\Callback
+#      name:
+#        - Solire\Lib\Format\DateTime
+#        - sqlTo
+#      cell: dateSql
+#      arguments:
+#        format: "d/m/Y H:i:s"
 
   action:
     label: Action
