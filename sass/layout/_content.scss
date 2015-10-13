@@ -9,6 +9,7 @@ body > .container {
     background: $containerBackgroundColor;
 }
 
-.mainContainer {
-    margin-bottom: 25px
+.mainContainer > div:first-child {
+    margin-bottom: 25px;
+    min-height: 200px;
 }

@@ -11,8 +11,9 @@ body > .container {
 }
 
 /* line 12, ../../sass/layout/_content.scss */
-.mainContainer {
+.mainContainer > div:first-child {
   margin-bottom: 25px;
+  min-height: 200px;
 }
 
 /* line 1, ../../sass/layout/_footer.scss */
