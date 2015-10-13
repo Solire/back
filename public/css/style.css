@@ -310,76 +310,36 @@ legend:hover {
   max-width: 100%;
 }
 
-/* line 1, ../../sass/layout/_dialog.scss */
-.soModalDefaultModal {
-  overflow: hidden;
-  min-width: 320px;
-  border-radius: 2px;
-  background-color: #fff;
-  -moz-box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
+/* line 1, ../../sass/layout/_navbar.scss */
+.navbar.navbar, .navbar-default.navbar {
+  color: #333333;
+  background: #f0f0f0;
+  border-bottom: 1px solid #d7d7d7;
 }
-/* line 8, ../../sass/layout/_dialog.scss */
-.soModalDefaultModal .modalHeader {
-  padding: 10px;
-  background: #0071bf;
+/* line 61, ../../../../../../../.rvm/rubies/ruby-2.1.2/lib/ruby/gems/2.1.0/gems/compass-core-1.0.3/stylesheets/compass/css3/_user-interface.scss */
+.navbar.navbar input[type="text"].form-control:-moz-placeholder, .navbar-default.navbar input[type="text"].form-control:-moz-placeholder {
+  color: #999999;
+  font-style: italic;
+}
+/* line 64, ../../../../../../../.rvm/rubies/ruby-2.1.2/lib/ruby/gems/2.1.0/gems/compass-core-1.0.3/stylesheets/compass/css3/_user-interface.scss */
+.navbar.navbar input[type="text"].form-control::-moz-placeholder, .navbar-default.navbar input[type="text"].form-control::-moz-placeholder {
+  color: #999999;
+  font-style: italic;
+}
+/* line 67, ../../../../../../../.rvm/rubies/ruby-2.1.2/lib/ruby/gems/2.1.0/gems/compass-core-1.0.3/stylesheets/compass/css3/_user-interface.scss */
+.navbar.navbar input[type="text"].form-control:-ms-input-placeholder, .navbar-default.navbar input[type="text"].form-control:-ms-input-placeholder {
+  color: #999999;
+  font-style: italic;
+}
+/* line 56, ../../../../../../../.rvm/rubies/ruby-2.1.2/lib/ruby/gems/2.1.0/gems/compass-core-1.0.3/stylesheets/compass/css3/_user-interface.scss */
+.navbar.navbar input[type="text"].form-control::-webkit-input-placeholder, .navbar-default.navbar input[type="text"].form-control::-webkit-input-placeholder {
+  color: #999999;
+  font-style: italic;
+}
+/* line 13, ../../sass/layout/_navbar.scss */
+.navbar.navbar .navbar-nav > .active > a, .navbar.navbar .navbar .navbar-nav > .active > a:hover, .navbar.navbar .navbar .navbar-nav > .active > a:focus, .navbar-default.navbar .navbar-nav > .active > a, .navbar-default.navbar .navbar .navbar-nav > .active > a:hover, .navbar-default.navbar .navbar .navbar-nav > .active > a:focus {
+  background-color: #0071bf;
   color: #fff;
-}
-/* line 13, ../../sass/layout/_dialog.scss */
-.soModalDefaultModal .modalHeader h3 {
-  text-align: center;
-  margin-top: 0;
-  margin-bottom: 0;
-}
-/* line 22, ../../sass/layout/_dialog.scss */
-.soModalDefaultModal .modalBody {
-  padding: 10px;
-}
-/* line 26, ../../sass/layout/_dialog.scss */
-.soModalDefaultModal .modalFooter {
-  padding: 10px;
-}
-
-/* line 31, ../../sass/layout/_dialog.scss */
-.soModalContainerFixed {
-  z-index: 2001;
-}
-
-/* line 35, ../../sass/layout/_dialog.scss */
-.soModalDefaultOverlay {
-  z-index: 2001;
-  background-color: #000;
-}
-
-/* line 40, ../../sass/layout/_dialog.scss */
-.soModalZoomModal {
-  max-width: 90%;
-  width: auto;
-}
-
-/* Style pour la modal image */
-/* line 46, ../../sass/layout/_dialog.scss */
-.soModalImageOverlay {
-  z-index: 2001;
-  background-color: #000;
-}
-
-/* line 51, ../../sass/layout/_dialog.scss */
-.soModalImageModal {
-  display: inline-block;
-  width: auto;
-  max-width: 70%;
-  padding: 0px;
-  background: transparent;
-  -moz-box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
-}
-
-/* line 60, ../../sass/layout/_dialog.scss */
-.soModalImageModal img {
-  max-width: 100%;
 }
 
 /* line 2, ../../sass/page/_signin.scss */
