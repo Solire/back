@@ -290,6 +290,20 @@ legend:hover {
   max-width: 100%;
 }
 
+/* line 2, ../../sass/layout/_datatable.scss */
+.dataTables_wrapper td, .dataTables_wrapper th  {
+  vertical-align: middle !important;
+}
+/* line 6, ../../sass/layout/_datatable.scss */
+.dataTables_wrapper .btn-group {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+/* line 13, ../../sass/layout/_datatable.scss */
+.dataTables_wrapper .youtube-loadingbar-wrapper {
+  height: 2px;
+}
+
 /* line 2, ../../sass/page/_signin.scss */
 .page-signin {
   background: #efefef;

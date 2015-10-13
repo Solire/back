@@ -15,6 +15,11 @@ define(['jquery', 'modules/helper/amd', 'datatablesMaterialDesign'], function ($
                       helperAmd.run($(wrap));
                     }
 
+                    /* Fix theme with requireJS which doesnt use DataTable.defaults */
+                    response.config.dom = "<'row'<'col-sm-6'l><'col-sm-6'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row row-footer'<'col-sm-5'i><'col-sm-7'p>>";
+
                     currentModule.datatables[$(wrap).attr('id')] = $(wrap).DataTable(response.config);
                 });
             }
