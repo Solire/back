@@ -2,9 +2,8 @@
     {% if page.getMeta('date_modif') != '0000-00-00 00:00:00' and page.getMeta('rewriting') %}
         {# Cas des rubriques/ pages n'ayant aucun enfant à afficher et editable #}
         <span class="board-human-time" style="color: inherit">
-                        Dernière édition {{ page.getMeta('date_modif') }}
-            <span class="text-danger">@TODO Faire un filtre TWIG pour les dates relatives </span>
-                    </span>
+            Dernière édition le {{ page.getMeta('date_modif')|date('d/m/Y') }} à {{ page.getMeta('date_modif')|date('H:i') }}
+        </span>
     {% endif %}
 
     {% if page.getMeta('id_gabarit') != 1 and page.getMeta('id_gabarit') != 2 %}
