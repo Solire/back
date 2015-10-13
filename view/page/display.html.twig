@@ -7,7 +7,7 @@
         {{ breadcrumbs.breadcrumbs(breadCrumbs) }}
 
         <h2>
-            {% if pages[backIdVersion].getMeta() %}
+            {% if pages[backIdVersion].getMeta('id') %}
                 Modification de
             {% else %}
                 Création de
