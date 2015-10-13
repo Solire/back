@@ -1,6 +1,6 @@
 {# Si le tableau de bord est activé #}
 {% if appConfig.get('board', 'active') %}
-    <li><a class="{{ controller == 'back/board' ? ' active' }}" href="back/board/list.html?name=board">Tableau de bord</a></li>
+    <li class="{{ controller == 'back/board' ? ' active' }}"><a href="back/board/list.html?name=board">Tableau de bord</a></li>
 {% endif %}
 
 {% if menuPage|length > 1 %}
@@ -22,16 +22,18 @@
 
 
 <li class="{{ controller == 'back/media' ? ' active' }}"><a href="back/media/start.html">Fichiers</a></li>
-<li><a href="back/datatable/list.html?name=translate">Textes statiques</a></li>
+<li class="{{ controller == 'back/datatable' and name == 'translate' ? ' active' }}">
+    <a href="back/datatable/list.html?name=translate">Textes statiques</a>
+</li>
 
 {% if utilisateur.get("niveau") == 'solire' %}
-    <li>
+    <li class="{{ controller == 'back/datatable' and name == 'redirection' ? ' active' }}">
         <a href="back/datatable/list.html?name=redirection">Redirections 301</a>
     </li>
-    <li>
+    <li class="{{ controller == 'back/datatable' and name == 'log' ? ' active' }}">
         <a href="back/datatable/list.html?name=log">Logs</a>
     </li>
-    <li>
+    <li class="{{ controller == 'back/datatable' and name == 'user' ? ' active' }}">
         <a href="back/datatable/list.html?name=user">Utilisateurs</a>
     </li>
 {% endif %}
