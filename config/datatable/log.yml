@@ -67,11 +67,12 @@ columns:
     filter: 1
     sort: 1
     source: m.time
-    callback:
-      name: \date
-      cell: 1
+    format:
+      class: \Solire\Trieur\Format\Callback
+      name: date
+      cell: timestamp
       arguments:
-        - d/m/Y
+        format: "d/m/Y H:i:s"
 
   remoteip:
     label: Ip du client
