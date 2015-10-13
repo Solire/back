@@ -281,34 +281,35 @@ legend:hover {
 }
 /* line 26, ../../sass/layout/_dialog.scss */
 .soModalDefaultModal .modalFooter {
+  text-align: right;
   padding: 10px;
 }
 
-/* line 31, ../../sass/layout/_dialog.scss */
+/* line 32, ../../sass/layout/_dialog.scss */
 .soModalContainerFixed {
   z-index: 2001;
 }
 
-/* line 35, ../../sass/layout/_dialog.scss */
+/* line 36, ../../sass/layout/_dialog.scss */
 .soModalDefaultOverlay {
   z-index: 2001;
   background-color: #000;
 }
 
-/* line 40, ../../sass/layout/_dialog.scss */
+/* line 41, ../../sass/layout/_dialog.scss */
 .soModalZoomModal {
   max-width: 90%;
   width: auto;
 }
 
 /* Style pour la modal image */
-/* line 46, ../../sass/layout/_dialog.scss */
+/* line 47, ../../sass/layout/_dialog.scss */
 .soModalImageOverlay {
   z-index: 2001;
   background-color: #000;
 }
 
-/* line 51, ../../sass/layout/_dialog.scss */
+/* line 52, ../../sass/layout/_dialog.scss */
 .soModalImageModal {
   display: inline-block;
   width: auto;
@@ -320,7 +321,7 @@ legend:hover {
   box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
 }
 
-/* line 60, ../../sass/layout/_dialog.scss */
+/* line 61, ../../sass/layout/_dialog.scss */
 .soModalImageModal img {
   max-width: 100%;
 }
