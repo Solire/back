@@ -7,7 +7,7 @@ body {
 /* line 7, ../../sass/layout/_content.scss */
 body > .container {
   padding-top: 60px;
-  background: #FFFFFF;
+  background: #fff;
 }
 
 /* line 12, ../../sass/layout/_content.scss */
@@ -240,7 +240,7 @@ legend:hover {
 
 /* line 1, ../../sass/layout/_dialog.scss */
 .soModalDefaultModal {
-  padding: 20px;
+  overflow: hidden;
   min-width: 320px;
   border-radius: 2px;
   background-color: #fff;
@@ -248,32 +248,52 @@ legend:hover {
   -webkit-box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
   box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
 }
+/* line 8, ../../sass/layout/_dialog.scss */
+.soModalDefaultModal .modalHeader {
+  padding: 10px;
+  background: #0071bf;
+  color: #fff;
+}
+/* line 13, ../../sass/layout/_dialog.scss */
+.soModalDefaultModal .modalHeader h3 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+/* line 22, ../../sass/layout/_dialog.scss */
+.soModalDefaultModal .modalBody {
+  padding: 10px;
+}
+/* line 26, ../../sass/layout/_dialog.scss */
+.soModalDefaultModal .modalFooter {
+  padding: 10px;
+}
 
-/* line 9, ../../sass/layout/_dialog.scss */
+/* line 31, ../../sass/layout/_dialog.scss */
 .soModalContainerFixed {
   z-index: 2001;
 }
 
-/* line 13, ../../sass/layout/_dialog.scss */
+/* line 35, ../../sass/layout/_dialog.scss */
 .soModalDefaultOverlay {
   z-index: 2001;
   background-color: #000;
 }
 
-/* line 18, ../../sass/layout/_dialog.scss */
+/* line 40, ../../sass/layout/_dialog.scss */
 .soModalZoomModal {
   max-width: 90%;
   width: auto;
 }
 
 /* Style pour la modal image */
-/* line 24, ../../sass/layout/_dialog.scss */
+/* line 46, ../../sass/layout/_dialog.scss */
 .soModalImageOverlay {
   z-index: 2001;
   background-color: #000;
 }
 
-/* line 29, ../../sass/layout/_dialog.scss */
+/* line 51, ../../sass/layout/_dialog.scss */
 .soModalImageModal {
   display: inline-block;
   width: auto;
@@ -285,23 +305,81 @@ legend:hover {
   box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
 }
 
-/* line 38, ../../sass/layout/_dialog.scss */
+/* line 60, ../../sass/layout/_dialog.scss */
 .soModalImageModal img {
   max-width: 100%;
 }
 
-/* line 2, ../../sass/layout/_datatable.scss */
-.dataTables_wrapper td, .dataTables_wrapper th  {
-  vertical-align: middle !important;
+/* line 1, ../../sass/layout/_dialog.scss */
+.soModalDefaultModal {
+  overflow: hidden;
+  min-width: 320px;
+  border-radius: 2px;
+  background-color: #fff;
+  -moz-box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
 }
-/* line 6, ../../sass/layout/_datatable.scss */
-.dataTables_wrapper .btn-group {
+/* line 8, ../../sass/layout/_dialog.scss */
+.soModalDefaultModal .modalHeader {
+  padding: 10px;
+  background: #0071bf;
+  color: #fff;
+}
+/* line 13, ../../sass/layout/_dialog.scss */
+.soModalDefaultModal .modalHeader h3 {
+  text-align: center;
   margin-top: 0;
   margin-bottom: 0;
 }
-/* line 13, ../../sass/layout/_datatable.scss */
-.dataTables_wrapper .youtube-loadingbar-wrapper {
-  height: 2px;
+/* line 22, ../../sass/layout/_dialog.scss */
+.soModalDefaultModal .modalBody {
+  padding: 10px;
+}
+/* line 26, ../../sass/layout/_dialog.scss */
+.soModalDefaultModal .modalFooter {
+  padding: 10px;
+}
+
+/* line 31, ../../sass/layout/_dialog.scss */
+.soModalContainerFixed {
+  z-index: 2001;
+}
+
+/* line 35, ../../sass/layout/_dialog.scss */
+.soModalDefaultOverlay {
+  z-index: 2001;
+  background-color: #000;
+}
+
+/* line 40, ../../sass/layout/_dialog.scss */
+.soModalZoomModal {
+  max-width: 90%;
+  width: auto;
+}
+
+/* Style pour la modal image */
+/* line 46, ../../sass/layout/_dialog.scss */
+.soModalImageOverlay {
+  z-index: 2001;
+  background-color: #000;
+}
+
+/* line 51, ../../sass/layout/_dialog.scss */
+.soModalImageModal {
+  display: inline-block;
+  width: auto;
+  max-width: 70%;
+  padding: 0px;
+  background: transparent;
+  -moz-box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
+}
+
+/* line 60, ../../sass/layout/_dialog.scss */
+.soModalImageModal img {
+  max-width: 100%;
 }
 
 /* line 2, ../../sass/page/_signin.scss */
@@ -327,7 +405,7 @@ legend:hover {
   margin-left: auto;
   width: 356px;
   padding: 20px;
-  background: #FFFFFF;
+  background: #fff;
   box-shadow: 3px 2px 5px #BFBFBF;
 }
 

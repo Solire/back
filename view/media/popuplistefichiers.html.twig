@@ -1,8 +1,14 @@
-<div>
-    <a href="#" class="btn btn-sm btn-success" id="pickfiles{{ idFilesList }}">
-        <i class="fa fa-folder-open"></i> Ajouter un fichier
-    </a>
+<div class="modalHeader">
+    <h3>Importer de nouveaux fichiers</h3>
 </div>
 
-<table data-datatable-name="media"
-       id="datatable{{ idFilesList }}" class="table table-condensed table-media"></table>
+<div class="modalBody">
+    <div>
+        <a href="#" class="btn btn-sm btn-success" id="pickfiles{{ idFilesList }}">
+            <i class="fa fa-folder-open"></i> Ajouter un fichier
+        </a>
+    </div>
+
+    <table data-datatable-name="media"
+           id="datatable{{ idFilesList }}" class="table table-condensed table-media"></table>
+</div>

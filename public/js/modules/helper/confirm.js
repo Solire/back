@@ -36,7 +36,11 @@ define(['jquery', 'modules/helper/dialog'], function ($, helperDialog) {
                 });
             };
 
-            $.soModal.open($(confirmModalHtml), modalOptionsConfirm)
+            var response = {
+                html: $(confirmModalHtml)
+            }
+
+            helperDialog.run(modalOptionsConfirm, response)
         }
     };
 });
