@@ -22,12 +22,15 @@ source:
   conf:
     select:
       - m.rewriting
+      - CONCAT(m.id_gab_page, '/', m.rewriting) fullpath
       - m.date_crea
 
 
     from:
       name: media_fichier
       alias: m
+
+    group: m.id
 
 ## COLUMNS
 
@@ -42,11 +45,14 @@ columns:
 #    sourceSort: source expression (for example a column)
 #    ...
 
-  rewriting:
+  fullpath:
     label: Rewriting
     filter: 1
     sort: 1
-    source: m.rewriting
+    source: fullpath
+    format:
+      class: Solire\Lib\Trieur\Format\Twig
+      fileName: datatable/media/preview.html.twig
 
   date_crea:
     label: Date import
