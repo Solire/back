@@ -458,8 +458,8 @@ class Main extends Controller
             ]
         );
 
-        $this->css->addLibrary('back/bower_components/bootstrap-material-design/dist/css/roboto.min.css');
-        $this->css->addLibrary('back/bower_components/bootstrap-material-design/dist/css/material.min.css');
+//        $this->css->addLibrary('back/bower_components/bootstrap-material-design/dist/css/roboto.min.css');
+//        $this->css->addLibrary('back/bower_components/bootstrap-material-design/dist/css/material.min.css');
         $this->css->addLibrary('back/bower_components/bootstrap-material-design/dist/css/ripples.min.css');
 
 //        $this->css->addLibrary('back/bower_components/bootstrap/dist/css/bootstrap-theme.min.css');

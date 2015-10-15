@@ -1,3 +1,5 @@
+//Font use for comment : http://patorjk.com/software/taag/#p=display&f=ANSI%20Shadow&t=Type%20Something%20
+
 // ███████╗██╗  ██╗████████╗███████╗██████╗ ███╗   ██╗ █████╗ ██╗
 // ██╔════╝╚██╗██╔╝╚══██╔══╝██╔════╝██╔══██╗████╗  ██║██╔══██╗██║
 // █████╗   ╚███╔╝    ██║   █████╗  ██████╔╝██╔██╗ ██║███████║██║
@@ -17,6 +19,23 @@
 
 @import 'config/colors';
 @import 'config/elements';
+@import "config/bootstrap/container";
+@import "config/bootstrap/modal";
+@import "config/bootstrap/button";
+@import "config/bootstrap/link";
+@import "config/bootstrap/font";
+
+
+// ██████╗  ██████╗  ██████╗ ████████╗███████╗████████╗██████╗  █████╗ ██████╗
+// ██╔══██╗██╔═══██╗██╔═══██╗╚══██╔══╝██╔════╝╚══██╔══╝██╔══██╗██╔══██╗██╔══██╗
+// ██████╔╝██║   ██║██║   ██║   ██║   ███████╗   ██║   ██████╔╝███████║██████╔╝
+// ██╔══██╗██║   ██║██║   ██║   ██║   ╚════██║   ██║   ██╔══██╗██╔══██║██╔═══╝
+// ██████╔╝╚██████╔╝╚██████╔╝   ██║   ███████║   ██║   ██║  ██║██║  ██║██║
+// ╚═════╝  ╚═════╝  ╚═════╝    ╚═╝   ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝
+
+$icon-font-path: "../public/bower_components/bootstrap-sass/assets/fonts/bootstrap/";
+@import "../public/bower_components/bootstrap-sass/assets/stylesheets/bootstrap-sprockets";
+@import "../public/bower_components/bootstrap-sass/assets/stylesheets/bootstrap";
 
 
 //  ██████╗ ██╗      ██████╗ ██████╗  █████╗ ██╗

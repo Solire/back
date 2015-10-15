@@ -1,7 +1,7 @@
 {
   "name": "solire_back",
   "dependencies": {
-    "bootstrap": "3.3.*",
+    "bootstrap-sass": "3.3.*",
     "jquery-somodal": "1.1.*",
     "font-awesome": "4.3.*",
     "requirejs": "2.1.*",
