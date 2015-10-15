@@ -32,6 +32,11 @@ class Datatable extends Main
         }
         $trieurConfig = ConfLoader::load($trieurConfigPath);
         $this->view->title = isset($trieurConfig['title']) ? $trieurConfig['title'] : '';
+
+        $this->view->breadCrumbs[] = [
+            'title' => $this->view->title,
+            'url'   => 'back/datatable/list.html?name=' . $this->view->name,
+        ];
     }
 
     /**
