@@ -17,19 +17,12 @@ define(['jquery', 'jqueryCookie', 'sortable', 'modules/helper/confirm', 'noty'],
                         positions[id] = i + 1;
                     });
 
-                    Sortable.create(this, {
+                    var sortable = Sortable.create(this, {
                         animation: 150,
                         handle: '.sort-move',
                         items: '> .sort-elmt',
                         onSort: function () {
-                            $(this).children().each(function (i) {
-                                var domId = $(this).attr('id'),
-                                        tabId = domId.split('_'),
-                                        id = tabId.pop(),
-                                        id = parseInt(id);
-                                positions[id] = i + 1;
-                            });
-
+                            positions = sortable.toArray();
                             orderProcess();
                         }
                     });

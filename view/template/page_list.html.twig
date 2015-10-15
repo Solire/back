@@ -11,7 +11,7 @@
 
     <fieldset data-titre="{{ page.getMeta('titre') }}" style="{{ margin ? 'margin-left:30px;' }}"
               class="{{ gabarit.sortable ? ' sort-elmt' }}"
-              id="gab_page_{{ page.getMeta('id') }}">
+              id="gab_page_{{ page.getMeta('id') }}" data-id="{{ page.getMeta('id') }}">
         <legend data-url="{{ urlRedir ? urlRedir ~ page.getMeta('id') }}" data-ajax="{{ urlAjax }}"
                 title="{{ page.getMeta('rewriting') }}" class="{{ noChild ? 'noChild' : 'solire-js-toggle' }}">
             {% if noChild %}

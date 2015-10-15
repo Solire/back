@@ -1460,7 +1460,7 @@ class Page extends Main
         if ($permission) {
             $query    = 'UPDATE `gab_page` SET `ordre` = :ordre WHERE `id` = :id';
             $prepStmt = $this->db->prepare($query);
-            foreach ($_POST['positions'] as $id => $ordre) {
+            foreach ($_POST['positions'] as $ordre => $id) {
                 $prepStmt->bindValue(':ordre', $ordre, \PDO::PARAM_INT);
                 $prepStmt->bindValue(':id', $id, \PDO::PARAM_INT);
                 $tmp = $prepStmt->execute();
