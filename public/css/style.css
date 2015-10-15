@@ -6030,39 +6030,39 @@ tbody.collapse.in {
 }
 /* line 397, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-default {
-  background-color: #f8f8f8;
-  border-color: #e7e7e7;
+  background-color: #f0f0f0;
+  border-color: #dfdfdf;
 }
 /* line 401, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-default .navbar-brand {
-  color: #777;
+  color: #333333;
 }
 /* line 403, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
-  color: #5e5e5e;
+  color: #1a1a1a;
   background-color: transparent;
 }
 /* line 410, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-default .navbar-text {
-  color: #777;
+  color: #333333;
 }
 /* line 415, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-default .navbar-nav > li > a {
-  color: #777;
+  color: #333333;
 }
 /* line 418, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-  color: #333;
-  background-color: transparent;
+  color: #222222;
+  background-color: #dfdfdf;
 }
 /* line 425, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
-  color: #555;
-  background-color: #e7e7e7;
+  color: #fff;
+  background-color: #0071bf;
 }
 /* line 433, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-default .navbar-nav > .disabled > a, .navbar-default .navbar-nav > .disabled > a:hover, .navbar-default .navbar-nav > .disabled > a:focus {
-  color: #ccc;
+  color: #444444;
   background-color: transparent;
 }
 /* line 442, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_navbar.scss */
@@ -6080,53 +6080,53 @@ tbody.collapse.in {
 /* line 453, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-default .navbar-collapse,
 .navbar-default .navbar-form {
-  border-color: #e7e7e7;
+  border-color: #dfdfdf;
 }
 /* line 462, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
-  background-color: #e7e7e7;
-  color: #555;
+  background-color: #0071bf;
+  color: #fff;
 }
 @media (max-width: 767px) {
   /* line 473, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_navbar.scss */
   .navbar-default .navbar-nav .open .dropdown-menu > li > a {
-    color: #777;
+    color: #333333;
   }
   /* line 475, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_navbar.scss */
   .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
-    color: #333;
-    background-color: transparent;
+    color: #222222;
+    background-color: #dfdfdf;
   }
   /* line 482, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_navbar.scss */
   .navbar-default .navbar-nav .open .dropdown-menu > .active > a, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
-    color: #555;
-    background-color: #e7e7e7;
+    color: #fff;
+    background-color: #0071bf;
   }
   /* line 490, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_navbar.scss */
   .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a, .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:focus {
-    color: #ccc;
+    color: #444444;
     background-color: transparent;
   }
 }
 /* line 506, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-default .navbar-link {
-  color: #777;
+  color: #333333;
 }
 /* line 508, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-default .navbar-link:hover {
-  color: #333;
+  color: #222222;
 }
 /* line 513, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-default .btn-link {
-  color: #777;
+  color: #333333;
 }
 /* line 515, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-default .btn-link:hover, .navbar-default .btn-link:focus {
-  color: #333;
+  color: #222222;
 }
 /* line 521, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-default .btn-link[disabled]:hover, .navbar-default .btn-link[disabled]:focus, fieldset[disabled] .navbar-default .btn-link:hover, fieldset[disabled] .navbar-default .btn-link:focus {
-  color: #ccc;
+  color: #444444;
 }
 
 /* line 531, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_navbar.scss */
@@ -9099,38 +9099,6 @@ legend:hover {
 /* line 65, ../../sass/layout/_dialog.scss */
 .soModalImageModal img {
   max-width: 100%;
-}
-
-/* line 1, ../../sass/layout/_navbar.scss */
-.navbar.navbar, .navbar-default.navbar {
-  color: #333333;
-  background: #f0f0f0;
-  border-bottom: 1px solid #d7d7d7;
-}
-/* line 61, ../../../../../../../.rvm/rubies/ruby-2.1.2/lib/ruby/gems/2.1.0/gems/compass-core-1.0.3/stylesheets/compass/css3/_user-interface.scss */
-.navbar.navbar input[type="text"].form-control:-moz-placeholder, .navbar-default.navbar input[type="text"].form-control:-moz-placeholder {
-  color: #999999;
-  font-style: italic;
-}
-/* line 64, ../../../../../../../.rvm/rubies/ruby-2.1.2/lib/ruby/gems/2.1.0/gems/compass-core-1.0.3/stylesheets/compass/css3/_user-interface.scss */
-.navbar.navbar input[type="text"].form-control::-moz-placeholder, .navbar-default.navbar input[type="text"].form-control::-moz-placeholder {
-  color: #999999;
-  font-style: italic;
-}
-/* line 67, ../../../../../../../.rvm/rubies/ruby-2.1.2/lib/ruby/gems/2.1.0/gems/compass-core-1.0.3/stylesheets/compass/css3/_user-interface.scss */
-.navbar.navbar input[type="text"].form-control:-ms-input-placeholder, .navbar-default.navbar input[type="text"].form-control:-ms-input-placeholder {
-  color: #999999;
-  font-style: italic;
-}
-/* line 56, ../../../../../../../.rvm/rubies/ruby-2.1.2/lib/ruby/gems/2.1.0/gems/compass-core-1.0.3/stylesheets/compass/css3/_user-interface.scss */
-.navbar.navbar input[type="text"].form-control::-webkit-input-placeholder, .navbar-default.navbar input[type="text"].form-control::-webkit-input-placeholder {
-  color: #999999;
-  font-style: italic;
-}
-/* line 13, ../../sass/layout/_navbar.scss */
-.navbar.navbar .navbar-nav > .active > a, .navbar.navbar .navbar .navbar-nav > .active > a:hover, .navbar.navbar .navbar .navbar-nav > .active > a:focus, .navbar-default.navbar .navbar-nav > .active > a, .navbar-default.navbar .navbar .navbar-nav > .active > a:hover, .navbar-default.navbar .navbar .navbar-nav > .active > a:focus {
-  background-color: #0071bf;
-  color: #fff;
 }
 
 /* line 1, ../../sass/layout/preloader/_cube.scss */

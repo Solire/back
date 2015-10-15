@@ -25,6 +25,7 @@
 @import "config/bootstrap/button";
 @import "config/bootstrap/link";
 @import "config/bootstrap/font";
+@import "config/bootstrap/navbar";
 
 
 // ██████╗  ██████╗  ██████╗ ████████╗███████╗████████╗██████╗  █████╗ ██████╗
@@ -65,7 +66,6 @@ $icon-font-path: "../public/bower_components/bootstrap-sass/assets/fonts/bootstr
 @import 'layout/sortable';
 @import 'layout/datatable';
 @import 'layout/dialog';
-@import 'layout/navbar';
 @import 'layout/preloader/cube';
 
 
