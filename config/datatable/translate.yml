@@ -22,14 +22,11 @@ source:
   name: doctrine
   conf:
     select:
-      - t.cle
-      - t.valeur
-
+      - t.*
     from:
       name: traduction
       alias: t
-
-
+    group: t.cle_sha
 ## COLUMNS
 
 columns:
@@ -54,3 +51,6 @@ columns:
     filter: 1
     sort: 1
     source: t.valeur
+    format:
+      class: Solire\Lib\Trieur\Format\Twig
+      fileName: datatable/translate/valeur.html.twig

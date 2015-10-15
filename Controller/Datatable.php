@@ -15,6 +15,7 @@ use Doctrine\DBAL\DriverManager;
  */
 class Datatable extends Main
 {
+
     /**
      * Action affichant le tableau
      *
@@ -49,7 +50,7 @@ class Datatable extends Main
         if ($trieurConfigPath === false) {
             $trieurConfigPath = FrontController::search('config/datatable/' . $configName . '.yml');
         }
-        $trieurConfig     = ConfLoader::load($trieurConfigPath);
+        $trieurConfig = ConfLoader::load($trieurConfigPath);
 
         $trieur = new Trieur($trieurConfig);
 
@@ -79,14 +80,11 @@ class Datatable extends Main
         if ($trieurConfigPath === false) {
             $trieurConfigPath = FrontController::search('config/datatable/' . $configName . '.yml');
         }
-        $trieurConfig     = ConfLoader::load($trieurConfigPath);
+        $trieurConfig = ConfLoader::load($trieurConfigPath);
 
-        $configDb = $this->envConfig->get('database');
-        $configDb['driverOptions'] = [
-            \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
-        ];
-        $configDb['driver'] = 'pdo_mysql';
-        $doctrineConnection = DriverManager::getConnection((array) $configDb);
+        $doctrineConnection = DriverManager::getConnection([
+            'pdo' => $this->db,
+        ]);
         $trieur = new Trieur($trieurConfig, $doctrineConnection);
         $trieur->setRequest($_POST);
         $response = $trieur->getResponse();
@@ -95,4 +93,5 @@ class Datatable extends Main
         header('Content-type: application/json');
         echo json_encode($response);
     }
+
 }

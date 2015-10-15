@@ -23,9 +23,6 @@
     "jstree": "3.0.*",
     "jstree-bootstrap-theme": "1.0.*",
     "Jcrop": "2.0.*",
-    "flag-icon-css": "0.8.*"
-  },
-  "resolutions": {
-    "bootstrap": "~3.3.5"
-  }
+    "flag-icon-css": "0.8.*",
+    "x-editable": "~1.5.1"
 }

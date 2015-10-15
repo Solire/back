@@ -658,6 +658,17 @@ class Main extends Controller
             ]
         );
 
+        $this->css->addLibrary('back/bower_components/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css');
+        $this->requireJs->addLibrary(
+            'back/bower_components/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js',
+            [
+                'name' => 'xEditable',
+                'deps' => [
+                    'jquery',
+                ]
+            ]
+        );
+
 
         /* Modules Solire */
         $requireJsModules = [
@@ -681,6 +692,7 @@ class Main extends Controller
             'modules/config/noty',
             'modules/helper/noty',
             'modules/helper/datatable',
+            'modules/helper/editable',
             'modules/helper/ajaxform',
             'modules/helper/uploader',
             'modules/helper/sortable',
