@@ -1,14 +1,14 @@
 .soModalDefaultModal {
     overflow: hidden;
     min-width: 320px;
-    border-radius: 2px;
-    background-color: #fff;
+    @include border-radius($modal-border-radius);
+    background-color: transparent;
     @include box-shadow(0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3));
 
     .modalHeader {
         padding: 10px;
-        background: $modalHeaderBackgroundColor;
-        color: $modalHeaderColor;
+        background: $modal-header-bg;
+        color: $modal-header-color;
 
         h3 {
             text-align: center;
@@ -21,9 +21,13 @@
 
     .modalBody {
         padding: 10px;
+        background: $modal-body-bg;
+        color: $modal-body-color;
     }
 
     .modalFooter {
+        background: $modal-footer-bg;
+        color: $modal-footer-color;
         text-align: right;
         padding: 10px;
     }
