@@ -23,6 +23,14 @@ class Datatable extends Main
     public function listAction()
     {
         $this->view->name = isset($_GET['name']) ? $_GET['name'] : null;
+
+        // Defining the trieur configuration
+        $trieurConfigPath = FrontController::search('config/' . $this->view->name . '.yml');
+        if ($trieurConfigPath === false) {
+            $trieurConfigPath = FrontController::search('config/datatable/' . $this->view->name . '.yml');
+        }
+        $trieurConfig = ConfLoader::load($trieurConfigPath);
+        $this->view->title = isset($trieurConfig['title']) ? $trieurConfig['title'] : '';
     }
 
     /**
