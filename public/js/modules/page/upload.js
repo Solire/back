@@ -130,7 +130,24 @@ define([
                     };
                     var $tableMedia = $('.table-media');
                     helperDialog.run(null, dialogParams);
-                    helperDatatable.run($tableMedia, {urlConfig: 'back/mediadatatable/listconfig.html'});
+                    helperDatatable.run(
+                        $tableMedia,
+                        {
+                            urlConfig: 'back/mediadatatable/listconfig.html',
+                            additionalDrawCallback: function(datatableWrap) {
+                                // Reposition du dialog lorsque le datatable est dessiné
+                                helperDialog.updateSize();
+                                helperDialog.updatePosition();
+                                $('img', datatableWrap).each(function() {
+                                    // Reposition du dialog lorsque les images ont fini de chargé
+                                    $(this).load(function() {
+                                        helperDialog.updateSize();
+                                        helperDialog.updatePosition();
+                                    })
+                                })
+                            }
+                        }
+                    );
                     helperZoom.run($tableMedia);
                     helperUploader.run($('#pickfiles'), currentModule.uploaderParams);
                 });

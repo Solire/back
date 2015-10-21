@@ -58,6 +58,12 @@ define(['jquery', 'jquerySoModal'], function ($) {
         },
         close: function (options, response) {
             $.soModal.close();
+        },
+        updateSize: function () {
+            $.soModal.updateSize();
+        },
+        updatePosition: function () {
+            $.soModal.updatePosition();
         }
     };
 });
