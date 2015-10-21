@@ -17,6 +17,27 @@
                 bottom: 0;
             }
         }
+
+        .soModalDefaultClose {
+            -webkit-appearance: none;
+            float: right;
+            padding: 0;
+            cursor: pointer;
+            z-index: 1;
+            opacity: .5;
+            background: 0 0;
+            border: 0;
+            font-size: 19px;
+            font-weight: 600;
+            line-height: 1;
+            color: #333;
+            text-shadow: 0 1px 0 #666;
+            margin-top: 2px;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
     }
 
     .modalBody {

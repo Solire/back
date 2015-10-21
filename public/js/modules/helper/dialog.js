@@ -26,7 +26,10 @@ define(['jquery', 'jquerySoModal'], function ($) {
                             "transform": "translate3d(0, 0, 0)",
                             delay: 200
                         },
-                        400
+                        400, function() {
+                            // Fix depth issue
+                            $(this).css({"transform": "none",})
+                        }
                     );
                 } else {
                     modal.transition({opacity: 1});

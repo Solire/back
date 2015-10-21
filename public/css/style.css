@@ -9047,13 +9047,34 @@ legend:hover {
   margin-top: 0;
   margin-bottom: 0;
 }
-/* line 22, ../../sass/layout/_dialog.scss */
+/* line 21, ../../sass/layout/_dialog.scss */
+.soModalDefaultModal .modalHeader .soModalDefaultClose {
+  -webkit-appearance: none;
+  float: right;
+  padding: 0;
+  cursor: pointer;
+  z-index: 1;
+  opacity: .5;
+  background: 0 0;
+  border: 0;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1;
+  color: #333;
+  text-shadow: 0 1px 0 #666;
+  margin-top: 2px;
+}
+/* line 37, ../../sass/layout/_dialog.scss */
+.soModalDefaultModal .modalHeader .soModalDefaultClose:hover {
+  opacity: 1;
+}
+/* line 43, ../../sass/layout/_dialog.scss */
 .soModalDefaultModal .modalBody {
   padding: 10px;
   background: #fff;
   color: inherit;
 }
-/* line 28, ../../sass/layout/_dialog.scss */
+/* line 49, ../../sass/layout/_dialog.scss */
 .soModalDefaultModal .modalFooter {
   background: #fff;
   color: inherit;
@@ -9061,31 +9082,31 @@ legend:hover {
   padding: 10px;
 }
 
-/* line 36, ../../sass/layout/_dialog.scss */
+/* line 57, ../../sass/layout/_dialog.scss */
 .soModalContainerFixed {
   z-index: 2001;
 }
 
-/* line 40, ../../sass/layout/_dialog.scss */
+/* line 61, ../../sass/layout/_dialog.scss */
 .soModalDefaultOverlay {
   z-index: 2001;
   background-color: #000;
 }
 
-/* line 45, ../../sass/layout/_dialog.scss */
+/* line 66, ../../sass/layout/_dialog.scss */
 .soModalZoomModal {
   max-width: 90%;
   width: auto;
 }
 
 /* Style pour la modal image */
-/* line 51, ../../sass/layout/_dialog.scss */
+/* line 72, ../../sass/layout/_dialog.scss */
 .soModalImageOverlay {
   z-index: 2001;
   background-color: #000;
 }
 
-/* line 56, ../../sass/layout/_dialog.scss */
+/* line 77, ../../sass/layout/_dialog.scss */
 .soModalImageModal {
   display: inline-block;
   width: auto;
@@ -9096,7 +9117,7 @@ legend:hover {
   box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
 }
 
-/* line 65, ../../sass/layout/_dialog.scss */
+/* line 86, ../../sass/layout/_dialog.scss */
 .soModalImageModal img {
   max-width: 100%;
 }
