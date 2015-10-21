@@ -146,40 +146,38 @@ define([
                         $tableMedia,
                         {
                             urlConfig: 'back/mediadatatable/listconfig.html',
+                            config: {
+                                pageLength: 5
+                            },
                             additionalDrawCallback: function(datatableWrap) {
-                                if (!$('body').hasClass('soModalOpen')) {
-                                    var dialogParams = {
-                                        'html': $('#uploader_popup').removeClass('hidden')
-                                    };
-                                    helperDialog.run(null, dialogParams);
-                                }
-
                                 // Reposition du dialog lorsque le datatable est dessiné
                                 var imgCount = $('img', datatableWrap).length,
                                     imgCurrentCount = 0;
 
-                                $('img', datatableWrap).each(function() {
-                                    // Reposition du dialog lorsque les images ont fini de chargé
-                                    $(this)
-                                        .on('load', function() {
-                                            imgCurrentCount++;
-                                            if (imgCurrentCount == imgCount) {
-                                                setTimeout(function(){
-                                                    helperDialog.updateSize();
-                                                    helperDialog.updatePosition();
-                                                }, 500);
-                                            }
-                                        })
-                                        .on('error', function() {
-                                            imgCurrentCount++;
-                                            if (imgCurrentCount == imgCount) {
-                                                setTimeout(function(){
-                                                    helperDialog.updateSize();
-                                                    helperDialog.updatePosition();
-                                                }, 500);
-                                            }
-                                        })
-                                })
+                                if ($('img', datatableWrap).length > 0) {
+                                    $('img', datatableWrap).each(function() {
+                                        // Reposition du dialog lorsque les images ont fini de chargé
+                                        $(this)
+                                            .on('load', function() {
+                                                imgCurrentCount++;
+                                                if (imgCurrentCount == imgCount) {
+                                                    // Dernière image chargée
+                                                    currentModule.showDatatable();
+                                                }
+                                            })
+                                            .on('error', function() {
+                                                imgCurrentCount++;
+                                                if (imgCurrentCount == imgCount) {
+                                                    // Dernière image chargée
+                                                    currentModule.showDatatable();
+                                                }
+                                            })
+                                    })
+                                } else {
+                                    // Aucune image
+                                    currentModule.showDatatable();
+                                }
+
                             }
                         }
                     );
@@ -187,6 +185,18 @@ define([
                     helperUploader.run($('#pickfiles'), currentModule.uploaderParams);
                 });
             });
+        },
+        showDatatable: function() {
+            if (!$('body').hasClass('soModalOpen')) {
+                var dialogParams = {
+                    'html': $('#uploader_popup').removeClass('hidden')
+                };
+                helperDialog.run(null, dialogParams);
+            } else {
+                // Changement de page
+                helperDialog.updateSize();
+                helperDialog.updatePosition();
+            }
         }
     };
 });

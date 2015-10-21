@@ -64,6 +64,6 @@ define(['jquery', 'jquerySoModal'], function ($) {
         },
         updatePosition: function () {
             $.soModal.updatePosition();
-        }
+        },
     };
 });

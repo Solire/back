@@ -3,9 +3,10 @@ define(['jquery', 'modules/helper/amd', 'datatablesMaterialDesign'], function ($
         datatables: [],
         defaults: {
             urlConfig: 'back/datatable/listconfig.html',
-            additionalDrawCallback: null
+            additionalDrawCallback: null,
+            config: null
         },
-        run: function (wrap, response) {
+        run: function (wrap, options) {
             var currentModule = this;
 
             if (typeof $(wrap).attr('id') == 'undefined') {
@@ -14,8 +15,10 @@ define(['jquery', 'modules/helper/amd', 'datatablesMaterialDesign'], function ($
             if (currentModule.datatables[$(wrap).attr('id')] && $(wrap).hasClass('dataTable')) {
                 currentModule.datatables[$(wrap).attr('id')].draw();
             } else {
-                var options = $.extend({}, this.defaults, response);
+                var options = $.extend({}, this.defaults, options);
                 $.getJSON(options.urlConfig, {name: $(wrap).data('datatable-name')}, function (response) {
+                    response.config = $.extend({}, response.config, options.config);
+
                     response.config.drawCallback = function () {
                         helperAmd.run($(wrap));
                         if (options.additionalDrawCallback && typeof options.additionalDrawCallback == "function") {
