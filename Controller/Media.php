@@ -82,6 +82,10 @@ class Media extends Main
         }
 
         $this->view->prefixFileUrl = null;
+        if ($this->mainConfig->get('upload', 'prefixUrl')) {
+            $this->view->prefixFileUrl = $this->mainConfig->get('upload', 'prefixUrl') . '/';
+        }
+
         if (isset($_REQUEST['prefix_url'])) {
             $this->view->prefixFileUrl = $_REQUEST['prefix_url'] . '/';
         }
@@ -213,6 +217,11 @@ class Media extends Main
         }
 
         $this->view->prefixFileUrl = null;
+
+        if ($this->mainConfig->get('upload', 'prefixUrl')) {
+            $this->view->prefixFileUrl = $this->mainConfig->get('upload', 'prefixUrl') . '/';
+        }
+
         if (isset($_REQUEST['prefix_url'])) {
             $this->view->prefixFileUrl = $_REQUEST['prefix_url'] . '/';
         }
@@ -349,6 +358,11 @@ class Media extends Main
         }
 
         $this->view->prefixFileUrl = null;
+
+        if ($this->mainConfig->get('upload', 'prefixUrl')) {
+            $this->view->prefixFileUrl = $this->mainConfig->get('upload', 'prefixUrl') . '/';
+        }
+
         if (isset($_REQUEST['prefix_url'])) {
             $this->view->prefixFileUrl = $_REQUEST['prefix_url'] . DIRECTORY_SEPARATOR;
         }
@@ -621,6 +635,16 @@ class Media extends Main
                 $dir = $id_gab_page;
             }
 
+            $prefixFileUrl = null;
+
+            if ($this->mainConfig->get('upload', 'prefixUrl')) {
+                $prefixFileUrl = $this->mainConfig->get('upload', 'prefixUrl') . '/';
+            }
+
+            if (isset($_REQUEST['prefix_url'])) {
+                $prefixFileUrl = $_REQUEST['prefix_url'] . '/';
+            }
+
             foreach ($files as $file) {
                 if (!$tinyMCE || FileManager::isImage($file['rewriting'])) {
                     $url = $dir . '/' . $file['rewriting'];
@@ -650,8 +674,8 @@ class Media extends Main
                         ];
                     } else {
                         $items[] = [
-                            'path' => $url,
-                            'vignette' => $vignette,
+                            'path' => $prefixFileUrl .$url,
+                            'vignette' => $prefixFileUrl . $vignette,
                             'isImage' => FileManager::isImage($file['rewriting']) !== false,
                             'label' => $file['rewriting'],
                             'utilise' => $file['utilise'],

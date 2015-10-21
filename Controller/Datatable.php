@@ -2,6 +2,7 @@
 
 namespace Solire\Back\Controller;
 
+use Solire\Conf\Conf;
 use Solire\Lib\FrontController;
 use Solire\Trieur\Trieur;
 use Solire\Conf\Loader as ConfLoader;
@@ -23,14 +24,11 @@ class Datatable extends Main
      */
     public function listAction()
     {
-        $this->view->name = isset($_GET['name']) ? $_GET['name'] : null;
+        $configName = filter_var($_GET['name'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 
-        // Defining the trieur configuration
-        $trieurConfigPath = FrontController::search('config/' . $this->view->name . '.yml');
-        if ($trieurConfigPath === false) {
-            $trieurConfigPath = FrontController::search('config/datatable/' . $this->view->name . '.yml');
-        }
-        $trieurConfig = ConfLoader::load($trieurConfigPath);
+        $trieurConfig = $this->getConfig($configName);
+
+        $this->view->name = $configName;
         $this->view->title = isset($trieurConfig['title']) ? $trieurConfig['title'] : '';
 
         $this->view->breadCrumbs[] = [
@@ -50,12 +48,7 @@ class Datatable extends Main
 
         $configName = filter_var($_GET['name'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 
-        // Defining the trieur configuration
-        $trieurConfigPath = FrontController::search('config/' . $configName . '.yml');
-        if ($trieurConfigPath === false) {
-            $trieurConfigPath = FrontController::search('config/datatable/' . $configName . '.yml');
-        }
-        $trieurConfig = ConfLoader::load($trieurConfigPath);
+        $trieurConfig = $this->getConfig($configName);
 
         $trieur = new Trieur($trieurConfig);
 
@@ -80,12 +73,7 @@ class Datatable extends Main
 
         $configName = filter_var($_GET['name'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 
-        // Defining the trieur configuration
-        $trieurConfigPath = FrontController::search('config/' . $configName . '.yml');
-        if ($trieurConfigPath === false) {
-            $trieurConfigPath = FrontController::search('config/datatable/' . $configName . '.yml');
-        }
-        $trieurConfig = ConfLoader::load($trieurConfigPath);
+        $trieurConfig = $this->getConfig($configName);
 
         $doctrineConnection = DriverManager::getConnection([
             'pdo' => $this->db,
@@ -97,6 +85,24 @@ class Datatable extends Main
 
         header('Content-type: application/json');
         echo json_encode($response);
+    }
+
+    /**
+     * Charge et renvoi la configuration
+     *
+     * @param $name Nom du fichier de configuration
+     * @return Conf
+     */
+    protected function getConfig($name)
+    {
+        // Defining the trieur configuration
+        $trieurConfigPath = FrontController::search('config/' . $name . '.yml');
+        if ($trieurConfigPath === false) {
+            $trieurConfigPath = FrontController::search('config/datatable/' . $name . '.yml');
+        }
+        $trieurConfig = ConfLoader::load($trieurConfigPath);
+
+        return $trieurConfig;
     }
 
 }

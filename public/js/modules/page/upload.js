@@ -130,7 +130,7 @@ define([
                     };
                     var $tableMedia = $('.table-media');
                     helperDialog.run(null, dialogParams);
-                    helperDatatable.run($tableMedia);
+                    helperDatatable.run($tableMedia, {urlConfig: 'back/mediadatatable/listconfig.html'});
                     helperZoom.run($tableMedia);
                     helperUploader.run($('#pickfiles'), currentModule.uploaderParams);
                 });

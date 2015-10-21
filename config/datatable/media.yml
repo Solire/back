@@ -10,7 +10,7 @@ driver:
     # masculin ou féminin
     # "e"|""
     itemGenre:
-    requestUrl: back/datatable/listdata.html?name=media
+    requestUrl: back/mediadatatable/listdata.html?name=media
     requestMethod: POST
     separator: "~"
     dom: <"H"TClfr>t<"F"ip>

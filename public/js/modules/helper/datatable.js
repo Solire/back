@@ -1,6 +1,9 @@
 define(['jquery', 'modules/helper/amd', 'datatablesMaterialDesign'], function ($, helperAmd) {
     return {
         datatables: [],
+        defaults: {
+            urlConfig: 'back/datatable/listconfig.html',
+        },
         run: function (wrap, response) {
             var currentModule = this;
 
@@ -10,7 +13,8 @@ define(['jquery', 'modules/helper/amd', 'datatablesMaterialDesign'], function ($
             if (currentModule.datatables[$(wrap).attr('id')] && $(wrap).hasClass('dataTable')) {
                 currentModule.datatables[$(wrap).attr('id')].draw();
             } else {
-                $.getJSON('back/datatable/listconfig.html', {name: $(wrap).data('datatable-name')}, function(response){
+                var options = $.extend({}, this.defaults, response);
+                $.getJSON(options.urlConfig, {name: $(wrap).data('datatable-name')}, function(response){
                     response.config.drawCallback = function(){
                       helperAmd.run($(wrap));
                     }
