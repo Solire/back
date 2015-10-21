@@ -47,6 +47,17 @@ define([
             ],
             unique_names: false,
             multiple_queues: true,
+            Init: function(base, uploader, params) {
+                if(uploader.runtime === 'html5') {
+                    $('div.drop-target').bind('dragenter', function() {
+                        $(this).css("opacity", 1);
+                    });
+
+                    $('div.drop-target').bind('dragleave', function() {
+                        $(this).css("opacity", 0.7);
+                    });
+                }
+            },
             FilesAdded: function (base, up, files) {
                 /* Pour chaque fichier ajouté, on ajoute une progress bar */
                 $.each(files, function (i, file) {
@@ -124,26 +135,50 @@ define([
             $('.uploader_popup').click(function (e) {
                 e.preventDefault();
                 $.get('back/media/popuplistefichiers.html?id_gab_page=' + $('[name=id_gab_page]').val(), function (response) {
-                    $('<div>').html(response).attr('id', 'uploader_popup').appendTo('body');
-                    var dialogParams = {
-                        'html': $('#uploader_popup')
-                    };
-                    var $tableMedia = $('.table-media');
-                    helperDialog.run(null, dialogParams);
+                    $('<div>')
+                        .addClass('hidden')
+                        .html(response)
+                        .attr('id', 'uploader_popup').appendTo('body');
+
+                    var $tableMedia = $('#uploader_popup .table-media');
+
                     helperDatatable.run(
                         $tableMedia,
                         {
                             urlConfig: 'back/mediadatatable/listconfig.html',
                             additionalDrawCallback: function(datatableWrap) {
+                                if (!$('body').hasClass('soModalOpen')) {
+                                    var dialogParams = {
+                                        'html': $('#uploader_popup').removeClass('hidden')
+                                    };
+                                    helperDialog.run(null, dialogParams);
+                                }
+
                                 // Reposition du dialog lorsque le datatable est dessiné
-                                helperDialog.updateSize();
-                                helperDialog.updatePosition();
+                                var imgCount = $('img', datatableWrap).length,
+                                    imgCurrentCount = 0;
+
                                 $('img', datatableWrap).each(function() {
                                     // Reposition du dialog lorsque les images ont fini de chargé
-                                    $(this).load(function() {
-                                        helperDialog.updateSize();
-                                        helperDialog.updatePosition();
-                                    })
+                                    $(this)
+                                        .on('load', function() {
+                                            imgCurrentCount++;
+                                            if (imgCurrentCount == imgCount) {
+                                                setTimeout(function(){
+                                                    helperDialog.updateSize();
+                                                    helperDialog.updatePosition();
+                                                }, 500);
+                                            }
+                                        })
+                                        .on('error', function() {
+                                            imgCurrentCount++;
+                                            if (imgCurrentCount == imgCount) {
+                                                setTimeout(function(){
+                                                    helperDialog.updateSize();
+                                                    helperDialog.updatePosition();
+                                                }, 500);
+                                            }
+                                        })
                                 })
                             }
                         }

@@ -9138,6 +9138,22 @@ legend:hover {
   max-height: 350px;
 }
 
+/* line 2, ../../sass/layout/_upload.scss */
+.pickfiles .drop-target {
+  border: 10px dashed #999;
+  text-align: center;
+  color: #999;
+  font-size: 20px;
+  font-weight: bold;
+  width: 100%;
+  margin-bottom: 10px;
+  height: 100%;
+  cursor: pointer;
+  padding: 60px;
+  opacity: 0.7;
+  filter: alpha(opacity=70);
+}
+
 /* line 1, ../../sass/layout/preloader/_cube.scss */
 .preloader-cube {
   width: 75px;

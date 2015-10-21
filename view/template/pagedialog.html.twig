@@ -1,46 +1,19 @@
 {% set page = pages[backIdVersion] %}
 
 <div id="modalMore" class="hidden">
-    <div class="modal-header">
-        <button type="button" class="close soModalDefaultClose" data-dismiss="modal" aria-hidden="true">×</button>
+    <div class="modalHeader">
+        <a class="soModalDefaultClose" href="#"><i class="fa fa-close"></i></a>
         <h3 id="myModalLabel">Que voulez-vous faire ?</h3>
     </div>
 
-    <div class="modal-body row">
-        <div class="col-md-12">
-            <div class="line form-group">
-                <label class="col-sm-3 control-label">
-                    Gérer la visibité
-                </label>
-
-                <div class="col-sm-8">
-                    {% if page.getMeta('rewriting') != ''
-                        and (utilisateur.get('niveau') == 'solire'
-                            or page.makeHidden and page.getMeta('visible')
-                            or page.makeVisible and not page.getMeta('visible')
-                    ) %}
-                        <div class="btn-group">
-                            <a title="{{ mainVersions[page.getMeta('id_version')].nom }}"
-                               class="btn btn-default btn-sm">
-                                <i title="{{ mainVersions[page.getMeta('id_version')].nom }}" class="flag-icon flag-icon-{{ mainVersions[page.getMeta('id_version')].suf|lower }}"></i>
-                            </a>
-
-                            <button
-                                    class="btn btn-sm {{ page.getMeta('visible') ? 'btn-success' : 'btn-default' }} exec-onclick-ajax"
-                                    data-url="back/page/visible.html"
-                                    data-id="{{ page.getMeta('id') }}"
-                                    data-id_version="{{ backIdVersion }}"
-                                    data-visible="{{ page.getMeta('visible') }}"
-                                    title="Rendre '{{ page.getMeta('title') }}' {{ page.getMeta('visible') ? 'visible' : 'invisible' }} sur le site">
-
-                                <i class="fa {{ page.getMeta('visible') ? 'fa-eye' : 'fa-eye-slash' }}"></i>
-                            </button>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-
+    <div class="modalBody row">
+        {% if page.getMeta('rewriting') != ''
+        and (utilisateur.get('niveau') == 'solire'
+        or page.makeHidden and page.getMeta('visible')
+        or page.makeVisible and not page.getMeta('visible')
+        ) %}
+            g
+        {% endif %}
         <div class="col-md-12">
             <div class="line form-group">
                 <label class="col-sm-3 control-label">
@@ -64,7 +37,7 @@
             </div>
         </div>
     </div>
-    <div class="modal-footer">
+    <div class="modalFooter">
         <button class="btn btn-primary btn-sm"
                 onclick="var link = $('.back-to-list').attr('href');window.location = link;">
             Retour à la liste des pages
