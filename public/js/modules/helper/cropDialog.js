@@ -39,8 +39,8 @@ define(['jquery', 'modules/helper/dialog', 'modules/helper/crop'], function ($, 
                     );
 
                     $('#crop-target', modalCrop).Jcrop('api').container.on('cropmove cropend',function(e,s,c){
-                        $('.wShow', modalCrop).val(c.w);
-                        $('.hShow', modalCrop).val(c.h);
+                        $('.wShow', modalCrop).val(Math.round(c.w));
+                        $('.hShow', modalCrop).val(Math.round(c.h));
                     });
 
                     $('.wShow, .hShow', modalCrop).on('input', function() {

@@ -1,6 +1,7 @@
 <div id="modalCrop" class="hidden">
     <div class="modalHeader">
         <a class="soModalDefaultClose" href="#"><i class="fa fa-close"></i></a>
+
         <h3 id="myModalLabel">Recadrer</h3>
     </div>
 
@@ -8,43 +9,41 @@
         <div class="col-md-12">
             <img src="" alt="" id="crop-target" class="img-thumbnail">
         </div>
-        <div class="col-md-12">
-            <fieldset class="img-info">
+        <form class="form-horizontal">
+            <div class="img-info col-md-6">
                 <legend>Information</legend>
                 <div>
-                    <dl style="display: none" class="dl-horizontal expected-width">
-                        <dt style="width: 180px;">Largeur minimale attendue</dt>
-                        <dd style="margin-left: 190px;"><span id="minwidthShow"></span>px</dd>
+                    <dl class="dl-horizontal expected-width">
+                        <dt>Largeur minimale attendue</dt>
+                        <dd"><span id="minwidthShow"></span>px</dd>
                     </dl>
-                    <dl style="display: none" class="dl-horizontal expected-height">
-                        <dt style="width: 180px;">Hauteur minimale attendue</dt>
-                        <dd style="margin-left: 190px;"><span id="minheightShow"></span>px</dd>
+                    <dl class="dl-horizontal expected-height">
+                        <dt>Hauteur minimale attendue</dt>
+                        <dd><span id="minheightShow"></span>px</dd>
                     </dl>
                 </div>
-            </fieldset>
+            </div>
 
-            <fieldset>
+            <div class="col-md-6">
                 <legend>Sélection</legend>
-                <div>
-                    <div class="control-group">
-                        <label class="control-label" for="wShow">Largeur</label>
+                <div class="form-group">
+                    <label class="col-sm-2" for="wShow">Largeur</label>
 
-                        <div class="controls">
-                            <input type="text" style="width: 60px" class="wShow spinner" id="wShow"
-                                   placeholder="Largeur" value=""/>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label" for="hShow">Hauteur</label>
-
-                        <div class="controls">
-                            <input type="text" style="width: 60px" class="hShow spinner" id="hShow"
-                                   placeholder="Hauteur" value=""/>
-                        </div>
+                    <div class="col-sm-10 controls">
+                        <input type="number" class="form-control wShow spinner" id="wShow"
+                               placeholder="Largeur" value=""/>
                     </div>
                 </div>
-            </fieldset>
-        </div>
+                <div class="form-group">
+                    <label class="col-sm-2" for="hShow">Hauteur</label>
+
+                    <div class="col-sm-10 controls">
+                        <input type="number" class="form-control hShow spinner" id="hShow"
+                               placeholder="Hauteur" value=""/>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 
     <div class="modalFooter">

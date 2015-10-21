@@ -9138,6 +9138,11 @@ legend:hover {
   max-height: 350px;
 }
 
+/* line 2, ../../sass/layout/_jcrop.scss */
+.jcrop-active {
+  margin: 0 auto;
+}
+
 /* line 2, ../../sass/layout/_upload.scss */
 .pickfiles .drop-target {
   border: 10px dashed #999;
