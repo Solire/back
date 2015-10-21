@@ -9136,6 +9136,7 @@ legend:hover {
 /* line 1, ../../sass/layout/_select2.scss */
 .select2-container--default .select2-results > .select2-results__options {
   max-height: 350px;
+  overflow-x: hidden;
 }
 
 /* line 2, ../../sass/layout/_jcrop.scss */
