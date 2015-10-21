@@ -8924,6 +8924,17 @@ legend:hover {
     height:auto;
     max-width: 80px;
 }*/
+@media (min-width: 768px) {
+  /* line 11, ../../sass/layout/_form.scss */
+  .form-group-file .dl-horizontal dt, .select2-container .dl-horizontal dt {
+    width: 95px;
+  }
+  /* line 15, ../../sass/layout/_form.scss */
+  .form-group-file .dl-horizontal dd, .select2-container .dl-horizontal dd {
+    margin-left: 115px;
+  }
+}
+
 /* line 1, ../../sass/layout/_typeahead.scss */
 .typeahead, .tt-hint {
   border: 1px solid #024e6a;
@@ -9120,6 +9131,11 @@ legend:hover {
 /* line 86, ../../sass/layout/_dialog.scss */
 .soModalImageModal img {
   max-width: 100%;
+}
+
+/* line 1, ../../sass/layout/_select2.scss */
+.select2-container--default .select2-results > .select2-results__options {
+  max-height: 350px;
 }
 
 /* line 1, ../../sass/layout/preloader/_cube.scss */
