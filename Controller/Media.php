@@ -387,7 +387,7 @@ class Media extends Main
             '-',
             255
         );
-        $filepath       = $_POST['src'];
+        $filepath       = preg_replace('#^' . preg_quote($this->view->prefixFileUrl) . '#', '', $_POST['src']);
         $filename       = pathinfo($filepath, PATHINFO_BASENAME);
         $ext            = pathinfo($filename, PATHINFO_EXTENSION);
         $id_temp        = null;
@@ -496,12 +496,13 @@ class Media extends Main
         }
 
         $response = [];
-        $response['path']           = $targetDir . Path::DS . $target;
+        $response['path']           = $this->view->prefixFileUrl . $targetDir . Path::DS . $target;
         $response['filename']       = $target;
-        $response['filename_front'] = $targetDir . '/' . $target;
+        $response['filename_front'] = $this->view->prefixFileUrl . $targetDir . '/' . $target;
 
         if (FileManager::isImage($response['filename'])) {
-            $vignette   = $targetDir . Path::DS
+            $vignette   = $this->view->prefixFileUrl
+                        . $targetDir . Path::DS
                         . $this->upload_vignette . Path::DS
                         . $response['filename'];
             $serverpath = $this->upload_path . Path::DS
