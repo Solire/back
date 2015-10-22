@@ -73,6 +73,17 @@ define(['jquery', 'modules/helper/autocomplete'], function ($, helperAutocomplet
 
                 currentModule.selectFile(fileDiv, file)
 
+            }).on("select2:unselecting", function(e) {
+                $(this).data('state', 'unselected');
+            }).on("select2:open", function(e) {
+                if ($(this).data('state') === 'unselected') {
+                    $(this).removeData('state');
+
+                    var self = $(this);
+                    setTimeout(function() {
+                        self.select2('close');
+                    }, 1);
+                }
             });
 
             wrap.on("select2:unselect", function (e) {
