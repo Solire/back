@@ -26,8 +26,6 @@ class User extends Main
      */
     public function startAction()
     {
-        $this->javascript->addLibrary('back/js/formgabarit.js');
-
         $this->view->breadCrumbs[] = array(
             'title' => 'Mon profil',
             'url' => '',
@@ -65,34 +63,48 @@ class User extends Main
             $query = 'SELECT pass '
                    . 'FROM utilisateur '
                    . 'WHERE id = ' . $this->utilisateur->id . ' ';
-            $oldPass = $this->db->query($query)->fetchColumn();
 
-            $oldSaisi = $this->utilisateur->prepareMdp($_POST['old_password']);
+            $oldPassHash   = $this->db->query($query)->fetchColumn();
+            $oldPassFilled = $_POST['old_password'];
 
+            if (password_verify($oldPassFilled, $oldPassHash) === true) {
 
-            $newPass = $this->utilisateur->prepareMdp($_POST['new_password']);
+                $newPass = $this->utilisateur->prepareMdp($_POST['new_password']);
 
-            $query = 'UPDATE utilisateur SET '
-                   . ' pass = ' . $this->db->quote($newPass) . ' '
-                   . 'WHERE `id` = ' . $this->utilisateur->id . ' ';
+                $query = 'UPDATE utilisateur SET '
+                    . ' pass = ' . $this->db->quote($newPass) . ' '
+                    . 'WHERE `id` = ' . $this->utilisateur->id . ' ';
 
-            if ($oldPass == $oldSaisi) {
-                $response['status'] = true;
-                $this->db->exec($query);
+                if ($this->db->exec($query)) {
+                    $response['status'] = true;
+                }
             } else {
                 $errors[] = 'Mot de passe actuel incorrect';
             }
         }
 
         if ($response['status']) {
-            $response['status'] = 'success';
-            $response['message'] = 'Votre mot de passe a été mis à jour';
-            $response['javascript'] = 'window.location.reload()';
+            $this->utilisateur->disconnect();
+            $jsonResponse = [
+                'status'      => 'success',
+                'text'        => 'Votre mot de passe a été mis à jour',
+                'after'       => array(
+                    'modules/helper/noty',
+                    'modules/render/aftersavepassword',
+                )
+            ];
         } else {
-            $response['message'] = implode('<br />', $errors);
+            $jsonResponse = [
+                'status'      => 'error',
+                'text'        => implode('<br />', $errors),
+                'after'       => array(
+                    'modules/helper/noty',
+                    'modules/render/aftersavepassword',
+                )
+            ];
         }
 
-        echo json_encode($response);
+        echo json_encode($jsonResponse);
     }
 
     /**

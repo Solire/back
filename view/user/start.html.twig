@@ -6,39 +6,41 @@
 
     {{ breadcrumbs.breadcrumbs(breadCrumbs) }}
 
-    <form method="post" action="back/user/changepassword.html">
+    <form data-amd="modules/helper/ajaxform" method="post" action="back/user/changepassword.html" class="form-horizontal">
         <fieldset>
             <legend>Modifier le mot de passe</legend>
             <div class="line form-group">
-                <label class="col-sm-2 control-label" for="old_password">Mot de passe actuel</label>
+                <label class="col-sm-3 control-label" for="old_password">Mot de passe actuel</label>
 
-                <div class="col-sm-10">
+                <div class="col-sm-9">
                     <input type="password" value="" name="old_password" id="old_password"
-                           class="form-control form-controle form-oblig form-mix"/>
+                           class="form-controle form-oblig form-mix form-control">
                 </div>
             </div>
 
             <div class="line form-group">
-                <label class="col-sm-2 control-label" for="new_password">Nouveau mot de passe</label>
+                <label class="col-sm-3 control-label" for="new_password">Nouveau mot de passe</label>
 
-                <div class="col-sm-10">
+                <div class="col-sm-9">
                     <input type="password" value="" name="new_password" id="new_password"
-                           class="form-control form-controle form-oblig form-mix"/>
+                           class="form-controle form-oblig form-pass form-control ">
                 </div>
             </div>
 
             <div class="line form-group">
-                <label class="col-sm-2 control-label" for="new_password_c">Confirmation du nouveau mot de passe</label>
+                <label class="col-sm-3 control-label" for="new_password_c">Confirmation du nouveau mot de passe</label>
 
-                <div class="col-sm-10">
+                <div class="col-sm-9">
                     <input type="password" value="" name="new_password_c" id="new_password_c"
-                           class="form-control form-controle form-oblig form-mix"/>
+                           class="form-controle form-oblig form-verification form-control">
                 </div>
             </div>
 
-            <button class="btn btn-success btn-sm formajaxsubmit" type="submit">
-                <i class="icon-edit"></i> Mettre à jour votre mot de passe
-            </button>
+            <div class="col-sm-9 col-sm-offset-3">
+                <button class="btn btn-success btn-block formajaxsubmit" type="submit">
+                    <i class="icon-edit"></i> Valider
+                </button>
+            </div>
         </fieldset>
     </form>
 {% endblock %}

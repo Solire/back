@@ -726,6 +726,7 @@ class Main extends Controller
             'modules/render/delete',
             'modules/render/beforeloadpage',
             'modules/render/aftersavepage',
+            'modules/render/aftersavepassword',
             'modules/render/afterdeletepage',
             'modules/page/block',
             'modules/page/apichange',
