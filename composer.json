@@ -13,7 +13,8 @@
   ],
   "require": {
     "php": ">=5.5.0",
-    "solire/lib": "dev-feature/refonteback"
+    "solire/lib": "dev-feature/refonteback",
+    "bjeavons/zxcvbn-php": "~0.1"
   },
   "require-dev": {
     "m6web/coke": "~1.2",
