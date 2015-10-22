@@ -19,7 +19,21 @@ define(['jquery', 'jqueryControle', 'modules/helper/wysiwyg'], function($, jquer
                         return true;
                     }
                     return false;
-                }
+                },
+                gmap_point_lat		: /\-?[0-9]+[\.]{0,1}[0-9]*/, // latitude
+                gmap_point_lng		: /\-?[0-9]+[\.]{0,1}[0-9]*/, // longitude
+                gmap_point_zoom		: /^[0-9]{1,2}$/, // num de 0 à 99 (zoom gmap)
+                txt		: /^[a-zA-Zàáâãäåçèéêëìíîïðòóôõöùúûüýÿ\s]{2,}$/, // texte uniquement
+                tel		: /^[ /\()+.0-9]{10,20}$/, // No tél
+                cp		: /^[0-9]{4,5}$/, // code postal
+                heure	: /^[0-9]{2,2}:[0-9]{2,2}$/, // date
+                date	: /^[0-9]{2,2}\/[0-9]{2,2}\/[0-9]{4,4}$/, // date
+                mail	: /^[a-z0-9._-]+@[a-z0-9.-]{2,}[.][a-z]{2,3}$/, // email
+                url		: /^(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/, // adresse url
+                rew		: /^[0-9a-z-]{1,50}$/, // rewriting
+                file    : function(value) {
+                    return (value.length > 2);
+                },
             };
 
             $(wrap).controle({
