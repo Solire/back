@@ -74,11 +74,22 @@ define(['jquery', 'modules/helper/autocomplete'], function ($, helperAutocomplet
                 currentModule.selectFile(fileDiv, file)
 
             });
+
+            wrap.on("select2:unselect", function (e) {
+                var fileDiv     = $(this).parents('.form-group:first');
+
+                fileDiv.find('.field-file').addClass('hidden');
+                fileDiv.find('.select2-wrapper').removeClass('col-sm-offset-3')
+
+            });
         },
         selectFile: function(fileDiv, file) {
             var fileInfoDiv = fileDiv.find('.field-file-info');
 
             if (typeof file.path != 'undefined') {
+                fileDiv.find('.select2-wrapper').addClass('col-sm-offset-3')
+                fileDiv.find('.field-file').removeClass('hidden');
+
                 if (file.isImage) {
                     $(this).siblings('.crop').show();
                     $(this).siblings('.solire-js-empty').show();

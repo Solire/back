@@ -23,6 +23,8 @@ define(['jquery', 'autocomplete', 'autocompleteFr'], function ($) {
 
             $(wrap).select2({
                 language: 'fr',
+                allowClear: true,
+                placeholder: "",
                 ajax: {
                     url: options.url,
                     dataType: 'json',

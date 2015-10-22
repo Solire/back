@@ -649,6 +649,19 @@ class Media extends Main
                 $prefixFileUrl = $_REQUEST['prefix_url'] . '/';
             }
 
+            $items[] = [
+                'url'      => '',
+                'path'     => '',
+                'vignette' => '',
+                'isImage'  => '',
+                'label'    => '',
+                'utilise'  => '',
+                'size'     => '',
+                'value'    => '',
+                'text'     => '',
+                'id'       => '',
+            ];
+
             foreach ($files as $file) {
                 if (!$tinyMCE || FileManager::isImage($file['rewriting'])) {
                     $url = $dir . '/' . $file['rewriting'];
