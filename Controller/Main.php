@@ -697,6 +697,7 @@ class Main extends Controller
             'modules/helper/uploader',
             'modules/helper/sortable',
             'modules/page/upload',
+            'modules/page/simpleupload',
             'modules/helper/ajaxcall',
             'modules/helper/zoom',
             'modules/render/visible',

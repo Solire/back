@@ -58,6 +58,7 @@ define(['jquery', 'modules/helper/autocomplete'], function ($, helperAutocomplet
             },
         },
         run: function (wrap, options) {
+            var currentModule = this;
             options = $.extend(true, {}, this.autocompleteOptions, options);
             helperAutocomplete.run(wrap, options);
 
@@ -68,45 +69,48 @@ define(['jquery', 'modules/helper/autocomplete'], function ($, helperAutocomplet
                 }
 
                 var fileDiv     = $(this).parents('.form-group:first'),
-                    fileInfoDiv = fileDiv.find('.field-file-info'),
                     file        = params.data;
 
-
-                if (typeof file.path != 'undefined') {
-                    if (file.isImage) {
-                        $(this).siblings('.crop').show();
-                        $(this).siblings('.solire-js-empty').show();
-                    } else {
-                        $(this).siblings('.crop').hide();
-                        $(this).siblings('.solire-js-empty').hide();
-                    }
-
-                    if (fileInfoDiv.length > 0) {
-                        $('.field-file-link', fileInfoDiv).attr('href', file.path)
-                            .show();
-                        $('.field-file-value', fileInfoDiv).text(file.value);
-
-                        if (file.isImage) {
-                            $('.field-file-size', fileInfoDiv).text(file.size).show();
-                            $('.field-file-size', fileInfoDiv).prev().show();
-                            $('.field-file-crop', fileDiv).show();
-                            $('.field-file-crop', fileDiv).data('crop-src', file.path)
-
-                            $('.field-file-link', fileInfoDiv).data('zoom-src', file.path)
-                            $('.field-file-thumbnail', fileInfoDiv).attr('src', file.vignette).show();
-                        } else {
-                            $('.field-file-size', fileInfoDiv).hide();
-                            $('.field-file-size', fileInfoDiv).prev().hide();
-                            $('.field-file-crop', fileDiv).hide();
-                            $('.field-file-crop', fileDiv).removeData('crop-src')
-
-                            $('.field-file-link', fileInfoDiv).data('zoom-src', '')
-                            $('.field-file-thumbnail', fileInfoDiv).hide();
-                        }
-                    }
-                }
+                currentModule.selectFile(fileDiv, file)
 
             });
+        },
+        selectFile: function(fileDiv, file) {
+            var fileInfoDiv = fileDiv.find('.field-file-info');
+
+            if (typeof file.path != 'undefined') {
+                if (file.isImage) {
+                    $(this).siblings('.crop').show();
+                    $(this).siblings('.solire-js-empty').show();
+                } else {
+                    $(this).siblings('.crop').hide();
+                    $(this).siblings('.solire-js-empty').hide();
+                }
+
+                if (fileInfoDiv.length > 0) {
+                    $('.field-file-link', fileInfoDiv).attr('href', file.url)
+                        .show();
+                    $('.field-file-value', fileInfoDiv).text(file.value);
+
+                    if (file.isImage) {
+                        $('.field-file-size', fileInfoDiv).text(file.size).show();
+                        $('.field-file-size', fileInfoDiv).prev().show();
+                        $('.field-file-crop', fileDiv).show();
+                        $('.field-file-crop', fileDiv).data('crop-src', file.path)
+
+                        $('.field-file-link', fileInfoDiv).data('zoom-src', file.path)
+                        $('.field-file-thumbnail', fileInfoDiv).attr('src', file.vignette).show();
+                    } else {
+                        $('.field-file-size', fileInfoDiv).hide();
+                        $('.field-file-size', fileInfoDiv).prev().hide();
+                        $('.field-file-crop', fileDiv).hide();
+                        $('.field-file-crop', fileDiv).removeData('crop-src')
+
+                        $('.field-file-link', fileInfoDiv).data('zoom-src', '')
+                        $('.field-file-thumbnail', fileInfoDiv).hide();
+                    }
+                }
+            }
         }
     };
 });

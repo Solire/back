@@ -259,13 +259,15 @@ class Media extends Main
                 exit();
             }
 
-            $response['size'] = Tools::formatTaille($response['size']);
+            $response['size']  = Tools::formatTaille($response['size']);
+            $response['value'] = $response['filename'];
 
             if (isset($response['mini_path'])) {
                 $response['mini_path'] = $this->view->prefixFileUrl
                                    . $response['mini_path'];
                 $response['mini_url'] = $this->view->prefixFileUrl
                                   . $response['mini_url'];
+                $response['vignette'] = $response['mini_url'];
                 $response['image'] = [
                     'url' => $this->view->prefixFileUrl . $id_gab_page
                              . '/' . $response['filename']
@@ -496,6 +498,7 @@ class Media extends Main
         }
 
         $response = [];
+        $response['url']            = $this->view->prefixFileUrl . $targetDir . Path::DS . $target;
         $response['path']           = $this->view->prefixFileUrl . $targetDir . Path::DS . $target;
         $response['filename']       = $target;
         $response['filename_front'] = $this->view->prefixFileUrl . $targetDir . '/' . $target;
@@ -675,15 +678,16 @@ class Media extends Main
                         ];
                     } else {
                         $items[] = [
-                            'path' => $prefixFileUrl .$url,
+                            'url'      => $prefixFileUrl . $url,
+                            'path'     => $prefixFileUrl . $url,
                             'vignette' => $prefixFileUrl . $vignette,
-                            'isImage' => FileManager::isImage($file['rewriting']) !== false,
-                            'label' => $file['rewriting'],
-                            'utilise' => $file['utilise'],
-                            'size' => ($size ? $size : ''),
-                            'value' => $file['rewriting'],
-                            'text' => $file['rewriting'],
-                            'id' => $file['rewriting'],
+                            'isImage'  => FileManager::isImage($file['rewriting']) !== false,
+                            'label'    => $file['rewriting'],
+                            'utilise'  => $file['utilise'],
+                            'size'     => ($size ? $size : ''),
+                            'value'    => $file['rewriting'],
+                            'text'     => $file['rewriting'],
+                            'id'       => $file['rewriting'],
                         ];
                     }
                 }
