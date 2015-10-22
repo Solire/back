@@ -5,6 +5,7 @@ define(['jquery', 'sortable'], function ($, Sortable) {
                 e.preventDefault()
             })
 
+            /** @todo Limiter le tri dans la zone du parent */
             Sortable.create(wrap.get(0), {
                 animation: 150,
                 handle: '.block-to-sort-handle',
@@ -14,13 +15,7 @@ define(['jquery', 'sortable'], function ($, Sortable) {
                     $('.block-to-sort', wrap).each(function() {
                          $('div:first', this).hide();
                     })
-                },
-
-                // dragging ended
-                onEnd: function (/**Event*/evt) {
-//                    evt.oldIndex;  // element's old index within parent
-//                    evt.newIndex;  // element's new index within parent
-                },
+                }
             });
 
         }
