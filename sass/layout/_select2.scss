@@ -2,3 +2,15 @@
   max-height: 350px;
   overflow-x: hidden;
 }
+
+.select2-container--default .select2-selection--single {
+  @include border-right-radius(0);
+}
+
+.select2-container .select2-selection--single {
+  height: 33px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 30px;
+}
