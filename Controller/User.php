@@ -8,6 +8,7 @@
 
 namespace Solire\Back\Controller;
 
+use ZxcvbnPhp\Zxcvbn;
 use Solire\Lib\FrontController;
 
 /**
@@ -52,10 +53,17 @@ class User extends Main
             $errors[] = 'Le nouveau mot de passe et sa confirmation sont différents';
         }
 
-
-         /** Test longueur password */
+        /** Test longueur password */
         if (count($errors) == 0 && strlen($_POST['new_password']) < 6) {
             $errors[] = 'Votre nouveau mot de passe doit contenir au moins 6 caractères';
+        }
+
+        /** Test password complexity */
+        $zxcvbn = new Zxcvbn();
+        $strength = $zxcvbn->passwordStrength($_POST['new_password'], [$this->utilisateur->login]);
+
+        if (count($errors) == 0 && $strength['score'] < 2) {
+            $errors[] = 'Votre nouveau mot de passe n\'est pas assez sécurisé';
         }
 
         //Si aucune erreur on essaie de modifier le mot de passe
