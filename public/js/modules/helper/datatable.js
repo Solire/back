@@ -1,4 +1,4 @@
-define(['jquery', 'modules/helper/amd', 'datatablesMaterialDesign'], function ($, helperAmd) {
+define(['jquery', 'modules/helper/amd', 'datatablesMaterialDesign', 'datatablesResponsive'], function ($, helperAmd) {
     return {
         datatables: [],
         defaults: {
@@ -25,6 +25,9 @@ define(['jquery', 'modules/helper/amd', 'datatablesMaterialDesign'], function ($
                             options.additionalDrawCallback($(wrap));
                         }
                     }
+
+                    response.config.responsive = true;
+                    response.config.autoWidth = false;
 
                     /* Fix theme with requireJS which doesnt use DataTable.defaults */
                     response.config.dom = "<'row'<'col-sm-6'l><'col-sm-6'f>>" +

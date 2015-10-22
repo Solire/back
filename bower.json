@@ -24,7 +24,8 @@
     "jstree-bootstrap-theme": "1.0.*",
     "Jcrop": "2.0.*",
     "flag-icon-css": "0.8.*",
-    "x-editable": "~1.5.1"
+    "x-editable": "~1.5.1",
+    "jquery.scrollTo": "~2.1.2"
   },
   "resolutions": {
     "bootstrap": ">=3.0 <4.0"

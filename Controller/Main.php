@@ -539,6 +539,17 @@ class Main extends Controller
             'back/bower_components/Jcrop/css/Jcrop.min.css'
         );
 
+        /* jquery.scrollTo */
+        $this->requireJs->addLibrary(
+            'back/bower_components/jquery.scrollTo/jquery.scrollTo.min.js',
+            [
+                'name' => 'jqueryScrollTo',
+                'deps' => [
+                    'jquery',
+                ]
+            ]
+        );
+
         /* Youtube loading Bar */
         $this->requireJs->addLibrary(
             'back/bower_components/youtube-loading-bar/dist/js/youtubeLoadingBar.min.js',
@@ -561,6 +572,17 @@ class Main extends Controller
                 'name' => 'datatables',
                 'deps' => [
                     'jquery',
+                ]
+            ]
+        );
+
+        $this->requireJs->addLibrary(
+            'back/bower_components/datatables-responsive/js/dataTables.responsive.js',
+            [
+                'name' => 'datatablesResponsive',
+                'deps' => [
+                    'jquery',
+                    'datatables',
                 ]
             ]
         );
