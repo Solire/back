@@ -80,7 +80,8 @@ define(['jquery', 'modules/helper/autocomplete'], function ($, helperAutocomplet
 
                 fileDiv.find('.field-file').addClass('hidden');
                 fileDiv.find('.select2-wrapper').removeClass('col-sm-offset-3')
-
+                fileDiv.find('.select2-wrapper').removeClass('col-sm-offset-3')
+                fileDiv.find('.field-file-crop').hide();
             });
         },
         selectFile: function(fileDiv, file) {
@@ -91,10 +92,10 @@ define(['jquery', 'modules/helper/autocomplete'], function ($, helperAutocomplet
                 fileDiv.find('.field-file').removeClass('hidden');
 
                 if (file.isImage) {
-                    $(this).siblings('.crop').show();
+                    $(this).siblings('.field-file-crop').show();
                     $(this).siblings('.solire-js-empty').show();
                 } else {
-                    $(this).siblings('.crop').hide();
+                    $(this).siblings('.field-file-crop').hide();
                     $(this).siblings('.solire-js-empty').hide();
                 }
 
