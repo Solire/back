@@ -11,7 +11,8 @@
         margin-top:15%;
         margin-right:auto;
         margin-left:auto;
-        width:356px;
+        max-width:356px;
+        min-width:284px;
         padding:20px;
         background: $signinBoxBackgroundColor;
         box-shadow:3px 2px 5px #BFBFBF;

@@ -9422,18 +9422,19 @@ table.dataTable > tbody > tr.child span.dtr-title {
   margin-top: 15%;
   margin-right: auto;
   margin-left: auto;
-  width: 356px;
+  max-width: 356px;
+  min-width: 284px;
   padding: 20px;
   background: #fff;
   box-shadow: 3px 2px 5px #BFBFBF;
 }
 
 /* Dans le cas ou le navigateur est pas supporté */
-/* line 30, ../../sass/page/_signin.scss */
+/* line 31, ../../sass/page/_signin.scss */
 .error .page-signin form {
   display: none;
 }
-/* line 33, ../../sass/page/_signin.scss */
+/* line 34, ../../sass/page/_signin.scss */
 .error .page-signin .error-message {
   display: block;
 }
