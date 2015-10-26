@@ -922,7 +922,7 @@ class Page extends Main
         $idChamp   = $_GET['id_champ'];
         $idVersion = $_GET['id_version'];
         $idGabPage = $_GET['id_gab_page'];
-        $term      = $_GET['term'];
+        $term      = isset($_GET['term']) ? $_GET['term'] : '';
 
         $query  = 'SELECT code_champ_param, value'
             . ' FROM gab_champ_param_value'
