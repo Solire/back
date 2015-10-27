@@ -58,6 +58,7 @@ columns:
 #    sourceSort: source expression (for example a column)
 #    ...
 
+
   DT_RowClass:
     driverHidden: true
     filter: 0
