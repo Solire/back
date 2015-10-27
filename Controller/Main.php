@@ -722,6 +722,7 @@ class Main extends Controller
             'modules/page/simpleupload',
             'modules/helper/ajaxcall',
             'modules/helper/zoom',
+            'modules/helper/tour',
             'modules/render/visible',
             'modules/render/delete',
             'modules/render/beforeloadpage',

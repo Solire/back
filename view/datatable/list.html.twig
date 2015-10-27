@@ -2,6 +2,7 @@
 {% import "util/breadcrumbs.html.twig" as breadcrumbs %}
 
 {% block content %}
+    {{ parent() }}
     <div>
         <h1>{{ title }}</h1>
         {{ breadcrumbs.breadcrumbs(breadCrumbs) }}

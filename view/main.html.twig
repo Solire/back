@@ -19,6 +19,7 @@
         {% include 'menu.html.twig' %}
         <div class="mainContainer container shadow-z-1">
             {% block content %}
+                {% include 'template/tour/' ~ (controller|replace({'back/':''})) ~ '-' ~ action ~ '.html.twig' ignore missing %}
             {% endblock %}
             <div class="row">
                 <footer class="footer col-xs-12">

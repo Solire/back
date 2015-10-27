@@ -487,7 +487,7 @@ class Page extends Main
         $gabPageId = isset($_GET['id_gab_page']) ? $_GET['id_gab_page'] : 0;
         $gabaritId  = isset($_GET['id_gabarit']) ? $_GET['id_gabarit'] : 1;
 
-        $this->view->action = 'liste';
+        $this->view->action = 'display';
 
         $this->form         = '';
         $this->pages        = [];

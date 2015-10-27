@@ -1,6 +1,7 @@
 {% extends 'error/errorMain.html.twig' %}
 
 {% block content %}
+    {{ parent() }}
     <h2>{{ title }}</h2>
     {% if message %}
         <p>

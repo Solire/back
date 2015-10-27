@@ -9305,6 +9305,515 @@ table.dataTable > tbody > tr.child span.dtr-title {
   filter: alpha(opacity=70);
 }
 
+/* --------------------------------
+
+Main Components
+
+-------------------------------- */
+/* line 10, ../../sass/layout/_tour.scss */
+.tour-wrapper {
+  position: fixed;
+  z-index: 2;
+  height: 100%;
+  width: 100%;
+  left: 50%;
+  top: 50%;
+  bottom: auto;
+  right: auto;
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: opacity 0.4s 0s, visibility 0s 0.4s;
+  -o-transition: opacity 0.4s 0s, visibility 0s 0.4s;
+  transition: opacity 0.4s 0s, visibility 0s 0.4s;
+}
+/* line 20, ../../sass/layout/_tour.scss */
+.tour-wrapper.active {
+  /* start tour */
+  z-index: 2000;
+  visibility: visible;
+  opacity: 1;
+  -webkit-transition: opacity 0.4s 0s, visibility 0s 0s;
+  -o-transition: opacity 0.4s 0s, visibility 0s 0s;
+  transition: opacity 0.4s 0s, visibility 0s 0s;
+}
+
+/* line 29, ../../sass/layout/_tour.scss */
+.tour-single-step {
+  /* tour single step */
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  left: 0;
+  top: 0;
+  background-color: #fefffb;
+  border-radius: 4px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  /* Force Hardware Acceleration */
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -moz-transform: scale(0);
+  -ms-transform: scale(0);
+  -webkit-transform: scale(0);
+  transform: scale(0);
+  -webkit-transition: transform 0.4s 0s, opacity 0s 0.4s;
+  -o-transition: transform 0.4s 0s, opacity 0s 0.4s;
+  transition: transform 0.4s 0s, opacity 0s 0.4s;
+  /* reset style */
+  height: auto;
+  width: auto;
+  top: auto;
+  left: auto;
+  -moz-transform: translateX(0);
+  -ms-transform: translateX(0);
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+  border-radius: 50%;
+  visibility: hidden;
+  opacity: 1;
+  background-color: transparent;
+  box-shadow: none;
+  -webkit-transition: visibility 0s 0.4s;
+  -o-transition: visibility 0s 0.4s;
+  transition: visibility 0s 0.4s;
+}
+/* line 47, ../../sass/layout/_tour.scss */
+.tour-single-step > span {
+  /* dot indicator - visible on desktop version only */
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: inherit;
+  background: #ff962c;
+  -moz-transform: scale(0);
+  -ms-transform: scale(0);
+  -webkit-transform: scale(0);
+  transform: scale(0);
+  -webkit-transition: transform 0.4s;
+  -o-transition: transform 0.4s;
+  transition: transform 0.4s;
+  /* replace text with background images */
+  overflow: hidden;
+  text-indent: 100%;
+  white-space: nowrap;
+  /* hide on mobile */
+  display: none;
+}
+/* line 68, ../../sass/layout/_tour.scss */
+.tour-single-step::after {
+  /* this is used to create the pulse animation */
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border-radius: inherit;
+  /* Force Hardware Acceleration */
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  backface-visibility: hidden;
+  /* hide on mobile */
+  display: none;
+}
+/* line 86, ../../sass/layout/_tour.scss */
+.active .tour-single-step {
+  /* tour started */
+  -moz-transform: scale(1) translateX(100%);
+  -ms-transform: scale(1) translateX(100%);
+  -webkit-transform: scale(1) translateX(100%);
+  transform: scale(1) translateX(100%);
+  -webkit-transition: transform 0.4s 0s, opacity 0.4s 0s;
+  -o-transition: transform 0.4s 0s, opacity 0.4s 0s;
+  transition: transform 0.4s 0s, opacity 0.4s 0s;
+}
+/* line 92, ../../sass/layout/_tour.scss */
+.active .tour-single-step.move-left {
+  -moz-transform: scale(1) translateX(-100%);
+  -ms-transform: scale(1) translateX(-100%);
+  -webkit-transform: scale(1) translateX(-100%);
+  transform: scale(1) translateX(-100%);
+}
+/* line 96, ../../sass/layout/_tour.scss */
+.active .tour-single-step.is-selected {
+  /* visible step */
+  opacity: 1;
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -webkit-transform: scale(1);
+  transform: scale(1);
+  -webkit-transition: transform 0.4s 0s;
+  -o-transition: transform 0.4s 0s;
+  transition: transform 0.4s 0s;
+}
+/* line 116, ../../sass/layout/_tour.scss */
+.tour-single-step > span, .tour-single-step::after {
+  display: block;
+}
+/* line 120, ../../sass/layout/_tour.scss */
+.active .tour-single-step, .active .tour-single-step.move-left {
+  -webkit-transition: visibility 0s 0.4s;
+  -o-transition: visibility 0s 0.4s;
+  transition: visibility 0s 0.4s;
+  -moz-transform: translateX(0);
+  -ms-transform: translateX(0);
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}
+/* line 125, ../../sass/layout/_tour.scss */
+.tour-single-step.is-selected {
+  visibility: visible;
+  -webkit-transition: visibility 0s 0s;
+  -o-transition: visibility 0s 0s;
+  transition: visibility 0s 0s;
+}
+/* line 129, ../../sass/layout/_tour.scss */
+.tour-single-step.is-selected > span {
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}
+/* line 133, ../../sass/layout/_tour.scss */
+.tour-single-step.is-selected::after {
+  -webkit-animation: tour-pulse 2s infinite;
+  -o-animation: tour-pulse 2s infinite;
+  animation: tour-pulse 2s infinite;
+  -webkit-animation-delay: 0.5s;
+  animation-delay: 0.5s;
+}
+/* line 138, ../../sass/layout/_tour.scss */
+.tour-single-step.is-selected .tour-more-info {
+  opacity: 1;
+}
+
+@-moz-keyframes tour-pulse {
+  0% {
+    box-shadow: 0 0 0 0 #ff962c;
+  }
+  100% {
+    box-shadow: 0 0 0 20px rgba(255, 150, 44, 0);
+  }
+}
+@-webkit-keyframes tour-pulse {
+  0% {
+    box-shadow: 0 0 0 0 #ff962c;
+  }
+  100% {
+    box-shadow: 0 0 0 20px rgba(255, 150, 44, 0);
+  }
+}
+@keyframes tour-pulse {
+  0% {
+    box-shadow: 0 0 0 0 #ff962c;
+  }
+  100% {
+    box-shadow: 0 0 0 20px rgba(255, 150, 44, 0);
+  }
+}
+/* line 154, ../../sass/layout/_tour.scss */
+.tour-single-step .tour-more-info {
+  z-index: 1;
+  padding: 1.5em;
+  width: 100%;
+  position: absolute;
+  width: 340px;
+  border-radius: 4px;
+  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  background-color: #fefffb;
+  -webkit-transition: opacity 0.4s;
+  -o-transition: opacity 0.4s;
+  transition: opacity 0.4s;
+  border-color: #fefffb;
+}
+/* line 14, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_clearfix.scss */
+.tour-single-step .tour-more-info:before, .tour-single-step .tour-more-info:after {
+  content: " ";
+  display: table;
+}
+/* line 19, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_clearfix.scss */
+.tour-single-step .tour-more-info:after {
+  clear: both;
+}
+/* line 160, ../../sass/layout/_tour.scss */
+.tour-single-step .tour-more-info::before {
+  /* triangle next to the step description - hidden on mobile */
+  content: '';
+  position: absolute;
+  height: 0;
+  width: 0;
+  border: 6px solid transparent;
+  display: none;
+}
+/* line 170, ../../sass/layout/_tour.scss */
+.tour-single-step .tour-more-info h2 {
+  font-size: 2rem;
+  line-height: 1.2;
+  margin-bottom: .4em;
+}
+/* line 176, ../../sass/layout/_tour.scss */
+.tour-single-step .tour-more-info p {
+  font-size: 1.3rem;
+  line-height: 1.6;
+  margin-bottom: 1.4em;
+  font-family: Georgia, serif;
+  color: #7f807e;
+}
+/* line 184, ../../sass/layout/_tour.scss */
+.tour-single-step .tour-more-info img {
+  margin-bottom: 1.4em;
+}
+/* line 188, ../../sass/layout/_tour.scss */
+.tour-single-step .tour-more-info .tour-close {
+  /* 'X' icon to skip the tour */
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  /* replace text with background images */
+  overflow: hidden;
+  text-indent: 100%;
+  white-space: nowrap;
+}
+/* line 201, ../../sass/layout/_tour.scss */
+.tour-single-step .tour-more-info .tour-close::after, .tour-single-step .tour-more-info .tour-close:before {
+  /* these are the 2 lines of the 'X' icon */
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 2px;
+  width: 16px;
+  border-radius: 4em;
+  background-color: #cbccc9;
+  /* Force Hardware Acceleration */
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+/* line 217, ../../sass/layout/_tour.scss */
+.tour-single-step .tour-more-info .tour-close::after {
+  -moz-transform: translateX(-50%) translateY(-50%) rotate(45deg);
+  -ms-transform: translateX(-50%) translateY(-50%) rotate(45deg);
+  -webkit-transform: translateX(-50%) translateY(-50%) rotate(45deg);
+  transform: translateX(-50%) translateY(-50%) rotate(45deg);
+}
+/* line 221, ../../sass/layout/_tour.scss */
+.tour-single-step .tour-more-info .tour-close::before {
+  -moz-transform: translateX(-50%) translateY(-50%) rotate(-45deg);
+  -ms-transform: translateX(-50%) translateY(-50%) rotate(-45deg);
+  -webkit-transform: translateX(-50%) translateY(-50%) rotate(-45deg);
+  transform: translateX(-50%) translateY(-50%) rotate(-45deg);
+}
+/* line 226, ../../sass/layout/_tour.scss */
+.tour-single-step .tour-more-info span {
+  /* step count e.g. 1 of 3*/
+  float: left;
+  padding-top: .1em;
+  font-size: 1.3rem;
+  font-family: Georgia, serif;
+}
+/* line 243, ../../sass/layout/_tour.scss */
+.tour-single-step .tour-more-info p {
+  margin-bottom: 2.5em;
+}
+/* line 247, ../../sass/layout/_tour.scss */
+.tour-single-step .tour-more-info img {
+  display: none;
+}
+/* line 251, ../../sass/layout/_tour.scss */
+.tour-single-step .tour-more-info::before {
+  /* triangle next to the step description - hidden on mobile */
+  display: block;
+}
+/* line 256, ../../sass/layout/_tour.scss */
+.tour-single-step .tour-more-info.left {
+  right: calc(100% + 15px);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+/* line 261, ../../sass/layout/_tour.scss */
+.tour-single-step .tour-more-info.right {
+  left: calc(100% + 15px);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+/* line 266, ../../sass/layout/_tour.scss */
+.tour-single-step .tour-more-info.left, .tour-single-step .tour-more-info.right {
+  top: 50%;
+}
+/* line 270, ../../sass/layout/_tour.scss */
+.tour-single-step .tour-more-info.top {
+  bottom: calc(100% + 15px);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+/* line 275, ../../sass/layout/_tour.scss */
+.tour-single-step .tour-more-info.bottom {
+  top: calc(100% + 15px);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+/* line 280, ../../sass/layout/_tour.scss */
+.tour-single-step .tour-more-info.top, .tour-single-step .tour-more-info.bottom {
+  left: 50%;
+}
+/* line 284, ../../sass/layout/_tour.scss */
+.tour-single-step .tour-more-info.left::before, .tour-single-step .tour-more-info.right::before {
+  top: 50%;
+  bottom: auto;
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+/* line 288, ../../sass/layout/_tour.scss */
+.tour-single-step .tour-more-info.top::before, .tour-single-step .tour-more-info.bottom::before {
+  left: 50%;
+  right: auto;
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+/* line 292, ../../sass/layout/_tour.scss */
+.tour-single-step .tour-more-info.left::before {
+  border-left-color: inherit;
+  left: 100%;
+}
+/* line 297, ../../sass/layout/_tour.scss */
+.tour-single-step .tour-more-info.right::before {
+  border-right-color: inherit;
+  right: 100%;
+}
+/* line 302, ../../sass/layout/_tour.scss */
+.tour-single-step .tour-more-info.top::before {
+  border-top-color: inherit;
+  top: 100%;
+}
+/* line 307, ../../sass/layout/_tour.scss */
+.tour-single-step .tour-more-info.bottom::before {
+  border-bottom-color: inherit;
+  bottom: 100%;
+}
+/* line 312, ../../sass/layout/_tour.scss */
+.is-selected .tour-single-step .tour-more-info {
+  opacity: 1;
+}
+
+/* line 317, ../../sass/layout/_tour.scss */
+.tour-tour-nav {
+  float: right;
+}
+/* line 14, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_clearfix.scss */
+.tour-tour-nav:before, .tour-tour-nav:after {
+  content: " ";
+  display: table;
+}
+/* line 19, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_clearfix.scss */
+.tour-tour-nav:after {
+  clear: both;
+}
+/* line 321, ../../sass/layout/_tour.scss */
+.tour-tour-nav li {
+  display: inline-block;
+  float: left;
+}
+/* line 325, ../../sass/layout/_tour.scss */
+.tour-tour-nav li:first-of-type {
+  margin-right: 1.5em;
+}
+/* line 330, ../../sass/layout/_tour.scss */
+.tour-tour-nav a {
+  font-size: 1.3rem;
+  color: #222d33;
+  font-weight: bold;
+}
+/* line 335, ../../sass/layout/_tour.scss */
+.tour-tour-nav a.inactive {
+  /* item not clickable */
+  color: #cbccc9;
+  cursor: not-allowed;
+}
+
+/* line 343, ../../sass/layout/_tour.scss */
+.tour-cover-layer {
+  /* background cover layer - visible when tour is activated */
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: opacity 0.8s 0s, visibility 0s 0.8s;
+  -o-transition: opacity 0.8s 0s, visibility 0s 0.8s;
+  transition: opacity 0.8s 0s, visibility 0s 0.8s;
+}
+/* line 356, ../../sass/layout/_tour.scss */
+.tour-cover-layer.is-visible {
+  opacity: 0.5;
+  visibility: visible;
+  -webkit-animation: tour-fade-in 2.1s;
+  -o-animation: tour-fade-in 2.1s;
+  animation: tour-fade-in 2.1s;
+  -webkit-transition: opacity 0s, visibility 0s 0s;
+  -o-transition: opacity 0s, visibility 0s 0s;
+  transition: opacity 0s, visibility 0s 0s;
+}
+
+@-moz-keyframes tour-fade-in {
+  14%, 40% {
+    opacity: 1;
+  }
+  0%, 100% {
+    opacity: 0.5;
+  }
+}
+@-webkit-keyframes tour-fade-in {
+  14%, 40% {
+    opacity: 1;
+  }
+  0%, 100% {
+    opacity: 0.5;
+  }
+}
+@keyframes tour-fade-in {
+  14%, 40% {
+    opacity: 1;
+  }
+  0%, 100% {
+    opacity: 0.5;
+  }
+}
 /* line 1, ../../sass/layout/preloader/_cube.scss */
 .preloader-cube {
   width: 75px;
