@@ -1,4 +1,4 @@
-define(['jquery', 'jquerySoModal'], function ($) {
+define(['jquery', 'jquerySoModal', 'modules/helper/amd'], function ($, jquerySoModal, helperAmd) {
     return {
         defaults: {
             closeHTML: '',
