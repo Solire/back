@@ -9161,20 +9161,19 @@ table.dataTable > tbody > tr.child span.dtr-title {
 
 /* line 1, ../../sass/layout/_dialog.scss */
 .soModalDefaultModal {
-  overflow: hidden;
   min-width: 320px;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
   background-color: transparent;
   -webkit-box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
   box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
 }
-/* line 8, ../../sass/layout/_dialog.scss */
+/* line 6, ../../sass/layout/_dialog.scss */
 .soModalDefaultModal .modalHeader {
   padding: 10px;
   background: #0071bf;
   color: #fff;
+  overflow: hidden;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
 }
 /* line 13, ../../sass/layout/_dialog.scss */
 .soModalDefaultModal .modalHeader h3 {
@@ -9211,37 +9210,40 @@ table.dataTable > tbody > tr.child span.dtr-title {
 }
 /* line 49, ../../sass/layout/_dialog.scss */
 .soModalDefaultModal .modalFooter {
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  overflow: hidden;
   background: #fff;
   color: inherit;
   text-align: right;
   padding: 10px;
 }
 
-/* line 57, ../../sass/layout/_dialog.scss */
+/* line 59, ../../sass/layout/_dialog.scss */
 .soModalContainerFixed {
   z-index: 2001;
 }
 
-/* line 61, ../../sass/layout/_dialog.scss */
+/* line 63, ../../sass/layout/_dialog.scss */
 .soModalDefaultOverlay {
   z-index: 2001;
   background-color: #000;
 }
 
-/* line 66, ../../sass/layout/_dialog.scss */
+/* line 68, ../../sass/layout/_dialog.scss */
 .soModalZoomModal {
   max-width: 90%;
   width: auto;
 }
 
 /* Style pour la modal image */
-/* line 72, ../../sass/layout/_dialog.scss */
+/* line 74, ../../sass/layout/_dialog.scss */
 .soModalImageOverlay {
   z-index: 2001;
   background-color: #000;
 }
 
-/* line 77, ../../sass/layout/_dialog.scss */
+/* line 79, ../../sass/layout/_dialog.scss */
 .soModalImageModal {
   display: inline-block;
   width: auto;
@@ -9252,7 +9254,7 @@ table.dataTable > tbody > tr.child span.dtr-title {
   box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
 }
 
-/* line 86, ../../sass/layout/_dialog.scss */
+/* line 88, ../../sass/layout/_dialog.scss */
 .soModalImageModal img {
   max-width: 100%;
 }
