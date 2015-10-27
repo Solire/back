@@ -46,7 +46,7 @@ define(['jquery', 'modules/helper/dialog', 'modules/helper/confirm'], function (
                     error    : function(response){
                         moduleDialog.run(
                             null,
-                            {html: 'Une erreur est survenue.'}
+                            {html: '<div class="soModalContainer"><div class="modalHeader"><a class="soModalDefaultClose" href="#" tabindex="0"><i class="fa fa-close"></i></a><h3>Erreur rencontrée</h3></div><div class="modalBody"><p>Une erreur est survenue.</p></div><div class="modalFooter"></div></div>'}
                         );
                     }
                 });

@@ -10,7 +10,7 @@ driver:
     # masculin ou féminin
     # "e"|""
     itemGenre:
-    requestUrl: back/datatable/listdata.html?name=board
+    requestUrl: back/board/listdata.html?name=board
     requestMethod: POST
     separator: "~"
     dom: <"H"TClfr>t<"F"ip>
@@ -23,6 +23,9 @@ source:
     select:
       - p.*
       - g.label
+      - g.deletable
+      - g.editable
+      - count(ge.id) nbre_enfants
 
     from:
       name: gab_page
@@ -33,6 +36,12 @@ source:
         name: gab_gabarit
         alias: g
         'on': g.id = p.id_gabarit
+
+    leftJoin:
+        -
+          name: gab_page
+          alias: ge
+          'on': ge.id_parent = p.id and ge.suppr = 0
 
     group: p.id
 ## COLUMNS
@@ -47,6 +56,14 @@ columns:
 #    sourceFilter: source expression (for example a column)
 #    sourceSort: source expression (for example a column)
 #    ...
+
+  status:
+    label: Statut
+    filter: 0
+    sort: 0
+    format:
+      class: Solire\Lib\Trieur\Format\Twig
+      fileName: datatable/board/status.html.twig
 
   titre:
     label: Titre
