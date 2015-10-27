@@ -1,4 +1,4 @@
-define(['jquery', 'modules/helper/amd', 'datatablesMaterialDesign', 'datatablesResponsive'], function ($, helperAmd) {
+define(['jquery', 'modules/helper/amd', 'datatablesMaterialDesign', 'datatablesResponsive', 'datatablesLightColumnfilter'], function ($, helperAmd) {
     return {
         datatables: [],
         defaults: {
@@ -35,6 +35,7 @@ define(['jquery', 'modules/helper/amd', 'datatablesMaterialDesign', 'datatablesR
                         "<'row row-footer'<'col-sm-5'i><'col-sm-7'p>>";
 
                     currentModule.datatables[$(wrap).attr('id')] = $(wrap).DataTable(response.config);
+                    new $.fn.dataTable.ColumnFilter(currentModule.datatables[$(wrap).attr('id')], response.columnFilterConfig);
                 });
             }
         },

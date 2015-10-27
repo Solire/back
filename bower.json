@@ -17,6 +17,7 @@
     "select2-bootstrap-theme": "0.1.*",
     "typeahead.js": "0.10.*",
     "datatables": "1.10.*",
+    "datatables-light-columnfilter": "0.*",
     "datatables-material-design": "~0.1.0",
     "datatables-responsive": "1.0.*",
     "jquery-pluploader": "1.1.*",

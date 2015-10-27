@@ -602,6 +602,16 @@ class Main extends Controller
             'back/bower_components/datatables-material-design/dist/css/dataTables.materialdesign.min.css'
         );
 
+        $this->requireJs->addLibrary(
+            'back/bower_components/datatables-light-columnfilter/dist/dataTables.lightColumnFilter.min.js',
+            [
+                'name' => 'datatablesLightColumnfilter',
+                'deps' => [
+                    'datatables',
+                ]
+            ]
+        );
+
         /* Plupload */
         $this->requireJs->addLibrary(
             'back/bower_components/plupload/js/plupload.full.min.js',
