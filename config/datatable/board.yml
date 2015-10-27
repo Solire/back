@@ -25,7 +25,8 @@ source:
       - g.label
       - g.deletable
       - g.editable
-      - count(ge.id) nbre_enfants
+      - count(pe.id) nbre_enfants
+      - 'IF(p.suppr, "text-muted", "") as DT_RowClass'
 
     from:
       name: gab_page
@@ -40,8 +41,8 @@ source:
     leftJoin:
         -
           name: gab_page
-          alias: ge
-          'on': ge.id_parent = p.id and ge.suppr = 0
+          alias: pe
+          'on': pe.id_parent = p.id and pe.suppr = 0
 
     group: p.id
 ## COLUMNS
@@ -56,6 +57,11 @@ columns:
 #    sourceFilter: source expression (for example a column)
 #    sourceSort: source expression (for example a column)
 #    ...
+
+  DT_RowClass:
+    driverHidden: true
+    filter: 0
+    sort: 0
 
   status:
     label: Statut
@@ -116,6 +122,7 @@ columns:
 #      cell: dateSql
 #      arguments:
 #        format: "d/m/Y H:i:s"
+#
 
   action:
     label: Action
