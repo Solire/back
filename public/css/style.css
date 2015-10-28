@@ -8770,6 +8770,119 @@ button.close {
     display: none !important;
   }
 }
+/* line 8, ../bower_components/youtube-loading-bar/src/scss/youtubeLoadingBar.scss */
+.youtube-loadingbar-wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 8px;
+}
+
+/* line 16, ../bower_components/youtube-loading-bar/src/scss/youtubeLoadingBar.scss */
+.youtube-loadingbar-wrapper.youtube-loadingbar-wrapper-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+/* line 22, ../bower_components/youtube-loading-bar/src/scss/youtubeLoadingBar.scss */
+.youtube-loadingbar {
+  position: absolute;
+  z-index: 2147483647;
+  top: 0;
+  left: -6px;
+  width: 1%;
+  height: 2px;
+  background: #64C81e;
+  -moz-border-radius: 1px;
+  -webkit-border-radius: 1px;
+  border-radius: 1px;
+  -moz-transition: all 500ms ease-in-out;
+  -o-transition: all 500ms ease-in-out;
+  -webkit-transition: all 500ms ease-in-out;
+  transition: all 500ms ease-in-out;
+}
+
+/* line 34, ../bower_components/youtube-loading-bar/src/scss/youtubeLoadingBar.scss */
+.youtube-loadingbar.waiting dd, .youtube-loadingbar.waiting dt {
+  -moz-animation: pulse 2s ease-out 0s infinite;
+  -webkit-animation: pulse 2s ease-out 0s infinite;
+  animation: pulse 2s ease-out 0s infinite;
+}
+
+/* line 38, ../bower_components/youtube-loading-bar/src/scss/youtubeLoadingBar.scss */
+.youtube-loadingbar dt {
+  opacity: .6;
+  width: 180px;
+  right: -80px;
+  clip: rect(-6px, 90px, 14px, -6px);
+}
+
+/* line 45, ../bower_components/youtube-loading-bar/src/scss/youtubeLoadingBar.scss */
+.youtube-loadingbar dd {
+  opacity: .6;
+  width: 20px;
+  right: 0;
+  clip: rect(-6px, 22px, 14px, 10px);
+}
+
+/* line 52, ../bower_components/youtube-loading-bar/src/scss/youtubeLoadingBar.scss */
+.youtube-loadingbar dd, .youtube-loadingbar dt {
+  position: absolute;
+  top: 0;
+  height: 2px;
+  -moz-box-shadow: #64C81e 1px 0 4px 1px;
+  -webkit-box-shadow: #64C81e 1px 0 4px 1px;
+  box-shadow: #64C81e 1px 0 4px 1px;
+  -moz-border-radius: 100%;
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+}
+
+@keyframes pulse {
+  30% {
+    opacity: 0.6;
+  }
+  60% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+@-moz-keyframes pulse {
+  30% {
+    opacity: 0.6;
+  }
+  60% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+@-ms-keyframes pulse {
+  30% {
+    opacity: 0.6;
+  }
+  60% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+@-webkit-keyframes pulse {
+  30% {
+    opacity: 0.6;
+  }
+  60% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
 /* line 3, ../../sass/layout/_content.scss */
 body {
   background: #efefef;
@@ -9163,6 +9276,7 @@ table.dataTable > tbody > tr.child span.dtr-title {
 .soModalDefaultModal {
   min-width: 320px;
   background-color: transparent;
+  -moz-box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
   box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
 }
@@ -9172,8 +9286,12 @@ table.dataTable > tbody > tr.child span.dtr-title {
   background: #0071bf;
   color: #fff;
   overflow: hidden;
-  border-top-right-radius: 10px;
+  -moz-border-radius-topleft: 10px;
+  -webkit-border-top-left-radius: 10px;
   border-top-left-radius: 10px;
+  -moz-border-radius-topright: 10px;
+  -webkit-border-top-right-radius: 10px;
+  border-top-right-radius: 10px;
 }
 /* line 13, ../../sass/layout/_dialog.scss */
 .soModalDefaultModal .modalHeader h3 {
@@ -9210,8 +9328,12 @@ table.dataTable > tbody > tr.child span.dtr-title {
 }
 /* line 49, ../../sass/layout/_dialog.scss */
 .soModalDefaultModal .modalFooter {
-  border-bottom-right-radius: 10px;
+  -moz-border-radius-bottomleft: 10px;
+  -webkit-border-bottom-left-radius: 10px;
   border-bottom-left-radius: 10px;
+  -moz-border-radius-bottomright: 10px;
+  -webkit-border-bottom-right-radius: 10px;
+  border-bottom-right-radius: 10px;
   overflow: hidden;
   background: #fff;
   color: inherit;
@@ -9250,6 +9372,7 @@ table.dataTable > tbody > tr.child span.dtr-title {
   max-width: 70%;
   padding: 0px;
   background: transparent;
+  -moz-box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
   box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
 }
@@ -9267,8 +9390,12 @@ table.dataTable > tbody > tr.child span.dtr-title {
 
 /* line 6, ../../sass/layout/_select2.scss */
 .select2-container--default .select2-selection--single {
-  border-bottom-right-radius: 0;
+  -moz-border-radius-topright: 0;
+  -webkit-border-top-right-radius: 0;
   border-top-right-radius: 0;
+  -moz-border-radius-bottomright: 0;
+  -webkit-border-bottom-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 /* line 10, ../../sass/layout/_select2.scss */
