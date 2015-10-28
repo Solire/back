@@ -59,11 +59,11 @@ define(['jquery', 'jqueryControle', 'jqueryScrollTo', 'modules/helper/wysiwyg'],
                     elmt.parents('.form-group:first').removeClass('has-error');
                 },
                 ifFirstWrong : function(elmt){
-                    elmt.parents('fieldset').each(function() {
+                    $(elmt.parents('fieldset').get().reverse()).each(function() {
                         if($(this).find('div:first').is(':hidden')) {
                             $(this).find('legend:first').click();
                             setTimeout(function() {
-                                $.scrollTo(elmt, 500, {offset:-50}, function() {
+                                $.scrollTo(elmt, 500, {offset:-70}, function() {
                                     if (elmt.data('select2')) {
                                         elmt.select2('open');
                                     } else {
@@ -72,7 +72,7 @@ define(['jquery', 'jqueryControle', 'jqueryScrollTo', 'modules/helper/wysiwyg'],
                                 });
                             }, 500);
                         } else {
-                            $.scrollTo(elmt, 500, {offset:-50}, function() {
+                            $.scrollTo(elmt, 500, {offset:-70}, function() {
                                 if (elmt.data('select2')) {
                                     elmt.select2('open');
                                 } else {
