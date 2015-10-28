@@ -1,4 +1,4 @@
-define(['jquery', 'jqueryCookie', 'sortable', 'modules/helper/confirm', 'noty'], function ($, jqueryCookie, Sortable, helperConfirm) {
+define(['jquery', 'jqueryCookie', 'sortable', 'modules/helper/noty'], function ($, jqueryCookie, Sortable, helperNoty) {
     return {
         run: function (wrap, response) {
 
@@ -8,7 +8,6 @@ define(['jquery', 'jqueryCookie', 'sortable', 'modules/helper/confirm', 'noty'],
              * Gestion du tri des pages
              */
             var initTri = function (wrap) {
-                console.log($(wrap));
                 $(wrap).each(function () {
                     $(this).children('fieldset').each(function (i) {
                         var domId = $(this).attr('id'),
@@ -40,9 +39,9 @@ define(['jquery', 'jqueryCookie', 'sortable', 'modules/helper/confirm', 'noty'],
                     'positions': positions
                 }, function (data) {
                     if (data.status == 'success') {
-                        noty({text: 'Succès du déplacement', type: 'success'});
+                        helperNoty.run(null, {text: 'Succès du déplacement', status: 'success'});
                     } else {
-                        noty({text: 'Une erreur est survenue', type: 'error'});
+                        helperNoty.run(null, {text: 'Une erreur est survenue', status: 'error'});
                     }
 
                 });
