@@ -67,7 +67,8 @@ columns:
   status:
     label: Statut
     filter: 0
-    sort: 0
+    sort: 1
+    source: 'IF(p.suppr, "2", IF(p.visible = 0, "1", "0"))'
     format:
       class: Solire\Lib\Trieur\Format\Twig
       fileName: datatable/board/status.html.twig
