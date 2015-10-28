@@ -7,8 +7,9 @@ define(['jquery', 'jqueryCookie', 'sortable', 'modules/helper/confirm', 'noty'],
             /**
              * Gestion du tri des pages
              */
-            var initTri = function () {
-                $('.sort-box').each(function () {
+            var initTri = function (wrap) {
+                console.log($(wrap));
+                $(wrap).each(function () {
                     $(this).children('fieldset').each(function (i) {
                         var domId = $(this).attr('id'),
                                 tabId = domId.split('_'),
@@ -21,11 +22,16 @@ define(['jquery', 'jqueryCookie', 'sortable', 'modules/helper/confirm', 'noty'],
                         animation: 150,
                         handle: '.sort-move',
                         items: '> .sort-elmt',
-                        onSort: function () {
-                            positions = sortable.toArray();
-                            orderProcess();
+                        onEnd: function (evt) {
+                            positions = $(evt.target).data('sortable').toArray();
+                            // Si positions différentes
+                            if (typeof $(evt.target).data('lastSortableOrder') == 'undefined' || $(evt.target).data('lastSortableOrder').toString() != positions.toString()) {
+                                $(evt.target).data('lastSortableOrder', positions);
+                                orderProcess();
+                            }
                         }
                     });
+                    $(this).data('sortable', sortable);
                 });
             }
 
@@ -44,7 +50,7 @@ define(['jquery', 'jqueryCookie', 'sortable', 'modules/helper/confirm', 'noty'],
                 return false;
             }
 
-            initTri();
+            initTri($('.sort-box'));
 
 
             $('select[name=id_sous_rubrique]').change(function () {
@@ -91,7 +97,7 @@ define(['jquery', 'jqueryCookie', 'sortable', 'modules/helper/confirm', 'noty'],
                                 $divToLoad.html(data)
                                 $divToLoad.addClass('children-loaded');
                                 if (data != '') {
-                                    initTri();
+                                    //initTri($('.sort-box', $divToLoad));
                                     $divToLoad.slideToggle(500);
                                     $divToLoad.siblings('.cat-modif').slideToggle(500);
                                 }
@@ -172,7 +178,7 @@ define(['jquery', 'jqueryCookie', 'sortable', 'modules/helper/confirm', 'noty'],
                             $divToLoad.html(data)
                             $divToLoad.addClass('children-loaded');
                             if (data != '') {
-                                initTri();
+                                //initTri();
                                 $divToLoad.slideToggle(500, function () {
                                     if (currentState == saveStateListPage.length
                                             && anchorFound !== false) {
