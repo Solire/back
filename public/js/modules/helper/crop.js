@@ -1,8 +1,8 @@
 define(['jquery', 'jcrop'], function ($) {
     return {
         defaults: {
-            boxWidth: 540,
-            boxHeight: 400,
+            boxWidth: 800,
+            boxHeight: 600,
             url: 'back/media/crop.html',
             onclickCrop: '.exec-onclick-crop'
         },

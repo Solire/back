@@ -39,24 +39,25 @@ define(['jquery', 'modules/helper/dialog', 'modules/helper/crop'], function ($, 
                     );
 
                     $('#crop-target', modalCrop).Jcrop('api').container.on('cropmove cropend',function(e,s,c){
-                        $('.wShow', modalCrop).val(Math.round(c.w));
-                        $('.hShow', modalCrop).val(Math.round(c.h));
+                        $('.wShow', modalCrop).val(parseInt(c.w));
+                        $('.hShow', modalCrop).val(parseInt(c.h));
                     });
 
-                    $('.wShow, .hShow', modalCrop).on('input', function() {
+                    $('.wShow, .hShow', modalCrop).on('change', function() {
                         var cropData = $('#crop-target', modalCrop).data('crop');
 
                         if (typeof cropData == 'undefined') {
+                            cropData = {};
                             cropData.x = 0;
                             cropData.y = 0;
                         }
 
-                        var x = cropData.x,
-                            y = cropData.y,
+                        var x = parseInt(cropData.x),
+                            y = parseInt(cropData.y),
                             w = parseInt($('.wShow', modalCrop).val()),
                             h = parseInt($('.hShow', modalCrop).val());
 
-                        $('#crop-target', modalCrop).Jcrop('api').setSelect([
+                        $('#crop-target', modalCrop).Jcrop('api').animateTo([
                             x,
                             y,
                             w,
