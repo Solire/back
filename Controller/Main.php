@@ -561,10 +561,6 @@ class Main extends Controller
             ]
         );
 
-        $this->css->addLibrary(
-            'back/bower_components/youtube-loading-bar/dist/css/youtubeLoadingBar.min.css'
-        );
-
         /* Datatables */
         $this->requireJs->addLibrary(
             'back/bower_components/datatables/media/js/jquery.dataTables.js',
