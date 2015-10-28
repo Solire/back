@@ -66,9 +66,22 @@ columns:
 
   status:
     label: Statut
-    filter: 0
+    filter: 1
     sort: 1
     source: 'IF(p.suppr, "2", IF(p.visible = 0, "1", "0"))'
+    sourceFilterType: Exact
+    driverFilterType: select
+    driverOption:
+      values:
+        -
+          label: Publié
+          value: "0"
+        -
+          label: En attente
+          value: "1"
+        -
+          label: Supprimé
+          value: "2"
     format:
       class: Solire\Lib\Trieur\Format\Twig
       fileName: datatable/board/status.html.twig
@@ -90,6 +103,8 @@ columns:
     filter: 1
     sort: 1
     source: p.date_crea
+    driverFilterType: dateRange
+    sourceFilterType: DateRange
     format:
       class: \Solire\Trieur\Format\Callback
       name:
@@ -110,6 +125,8 @@ columns:
     filter: 1
     sort: 1
     source: p.date_modif
+    driverFilterType: dateRange
+    sourceFilterType: DateRange
     format:
       class: \Solire\Trieur\Format\Callback
       name:

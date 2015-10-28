@@ -1,4 +1,4 @@
-define(['jquery', 'modules/helper/amd', 'datatablesMaterialDesign', 'datatablesResponsive', 'datatablesLightColumnfilter'], function ($, helperAmd) {
+define(['jquery', 'modules/helper/amd', 'datatablesMaterialDesign', 'datatablesResponsive', 'datatables-light-columnfilter', 'datatablesLCFBootstrap3'], function ($, helperAmd) {
     return {
         datatables: [],
         defaults: {
