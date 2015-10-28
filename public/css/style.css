@@ -1955,7 +1955,7 @@ small,
 /* line 83, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_type.scss */
 mark,
 .mark {
-  background-color: #fcf8e3;
+  background-color: #ff7518;
   padding: .2em;
 }
 
@@ -2017,46 +2017,46 @@ a.text-primary:focus {
 
 /* line 5, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_text-emphasis.scss */
 .text-success {
-  color: #3c763d;
+  color: #fff;
 }
 
 /* line 8, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_text-emphasis.scss */
 a.text-success:hover,
 a.text-success:focus {
-  color: #2b542c;
+  color: #e6e6e6;
 }
 
 /* line 5, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_text-emphasis.scss */
 .text-info {
-  color: #31708f;
+  color: #fff;
 }
 
 /* line 8, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_text-emphasis.scss */
 a.text-info:hover,
 a.text-info:focus {
-  color: #245269;
+  color: #e6e6e6;
 }
 
 /* line 5, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_text-emphasis.scss */
 .text-warning {
-  color: #8a6d3b;
+  color: #fff;
 }
 
 /* line 8, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_text-emphasis.scss */
 a.text-warning:hover,
 a.text-warning:focus {
-  color: #66512c;
+  color: #e6e6e6;
 }
 
 /* line 5, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_text-emphasis.scss */
 .text-danger {
-  color: #a94442;
+  color: #fff;
 }
 
 /* line 8, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_text-emphasis.scss */
 a.text-danger:hover,
 a.text-danger:focus {
-  color: #843534;
+  color: #e6e6e6;
 }
 
 /* line 119, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_type.scss */
@@ -2077,46 +2077,46 @@ a.bg-primary:focus {
 
 /* line 5, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_background-variant.scss */
 .bg-success {
-  background-color: #dff0d8;
+  background-color: #64C81e;
 }
 
 /* line 8, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_background-variant.scss */
 a.bg-success:hover,
 a.bg-success:focus {
-  background-color: #c1e2b3;
+  background-color: #4e9c17;
 }
 
 /* line 5, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_background-variant.scss */
 .bg-info {
-  background-color: #d9edf7;
+  background-color: #9954bb;
 }
 
 /* line 8, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_background-variant.scss */
 a.bg-info:hover,
 a.bg-info:focus {
-  background-color: #afd9ee;
+  background-color: #7e3f9d;
 }
 
 /* line 5, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_background-variant.scss */
 .bg-warning {
-  background-color: #fcf8e3;
+  background-color: #ff7518;
 }
 
 /* line 8, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_background-variant.scss */
 a.bg-warning:hover,
 a.bg-warning:focus {
-  background-color: #f7ecb5;
+  background-color: #e45c00;
 }
 
 /* line 5, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_background-variant.scss */
 .bg-danger {
-  background-color: #f2dede;
+  background-color: #c9302c;
 }
 
 /* line 8, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_background-variant.scss */
 a.bg-danger:hover,
 a.bg-danger:focus {
-  background-color: #e4b9b9;
+  background-color: #9f2623;
 }
 
 /* line 138, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_type.scss */
@@ -3609,13 +3609,13 @@ table th[class*="col-"] {
 .table > tfoot > tr > th.success,
 .table > tfoot > tr.success > td,
 .table > tfoot > tr.success > th {
-  background-color: #dff0d8;
+  background-color: #64C81e;
 }
 
 /* line 20, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_table-row.scss */
 .table-hover > tbody > tr > td.success:hover,
 .table-hover > tbody > tr > th.success:hover, .table-hover > tbody > tr.success:hover > td, .table-hover > tbody > tr:hover > .success, .table-hover > tbody > tr.success:hover > th {
-  background-color: #d0e9c6;
+  background-color: #59b21b;
 }
 
 /* line 9, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_table-row.scss */
@@ -3629,13 +3629,13 @@ table th[class*="col-"] {
 .table > tfoot > tr > th.info,
 .table > tfoot > tr.info > td,
 .table > tfoot > tr.info > th {
-  background-color: #d9edf7;
+  background-color: #9954bb;
 }
 
 /* line 20, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_table-row.scss */
 .table-hover > tbody > tr > td.info:hover,
 .table-hover > tbody > tr > th.info:hover, .table-hover > tbody > tr.info:hover > td, .table-hover > tbody > tr:hover > .info, .table-hover > tbody > tr.info:hover > th {
-  background-color: #c4e3f3;
+  background-color: #8d46b0;
 }
 
 /* line 9, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_table-row.scss */
@@ -3649,13 +3649,13 @@ table th[class*="col-"] {
 .table > tfoot > tr > th.warning,
 .table > tfoot > tr.warning > td,
 .table > tfoot > tr.warning > th {
-  background-color: #fcf8e3;
+  background-color: #ff7518;
 }
 
 /* line 20, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_table-row.scss */
 .table-hover > tbody > tr > td.warning:hover,
 .table-hover > tbody > tr > th.warning:hover, .table-hover > tbody > tr.warning:hover > td, .table-hover > tbody > tr:hover > .warning, .table-hover > tbody > tr.warning:hover > th {
-  background-color: #faf2cc;
+  background-color: #fe6600;
 }
 
 /* line 9, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_table-row.scss */
@@ -3669,13 +3669,13 @@ table th[class*="col-"] {
 .table > tfoot > tr > th.danger,
 .table > tfoot > tr.danger > td,
 .table > tfoot > tr.danger > th {
-  background-color: #f2dede;
+  background-color: #c9302c;
 }
 
 /* line 20, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_table-row.scss */
 .table-hover > tbody > tr > td.danger:hover,
 .table-hover > tbody > tr > th.danger:hover, .table-hover > tbody > tr.danger:hover > td, .table-hover > tbody > tr:hover > .danger, .table-hover > tbody > tr.danger:hover > th {
-  background-color: #ebcccc;
+  background-color: #b42b27;
 }
 
 /* line 171, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_tables.scss */
@@ -4188,29 +4188,29 @@ select[multiple].input-lg,
 .has-success .checkbox,
 .has-success .radio-inline,
 .has-success .checkbox-inline, .has-success.radio label, .has-success.checkbox label, .has-success.radio-inline label, .has-success.checkbox-inline label {
-  color: #3c763d;
+  color: #fff;
 }
 /* line 21, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_forms.scss */
 .has-success .form-control {
-  border-color: #3c763d;
+  border-color: #fff;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 /* line 24, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_forms.scss */
 .has-success .form-control:focus {
-  border-color: #2b542c;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #67b168;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #67b168;
+  border-color: #e6e6e6;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px white;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px white;
 }
 /* line 31, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_forms.scss */
 .has-success .input-group-addon {
-  color: #3c763d;
-  border-color: #3c763d;
-  background-color: #dff0d8;
+  color: #fff;
+  border-color: #fff;
+  background-color: #64C81e;
 }
 /* line 37, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_forms.scss */
 .has-success .form-control-feedback {
-  color: #3c763d;
+  color: #fff;
 }
 
 /* line 8, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_forms.scss */
@@ -4220,29 +4220,29 @@ select[multiple].input-lg,
 .has-warning .checkbox,
 .has-warning .radio-inline,
 .has-warning .checkbox-inline, .has-warning.radio label, .has-warning.checkbox label, .has-warning.radio-inline label, .has-warning.checkbox-inline label {
-  color: #8a6d3b;
+  color: #fff;
 }
 /* line 21, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_forms.scss */
 .has-warning .form-control {
-  border-color: #8a6d3b;
+  border-color: #fff;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 /* line 24, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_forms.scss */
 .has-warning .form-control:focus {
-  border-color: #66512c;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #c0a16b;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #c0a16b;
+  border-color: #e6e6e6;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px white;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px white;
 }
 /* line 31, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_forms.scss */
 .has-warning .input-group-addon {
-  color: #8a6d3b;
-  border-color: #8a6d3b;
-  background-color: #fcf8e3;
+  color: #fff;
+  border-color: #fff;
+  background-color: #ff7518;
 }
 /* line 37, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_forms.scss */
 .has-warning .form-control-feedback {
-  color: #8a6d3b;
+  color: #fff;
 }
 
 /* line 8, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_forms.scss */
@@ -4252,29 +4252,29 @@ select[multiple].input-lg,
 .has-error .checkbox,
 .has-error .radio-inline,
 .has-error .checkbox-inline, .has-error.radio label, .has-error.checkbox label, .has-error.radio-inline label, .has-error.checkbox-inline label {
-  color: #a94442;
+  color: #fff;
 }
 /* line 21, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_forms.scss */
 .has-error .form-control {
-  border-color: #a94442;
+  border-color: #fff;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 /* line 24, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_forms.scss */
 .has-error .form-control:focus {
-  border-color: #843534;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483;
+  border-color: #e6e6e6;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px white;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px white;
 }
 /* line 31, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_forms.scss */
 .has-error .input-group-addon {
-  color: #a94442;
-  border-color: #a94442;
-  background-color: #f2dede;
+  color: #fff;
+  border-color: #fff;
+  background-color: #c9302c;
 }
 /* line 37, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_forms.scss */
 .has-error .form-control-feedback {
-  color: #a94442;
+  color: #fff;
 }
 
 /* line 433, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_forms.scss */
@@ -4692,32 +4692,32 @@ a.btn.disabled, fieldset[disabled] a.btn {
 /* line 87, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_buttons.scss */
 .btn-danger {
   color: #fff;
-  background-color: #d9534f;
-  border-color: #d43f3a;
+  background-color: #c9302c;
+  border-color: #b42b27;
 }
 /* line 11, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_buttons.scss */
 .btn-danger:focus, .btn-danger.focus {
   color: #fff;
-  background-color: #c9302c;
-  border-color: #761c19;
+  background-color: #9f2623;
+  border-color: #4b1211;
 }
 /* line 17, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_buttons.scss */
 .btn-danger:hover {
   color: #fff;
-  background-color: #c9302c;
-  border-color: #ac2925;
+  background-color: #9f2623;
+  border-color: #821f1c;
 }
 /* line 22, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_buttons.scss */
 .btn-danger:active, .btn-danger.active, .open > .btn-danger.dropdown-toggle {
   color: #fff;
-  background-color: #c9302c;
-  border-color: #ac2925;
+  background-color: #9f2623;
+  border-color: #821f1c;
 }
 /* line 29, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_buttons.scss */
 .btn-danger:active:hover, .btn-danger:active:focus, .btn-danger:active.focus, .btn-danger.active:hover, .btn-danger.active:focus, .btn-danger.active.focus, .open > .btn-danger.dropdown-toggle:hover, .open > .btn-danger.dropdown-toggle:focus, .open > .btn-danger.dropdown-toggle.focus {
   color: #fff;
-  background-color: #ac2925;
-  border-color: #761c19;
+  background-color: #821f1c;
+  border-color: #4b1211;
 }
 /* line 37, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_buttons.scss */
 .btn-danger:active, .btn-danger.active, .open > .btn-danger.dropdown-toggle {
@@ -4725,12 +4725,12 @@ a.btn.disabled, fieldset[disabled] a.btn {
 }
 /* line 45, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_buttons.scss */
 .btn-danger.disabled, .btn-danger.disabled:hover, .btn-danger.disabled:focus, .btn-danger.disabled.focus, .btn-danger.disabled:active, .btn-danger.disabled.active, .btn-danger[disabled], .btn-danger[disabled]:hover, .btn-danger[disabled]:focus, .btn-danger[disabled].focus, .btn-danger[disabled]:active, .btn-danger[disabled].active, fieldset[disabled] .btn-danger, fieldset[disabled] .btn-danger:hover, fieldset[disabled] .btn-danger:focus, fieldset[disabled] .btn-danger.focus, fieldset[disabled] .btn-danger:active, fieldset[disabled] .btn-danger.active {
-  background-color: #d9534f;
-  border-color: #d43f3a;
+  background-color: #c9302c;
+  border-color: #b42b27;
 }
 /* line 56, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_buttons.scss */
 .btn-danger .badge {
-  color: #d9534f;
+  color: #c9302c;
   background-color: #fff;
 }
 
@@ -6503,11 +6503,11 @@ a.label:hover, a.label:focus {
 
 /* line 64, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_labels.scss */
 .label-danger {
-  background-color: #d9534f;
+  background-color: #c9302c;
 }
 /* line 7, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_labels.scss */
 .label-danger[href]:hover, .label-danger[href]:focus {
-  background-color: #c9302c;
+  background-color: #9f2623;
 }
 
 /* line 7, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_badges.scss */
@@ -6690,62 +6690,62 @@ a.thumbnail.active {
 
 /* line 59, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_alerts.scss */
 .alert-success {
-  background-color: #dff0d8;
-  border-color: #d6e9c6;
-  color: #3c763d;
+  background-color: #64C81e;
+  border-color: #72b21b;
+  color: #fff;
 }
 /* line 8, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_alerts.scss */
 .alert-success hr {
-  border-top-color: #c9e2b3;
+  border-top-color: #649c17;
 }
 /* line 11, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_alerts.scss */
 .alert-success .alert-link {
-  color: #2b542c;
+  color: #e6e6e6;
 }
 
 /* line 63, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_alerts.scss */
 .alert-info {
-  background-color: #d9edf7;
-  border-color: #bce8f1;
-  color: #31708f;
+  background-color: #9954bb;
+  border-color: #7643a8;
+  color: #fff;
 }
 /* line 8, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_alerts.scss */
 .alert-info hr {
-  border-top-color: #a6e1ec;
+  border-top-color: #693c96;
 }
 /* line 11, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_alerts.scss */
 .alert-info .alert-link {
-  color: #245269;
+  color: #e6e6e6;
 }
 
 /* line 67, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_alerts.scss */
 .alert-warning {
-  background-color: #fcf8e3;
-  border-color: #faebcc;
-  color: #8a6d3b;
+  background-color: #ff7518;
+  border-color: #fe3c00;
+  color: #fff;
 }
 /* line 8, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_alerts.scss */
 .alert-warning hr {
-  border-top-color: #f7e1b5;
+  border-top-color: #e43600;
 }
 /* line 11, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_alerts.scss */
 .alert-warning .alert-link {
-  color: #66512c;
+  color: #e6e6e6;
 }
 
 /* line 71, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_alerts.scss */
 .alert-danger {
-  background-color: #f2dede;
-  border-color: #ebccd1;
-  color: #a94442;
+  background-color: #c9302c;
+  border-color: #b4273b;
+  color: #fff;
 }
 /* line 8, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_alerts.scss */
 .alert-danger hr {
-  border-top-color: #e4b9c0;
+  border-top-color: #9f2334;
 }
 /* line 11, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_alerts.scss */
 .alert-danger .alert-link {
-  color: #843534;
+  color: #e6e6e6;
 }
 
 @-webkit-keyframes progress-bar-stripes {
@@ -6844,7 +6844,7 @@ a.thumbnail.active {
 
 /* line 85, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_progress-bars.scss */
 .progress-bar-danger {
-  background-color: #d9534f;
+  background-color: #c9302c;
 }
 /* line 7, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_progress-bar.scss */
 .progress-striped .progress-bar-danger {
@@ -7015,14 +7015,14 @@ button.list-group-item {
 
 /* line 4, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_list-group.scss */
 .list-group-item-success {
-  color: #3c763d;
-  background-color: #dff0d8;
+  color: #fff;
+  background-color: #64C81e;
 }
 
 /* line 11, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_list-group.scss */
 a.list-group-item-success,
 button.list-group-item-success {
-  color: #3c763d;
+  color: #fff;
 }
 /* line 15, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_list-group.scss */
 a.list-group-item-success .list-group-item-heading,
@@ -7033,8 +7033,8 @@ button.list-group-item-success .list-group-item-heading {
 a.list-group-item-success:hover, a.list-group-item-success:focus,
 button.list-group-item-success:hover,
 button.list-group-item-success:focus {
-  color: #3c763d;
-  background-color: #d0e9c6;
+  color: #fff;
+  background-color: #59b21b;
 }
 /* line 24, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_list-group.scss */
 a.list-group-item-success.active, a.list-group-item-success.active:hover, a.list-group-item-success.active:focus,
@@ -7042,20 +7042,20 @@ button.list-group-item-success.active,
 button.list-group-item-success.active:hover,
 button.list-group-item-success.active:focus {
   color: #fff;
-  background-color: #3c763d;
-  border-color: #3c763d;
+  background-color: #fff;
+  border-color: #fff;
 }
 
 /* line 4, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_list-group.scss */
 .list-group-item-info {
-  color: #31708f;
-  background-color: #d9edf7;
+  color: #fff;
+  background-color: #9954bb;
 }
 
 /* line 11, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_list-group.scss */
 a.list-group-item-info,
 button.list-group-item-info {
-  color: #31708f;
+  color: #fff;
 }
 /* line 15, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_list-group.scss */
 a.list-group-item-info .list-group-item-heading,
@@ -7066,8 +7066,8 @@ button.list-group-item-info .list-group-item-heading {
 a.list-group-item-info:hover, a.list-group-item-info:focus,
 button.list-group-item-info:hover,
 button.list-group-item-info:focus {
-  color: #31708f;
-  background-color: #c4e3f3;
+  color: #fff;
+  background-color: #8d46b0;
 }
 /* line 24, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_list-group.scss */
 a.list-group-item-info.active, a.list-group-item-info.active:hover, a.list-group-item-info.active:focus,
@@ -7075,20 +7075,20 @@ button.list-group-item-info.active,
 button.list-group-item-info.active:hover,
 button.list-group-item-info.active:focus {
   color: #fff;
-  background-color: #31708f;
-  border-color: #31708f;
+  background-color: #fff;
+  border-color: #fff;
 }
 
 /* line 4, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_list-group.scss */
 .list-group-item-warning {
-  color: #8a6d3b;
-  background-color: #fcf8e3;
+  color: #fff;
+  background-color: #ff7518;
 }
 
 /* line 11, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_list-group.scss */
 a.list-group-item-warning,
 button.list-group-item-warning {
-  color: #8a6d3b;
+  color: #fff;
 }
 /* line 15, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_list-group.scss */
 a.list-group-item-warning .list-group-item-heading,
@@ -7099,8 +7099,8 @@ button.list-group-item-warning .list-group-item-heading {
 a.list-group-item-warning:hover, a.list-group-item-warning:focus,
 button.list-group-item-warning:hover,
 button.list-group-item-warning:focus {
-  color: #8a6d3b;
-  background-color: #faf2cc;
+  color: #fff;
+  background-color: #fe6600;
 }
 /* line 24, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_list-group.scss */
 a.list-group-item-warning.active, a.list-group-item-warning.active:hover, a.list-group-item-warning.active:focus,
@@ -7108,20 +7108,20 @@ button.list-group-item-warning.active,
 button.list-group-item-warning.active:hover,
 button.list-group-item-warning.active:focus {
   color: #fff;
-  background-color: #8a6d3b;
-  border-color: #8a6d3b;
+  background-color: #fff;
+  border-color: #fff;
 }
 
 /* line 4, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_list-group.scss */
 .list-group-item-danger {
-  color: #a94442;
-  background-color: #f2dede;
+  color: #fff;
+  background-color: #c9302c;
 }
 
 /* line 11, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_list-group.scss */
 a.list-group-item-danger,
 button.list-group-item-danger {
-  color: #a94442;
+  color: #fff;
 }
 /* line 15, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_list-group.scss */
 a.list-group-item-danger .list-group-item-heading,
@@ -7132,8 +7132,8 @@ button.list-group-item-danger .list-group-item-heading {
 a.list-group-item-danger:hover, a.list-group-item-danger:focus,
 button.list-group-item-danger:hover,
 button.list-group-item-danger:focus {
-  color: #a94442;
-  background-color: #ebcccc;
+  color: #fff;
+  background-color: #b42b27;
 }
 /* line 24, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_list-group.scss */
 a.list-group-item-danger.active, a.list-group-item-danger.active:hover, a.list-group-item-danger.active:focus,
@@ -7141,8 +7141,8 @@ button.list-group-item-danger.active,
 button.list-group-item-danger.active:hover,
 button.list-group-item-danger.active:focus {
   color: #fff;
-  background-color: #a94442;
-  border-color: #a94442;
+  background-color: #fff;
+  border-color: #fff;
 }
 
 /* line 123, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_list-group.scss */
@@ -7500,98 +7500,98 @@ button.list-group-item-danger.active:focus {
 
 /* line 260, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_panels.scss */
 .panel-success {
-  border-color: #d6e9c6;
+  border-color: #72b21b;
 }
 /* line 6, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_panels.scss */
 .panel-success > .panel-heading {
-  color: #3c763d;
-  background-color: #dff0d8;
-  border-color: #d6e9c6;
+  color: #fff;
+  background-color: #64C81e;
+  border-color: #72b21b;
 }
 /* line 11, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_panels.scss */
 .panel-success > .panel-heading + .panel-collapse > .panel-body {
-  border-top-color: #d6e9c6;
+  border-top-color: #72b21b;
 }
 /* line 14, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_panels.scss */
 .panel-success > .panel-heading .badge {
-  color: #dff0d8;
-  background-color: #3c763d;
+  color: #64C81e;
+  background-color: #fff;
 }
 /* line 20, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_panels.scss */
 .panel-success > .panel-footer + .panel-collapse > .panel-body {
-  border-bottom-color: #d6e9c6;
+  border-bottom-color: #72b21b;
 }
 
 /* line 263, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_panels.scss */
 .panel-info {
-  border-color: #bce8f1;
+  border-color: #7643a8;
 }
 /* line 6, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_panels.scss */
 .panel-info > .panel-heading {
-  color: #31708f;
-  background-color: #d9edf7;
-  border-color: #bce8f1;
+  color: #fff;
+  background-color: #9954bb;
+  border-color: #7643a8;
 }
 /* line 11, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_panels.scss */
 .panel-info > .panel-heading + .panel-collapse > .panel-body {
-  border-top-color: #bce8f1;
+  border-top-color: #7643a8;
 }
 /* line 14, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_panels.scss */
 .panel-info > .panel-heading .badge {
-  color: #d9edf7;
-  background-color: #31708f;
+  color: #9954bb;
+  background-color: #fff;
 }
 /* line 20, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_panels.scss */
 .panel-info > .panel-footer + .panel-collapse > .panel-body {
-  border-bottom-color: #bce8f1;
+  border-bottom-color: #7643a8;
 }
 
 /* line 266, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_panels.scss */
 .panel-warning {
-  border-color: #faebcc;
+  border-color: #fe3c00;
 }
 /* line 6, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_panels.scss */
 .panel-warning > .panel-heading {
-  color: #8a6d3b;
-  background-color: #fcf8e3;
-  border-color: #faebcc;
+  color: #fff;
+  background-color: #ff7518;
+  border-color: #fe3c00;
 }
 /* line 11, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_panels.scss */
 .panel-warning > .panel-heading + .panel-collapse > .panel-body {
-  border-top-color: #faebcc;
+  border-top-color: #fe3c00;
 }
 /* line 14, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_panels.scss */
 .panel-warning > .panel-heading .badge {
-  color: #fcf8e3;
-  background-color: #8a6d3b;
+  color: #ff7518;
+  background-color: #fff;
 }
 /* line 20, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_panels.scss */
 .panel-warning > .panel-footer + .panel-collapse > .panel-body {
-  border-bottom-color: #faebcc;
+  border-bottom-color: #fe3c00;
 }
 
 /* line 269, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_panels.scss */
 .panel-danger {
-  border-color: #ebccd1;
+  border-color: #b4273b;
 }
 /* line 6, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_panels.scss */
 .panel-danger > .panel-heading {
-  color: #a94442;
-  background-color: #f2dede;
-  border-color: #ebccd1;
+  color: #fff;
+  background-color: #c9302c;
+  border-color: #b4273b;
 }
 /* line 11, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_panels.scss */
 .panel-danger > .panel-heading + .panel-collapse > .panel-body {
-  border-top-color: #ebccd1;
+  border-top-color: #b4273b;
 }
 /* line 14, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_panels.scss */
 .panel-danger > .panel-heading .badge {
-  color: #f2dede;
-  background-color: #a94442;
+  color: #c9302c;
+  background-color: #fff;
 }
 /* line 20, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_panels.scss */
 .panel-danger > .panel-footer + .panel-collapse > .panel-body {
-  border-bottom-color: #ebccd1;
+  border-bottom-color: #b4273b;
 }
 
 /* line 5, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_responsive-embed.scss */
