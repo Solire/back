@@ -51,17 +51,22 @@ define(['jquery', 'modules/helper/amd', 'modules/helper/wysiwyg'], function ($, 
             // Event click toggle visible
             $(wrap).on('click', '.exec-onclick-togglevisible', function (e) {
                 e.preventDefault();
-                var that = this;
+                var that = this,
+                    currentBlock = $(that).parents('.block-to-duplicate:first');
                 if ($(that).hasClass('btn-success')) {
                     $(that).removeClass("btn-success")
                         .addClass("btn-default");
 
-                    $(that).find("i").addClass("fa-eye-slash").removeClass("fa-eye")
+                    $(that).find("i").addClass("fa-eye-slash").removeClass("fa-eye");
+                    currentBlock.find('.changevisible').prop('checked', false);
+                    currentBlock.find('[name="visible[]"]').val('0');
                 } else {
                     $(that).removeClass("btn-default")
                         .addClass("btn-success");
 
-                    $(that).find("i").removeClass("fa-eye-slash").addClass("fa-eye")
+                    $(that).find("i").removeClass("fa-eye-slash").addClass("fa-eye");
+                    currentBlock.find('.changevisible').prop('checked', true);
+                    currentBlock.find('[name="visible[]"]').val('1');
                 }
             });
         },
