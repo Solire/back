@@ -9258,16 +9258,25 @@ table.dataTable > tbody > tr.child span.dtr-title {
   font-weight: bold;
 }
 
-/* line 4, ../../sass/layout/_datatable.scss */
-.dataTables_wrapper td, .dataTables_wrapper th  {
+/* line 3, ../../sass/layout/_datatable.scss */
+.datatable-actions {
+  margin-bottom: 20px;
+}
+
+/* line 8, ../../sass/layout/_datatable.scss */
+.dataTables_wrapper td, .dataTables_wrapper th {
   vertical-align: middle !important;
 }
-/* line 8, ../../sass/layout/_datatable.scss */
+/* line 13, ../../sass/layout/_datatable.scss */
+.dataTables_wrapper thead th input, .dataTables_wrapper thead th select {
+  max-width: 120px;
+}
+/* line 18, ../../sass/layout/_datatable.scss */
 .dataTables_wrapper .btn-group {
   margin-top: 0;
   margin-bottom: 0;
 }
-/* line 15, ../../sass/layout/_datatable.scss */
+/* line 25, ../../sass/layout/_datatable.scss */
 .dataTables_wrapper .youtube-loadingbar-wrapper {
   height: 2px;
 }

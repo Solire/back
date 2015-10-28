@@ -601,9 +601,20 @@ class Main extends Controller
         $this->requireJs->addLibrary(
             'back/bower_components/datatables-light-columnfilter/dist/dataTables.lightColumnFilter.min.js',
             [
-                'name' => 'datatablesLightColumnfilter',
+                'name' => 'datatables-light-columnfilter',
                 'deps' => [
                     'datatables',
+                ]
+            ]
+        );
+
+        $this->requireJs->addLibrary(
+            'back/bower_components/datatables-light-columnfilter/dist/dataTables.lcf.bootstrap3.min.js',
+            [
+                'name' => 'datatablesLCFBootstrap3',
+                'deps' => [
+                    'datatables-light-columnfilter',
+                    'bootstrapDatepicker',
                 ]
             ]
         );
