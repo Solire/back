@@ -1,11 +1,14 @@
 {% extends 'main.html.twig' %}
+{% import 'util/preloader.html.twig' as preloader %}
 
 {% block content %}
     {{ parent() }}
     <div>
         <h1>Tableau de bord</h1>
 
-        <table data-amd="modules/helper/datatable" data-datatable-name="{{ name }}"
-               id="datatable" class="table table-condensed dt-responsive"></table>
+        <div class="datatable-wrapper hidden">
+            <table data-amd="modules/helper/datatable" data-datatable-name="{{ name }}"
+                   id="datatable" class="table table-condensed dt-responsive"></table>
+        </div>
     </div>
 {% endblock %}
