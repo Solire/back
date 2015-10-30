@@ -3,17 +3,22 @@
 
 {% block content %}
     <div data-amd="modules/page/affichegabarit,modules/helper/ajaxcall,modules/page/upload,modules/render/beforeloadpage,modules/helper/zoom">
-        <h1>Gestion des pages</h1>
+        {% block contentTitle %}
+            <h1>Gestion des pages</h1>
+        {% endblock %}
         {{ breadcrumbs.breadcrumbs(breadCrumbs) }}
 
-        <h2>
-            {% if pages[backIdVersion].getMeta('id') %}
-                Modification de
-            {% else %}
-                Création de
-            {% endif %}
-            {{ pages[backIdVersion].getGabarit().getLabel()|lower }}
-        </h2>
+        {% block contentSubTitle %}
+            <h2>
+                {% if pages[backIdVersion].getMeta('id') %}
+                    Modification de
+                {% else %}
+                    Création de
+                {% endif %}
+                {{ pages[backIdVersion].getGabarit().getLabel()|lower }}
+            </h2>
+        {% endblock %}
+
         {% if versions|length > 0 %}
             <div>
                 {% for versionId, version in versions %}
