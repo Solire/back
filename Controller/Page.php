@@ -1555,6 +1555,12 @@ class Page extends Main
         foreach ($this->gabarits as $gabarit) {
             $found = false;
 
+            if (isset($currentConfigPageModule['boutons'])
+                && isset($currentConfigPageModule['boutons']['gabarit'])
+                && isset($currentConfigPageModule['boutons']['gabarit'][$gabarit['id']]['label'])
+            ) {
+                $gabarit['label'] = $currentConfigPageModule['boutons']['gabarit'][$gabarit['id']]['label'];
+            }
             $gabaritsGroup = [
                 'label' => $gabarit['label'],
             ];
