@@ -73,6 +73,12 @@ define(['jquery', 'jqueryControle', 'jqueryScrollTo', 'modules/helper/wysiwyg'],
                         }
                     });
                 },
+                beforeSubmit: function(){
+                    if (Math.floor(Date.now() / 1000) - this.submitTime < 5) {
+                        return false;
+                    }
+                    this.submitTime = Math.floor(Date.now() / 1000);
+                },
                 afterSubmit : function(response){
                     if ('after' in response) {
                         require(response.after, function(){
