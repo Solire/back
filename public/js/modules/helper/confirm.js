@@ -34,6 +34,9 @@ define(['jquery', 'modules/helper/dialog'], function ($, helperDialog) {
                     if (typeof options.callback == 'function') {
                         options.callback.apply(that, callbackParams);
                     }
+                    if (typeof options.autoclose != 'undefined' && options.autoclose) {
+                        helperDialog.close();
+                    }
                 });
             };
 

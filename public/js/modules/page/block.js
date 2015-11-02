@@ -1,4 +1,4 @@
-define(['jquery', 'modules/helper/amd', 'modules/helper/wysiwyg'], function ($, helperAmd, HelperWysiwyg) {
+define(['jquery', 'modules/helper/amd', 'modules/helper/wysiwyg', 'modules/helper/confirm'], function ($, helperAmd, HelperWysiwyg, helperConfirm) {
     return {
         run: function (wrap, response) {
             var currentModule = this;
@@ -34,18 +34,30 @@ define(['jquery', 'modules/helper/amd', 'modules/helper/wysiwyg'], function ($, 
 
             // Event click remove block
             $(wrap).on('click', '.exec-onclick-removeblock', function (e) {
-                var that = this;
-                $(that).parents('.block-to-duplicate:first').slideUp('fast', function () {
-                    $(this).remove();
-                    //On autorise la suppression que si plus d'un bloc
-                    if ($('.block-to-duplicate', wrap).length > 1) {
-                        $('.block-to-duplicate', wrap).each(function () {
-                            $('.exec-onclick-removeblock, .block-to-sort-handle', this).prop('disabled', false)
-                        })
-                    } else {
-                        $('.block-to-duplicate', wrap).find('.exec-onclick-removeblock, .block-to-sort-handle').prop('disabled', true)
+                var helperConfirmOptions = {
+                    title: 'Suppression d\'un bloc',
+                    content: 'Êtes-vous sûr de vouloir supprimer ce bloc ?',
+                    confirmbuttontxt: 'Confirmer',
+                    cancelbuttontxt: 'Annuler',
+                    autoclose: true,
+                    callbackParams: [this],
+                    callback: function() {
+                        var that = this;
+                        $(that).parents('.block-to-duplicate:first').slideUp('fast', function () {
+                            $(this).remove();
+                            //On autorise la suppression que si plus d'un bloc
+                            if ($('.block-to-duplicate', wrap).length > 1) {
+                                $('.block-to-duplicate', wrap).each(function () {
+                                    $('.exec-onclick-removeblock, .block-to-sort-handle', this).prop('disabled', false)
+                                })
+                            } else {
+                                $('.block-to-duplicate', wrap).find('.exec-onclick-removeblock, .block-to-sort-handle').prop('disabled', true)
+                            }
+                        });
                     }
-                });
+                }
+
+                helperConfirm.run(helperConfirmOptions)
             });
 
             // Event click toggle visible
