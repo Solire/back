@@ -1,22 +1,25 @@
 <ul class="nav navbar-nav navbar-right">
-    <li class="dropdown">
-        <a data-toggle="dropdown" class="dropdown-toggle nav_condensed" href="#">
-            <i title="{{ mainVersions[backIdVersion].nom }}" class="flag-icon flag-icon-{{ mainVersions[backIdVersion].suf|lower }}"></i>
-            <i class="fa fa-caret-down"></i>
-        </a>
+    {% if mainVersions|length > 1 %}
+        <li class="dropdown">
+            <a data-toggle="dropdown" class="dropdown-toggle nav_condensed" href="#">
+                <i title="{{ mainVersions[backIdVersion].nom }}" class="flag-icon flag-icon-{{ mainVersions[backIdVersion].suf|lower }}"></i>
+                <i class="fa fa-caret-down"></i>
+            </a>
 
-        <ul class="dropdown-menu">
-            {% for version in mainVersions %}
-                <li>
-                    <a style="cursor:pointer;"
-                       onclick="$.cookie('back_id_version', {{ version.id }}, {path: '/'}); document.location.href = document.location.href; return false;">
-                        <i class="flag-icon flag-icon-{{ version.suf|lower }}"></i>
-                        &nbsp;{{ version.nom }}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    </li>
+            <ul class="dropdown-menu">
+                {% for version in mainVersions %}
+                    <li>
+                        <a style="cursor:pointer;"
+                           onclick="$.cookie('back_id_version', {{ version.id }}, {path: '/'}); document.location.href = document.location.href; return false;">
+                            <i class="flag-icon flag-icon-{{ version.suf|lower }}"></i>
+                            &nbsp;{{ version.nom }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
+    {% endif %}
+
     <li class="dropdown{{ controller == 'back/user' and action == 'start' ? ' active' }}">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
             <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
