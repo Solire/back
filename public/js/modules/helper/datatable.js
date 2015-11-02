@@ -28,7 +28,7 @@ define(['jquery', 'modules/helper/amd', 'datatablesMaterialDesign', 'datatablesR
 
                     response.config.initComplete = function () {
                         var datatableWrapper = $(wrap).parents('.datatable-wrapper:first');
-                        datatableWrapper.removeClass('hidden').css({'overflow': 'hidden'});
+                        datatableWrapper.removeClass('hidden');
                         var height = datatableWrapper.outerHeight();
                         datatableWrapper.css({'height': '100px', opacity: 0.2}).animate({'height': height, opacity: 1}, 350, function() {
                             $(this).css({'height': 'auto'})
