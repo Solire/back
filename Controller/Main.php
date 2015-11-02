@@ -278,6 +278,7 @@ class Main extends Controller
             'title' => '<i class="fa fa-home"></i>'
                 . ' '
                 . $this->view->site,
+            'url' => 'back/'
         ];
 
         /* On indique que l'on est dans une autre api **/

@@ -625,12 +625,12 @@ class Page extends Main
         if ($found) {
             $this->view->breadCrumbs[] = [
                 'title' => $this->configPageModule[$indexPageList]['label'],
-                'url'   => 'page/liste.html?c=' . $indexPageList,
+                'url'   => 'back/page/liste.html?c=' . $indexPageList,
             ];
         } else {
             $this->view->breadCrumbs[] = [
                 'title' => 'Liste des pages',
-                'url'   => 'page/liste.html',
+                'url'   => 'back/page/liste.html',
             ];
         }
 
