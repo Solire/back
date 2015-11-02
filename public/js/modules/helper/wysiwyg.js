@@ -10,6 +10,7 @@ define(['jquery', 'tinyMCE'], function ($, tinyMCE) {
       var s = {
         mode: 'none',
         height: '290px',
+        language_url : 'public/default/back/bower_components/solire.tinymce-i18n/langs/fr_FR.js',
         entity_encoding: 'raw',
         plugins: [
           'autolink link'
