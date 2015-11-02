@@ -525,6 +525,28 @@ class Main extends Controller
             ]
         );
 
+        /* Ladda button */
+        $this->requireJs->addLibrary(
+            'back/bower_components/solire.ladda-bootstrap/dist/ladda.min.js',
+            [
+                'name' => 'ladda',
+                'deps' => [
+                    'jquery',
+                    'spin',
+                ]
+            ]
+        );
+
+        $this->requireJs->addLibrary(
+            'back/bower_components/solire.ladda-bootstrap/dist/spin.min.js',
+            [
+                'name' => 'spin',
+                'deps' => [
+                    'jquery',
+                ]
+            ]
+        );
+
         /* Jcrop */
         $this->requireJs->addLibrary(
             'back/bower_components/Jcrop/js/Jcrop.js',

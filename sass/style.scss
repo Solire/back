@@ -44,7 +44,9 @@ $icon-font-path: "../public/bower_components/bootstrap-sass/assets/fonts/bootstr
 @import "../public/bower_components/bootstrap-sass/assets/stylesheets/bootstrap-sprockets";
 @import "../public/bower_components/bootstrap-sass/assets/stylesheets/bootstrap";
 
-@import "../public/bower_components/youtube-loading-bar/src/scss/youtubeLoadingBar.scss";
+@import "../public/bower_components/youtube-loading-bar/src/scss/youtubeLoadingBar";
+
+@import "../public/bower_components/solire.ladda-bootstrap/css/ladda";
 
 
 //  ██████╗ ██╗      ██████╗ ██████╗  █████╗ ██╗

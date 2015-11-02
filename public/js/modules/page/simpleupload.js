@@ -1,11 +1,13 @@
 define([
     'jquery',
     'jqueryCookie',
+    'ladda',
     'modules/helper/uploader',
     'modules/helper/autocompleteFile'
 ], function (
         $,
         jqueryCookie,
+        Ladda,
         helperUploader,
         helperAutocompleteFile
         ) {
@@ -48,6 +50,9 @@ define([
             FilesAdded: function (base, up, files) {
                 up.refresh();
                 up.start();
+                var l = Ladda.create(base);
+                l.start();
+                $(base).data('ladda', l);
             },
             UploadProgress: function (base, up, file) {
 
@@ -70,6 +75,7 @@ define([
                     select.trigger("select2:select", {data: response});
                 }
 
+                $(base).data('ladda').stop();
                 up.splice(0, 1);
             },
             Error: function (base, up, err) {
