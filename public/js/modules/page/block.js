@@ -93,7 +93,8 @@ define(['jquery', 'modules/helper/amd', 'modules/helper/wysiwyg'], function ($, 
             blockClone.find('.previsu').hide();
             blockClone.find('.crop').hide();
 
-            $('legend', blockClone).html('Bloc en cours de création');
+            var iconFolder = $('legend i', blockClone);
+            $('legend', blockClone).html(' Bloc en cours de création').prepend(iconFolder);
         },
         initBlock: function (blockClone) {
             var idnew;

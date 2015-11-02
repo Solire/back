@@ -29,7 +29,8 @@ define(['jquery', 'jqueryCookie', 'modules/helper/dialog'], function ($, jqueryC
             $(document.body).on('click', 'legend', function (e) {
                 e.preventDefault();
 
-                var indexLegend = $(this).index('legend');
+                var indexLegend = $(this).index('legend'),
+                    $legend = $(this);
                 if (!openingLegend[indexLegend]) {
                     openingLegend[indexLegend] = true;
                     $(this).next().slideToggle(500, function () {
@@ -41,6 +42,7 @@ define(['jquery', 'jqueryCookie', 'modules/helper/dialog'], function ($, jqueryC
                                 $(this).gmap3('get').setCenter(new google.maps.LatLng(lat, lng))
                             }
                         })
+                        $legend.find('i.fa-folder').toggleClass('fa-folder-open');
                         openingLegend[indexLegend] = false;
                         if ($(this).parent('.block-to-sort').parents('fieldset:first').find('.expand-collapse').length) {
                             disabledExpandCollaspse($(this).parent('.block-to-sort').parents('fieldset:first'));
