@@ -28,7 +28,7 @@ define(['jquery', 'modules/helper/amd', 'modules/helper/wysiwyg'], function ($, 
 
                 //On autorise la suppression car plus qu'un bloc
                 $('.block-to-duplicate', sortBox).each(function () {
-                    $('.exec-onclick-removeblock', this).prop('disabled', false)
+                    $('.exec-onclick-removeblock, .block-to-sort-handle', this).prop('disabled', false)
                 })
             });
 
@@ -40,10 +40,10 @@ define(['jquery', 'modules/helper/amd', 'modules/helper/wysiwyg'], function ($, 
                     //On autorise la suppression que si plus d'un bloc
                     if ($('.block-to-duplicate', wrap).length > 1) {
                         $('.block-to-duplicate', wrap).each(function () {
-                            $('.exec-onclick-removeblock', this).prop('disabled', false)
+                            $('.exec-onclick-removeblock, .block-to-sort-handle', this).prop('disabled', false)
                         })
                     } else {
-                        $('.block-to-duplicate', wrap).find('.exec-onclick-removeblock').prop('disabled', true)
+                        $('.block-to-duplicate', wrap).find('.exec-onclick-removeblock, .block-to-sort-handle').prop('disabled', true)
                     }
                 });
             });
