@@ -9506,12 +9506,16 @@ legend:hover {
     height:auto;
     max-width: 80px;
 }*/
+/* line 10, ../../sass/layout/_form.scss */
+.form-group-file .dl-horizontal, .select2-container .dl-horizontal {
+  font-size: 12px;
+}
 @media (min-width: 768px) {
-  /* line 11, ../../sass/layout/_form.scss */
+  /* line 14, ../../sass/layout/_form.scss */
   .form-group-file .dl-horizontal dt, .select2-container .dl-horizontal dt {
     width: 95px;
   }
-  /* line 15, ../../sass/layout/_form.scss */
+  /* line 18, ../../sass/layout/_form.scss */
   .form-group-file .dl-horizontal dd, .select2-container .dl-horizontal dd {
     margin-left: 115px;
   }

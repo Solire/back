@@ -119,7 +119,7 @@ class Media extends Main
             if (array_key_exists($ext, FileManager::$extensions['image'])) {
                 $file['path_mini']  = $this->view->prefixFileUrl
                                     . $file['id_gab_page'] . '/'
-                                    . $this->upload_vignette . '/'
+                                    . $this->upload_apercu . '/'
                                     . $file['rewriting'];
 
                 $sizes = getimagesize($serverpath);
@@ -506,7 +506,7 @@ class Media extends Main
         if (FileManager::isImage($response['filename'])) {
             $vignette   = $this->view->prefixFileUrl
                         . $targetDir . Path::DS
-                        . $this->upload_vignette . Path::DS
+                        . $this->upload_apercu . Path::DS
                         . $response['filename'];
             $serverpath = $this->upload_path . Path::DS
                         . $targetDir . Path::DS
@@ -666,7 +666,7 @@ class Media extends Main
                 if (!$tinyMCE || FileManager::isImage($file['rewriting'])) {
                     $url = $dir . '/' . $file['rewriting'];
                     $vignette = $dir . '/'
-                              . $this->upload_vignette . '/'
+                              . $this->upload_apercu . '/'
                               . $file['rewriting'];
                     $serverpath = $this->upload_path . Path::DS
                                 . $dir . Path::DS

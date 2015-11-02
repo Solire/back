@@ -31,8 +31,8 @@ define(['jquery', 'modules/helper/autocomplete'], function ($, helperAutocomplet
                     }
 
                     var markup = '<div  title="' + file.label + '" class="row" style="margin: 0">'
-                        + '<div class="col-sm-3">' + thumbnail + '</div>'
-                        + '<div class="col-sm-9">'
+                        + '<div class="col-sm-4">' + thumbnail + '</div>'
+                        + '<div class="col-sm-8">'
                         + '<dl class="dl-horizontal"><dt>Nom de fichier</dt><dd><span>' + file.label + '<span></dd><dt>Taille</dt><dd><span>' + file.size + '<span></dd>' + alert + '</dl>'
                         + '</div>'
                         + '</div>';
