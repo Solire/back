@@ -22,6 +22,14 @@ define(['jquery'], function ($) {
 
                 wrap.find("i").removeClass("fa-eye").addClass("fa-eye-slash")
             }
+            console.log('rerer');
+
+            if ($('[data-datatable-name="board"]').length > 0) {
+                require(['modules/helper/datatable'], function(helperDatatable) {
+                    helperDatatable.reload($('[data-datatable-name="board"]'));
+                })
+
+            }
         }
     };
 });

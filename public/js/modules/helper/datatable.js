@@ -48,7 +48,7 @@ define(['jquery', 'modules/helper/amd', 'datatablesMaterialDesign', 'datatablesR
                 });
             }
         },
-        reload: function (wrap, response) {
+        reload: function (wrap) {
             if (this.datatables[$(wrap).attr('id')]) {
                 this.datatables[$(wrap).attr('id')].ajax.reload();
             }
