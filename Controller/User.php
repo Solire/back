@@ -2,6 +2,8 @@
 
 namespace Solire\Back\Controller;
 
+use Doctrine\DBAL\DriverManager;
+use PDO;
 use Solire\Lib\Session;
 use ZxcvbnPhp\Zxcvbn;
 
@@ -117,6 +119,39 @@ class User extends Datatable
 
     public function formAction()
     {
+        $table = 'utilisateur';
+
+        $doctrineConnection = DriverManager::getConnection([
+            'pdo' => $this->db,
+        ]);
+        $doctrineConnection
+            ->getDatabasePlatform()
+            ->registerDoctrineTypeMapping('enum', 'string')
+        ;
+
+        $this->view->civilites = [
+            'M.',
+            'Mme',
+        ];
+
+        $this->view->niveaux = [
+            'redacteur',
+            'admin',
+            'solire',
+        ];
+
+        if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+            $query = 'SELECT * FROM utilisateur WHERE id = ' . $_GET['id'];
+            $data = $this->db->query($query)->fetch(PDO::FETCH_ASSOC);
+        } else {
+            $columns = $doctrineConnection->getSchemaManager()->listTableColumns($table);
+            $data = [];
+            foreach ($columns as $column) {
+                $data[$column->getName()] = '';
+            }
+        }
+
+        $this->view->data = $data;
     }
 
 }

@@ -19,7 +19,11 @@ class Formulaire extends Main
     {
         $this->view->enable(false);
 
-        $confName = filter_var($_GET['name'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
+        $confName = filter_var(
+            $_GET['name'],
+            FILTER_SANITIZE_STRING,
+            FILTER_FLAG_STRIP_LOW
+        );
 
         $confPath = FrontController::search('config/form/' . $confName . '.ini');
         if (!$confPath) {
@@ -66,6 +70,10 @@ class Formulaire extends Main
         }
 
         foreach ($saveConf->treatments as $champ => $callables) {
+            if (empty($data[$champ])) {
+                continue;
+            }
+
             foreach ($callables as $callable) {
                 if (is_object($callable)) {
                     $callable = array_values((array) $callable);

@@ -22,20 +22,13 @@ source:
   name: doctrine
   conf:
     select:
-      - u.civilite
-      - u.nom
-      - u.prenom
-      - u.societe
-      - u.niveau
-      - u.email
-      - u.actif
-      - u.date_crea
-
-
+      - u.*
+      - IF(u.actif > 0, 'Actif', 'Inactif') actifLabel
+      - IF(u.niveau = 'solire', 'SuperAdmin', IF(u.niveau = 'admin', 'Administrateur', 'Rédacteur')) niveauLabel
     from:
       name: utilisateur
       alias: u
-
+    group: u.id
 ## COLUMNS
 
 columns:
@@ -51,9 +44,19 @@ columns:
 
   civilite:
     label: Civilite
-    filter: 1
-    sort: 1
-    source: u.civilite
+    filter: 0
+    sort: 0
+#    source: u.civilite
+#    sourceFilterType: Exact
+#    driverFilterType: select
+#    driverOption:
+#      values:
+#        -
+#          label: M.
+#          value: M.
+#        -
+#          label: Mme
+#          value: Mme
 
   nom:
     label: Nom
@@ -73,11 +76,25 @@ columns:
     sort: 1
     source: u.societe
 
-  niveau:
+  niveauLabel:
     label: Niveau
     filter: 1
     sort: 1
-    source: u.niveau
+#    source: niveauLabel
+    sourceFilter: u.niveau
+    sourceFilterType: Exact
+    driverFilterType: select
+    driverOption:
+      values:
+        -
+          label: Rédacteur
+          value: redacteur
+        -
+          label: Administrateur
+          value: admin
+        -
+          label: Solire
+          value: solire
 
   email:
     label: Email
@@ -85,14 +102,46 @@ columns:
     sort: 1
     source: u.email
 
-  actif:
+  actifLabel:
     label: Actif
     filter: 1
     sort: 1
-    source: u.actif
+    sourceFilter: u.actif
+    sourceFilterType: Exact
+    driverFilterType: select
+    driverOption:
+      values:
+        -
+          label: Actif
+          value: "1"
+        -
+          label: Inactif
+          value: "0"
 
   date_crea:
     label: Créé le
     filter: 1
     sort: 1
     source: u.date_crea
+    driverFilterType: dateRange
+    sourceFilterType: DateRange
+    format:
+      class: \Solire\Trieur\Format\Callback
+      name:
+        - Solire\Lib\Format\DateTime
+        - sqlTo
+      cell: dateSql
+
+  action:
+    label: Action
+    filter: 0
+    sort: 0
+    source: id
+    format:
+      class: Solire\Lib\Trieur\Format\Twig
+      fileName: datatable/user/action.html.twig
+
+#  id:
+#    driverHidden: true
+#    filter: 0
+#    sort: 0
