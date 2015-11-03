@@ -4,6 +4,7 @@ namespace Solire\Back\Controller;
 
 use Doctrine\DBAL\DriverManager;
 use Solire\Conf\Loader as ConfLoader;
+use Solire\Form\Formulaire as Form;
 use Solire\Lib\FrontController;
 
 /**
@@ -13,6 +14,7 @@ use Solire\Lib\FrontController;
  */
 class Formulaire extends Main
 {
+
     public function saveAction()
     {
         $this->view->enable(false);
@@ -28,7 +30,7 @@ class Formulaire extends Main
             return;
         }
         $formConf = ConfLoader::load($confPath);
-        $form = new \Solire\Form\Formulaire($formConf);
+        $form = new Form($formConf);
         $request = $form->run();
 
         $confPath = FrontController::search('config/form/save/' . $confName . '.yml');
@@ -42,23 +44,50 @@ class Formulaire extends Main
         $saveConf = ConfLoader::load($confPath);
 
         $identifier = [];
-        $pks = explode('|', $request['cle']);
-        foreach ($saveConf->cle as $cle) {
-            $identifier[$cle] = array_shift($pks);
+        if (isset($request['cle'])) {
+            $pks = explode('|', $request['cle']);
+
+            foreach ($saveConf->cle as $cle) {
+                $identifier[$cle] = array_shift($pks);
+            }
         }
 
         $data = [];
         foreach ($saveConf->champs as $champ) {
+            if (!isset($request[$champ])) {
+                continue;
+            }
+
             $data[$champ] = $request[$champ];
+        }
+
+        foreach ($saveConf->timestamp as $champ) {
+            $data[$champ] = date('Y-m-d H:i:s');
+        }
+
+        foreach ($saveConf->treatments as $champ => $callables) {
+            foreach ($callables as $callable) {
+                if (is_object($callable)) {
+                    $callable = array_values((array) $callable);
+                }
+
+                $data[$champ] = call_user_func($callable, $data[$champ]);
+            }
         }
 
         $doctrineConnection = DriverManager::getConnection([
             'pdo' => $this->db,
         ]);
-        $doctrineConnection->update($saveConf->table, $data, $identifier);
+
+        if (empty($identifier)) {
+            $doctrineConnection->insert($saveConf->table, $data);
+        } else {
+            $doctrineConnection->update($saveConf->table, $data, $identifier);
+        }
 
         echo json_encode([
             'status' => 'success',
         ]);
     }
+
 }

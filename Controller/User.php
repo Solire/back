@@ -1,15 +1,9 @@
 <?php
-/**
- * Gestion du profile utilisateur
- *
- * @author  dev <dev@solire.fr>
- * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
- */
 
 namespace Solire\Back\Controller;
 
+use Solire\Lib\Session;
 use ZxcvbnPhp\Zxcvbn;
-use Solire\Lib\FrontController;
 
 /**
  * Gestion du profile utilisateur
@@ -17,8 +11,14 @@ use Solire\Lib\FrontController;
  * @author  dev <dev@solire.fr>
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
  */
-class User extends Main
+class User extends Datatable
 {
+
+    public function start()
+    {
+        parent::start();
+        $this->requireJs->addModule('modules/page/users');
+    }
 
     /**
      * Affichage du formulaire d'édition du profile
@@ -69,19 +69,19 @@ class User extends Main
         //Si aucune erreur on essaie de modifier le mot de passe
         if (count($errors) == 0) {
             $query = 'SELECT pass '
-                   . 'FROM utilisateur '
-                   . 'WHERE id = ' . $this->utilisateur->id . ' ';
+                    . 'FROM utilisateur '
+                    . 'WHERE id = ' . $this->utilisateur->id . ' ';
 
-            $oldPassHash   = $this->db->query($query)->fetchColumn();
+            $oldPassHash = $this->db->query($query)->fetchColumn();
             $oldPassFilled = $_POST['old_password'];
 
             if (password_verify($oldPassFilled, $oldPassHash) === true) {
 
-                $newPass = $this->utilisateur->prepareMdp($_POST['new_password']);
+                $newPass = Session::prepareMdp($_POST['new_password']);
 
                 $query = 'UPDATE utilisateur SET '
-                    . ' pass = ' . $this->db->quote($newPass) . ' '
-                    . 'WHERE `id` = ' . $this->utilisateur->id . ' ';
+                        . ' pass = ' . $this->db->quote($newPass) . ' '
+                        . 'WHERE `id` = ' . $this->utilisateur->id . ' ';
 
                 if ($this->db->exec($query)) {
                     $response['status'] = true;
@@ -94,18 +94,18 @@ class User extends Main
         if ($response['status']) {
             $this->utilisateur->disconnect();
             $jsonResponse = [
-                'status'      => 'success',
-                'text'        => 'Votre mot de passe a été mis à jour',
-                'after'       => array(
+                'status' => 'success',
+                'text' => 'Votre mot de passe a été mis à jour',
+                'after' => array(
                     'modules/helper/noty',
                     'modules/render/aftersavepassword',
                 )
             ];
         } else {
             $jsonResponse = [
-                'status'      => 'error',
-                'text'        => implode('<br />', $errors),
-                'after'       => array(
+                'status' => 'error',
+                'text' => implode('<br />', $errors),
+                'after' => array(
                     'modules/helper/noty',
                     'modules/render/aftersavepassword',
                 )
@@ -115,59 +115,8 @@ class User extends Main
         echo json_encode($jsonResponse);
     }
 
-    /**
-     * Liste des utilisateurs
-     *
-     * @return void
-     */
-    public function listeAction()
+    public function formAction()
     {
-        $configPath = FrontController::search(
-            'config/datatable/utilisateur.cfg.php'
-        );
-
-        if (!$configPath) {
-            $this->pageNotFound();
-        }
-
-        $datatableClassName = 'Back\\Datatable\\Utilisateur';
-        $datatableClassName = FrontController::searchClass(
-            $datatableClassName
-        );
-
-        if ($datatableClassName === false) {
-            $datatable = new Datatable(
-                $_GET,
-                $configPath,
-                $this->db,
-                'back/css/datatable/',
-                'back/js/datatable/',
-                'back/img/datatable/'
-            );
-        } else {
-            $datatable = new $datatableClassName(
-                $_GET,
-                $configPath,
-                $this->db,
-                'back/css/datatable/',
-                'back/js/datatable/',
-                'back/img/datatable/'
-            );
-        }
-
-        $datatable->setUtilisateur($this->utilisateur);
-        $datatable->start();
-        $datatable->setDefaultNbItems(
-            $this->appConfig->get('board', 'nb-content-default')
-        );
-
-        if (isset($_GET['json']) || (isset($_GET['nomain'])
-            && $_GET['nomain'] == 1)
-        ) {
-            echo $datatable->display();
-            exit();
-        }
-
-        $this->view->datatableRender = $datatable->display();
     }
+
 }
