@@ -28,6 +28,7 @@
     "flag-icon-css": "0.8.*",
     "x-editable": "~1.5.1",
     "jquery.scrollTo": "~2.1.2",
+    "material-shadows": "~2.0.1",
     "solire.ladda-bootstrap": "~0.1.0"
   },
   "resolutions": {

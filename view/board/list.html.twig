@@ -1,13 +1,13 @@
 {% extends 'main.html.twig' %}
 {% import 'util/preloader.html.twig' as preloader %}
 
-{% block content %}
-    <div>
-        <h1>Tableau de bord</h1>
+{% block title %}
+    Tableau de bord
+{% endblock %}
 
-        <div class="datatable-wrapper hidden">
-            <table data-amd="modules/helper/datatable" data-datatable-name="{{ name }}"
-                   id="datatable" class="table table-condensed dt-responsive table-striped table-hover"></table>
-        </div>
+{% block content %}
+    <div class="datatable-wrapper hidden">
+        <table data-amd="modules/helper/datatable" data-datatable-name="{{ name }}"
+               id="datatable" class="table table-condensed dt-responsive table-striped table-hover"></table>
     </div>
 {% endblock %}

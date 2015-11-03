@@ -1,14 +1,16 @@
 {% extends 'main.html.twig' %}
 {% import "util/breadcrumbs.html.twig" as breadcrumbs %}
 
+{% block title %}
+    {% if label %}
+        {{ label }}
+    {% else %}
+        Liste des pages
+    {% endif %}
+{% endblock %}
+
 {% block content %}
     <div data-amd="modules/page/liste,modules/helper/ajaxcall">
-        {% if label %}
-            <h1>{{ label }}</h1>
-        {% else %}
-            <h1>Liste des pages</h1>
-        {% endif %}
-
         {{ breadcrumbs.breadcrumbs(breadCrumbs) }}
         {% include 'template/button.html.twig' %}
         <hr/>

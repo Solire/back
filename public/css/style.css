@@ -368,8 +368,8 @@ th {
 }
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url(font-path("../public/bower_components/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular.eot"));
-  src: url(font-path("../public/bower_components/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular.eot?#iefix")) format("embedded-opentype"), url(font-path("../public/bower_components/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular.woff2")) format("woff2"), url(font-path("../public/bower_components/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular.woff")) format("woff"), url(font-path("../public/bower_components/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular.ttf")) format("truetype"), url(font-path("../public/bower_components/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular.svg#glyphicons_halflingsregular")) format("svg");
+  src: url("../bower_components/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular.eot");
+  src: url("../bower_components/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("../bower_components/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular.woff2") format("woff2"), url("../bower_components/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular.woff") format("woff"), url("../bower_components/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular.ttf") format("truetype"), url("../bower_components/bootstrap-sass/assets/fonts/bootstrap/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg");
 }
 /* line 24, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_glyphicons.scss */
 .glyphicon {
@@ -9352,21 +9352,14 @@ button.close {
   opacity: 1;
 }
 
-/* line 3, ../../sass/layout/_content.scss */
+/* line 2, ../../sass/layout/_content.scss */
 body {
   background: #efefef;
 }
 
-/* line 7, ../../sass/layout/_content.scss */
-body > .container {
-  padding-top: 60px;
-  background: #fff;
-}
-
-/* line 12, ../../sass/layout/_content.scss */
-.mainContainer > div:first-child {
-  margin-bottom: 25px;
-  min-height: 200px;
+/* line 6, ../../sass/layout/_content.scss */
+.mainContainer {
+  margin-top: 80px;
 }
 
 /* line 1, ../../sass/layout/_footer.scss */
@@ -9445,7 +9438,6 @@ fieldset fieldset {
 legend {
   margin: 0;
   border: none;
-  font-family: georgia;
   color: #a1a1a1;
   cursor: pointer;
   font-weight: bold;
@@ -9454,11 +9446,11 @@ legend {
   line-height: 16px;
   font-size: 17px;
 }
-/* line 71, ../../sass/layout/_fieldset.scss */
+/* line 70, ../../sass/layout/_fieldset.scss */
 legend a {
   color: #a1a1a1;
 }
-/* line 75, ../../sass/layout/_fieldset.scss */
+/* line 74, ../../sass/layout/_fieldset.scss */
 legend .board-human-time, legend .page-info {
   font-size: 12px;
   font-style: italic;
@@ -9467,19 +9459,19 @@ legend .board-human-time, legend .page-info {
   text-align: right;
 }
 
-/* line 84, ../../sass/layout/_fieldset.scss */
+/* line 83, ../../sass/layout/_fieldset.scss */
 legend > a {
   font-size: inherit;
   display: inline-block;
   padding: 0;
 }
 
-/* line 90, ../../sass/layout/_fieldset.scss */
+/* line 89, ../../sass/layout/_fieldset.scss */
 legend > a:hover {
   text-decoration: none;
 }
 
-/* line 94, ../../sass/layout/_fieldset.scss */
+/* line 93, ../../sass/layout/_fieldset.scss */
 legend:hover {
   color: #3485C9;
   cursor: pointer;
@@ -9610,6 +9602,11 @@ legend:hover {
 /* line 1, ../../sass/layout/_navbar.scss */
 .navbar-brand {
   padding-top: 9px;
+}
+
+/* line 5, ../../sass/layout/_navbar.scss */
+.navbar {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16);
 }
 
 /* line 42, ../bower_components/datatables-responsive/css/responsive.dataTables.scss */
@@ -9919,6 +9916,35 @@ table.dataTable > tbody > tr.child span.dtr-title {
   padding: 60px;
   opacity: 0.7;
   filter: alpha(opacity=70);
+}
+
+/* line 1, ../../sass/layout/_card.scss */
+.card {
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16), 0 2px 10px rgba(0, 0, 0, 0.12);
+  padding: 0;
+}
+/* line 6, ../../sass/layout/_card.scss */
+.card .card-heading {
+  color: #333333;
+  border-bottom: 1px solid;
+  border-color: #e2e9e6;
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+/* line 16, ../../sass/layout/_card.scss */
+.card .card-body {
+  margin-right: auto;
+  margin-left: auto;
+  padding: 15px;
+  min-height: 200px;
+}
+/* line 23, ../../sass/layout/_card.scss */
+.card .card-footer {
+  margin-right: auto;
+  margin-left: auto;
 }
 
 /* line 1, ../../sass/layout/preloader/_cube.scss */

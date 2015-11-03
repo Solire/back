@@ -1,3 +1,7 @@
 .navbar-brand {
   padding-top: 9px;
 }
+
+.navbar {
+  @include z-depth-bottom(1);
+}
