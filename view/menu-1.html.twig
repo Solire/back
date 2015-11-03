@@ -1,7 +1,3 @@
-{# Si le tableau de bord est activé #}
-{% if appConfig.get('board', 'active') %}
-    <li class="{{ controller == 'back/board' ? ' active' }}"><a href="back/board/list.html?name=board">Tableau de bord</a></li>
-{% endif %}
 
 {% if menuPage|length > 1 %}
     {# Cas où la liste des pages du site est séparée en fonction de gabarit (menu déroulant) #}
