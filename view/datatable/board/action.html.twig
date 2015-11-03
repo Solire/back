@@ -10,6 +10,35 @@
             </a>
         {% endif %}
 
+        {% if row.rewriting != '' and (row.make_hidden or not p.visible) %}
+            {# Cas page déjà édité et (droit de droit de cacher ou page pas encore visible #}
+            {% if row.makeHidden and row.visible or row.makeVisible and not row.visible %}
+                <button
+                        class="btn btn-sm {{ row.visible ? 'btn-success' : 'btn-default' }} exec-onclick-ajax"
+                        data-url="back/page/visible.html"
+                        data-id="{{ row.id }}"
+                        data-id_version="{{ row.id_version }}"
+                        data-visible="{{ row.visible }}"
+                        title="Rendre '{{ row.titre }}' {{ row.visible ? 'visible' : 'invisible' }} sur le site">
+
+                    <i class="fa {{ row.visible ? 'fa-eye' : 'fa-eye-slash' }}"></i>
+                </button>
+            {% else %}
+                <span class="btn btn-sm disabled {{ row.visible ? 'btn-success' : 'btn-default' }}"
+                      title="Vous n'avez pas les droits pour exécuter cette action"
+                      style="cursor:not-allowed;">
+                                    <i class="fa {{ row.visible ? 'fa-eye' : 'fa-eye-slash' }}"></i>
+                                </span>
+            {% endif %}
+        {% endif %}
+
+        {% if row.rewriting == '' %}
+            <a href="back/page/display.html?id_gab_page={{ row.id }}"
+               class="btn btn-sm btn-danger" title="Non traduit">
+                <i class="fa fa-globe"></i>
+            </a>
+        {% endif %}
+
         {% if (user.get('niveau') == 'solire' or row.deletable) and row.nbre_enfants == 0 %}
             <button class="btn btn-sm btn-warning exec-onclick-ajax" data-url="back/page/delete.html" data-confirm="true"
                     data-element-title="{{ row.titre }}" data-title="Confirmation de suppression de « {{ row.titre }} »"

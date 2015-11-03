@@ -436,9 +436,7 @@ class Main extends Controller
             ]
         );
 
-        $this->css->addLibrary('back/bower_components/bootstrap/dist/css/bootstrap.min.css');
-
-        /* Bootstrap meteriel design */
+        /* Bootstrap meterial design */
         $this->requireJs->addLibrary(
             'back/bower_components/bootstrap-material-design/dist/js/ripples.min.js',
             [

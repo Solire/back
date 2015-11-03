@@ -3560,7 +3560,7 @@ th {
 
 /* line 125, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_tables.scss */
 .table-hover > tbody > tr:hover {
-  background-color: #f5f5f5;
+  background-color: #8cd0ff;
 }
 
 /* line 135, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_tables.scss */
@@ -3589,13 +3589,13 @@ table th[class*="col-"] {
 .table > tfoot > tr > th.active,
 .table > tfoot > tr.active > td,
 .table > tfoot > tr.active > th {
-  background-color: #f5f5f5;
+  background-color: #8cd0ff;
 }
 
 /* line 20, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_table-row.scss */
 .table-hover > tbody > tr > td.active:hover,
 .table-hover > tbody > tr > th.active:hover, .table-hover > tbody > tr.active:hover > td, .table-hover > tbody > tr:hover > .active, .table-hover > tbody > tr.active:hover > th {
-  background-color: #e8e8e8;
+  background-color: #73c6ff;
 }
 
 /* line 9, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_table-row.scss */
