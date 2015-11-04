@@ -82,21 +82,25 @@ class Formulaire extends Main
             $data[$champ] = $request[$champ];
         }
 
-        foreach ($saveConf->timestamp as $champ) {
-            $data[$champ] = date('Y-m-d H:i:s');
+        if (isset($saveConf->timestamp)) {
+            foreach ($saveConf->timestamp as $champ) {
+                $data[$champ] = date('Y-m-d H:i:s');
+            }
         }
 
-        foreach ($saveConf->treatments as $champ => $callables) {
-            if (empty($data[$champ])) {
-                continue;
-            }
-
-            foreach ($callables as $callable) {
-                if (is_object($callable)) {
-                    $callable = array_values((array) $callable);
+        if (isset($saveConf->treatments)) {
+            foreach ($saveConf->treatments as $champ => $callables) {
+                if (empty($data[$champ])) {
+                    continue;
                 }
 
-                $data[$champ] = call_user_func($callable, $data[$champ]);
+                foreach ($callables as $callable) {
+                    if (is_object($callable)) {
+                        $callable = array_values((array) $callable);
+                    }
+
+                    $data[$champ] = call_user_func($callable, $data[$champ]);
+                }
             }
         }
 
@@ -106,13 +110,18 @@ class Formulaire extends Main
 
         if (empty($identifier)) {
             $doctrineConnection->insert($saveConf->table, $data);
+            $msg = 'Ajout enregistrés';
         } else {
             $doctrineConnection->update($saveConf->table, $data, $identifier);
+            $msg = 'Modifications enregistrés';
         }
 
         echo json_encode([
             'status' => 'success',
-            ''
+            'text' => $msg,
+            'after' => [
+                'modules/helper/noty',
+            ],
         ]);
     }
 
