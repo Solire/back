@@ -5,6 +5,7 @@ namespace Solire\Back\Controller;
 use Doctrine\DBAL\DriverManager;
 use Solire\Conf\Loader as ConfLoader;
 use Solire\Form\Formulaire as Form;
+use Solire\Lib\Exception\User as UserException;
 use Solire\Lib\FrontController;
 
 /**
@@ -34,8 +35,24 @@ class Formulaire extends Main
             return;
         }
         $formConf = ConfLoader::load($confPath);
+
+        foreach ($formConf as $key => $conf) {
+            if (!empty($_POST[$key])) {
+                $conf->obligatoire = true;
+            }
+        }
+
         $form = new Form($formConf);
-        $request = $form->run();
+
+        try {
+            $request = $form->run();
+        } catch (UserException $uE) {
+            echo json_encode([
+                'status' => 'error',
+                'msg' => $uE->getMessage(),
+            ]);
+            return;
+        }
 
         $confPath = FrontController::search('config/form/save/' . $confName . '.yml');
         if (!$confPath) {
@@ -95,6 +112,7 @@ class Formulaire extends Main
 
         echo json_encode([
             'status' => 'success',
+            ''
         ]);
     }
 

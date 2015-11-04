@@ -29,8 +29,15 @@ define([
           type: method,
           dataType: 'json',
           success: function (response) {
-            helperDatatable.reload($('[data-datatable-name=user]'));
-            helperDialog.close();
+            console.log(response)
+
+            if (response.status == 'success') {
+              $('.alert-danger', wrap).addClass('hidden');
+              helperDatatable.reload($('[data-datatable-name=user]'));
+              helperDialog.close();
+            } else {
+              $('.alert-danger', wrap).html(response.msg).removeClass('hidden');
+            }
           }
         });
       });

@@ -28,8 +28,8 @@
     <li class="{{ controller == 'back/datatable' and name == 'log' ? ' active' }}">
         <a href="back/datatable/list.html?name=log">Logs</a>
     </li>
-    <li class="{{ controller == 'back/datatable' and name == 'user' ? ' active' }}">
-        <a href="back/datatable/list.html?name=user">Utilisateurs</a>
+    <li class="{{ controller == 'back/user' and action == 'list' and name == 'user' ? ' active' }}">
+        <a href="back/user/list.html?name=user">Utilisateurs</a>
     </li>
 {% endif %}
 
