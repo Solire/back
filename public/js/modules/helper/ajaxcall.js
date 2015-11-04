@@ -8,9 +8,9 @@ define(['jquery', 'modules/helper/dialog', 'modules/helper/confirm'], function (
                     var confirmOptions = $(that).data();
                     confirmOptions.callback = currentModule.ajaxCall;
                     confirmOptions.callbackParams = [that];
-                    moduleConfirm.run(confirmOptions) 
+                    moduleConfirm.run(confirmOptions);
                 } else {
-                    currentModule.ajaxCall.call(that)
+                    currentModule.ajaxCall.call(that);
                 }
             })
         },

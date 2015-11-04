@@ -4,7 +4,10 @@ namespace Solire\Back\Controller;
 
 use Doctrine\DBAL\DriverManager;
 use PDO;
+use Solire\Lib\Mail;
+use Solire\Lib\Registry;
 use Solire\Lib\Session;
+use Solire\Lib\Security\Util\SecureRandom;
 use ZxcvbnPhp\Zxcvbn;
 
 /**
@@ -152,6 +155,51 @@ class User extends Datatable
         }
 
         $this->view->data = $data;
+    }
+
+    /**
+     *
+     *
+     *  @return void
+     */
+    public function sendmailAction()
+    {
+        $this->view->enable(false);
+
+        $idClient = intval($_GET['id']);
+        $clientData = $this->db->query('
+            SELECT utilisateur.*
+            FROM utilisateur
+            WHERE utilisateur.id = ' . $idClient)->fetch();
+        $genPass = new SecureRandom();
+        $password = $genPass->generate(8, SecureRandom::RANDOM_ALPHALOWER | SecureRandom::RANDOM_ALPHAUPPER | SecureRandom::RANDOM_NUMERIC);
+
+        $mail = new Mail('utilisateur_identifiant');
+        $mail->setMainUse();
+        $mail->to = $clientData['email'];
+        $mail->from = 'contact@solire.fr';
+        $mail->subject = 'Informations de connexion à l\'outil d\'administration'
+                . ' de votre site';
+
+        $mail->urlAcces = Registry::get('basehref') . 'back/';
+
+        $clientData['pass'] = $password;
+        $mail->clientData = $clientData;
+        $mail->send();
+
+        $passwordCrypt = Session::prepareMdp($password);
+        $values = array(
+            'pass' => $passwordCrypt,
+        );
+        $this->db->update('utilisateur', $values, 'id = ' . $idClient);
+
+        echo json_encode([
+            'status' => 'success',
+            'text' => 'Un email a été envoyé avec un nouveau mot de passe',
+            'after' => [
+                'modules/helper/noty',
+            ],
+        ]);
     }
 
 }

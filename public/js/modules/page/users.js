@@ -9,8 +9,6 @@ define([
 ) {
   return {
     run: function (wrap, response) {
-      console.log(wrap, response)
-
       $(wrap).submit(function (e) {
         var
           self = $(this),

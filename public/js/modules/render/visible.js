@@ -1,9 +1,7 @@
 define(['jquery'], function ($) {
     return {
         run : function(wrap, response){
-            console.log(wrap.data());
             var others = $('[data-url="' + wrap.data('url') + '"][data-id="' + wrap.data('id') + '"][data-id_version="' + wrap.data('id_version') + '"]' );
-            console.log(others);
             if (response.visible) {
                 var title  = wrap.attr("title");
 
@@ -22,7 +20,6 @@ define(['jquery'], function ($) {
 
                 wrap.find("i").removeClass("fa-eye").addClass("fa-eye-slash")
             }
-            console.log('rerer');
 
             if ($('[data-datatable-name="board"]').length > 0) {
                 require(['modules/helper/datatable'], function(helperDatatable) {
