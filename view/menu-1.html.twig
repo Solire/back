@@ -17,9 +17,11 @@
 {% endif %}
 
 
-<li class="{{ controller == 'back/datatable' and name == 'translate' ? ' active' }}">
-    <a href="back/datatable/list.html?name=translate">Textes statiques</a>
-</li>
+{% if appConfig.get('i18n', 'active') %}
+    <li class="{{ controller == 'back/datatable' and name == 'translate' ? ' active' }}">
+        <a href="back/datatable/list.html?name=translate">Textes statiques</a>
+    </li>
+{% endif %}
 
 {% if utilisateur.get("niveau") == 'solire' %}
     <li class="{{ controller == 'back/datatable' and name == 'redirection' ? ' active' }}">
