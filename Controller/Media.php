@@ -263,16 +263,6 @@ class Media extends Main
             $response['value'] = $response['filename'];
 
             if (isset($response['mini_path'])) {
-                $response['mini_path'] = $this->view->prefixFileUrl
-                                   . $response['mini_path'];
-                $response['mini_url'] = $this->view->prefixFileUrl
-                                  . $response['mini_url'];
-                $response['vignette'] = $response['mini_url'];
-                $response['image'] = [
-                    'url' => $this->view->prefixFileUrl . $id_gab_page
-                             . '/' . $response['filename']
-                ];
-
                 // Génération de miniatures additionnelles
                 $filePath = $this->view->prefixFileUrl . $response['path'];
                 $this->miniatureProcess($gabaritId, $filePath);
@@ -282,13 +272,15 @@ class Media extends Main
             $response['isImage']   = FileManager::isImage($response['filename']) !== false;
 
             if (isset($response['minipath'])) {
-                $response['minipath'] = $this->view->prefixFileUrl
-                                  . $response['minipath'];
+                $response['mini_path'] = $this->view->prefixFileUrl
+                    . $response['mini_path'];
+                $response['mini_url'] = $this->view->prefixFileUrl
+                    . $response['mini_url'];
+                $response['vignette'] = $response['mini_url'];
                 $response['image'] = [
                     'url' => $this->view->prefixFileUrl . $id_gab_page
-                             . '/' . $response['filename']
+                        . '/' . $response['filename']
                 ];
-                $response['path'] = $this->view->prefixFileUrl . $response['path'];
             }
         } else {
             if (isset($_COOKIE['id_temp'])
@@ -325,6 +317,7 @@ class Media extends Main
                 if (isset($response['mini_path'])) {
                     $response['mini_path'] = $this->view->prefixFileUrl . $response['mini_path'];
                     $response['mini_url'] = $this->view->prefixFileUrl . $response['mini_url'];
+                    $response['vignette'] = $response['mini_url'];
                     $response['image'] = [
                         'url' => $this->view->prefixFileUrl . $id_gab_page . Path::DS . $response['filename']
                     ];
@@ -334,6 +327,7 @@ class Media extends Main
                     $this->miniatureProcess($gabaritId, $filePath);
 
                 }
+                $response['value'] = $response['filename'];
                 $response['path'] = $this->view->prefixFileUrl . $response['path'];
                 $response['url'] = $this->view->prefixFileUrl . $response['url'];
                 $response['size'] = Tools::formatTaille($response['size']);
