@@ -22,7 +22,7 @@ source:
   conf:
     select:
       - m.rewriting
-      - CONCAT(m.id_gab_page, '/', m.rewriting) fullpath
+      - CONCAT(IF(m.id_gab_page = 0, CONCAT('temp-', m.id_temp), m.id_gab_page), '/', m.rewriting) fullpath
       - m.date_crea
 
 

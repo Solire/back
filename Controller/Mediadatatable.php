@@ -31,9 +31,18 @@ class Mediadatatable extends Datatable
             $prefixUrl = $_REQUEST['prefix_url'] . DIRECTORY_SEPARATOR;
         }
 
+        $requestUrl = $config['driver']['conf']['requestUrl'] . '&id_gab_page=' . $_GET['id_gab_page']
+            . '&id_temp=' . $_GET['id_temp'];
+
         $contextConfig = new Conf();
         $contextConfig->set($prefixUrl, 'prefixUrl');
         $config['columns']['fullpath']['format']->set($contextConfig, 'context');
+        $config['driver']['conf']->set($requestUrl, 'requestUrl');
+        $whereArray = [
+            'm.id_gab_page = ' . (int) $_GET['id_gab_page'],
+            'm.id_temp = ' . (int) $_GET['id_temp'],
+        ];
+        $config['source']['conf']->set($whereArray, 'where');
 
         return $config;
     }

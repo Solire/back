@@ -805,6 +805,13 @@ class Page extends Main
                     /*
                      * Déplacement des fichiers utilisés dans la page.
                      */
+                    $upload_path = $this->mainConfig->get('upload', 'path');
+
+                    $tempDir    = './' . $upload_path . DIRECTORY_SEPARATOR . 'temp-' . $_POST['id_temp'];
+                    $targetDir  = './' . $upload_path . DIRECTORY_SEPARATOR . $this->page->getMeta('id');
+
+                    rename($tempDir, $targetDir);
+
                     $query = 'UPDATE `media_fichier` SET'
                         . ' `id_gab_page` = ' . $this->page->getMeta('id') . ','
                         . ' `id_temp` = 0'

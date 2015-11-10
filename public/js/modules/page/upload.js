@@ -108,9 +108,11 @@ define([
                         $.cookie('id_temp', response.id_temp, {
                             path: '/'
                         });
+                        // On modifie l'url du datatable pour prendre en compte l'id temp
+                        var ajaxUrl = helperDatatable.datatables['datatableMedia'].ajax.url();
+                        helperDatatable.datatables['datatableMedia'].ajax.url(ajaxUrl.replace(/&id_temp=[0-9]*/, '&id_temp=' + response.id_temp));
                     }
 
-                    helperDatatable.reload($('.table-media'));
                 } else {
                     file.tr.remove();
                 }
@@ -145,7 +147,8 @@ define([
                     helperDatatable.run(
                         $tableMedia,
                         {
-                            urlConfig: 'back/mediadatatable/listconfig.html',
+                            urlConfig: 'back/mediadatatable/listconfig.html?id_gab_page=' + $('[name=id_gab_page]').val()
+                            + '&id_temp=' + $('[name=id_temp]').val(),
                             config: {
                                 pageLength: 5
                             },
