@@ -215,6 +215,10 @@ define(['jquery', 'modules/helper/dialog', 'modules/helper/crop'], function ($, 
         ratio = w / h
       ;
 
+      if (elmt.attr('readonly')) {
+        return;
+      }
+
       if (elmt.is(self.wRedim)) {
         self.hRedim.val(parseInt(elmt.val() / ratio));
       } else {
