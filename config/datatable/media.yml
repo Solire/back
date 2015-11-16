@@ -59,3 +59,11 @@ columns:
     filter: 1
     sort: 1
     source: m.date_crea
+    driverFilterType: dateRange
+    sourceFilterType: DateRange
+    format:
+      class: \Solire\Trieur\Format\Callback
+      name:
+        - Solire\Lib\Format\DateTime
+        - relativeTime
+      cell: timestampOrDate
