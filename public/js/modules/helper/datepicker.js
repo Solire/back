@@ -1,10 +1,7 @@
-define(['jquery', 'bootstrapDatepicker', 'bootstrapDatepickerFr'], function ($) {
+define(['jquery', 'modules/config/datepicker'], function ($) {
     return {
         run: function (wrap, response) {
-            $(wrap).datepicker({
-                format: 'dd/mm/yyyy',
-                language: 'fr'
-            })
+            $(wrap).datepicker()
         }
     };
 });

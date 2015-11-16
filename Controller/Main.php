@@ -625,6 +625,7 @@ class Main extends Controller
                 'name' => 'datatables-light-columnfilter',
                 'deps' => [
                     'datatables',
+                    'modules/config/datepicker',
                 ]
             ]
         );
@@ -635,7 +636,6 @@ class Main extends Controller
                 'name' => 'datatablesLCFBootstrap3',
                 'deps' => [
                     'datatables-light-columnfilter',
-                    'bootstrapDatepicker',
                 ]
             ]
         );
@@ -733,6 +733,7 @@ class Main extends Controller
         /* Modules Solire */
         $requireJsModules = [
             'modules/config/noty',
+            'modules/config/datepicker',
             'modules/helper/ajaxcall',
             'modules/helper/ajaxDialog',
             'modules/helper/ajaxform',
