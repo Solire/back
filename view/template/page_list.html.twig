@@ -16,7 +16,7 @@
                 title="{{ page.getMeta('rewriting') }}" class="{{ noChild ? 'noChild' : 'solire-js-toggle' }}">
             {% if noChild %}
                 {# Cas des rubriques/ pages n'ayant aucun enfant à afficher #}
-                {% if utilisateur.get('niveau') == 'solire' or gabarit.editable %}
+                {% if gabarit.editable %}
                     {# Cas des rubriques/ pages n'ayant aucun enfant à afficher et editable #}
                     <a href="back/page/display.html?id_gab_page={{ page.getMeta('id') }}"
                     title="Modifier '{{ page.getMeta('titre') }}'">
@@ -44,7 +44,7 @@
             <div style="float:left; margin-left:8px;">
                 <div class="btn-toolbar">
                     <div class="btn-group">
-                        {% if gabarit.sortable %}
+                        {% if gabarit.sortable and pages|length > 1 %}
                             {# Cas contenu sortable #}
                             <button class="btn btn-info btn-sm sort-move"
                                title="Déplacer '{{ page.getMeta('titre') }}'">
