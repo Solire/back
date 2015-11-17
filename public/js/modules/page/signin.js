@@ -3,7 +3,8 @@ define(['jquery', 'noty'], function ($) {
     run: function (wrap, response) {
 
       // Lien pour passer du formulaire de connexion au formulaire de mot de passe perdu
-      $(document).on('click', '.forgot-password-link, .sign-in-link', function () {
+      $(document).on('click', '.forgot-password-link, .sign-in-link', function (e) {
+        e.preventDefault();
         $('form').toggleClass('hidden');
       })
     }
