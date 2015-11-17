@@ -426,7 +426,7 @@ class Page extends Main
         $this->view->unsetMain();
 
         $hook = new Hook();
-        $hook->setSubdirName('back');
+        $hook->setSubdirName('Back');
 
         $hook->gabaritManager = $this->gabaritManager;
         $hook->gabaritsList   = $gabaritsList;
@@ -434,7 +434,7 @@ class Page extends Main
         $hook->idApi          = $this->api['id'];
         $hook->idParent       = $_REQUEST['id_parent'];
 
-        $hook->exec('list' . $indexConfig);
+        $hook->exec('List' . $indexConfig);
 
         /* Chargement par défaut */
         if (!isset($hook->list) || empty($hook->list)) {
