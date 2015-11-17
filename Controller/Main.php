@@ -134,7 +134,17 @@ class Main extends Controller
                         ]
                     ]
                 );
-                throw $exc;
+
+                $jsonResponse = [
+                    'status'  => 'error',
+                    'text'    => $exc->getMessage(),
+                    'after'   => [
+                        'modules/helper/noty',
+                        'modules/render/aftersignin',
+                    ],
+                ];
+
+                exit(json_encode($jsonResponse));
             }
 
             $this->userLogger->addInfo(
@@ -147,9 +157,16 @@ class Main extends Controller
                 ]
             );
 
-            $message = 'Connexion réussie, vous allez être redirigé';
+            $jsonResponse = [
+                'status'  => 'success',
+                'text'    => 'Connexion réussie, vous allez être redirigé',
+                'after'   => [
+                    'modules/helper/noty',
+                    'modules/render/aftersignin',
+                ],
+            ];
 
-            exit(json_encode(['success' => true, 'message' => $message]));
+            exit(json_encode($jsonResponse));
         }
 
         if (!$this->utilisateur->isConnected()
@@ -252,11 +269,16 @@ class Main extends Controller
         if (isset($_POST['log']) && isset($_POST['pwd'])
             && ($_POST['log'] == '' || $_POST['pwd'] == '')
         ) {
-            $retour = [
-                'success' => false,
-                'message' => 'Veuillez renseigner l\'identifiant et le mot de passe'
+            $jsonResponse = [
+                'status'  => 'error',
+                'text'    => 'Veuillez renseigner l\'identifiant et le mot de passe',
+                'after'   => [
+                    'modules/helper/noty',
+                    'modules/render/aftersignin',
+                ],
             ];
-            exit(json_encode($retour));
+
+            exit(json_encode($jsonResponse));
         }
 
         $this->view->utilisateur   = $this->utilisateur;
@@ -765,8 +787,10 @@ class Main extends Controller
             'modules/page/simpleupload',
             'modules/page/upload',
             'modules/render/afterdeletepage',
+            'modules/render/afterforgotpassword',
             'modules/render/aftersavepage',
             'modules/render/aftersavepassword',
+            'modules/render/aftersignin',
             'modules/render/beforeloadpage',
             'modules/render/delete',
             'modules/render/visible',
