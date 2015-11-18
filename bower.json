@@ -9,7 +9,7 @@
     "bootstrap-material-design": "0.3.*",
     "noty": "2.3.*",
     "jquery.cookie": "1.4.*",
-    "Sortable": "1.1.*",
+    "Sortable": "1.4.*",
     "tinymce": "~4.1",
     "bower-tinymce-amd": "*",
     "solire.tinymce-i18n": "~4.0",

@@ -1,0 +1,104 @@
+<fieldset data-titre="{{ page.getMeta('titre') }}" style="{{ margin ? 'margin-left:30px;' }}"
+          class="{{ gabarit.sortable ? ' sort-elmt' : '' }}"
+          id="gab_page_{{ page.getMeta('id') }}" data-id="{{ page.getMeta('id') }}">
+    <legend data-url="{{ urlRedir ? urlRedir ~ page.getMeta('id') }}" data-ajax="{{ urlAjax }}"
+            title="{{ page.getMeta('rewriting') }}" class="{{ noChild ? 'noChild' : 'solire-js-toggle' }}">
+        {% if noChild %}
+            {# Cas des rubriques/ pages n'ayant aucun enfant à afficher #}
+            {% if gabarit.editable %}
+                {# Cas des rubriques/ pages n'ayant aucun enfant à afficher et editable #}
+                <a href="back/page/display.html?id_gab_page={{ page.getMeta('id') }}"
+                title="Modifier '{{ page.getMeta('titre') }}'">
+            {% endif %}
+            <i class="fa fa-file"></i>
+            {{ page.getMeta('titre') }}
+            <br>
+
+            {% include('template/page_info.html.twig') %}
+
+            {% if gabarit.editable %}
+                {# Cas des rubriques/ pages n'ayant aucun enfant à afficher et editable #}
+                </a>
+            {% endif %}
+
+        {% else %}
+            {# Cas des rubriques ayant des enfants à afficher #}
+            <i class="fa fa-folder"></i> {{ page.getMeta('titre') }}
+            <br>
+            {% include('template/page_info.html.twig') %}
+        {% endif %}
+    </legend>
+    <div class="sort-box" style="display:none;"></div>
+    <div style="position: relative" class="line cat-modif">
+        <div style="float:left; margin-left:8px;">
+            <div class="btn-toolbar">
+                <div class="btn-group">
+                    {% if gabarit.sortable and pages|length > 1 %}
+                        {# Cas contenu sortable #}
+                        <button class="btn btn-info btn-sm sort-move"
+                                title="Déplacer '{{ page.getMeta('titre') }}'">
+                            <i class="fa fa-retweet"></i>
+                        </button>
+                    {% endif %}
+
+                    {% if gabarit.editable %}
+                        {# Cas contenu editable #}
+                        <a href="back/page/display.html?id_gab_page={{ page.getMeta('id') }}"
+                           class="btn btn-sm btn-info" title="Modifier '{{ page.getMeta('titre') }}'">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                    {% endif %}
+
+                    {% if page.getMeta('rewriting') != '' and (gabarit.make_hidden or not page.getMeta('visible')) %}
+                        {# Cas page déjà édité et (droit de droit de cacher ou page pas encore visible #}
+                        {% if page.makeHidden and page.getMeta('visible') or page.makeVisible and not page.getMeta('visible') %}
+                            <button
+                                    class="btn btn-sm {{ page.getMeta('visible') ? 'btn-success' : 'btn-default' }} exec-onclick-ajax"
+                                    data-url="back/page/visible.html"
+                                    data-id="{{ page.getMeta('id') }}"
+                                    data-id_version="{{ page.getMeta('id_version') }}"
+                                    data-visible="{{ page.getMeta('visible') }}"
+                                    title="Rendre '{{ page.getMeta('title') }}' {{ page.getMeta('visible') ? 'visible' : 'invisible' }} sur le site">
+
+                                <i class="fa {{ page.getMeta('visible') ? 'fa-eye' : 'fa-eye-slash' }}"></i>
+                            </button>
+                        {% else %}
+                            <span class="btn btn-sm disabled {{ page.getMeta('visible') ? 'btn-success' : 'btn-default' }}"
+                                  title="Vous n'avez pas les droits pour exécuter cette action"
+                                  style="cursor:not-allowed;">
+                                    <i class="fa {{ page.getMeta('visible') ? 'fa-eye' : 'fa-eye-slash' }}"></i>
+                                </span>
+                        {% endif %}
+                    {% endif %}
+
+                    {% if page.getMeta('rewriting') == '' %}
+                        <a href="back/page/display.html?id_gab_page={{ page.getMeta('id') }}"
+                           class="btn btn-sm btn-danger" title="Non traduit">
+                            <i class="fa fa-globe"></i>
+                        </a>
+                    {% endif %}
+
+                    {% if (gabarit.deletable) and page.getMeta('nbre_enfants') == 0 %}
+                        <button
+                                class="btn btn-sm btn-warning exec-onclick-ajax"
+                                data-url="back/page/delete.html"
+                                data-confirm="true"
+                                data-element-title="{{ page.getMeta('titre') }}"
+                                data-title="Confirmation de suppression de &laquo; {{ page.getMeta('titre') }} &raquo;"
+                                data-content="Êtes-vous sûr de vouloir supprimer &laquo; {{ page.getMeta('titre') }} &raquo;"
+                                data-cancelbuttontxt="Annuler"
+                                data-confirmbuttontxt="Confirmer"
+                                data-id="{{ page.getMeta('id') }}"
+                                data-id_version="{{ page.getMeta('id_version') }}"
+                                data-visible="{{ page.getMeta('visible') }}"
+                                style="display:{{ page.getMeta('nbre_enfants') > 0 ? 'none' : 'inline-block' }};"
+                                title="Supprimer '{{ page.getMeta('titre') }}'">
+
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
