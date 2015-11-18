@@ -756,6 +756,7 @@ class Main extends Controller
         $requireJsModules = [
             'modules/config/noty',
             'modules/config/datepicker',
+            'modules/helper/affix',
             'modules/helper/ajaxcall',
             'modules/helper/ajaxDialog',
             'modules/helper/ajaxform',
