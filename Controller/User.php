@@ -193,13 +193,27 @@ class User extends Datatable
         );
         $this->db->update('utilisateur', $values, 'id = ' . $idClient);
 
-        echo json_encode([
-            'status' => 'success',
-            'text' => 'Un email a été envoyé avec un nouveau mot de passe',
-            'after' => [
-                'modules/helper/noty',
-            ],
-        ]);
+        if (isset($_POST['confirm']) && $_POST['confirm']) {
+            echo json_encode([
+                'status'         => 'success',
+                'title'          => 'Confirmation d\'envoi de mail',
+                'content'        => 'Un email a été envoyé avec un nouveau mot de passe',
+                'closebuttontxt' => 'Fermer',
+                'after'          => [
+                    'modules/helper/message',
+                ],
+            ]);
+        } else {
+            echo json_encode([
+                'status' => 'success',
+                'text' => 'Un email a été envoyé avec un nouveau mot de passe',
+                'after' => [
+                    'modules/helper/noty',
+                ],
+            ]);
+        }
+
+
     }
 
 }
