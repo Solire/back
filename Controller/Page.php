@@ -929,12 +929,14 @@ class Page extends Main
         $idChamp   = $_GET['id_champ'];
         $idVersion = $_GET['id_version'];
         $idGabPage = $_GET['id_gab_page'];
+        $ids       = isset($_GET['ids']) ? $_GET['ids'] : [];
         $term      = isset($_GET['term']) ? $_GET['term'] : '';
 
         $hook = new Hook();
         $hook->setSubdirName('Back');
 
         $hook->idChamp   = $idChamp;
+        $hook->ids       = $ids;
         $hook->idVersion = $idVersion;
         $hook->idGabPage = $idGabPage;
         $hook->term      = $term;
