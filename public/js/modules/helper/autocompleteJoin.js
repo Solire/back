@@ -12,14 +12,13 @@ define(['jquery', 'modules/helper/autocomplete'], function ($, helperAutocomplet
                 var form = field.parents('form'),
                     id_version = $('[name=id_version]', form).val(),
                     id_gab_page = $('[name=id_gab_page]', form).val(),
-                    sortBox = field.parents('.sort-box'),
+                    sortBox = field.parents('fieldset:not(.block-to-sort):first'),
                     id_champ = field.attr('name').match(/champ(\d+)\[\]/).pop();
-                
-                
+
                 
                 var ids = [];
                 $('[name="champ' + id_champ + '[]"]', sortBox).not(field).each(function() {
-                    var v = field.val();
+                    var v = $(this).val();
                     if (v !== '' && !isNaN(parseInt(v))) {
                         ids.push(v);
                     }
