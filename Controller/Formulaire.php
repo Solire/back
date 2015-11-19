@@ -110,7 +110,7 @@ class Formulaire extends Main
 
         if (empty($identifier)) {
             $doctrineConnection->insert($saveConf->table, $data);
-            $msg = 'Ajout enregistrés';
+            $msg = 'Ajout enregistré';
         } else {
             $doctrineConnection->update($saveConf->table, $data, $identifier);
             $msg = 'Modifications enregistrés';
