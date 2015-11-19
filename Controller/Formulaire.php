@@ -113,7 +113,7 @@ class Formulaire extends Main
             $msg = 'Ajout enregistré';
         } else {
             $doctrineConnection->update($saveConf->table, $data, $identifier);
-            $msg = 'Modifications enregistrés';
+            $msg = 'Modifications enregistrées';
         }
 
         echo json_encode([
