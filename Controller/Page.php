@@ -1602,7 +1602,7 @@ class Page extends Main
              * ou si utilisateur solire
              */
             if ($gabarit['creable']
-                || $this->utilisateur->niveau == 'solire'
+                || $this->utilisateur->niveau == 'super administrateur'
             ) {
                 /*
                  * Si on a un regroupement des boutons personnalisés dans le

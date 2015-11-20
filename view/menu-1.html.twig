@@ -23,13 +23,16 @@
     </li>
 {% endif %}
 
-{% if utilisateur.get("niveau") == 'solire' %}
+{% if utilisateur.get("niveau") == 'super administrateur' %}
     <li class="{{ controller == 'back/datatable' and name == 'redirection' ? ' active' }}">
         <a href="back/datatable/list.html?name=redirection">Redirections 301</a>
     </li>
     <li class="{{ controller == 'back/datatable' and name == 'log' ? ' active' }}">
         <a href="back/datatable/list.html?name=log">Logs</a>
     </li>
+{% endif %}
+
+{% if utilisateur.get("niveau") == 'administrateur' %}
     <li class="{{ controller == 'back/user' and action == 'list' and name == 'user' ? ' active' }}">
         <a href="back/user/list.html?name=user">Utilisateurs</a>
     </li>

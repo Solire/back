@@ -39,7 +39,7 @@
                         {% if page.getMeta('rewriting') != '' %}
                             {# Cas de la page déjà édité dans cette langue #}
 
-                            {% if utilisateur.get('niveau') == 'solire'
+                            {% if utilisateur.get('niveau') == 'super administrateur'
                                 or page.getGabarit().getMakeHidden()
                                 or not page.getMeta('visible')
                             %}

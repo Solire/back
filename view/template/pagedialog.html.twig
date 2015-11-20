@@ -10,7 +10,7 @@
     <div class="modalBody">
         <div class="row">
             {% if page.getMeta('rewriting') != ''
-            and (utilisateur.get('niveau') == 'solire'
+            and (utilisateur.get('niveau') == 'super administrateur'
             or page.makeHidden and page.getMeta('visible')
             or page.makeVisible and not page.getMeta('visible')
             ) %}

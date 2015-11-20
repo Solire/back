@@ -25,7 +25,7 @@ source:
       - u.*
       - CONCAT(u.civilite, ' ', u.nom, ' ', u.prenom) identite
       - IF(u.actif > 0, 'Actif', 'Inactif') actifLabel
-      - IF(u.niveau = 'solire', 'SuperAdmin', IF(u.niveau = 'admin', 'Administrateur', 'Rédacteur')) niveauLabel
+      - u.niveau niveauLabel
     from:
       name: utilisateur
       alias: u

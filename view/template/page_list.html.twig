@@ -2,7 +2,7 @@
 {% for page in pages %}
     {% set gabarit = gabarits[page.getMeta('id_gabarit')] %}
 
-    {% if utilisateur.get('niveau') == 'solire' %}
+    {% if utilisateur.get('niveau') == 'super administrateur' %}
         {% set gabarit = gabarit|merge({'editable': true, 'sortable': true, 'make_hidden': true, 'deletable': true}) %}
     {% endif %}
 

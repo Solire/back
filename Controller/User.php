@@ -138,9 +138,9 @@ class User extends Datatable
         ];
 
         $this->view->niveaux = [
-            'redacteur',
-            'admin',
-            'solire',
+            'editeur',
+            'administrateur',
+            'super administrateur',
         ];
 
         if (isset($_GET['id']) && is_numeric($_GET['id'])) {
