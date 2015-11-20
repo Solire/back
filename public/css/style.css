@@ -9775,6 +9775,10 @@ table.dataTable > tbody > tr.child span.dtr-title {
   box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
 }
 /* line 6, ../../sass/layout/_dialog.scss */
+.soModalDefaultModal.modal-dialog {
+  margin: 0;
+}
+/* line 10, ../../sass/layout/_dialog.scss */
 .soModalDefaultModal .modalHeader {
   padding: 10px;
   background: #0071bf;
@@ -9787,13 +9791,13 @@ table.dataTable > tbody > tr.child span.dtr-title {
   -webkit-border-top-right-radius: 10px;
   border-top-right-radius: 10px;
 }
-/* line 13, ../../sass/layout/_dialog.scss */
+/* line 17, ../../sass/layout/_dialog.scss */
 .soModalDefaultModal .modalHeader h3 {
   text-align: center;
   margin-top: 0;
   margin-bottom: 0;
 }
-/* line 21, ../../sass/layout/_dialog.scss */
+/* line 25, ../../sass/layout/_dialog.scss */
 .soModalDefaultModal .modalHeader .soModalDefaultClose {
   -webkit-appearance: none;
   float: right;
@@ -9810,17 +9814,17 @@ table.dataTable > tbody > tr.child span.dtr-title {
   text-shadow: 0 1px 0 #666;
   margin-top: 2px;
 }
-/* line 37, ../../sass/layout/_dialog.scss */
+/* line 41, ../../sass/layout/_dialog.scss */
 .soModalDefaultModal .modalHeader .soModalDefaultClose:hover {
   opacity: 1;
 }
-/* line 43, ../../sass/layout/_dialog.scss */
+/* line 47, ../../sass/layout/_dialog.scss */
 .soModalDefaultModal .modalBody {
   padding: 10px;
   background: #fff;
   color: inherit;
 }
-/* line 49, ../../sass/layout/_dialog.scss */
+/* line 53, ../../sass/layout/_dialog.scss */
 .soModalDefaultModal .modalFooter {
   -moz-border-radius-bottomleft: 10px;
   -webkit-border-bottom-left-radius: 10px;
@@ -9835,31 +9839,31 @@ table.dataTable > tbody > tr.child span.dtr-title {
   padding: 10px;
 }
 
-/* line 59, ../../sass/layout/_dialog.scss */
+/* line 63, ../../sass/layout/_dialog.scss */
 .soModalContainerFixed {
   z-index: 2001;
 }
 
-/* line 63, ../../sass/layout/_dialog.scss */
+/* line 67, ../../sass/layout/_dialog.scss */
 .soModalDefaultOverlay {
   z-index: 2001;
   background-color: #000;
 }
 
-/* line 68, ../../sass/layout/_dialog.scss */
+/* line 72, ../../sass/layout/_dialog.scss */
 .soModalZoomModal {
   max-width: 90%;
   width: auto;
 }
 
 /* Style pour la modal image */
-/* line 74, ../../sass/layout/_dialog.scss */
+/* line 78, ../../sass/layout/_dialog.scss */
 .soModalImageOverlay {
   z-index: 2001;
   background-color: #000;
 }
 
-/* line 79, ../../sass/layout/_dialog.scss */
+/* line 83, ../../sass/layout/_dialog.scss */
 .soModalImageModal {
   display: inline-block;
   width: auto;
@@ -9871,7 +9875,7 @@ table.dataTable > tbody > tr.child span.dtr-title {
   box-shadow: 0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3);
 }
 
-/* line 88, ../../sass/layout/_dialog.scss */
+/* line 92, ../../sass/layout/_dialog.scss */
 .soModalImageModal img {
   max-width: 100%;
 }
