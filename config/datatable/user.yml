@@ -11,7 +11,7 @@ driver:
     # masculin ou féminin
     # "e"|""
     itemGenre:
-    requestUrl: back/datatable/listdata.html?name=user
+    requestUrl: back/user/listdata.html?name=user
     requestMethod: POST
     separator: "~"
     dom: <"H"TClfr>t<"F"ip>
