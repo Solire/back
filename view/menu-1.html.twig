@@ -23,19 +23,21 @@
     </li>
 {% endif %}
 
-{% if utilisateur.get("niveau") == 'super administrateur' %}
-    <li class="{{ controller == 'back/datatable' and name == 'redirection' ? ' active' }}">
-        <a href="back/datatable/list.html?name=redirection">Redirections 301</a>
-    </li>
-    <li class="{{ controller == 'back/datatable' and name == 'log' ? ' active' }}">
-        <a href="back/datatable/list.html?name=log">Logs</a>
-    </li>
-{% endif %}
-
 {% include 'menuadd-1.html.twig' ignore missing %}
+
 
 {% if utilisateur.get("niveau") == 'administrateur' or utilisateur.get("niveau") == 'super administrateur' %}
     <li class="{{ controller == 'back/user' and action == 'list' and name == 'user' ? ' active' }}">
         <a href="back/user/list.html?name=user"><i class="fa fa-users"></i>&nbsp; Utilisateurs</a>
+    </li>
+{% endif %}
+
+
+{% if utilisateur.get("niveau") == 'super administrateur' %}
+    <li class="{{ controller == 'back/datatable' and name == 'redirection' ? ' active' }}">
+        <a href="back/datatable/list.html?name=redirection"><i class="fa fa-mail-forward "></i>&nbsp; Redirections 301</a>
+    </li>
+    <li class="{{ controller == 'back/datatable' and name == 'log' ? ' active' }}">
+        <a href="back/datatable/list.html?name=log"><i class="fa fa-history"></i>&nbsp; Logs</a>
     </li>
 {% endif %}
