@@ -26,7 +26,7 @@
     "jstree-bootstrap-theme": "1.0.*",
     "Jcrop": "2.0.*",
     "flag-icon-css": "0.8.*",
-    "file-icons": "git@github.com:teambox/Free-file-icons.git",
+    "file-icons": "https://github.com/teambox/Free-file-icons.git",
     "x-editable": "~1.5.1",
     "jquery.scrollTo": "~2.1.2",
     "material-shadows": "~2.0.1",
