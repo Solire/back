@@ -25,7 +25,7 @@ $config = array(
 
 $config = array(
     0 => array(
-        'label' => 'Contenu institutionnel',
+        'label' => 'Pages',
         'gabarits' => '*',
         'display' => true,
         /** Si vrais, empêche le chargement des gabarits enfants **/
