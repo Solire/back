@@ -164,6 +164,10 @@ class User extends Datatable
      */
     public function sendmailAction()
     {
+        if (!property_exists($this, 'from')) {
+            $this->from = 'contact@solire.fr';
+        }
+
         $this->view->enable(false);
 
         $idClient = intval($_GET['id']);
@@ -177,7 +181,7 @@ class User extends Datatable
         $mail = new Mail('utilisateur_identifiant');
         $mail->setMainUse();
         $mail->to = $clientData['email'];
-        $mail->from = 'contact@solire.fr';
+        $mail->from = $this->from;
         $mail->subject = 'Informations de connexion à l\'outil d\'administration'
                 . ' de votre site';
 
