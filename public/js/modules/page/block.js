@@ -87,23 +87,26 @@ define(['jquery', 'modules/helper/amd', 'modules/helper/wysiwyg', 'modules/helpe
                 .not('.join-param')
                 .not('.extensions')
                 .each(function () {
-                    if ($(this).is('input'))
+                    if ($(this).is('input')) {
                         $(this).val('');
-                    else {
+                    } else {
                         if ($(this).is('textarea')) {
                             $(this).val('');
-                        }
-                        else {
-                            if ($(this).is('select'))
+                        } else {
+                            if ($(this).is('select')) {
                                 $(this).val($(this).children('option:first').val());
+                            }
                         }
                     }
                 });
 
+            var fileDiv     = $(this).parents('.form-group:first');
+
+            blockClone.find('.field-file').addClass('hidden');
+            blockClone.find('.select2-wrapper').removeClass('col-sm-offset-3')
+            blockClone.find('.select2-wrapper').removeClass('col-sm-offset-3')
+            blockClone.find('.field-file-crop').hide();
             blockClone.find('.select2').remove();
-            blockClone.find('.previsu').attr('href', '');
-            blockClone.find('.previsu').hide();
-            blockClone.find('.crop').hide();
 
             var iconFolder = $('legend i', blockClone);
             $('legend', blockClone).html(' Bloc en cours de création').prepend(iconFolder);
