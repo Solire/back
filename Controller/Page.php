@@ -944,7 +944,7 @@ class Page extends Main
         $hook->exec('AutocompleteJoin' . $idChamp);
 
         /* Chargement par défaut */
-        if (!isset($hook->results) || empty($hook->results)) {
+        if (!isset($hook->results)) {
             $query  = 'SELECT code_champ_param, value'
                 . ' FROM gab_champ_param_value'
                 . ' WHERE id_champ = ' . $idChamp;
