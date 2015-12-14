@@ -33,7 +33,7 @@ class Datatable extends Main
 
         $this->view->breadCrumbs[] = [
             'title' => $this->view->title,
-            'url'   => 'back/datatable/list.html?name=' . $this->view->name,
+            'url'   => FrontController::getCurrentUrl(),
         ];
     }
 

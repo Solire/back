@@ -1,0 +1,27 @@
+.card {
+  background: $containerBackgroundColor;
+  @include z-depth(1);
+  padding: 0;
+
+  .card-heading {
+    color: #333333;
+    border-bottom: 1px solid;
+    border-color: #e2e9e6;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .card-body {
+    margin-right: auto;
+    margin-left: auto;
+    padding: 15px;
+    min-height: 200px;
+  }
+
+  .card-footer {
+    margin-right: auto;
+    margin-left: auto;
+  }
+}

@@ -12,7 +12,7 @@
             </button>
             <ul class="dropdown-menu" role="menu">
                 {% for gabarit in gabaritGroup.gabarit %}
-                    {% if utilisateur.get("niveau") == "solire" or gabarit.creable %}
+                    {% if utilisateur.get("niveau") == "super administrateur" or gabarit.creable %}
                         <li>
                             <i></i>
                             <a href="back/page/display.html?id_gabarit={{ gabarit.id }}">

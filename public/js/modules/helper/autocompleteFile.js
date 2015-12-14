@@ -31,8 +31,8 @@ define(['jquery', 'modules/helper/autocomplete'], function ($, helperAutocomplet
                     }
 
                     var markup = '<div  title="' + file.label + '" class="row" style="margin: 0">'
-                        + '<div class="col-sm-3">' + thumbnail + '</div>'
-                        + '<div class="col-sm-9">'
+                        + '<div class="col-sm-4">' + thumbnail + '</div>'
+                        + '<div class="col-sm-8">'
                         + '<dl class="dl-horizontal"><dt>Nom de fichier</dt><dd><span>' + file.label + '<span></dd><dt>Taille</dt><dd><span>' + file.size + '<span></dd>' + alert + '</dl>'
                         + '</div>'
                         + '</div>';
@@ -94,6 +94,19 @@ define(['jquery', 'modules/helper/autocomplete'], function ($, helperAutocomplet
                 fileDiv.find('.select2-wrapper').removeClass('col-sm-offset-3')
                 fileDiv.find('.field-file-crop').hide();
             });
+
+            // Champs texte alternative du fichier
+            var fieldsetParent     = wrap.parents('fieldset:first'),
+                fileDiv     = wrap.parents('.form-group:first'),
+                fileId = wrap.attr('id').replace('champ', '').split('_')[0],
+                fieldFileAlt = $('.field-file-alt', fileDiv),
+                fieldFileAltHidden = $('[data-visuel-id=' + fileId + ']', fieldsetParent).not(wrap);
+
+            fieldFileAlt.val(fieldFileAltHidden.val());
+            fieldFileAlt.on('input', function() {
+                fieldFileAltHidden.val($(this).val());
+            })
+
         },
         selectFile: function(fileDiv, file) {
             var fileInfoDiv = fileDiv.find('.field-file-info');

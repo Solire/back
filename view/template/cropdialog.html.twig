@@ -1,59 +1,61 @@
 <div id="modalCrop" class="hidden">
-    <div class="modalHeader">
-        <a class="soModalDefaultClose" href="#"><i class="fa fa-close"></i></a>
+  <div class="modalHeader">
+    <a class="soModalDefaultClose" href="#"><i class="fa fa-close"></i></a>
 
-        <h3 id="myModalLabel">Recadrer</h3>
-    </div>
+    <h3 id="myModalLabel">Recadrer</h3>
+  </div>
 
-    <div class="modalBody">
-        <div class="row">
-            <div class="col-md-12">
-                <img src="" alt="" id="crop-target" class="img-thumbnail">
+  <div class="modalBody">
+
+    <div class="row">
+
+      <div class="col-md-12">
+        <img src="" alt="" class="crop-target" class="img-thumbnail">
+      </div>
+
+      <div class="col-md-12">
+        <div>
+          <div class="row">
+            <div class="col-md-offset-2 col-md-4">
+              <h4>Taille de votre sélection</h4>
+
+              <div class="form-group">
+                <label for="wShow">Largeur</label>
+                <input class="form-control input-sm wShow spinner" id="wShow" readonly>
+              </div>
+              <div class="form-group">
+                <label for="hShow">Hauteur</label>
+                <input class="form-control input-sm hShow spinner" id="hShow" readonly>
+              </div>
             </div>
-            <form class="form-horizontal">
-                <div class="img-info col-md-6">
-                    <legend>Information</legend>
-                    <div>
-                        <dl class="dl-horizontal expected-width">
-                            <dt>Largeur minimale attendue</dt>
-                            <dd
-                            "><span id="minwidthShow"></span>px</dd>
-                        </dl>
-                        <dl class="dl-horizontal expected-height">
-                            <dt>Hauteur minimale attendue</dt>
-                            <dd><span id="minheightShow"></span>px</dd>
-                        </dl>
-                    </div>
-                </div>
+            <div class="col-md-4">
+              <h4>Dimensions après recadrage</h4>
 
-                <div class="col-md-6">
-                    <legend>Sélection</legend>
-                    <div class="form-group">
-                        <label class="col-sm-2" for="wShow">Largeur</label>
-
-                        <div class="col-sm-10 controls">
-                            <input type="number" class="form-control wShow spinner" id="wShow"
-                                   placeholder="Largeur" value=""/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2" for="hShow">Hauteur</label>
-
-                        <div class="col-sm-10 controls">
-                            <input type="number" class="form-control hShow spinner" id="hShow"
-                                   placeholder="Hauteur" value=""/>
-                        </div>
-                    </div>
-                </div>
-            </form>
+              <div class="form-group">
+                <label for="wRedim">Largeur</label>
+                <input type="number" step="10" class="form-control input-sm wRedim spinner" id="wRedim">
+              </div>
+              <div class="form-group">
+                <label for="hRedim">Hauteur</label>
+                <input type="number" step="10" class="form-control input-sm hRedim spinner" id="hRedim">
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
 
-    <div class="modalFooter">
-        <button class="btn btn-default btn-sm soModalDefaultClose"><i class="icon-remove"></i>
-            Annuler
-        </button>
-        <button class="btn btn-sm btn-primary form-crop-submit"><i class="icon-fullscreen"></i> Valider</button>
-    </div>
 
+    </div>
+  </div>
+
+  <div class="modalFooter">
+    <button class="btn btn-default btn-sm soModalDefaultClose">
+      <i class="icon-remove"></i>
+      Annuler
+    </button>
+    <button class="btn btn-sm btn-primary form-crop-submit">
+      <i class="icon-fullscreen"></i>
+      Valider
+    </button>
+  </div>
 </div>

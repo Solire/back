@@ -1,20 +1,27 @@
 {% extends 'main.html.twig' %}
 {% import "util/breadcrumbs.html.twig" as breadcrumbs %}
 
+{% block title %}
+    Gestion des pages
+{% endblock %}
+
 {% block content %}
     {{ parent() }}
     <div data-amd="modules/page/affichegabarit,modules/helper/ajaxcall,modules/page/upload,modules/render/beforeloadpage,modules/helper/zoom">
-        <h1>Gestion des pages</h1>
+
         {{ breadcrumbs.breadcrumbs(breadCrumbs) }}
 
-        <h2>
-            {% if pages[backIdVersion].getMeta('id') %}
-                Modification de
-            {% else %}
-                Création de
-            {% endif %}
-            {{ pages[backIdVersion].getGabarit().getLabel()|lower }}
-        </h2>
+        {% block contentSubTitle %}
+            <h2>
+                {% if pages[backIdVersion].getMeta('id') %}
+                    Modification de
+                {% else %}
+                    Création de
+                {% endif %}
+                {{ pages[backIdVersion].getGabarit().getLabel()|lower }}
+            </h2>
+        {% endblock %}
+
         {% if versions|length > 0 %}
             <div>
                 {% for versionId, version in versions %}
@@ -33,7 +40,7 @@
                         {% if page.getMeta('rewriting') != '' %}
                             {# Cas de la page déjà édité dans cette langue #}
 
-                            {% if utilisateur.get('niveau') == 'solire'
+                            {% if utilisateur.get('niveau') == 'super administrateur'
                                 or page.getGabarit().getMakeHidden()
                                 or not page.getMeta('visible')
                             %}

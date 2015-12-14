@@ -22,7 +22,7 @@ source:
   conf:
     select:
       - m.rewriting
-      - CONCAT(m.id_gab_page, '/', m.rewriting) fullpath
+      - CONCAT(IF(m.id_gab_page = 0, CONCAT('temp-', m.id_temp), m.id_gab_page), '/', m.rewriting) fullpath
       - m.date_crea
 
 
@@ -59,3 +59,11 @@ columns:
     filter: 1
     sort: 1
     source: m.date_crea
+    driverFilterType: dateRange
+    sourceFilterType: DateRange
+    format:
+      class: \Solire\Trieur\Format\Callback
+      name:
+        - Solire\Lib\Format\DateTime
+        - relativeTime
+      cell: timestampOrDate

@@ -5,7 +5,7 @@
                 <ol class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
                     {% for item in items %}
                         <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-                            <a {{ item.view ? 'href="' ~ item.url ~ '" itemprop="item"' : '' }}>
+                            <a {{ item.url ? 'href="' ~ item.url ~ '" itemprop="item"' : '' }}>
                                 <span itemprop="name">
                                     {% if loop.last %}
                                         <strong>{{ item.title }}</strong>

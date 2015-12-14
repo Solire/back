@@ -25,6 +25,8 @@ source:
       - g.label
       - g.deletable
       - g.editable
+      - 1 as makeVisible
+      - g.make_hidden as makeHidden
       - count(pe.id) nbre_enfants
       - 'IF(p.suppr, "text-muted", "") as DT_RowClass'
 

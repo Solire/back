@@ -28,9 +28,11 @@ define(['jquery', 'modules/helper/amd', 'datatablesMaterialDesign', 'datatablesR
 
                     response.config.initComplete = function () {
                         var datatableWrapper = $(wrap).parents('.datatable-wrapper:first');
-                        datatableWrapper.removeClass('hidden').css({'overflow': 'hidden'});
+                        datatableWrapper.removeClass('hidden');
                         var height = datatableWrapper.outerHeight();
-                        datatableWrapper.css({'height': '100px', opacity: 0.2}).animate({'height': height, opacity: 1}, 350);
+                        datatableWrapper.css({'height': '100px', opacity: 0.2}).animate({'height': height, opacity: 1}, 350, function() {
+                            $(this).css({'height': 'auto'})
+                        });
                     }
 
                     response.config.responsive = true;
@@ -46,7 +48,7 @@ define(['jquery', 'modules/helper/amd', 'datatablesMaterialDesign', 'datatablesR
                 });
             }
         },
-        reload: function (wrap, response) {
+        reload: function (wrap) {
             if (this.datatables[$(wrap).attr('id')]) {
                 this.datatables[$(wrap).attr('id')].ajax.reload();
             }

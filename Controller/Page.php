@@ -426,7 +426,7 @@ class Page extends Main
         $this->view->unsetMain();
 
         $hook = new Hook();
-        $hook->setSubdirName('back');
+        $hook->setSubdirName('Back');
 
         $hook->gabaritManager = $this->gabaritManager;
         $hook->gabaritsList   = $gabaritsList;
@@ -434,7 +434,7 @@ class Page extends Main
         $hook->idApi          = $this->api['id'];
         $hook->idParent       = $_REQUEST['id_parent'];
 
-        $hook->exec('list' . $indexConfig);
+        $hook->exec('List' . $indexConfig);
 
         /* Chargement par défaut */
         if (!isset($hook->list) || empty($hook->list)) {
@@ -625,12 +625,12 @@ class Page extends Main
         if ($found) {
             $this->view->breadCrumbs[] = [
                 'title' => $this->configPageModule[$indexPageList]['label'],
-                'url'   => 'page/liste.html?c=' . $indexPageList,
+                'url'   => 'back/page/liste.html?c=' . $indexPageList,
             ];
         } else {
             $this->view->breadCrumbs[] = [
                 'title' => 'Liste des pages',
-                'url'   => 'page/liste.html',
+                'url'   => 'back/page/liste.html',
             ];
         }
 
@@ -805,6 +805,13 @@ class Page extends Main
                     /*
                      * Déplacement des fichiers utilisés dans la page.
                      */
+                    $upload_path = $this->mainConfig->get('upload', 'path');
+
+                    $tempDir    = './' . $upload_path . DIRECTORY_SEPARATOR . 'temp-' . $_POST['id_temp'];
+                    $targetDir  = './' . $upload_path . DIRECTORY_SEPARATOR . $this->page->getMeta('id');
+
+                    rename($tempDir, $targetDir);
+
                     $query = 'UPDATE `media_fichier` SET'
                         . ' `id_gab_page` = ' . $this->page->getMeta('id') . ','
                         . ' `id_temp` = 0'
@@ -922,113 +929,138 @@ class Page extends Main
         $idChamp   = $_GET['id_champ'];
         $idVersion = $_GET['id_version'];
         $idGabPage = $_GET['id_gab_page'];
+        $ids       = isset($_GET['ids']) ? $_GET['ids'] : [];
         $term      = isset($_GET['term']) ? $_GET['term'] : '';
 
-        $query  = 'SELECT code_champ_param, value'
-            . ' FROM gab_champ_param_value'
-            . ' WHERE id_champ = ' . $idChamp;
-        $params = $this->db->query($query)->fetchAll(
-            \PDO::FETCH_UNIQUE | \PDO::FETCH_COLUMN
-        )
-        ;
+        $hook = new Hook();
+        $hook->setSubdirName('Back');
 
-        $idField = $params['TABLE.FIELD.ID'];
-        if (isset($params['TYPE.GAB.PAGE'])) {
-            $typeGabPage = $params['TYPE.GAB.PAGE'];
-        } else {
-            $typeGabPage = 0;
-        }
+        $hook->idChamp   = $idChamp;
+        $hook->ids       = $ids;
+        $hook->idVersion = $idVersion;
+        $hook->idGabPage = $idGabPage;
+        $hook->term      = $term;
 
-        if (isset($params['QUERY.FILTER'])) {
-            $queryFilter = str_replace('[ID]', $idGabPage, $params['QUERY.FILTER']);
-            $queryFilter = str_replace('[ID_VERSION]', $idVersion, $queryFilter);
-        } else {
-            $queryFilter = '';
-        }
+        $hook->exec('AutocompleteJoin' . $idChamp);
 
+        /* Chargement par défaut */
+        if (!isset($hook->results)) {
+            $query  = 'SELECT code_champ_param, value'
+                . ' FROM gab_champ_param_value'
+                . ' WHERE id_champ = ' . $idChamp;
+            $params = $this->db->query($query)->fetchAll(
+                \PDO::FETCH_UNIQUE | \PDO::FETCH_COLUMN
+            )
+            ;
 
-        $table       = $params['TABLE.NAME'];
-        $labelField  = $params['TABLE.FIELD.LABEL'];
-        $gabPageJoin = '';
-
-
-        $filterVersion = '`' . $table . '`.id_version = ' . $idVersion;
-        if ($table == 'gab_page'
-            || !$typeGabPage
-        ) {
-            $filterVersion = 1;
-        } else {
-            $gabPageJoin = ' INNER JOIN gab_page ON visible = 1'
-                . ' AND suppr = 0'
-                . ' AND gab_page.id = `' . $table . '`.`' . $idField . '` ';
-
-            if ($filterVersion != 1) {
-                $gabPageJoin .= 'AND gab_page.id_version = ' . $idVersion;
-            }
-        }
-
-        if (substr($labelField, 0, 9) != 'gab_page.') {
-            $labelField = '`' . $table . '`.`' . $labelField . '`';
-        }
-
-        $quotedTerm = $this->db->quote('%' . $term . '%');
-        $query      = 'SELECT `' . $table . '`.`' . $idField . '` id,'
-            . ' ' . $labelField . ' `label`';
-
-        /*
-         * Si gab_page
-         */
-        if ($gabPageJoin != '' || $table == 'gab_page') {
-            $query .= ',gab_gabarit.label gabarit_label';
-        }
-
-        $query .= ' FROM `' . $table . '`'
-            . $gabPageJoin;
-
-        /*
-         * Si gab_page
-         */
-        if ($gabPageJoin != '' || $table == 'gab_page') {
-            $query .= ' INNER JOIN gab_gabarit ON gab_gabarit.id = gab_page.id_gabarit';
-        }
-
-        $query .= ' WHERE ' . $filterVersion . ' '
-            . ' AND ' . $labelField . '  LIKE ' . $quotedTerm;
-
-        if ($queryFilter != '') {
-            $query .= ' AND (' . $queryFilter . ')';
-        }
-
-        if (isset($_GET['ids'])
-            && is_array($_GET['ids'])
-            && count($_GET['ids']) > 0
-        ) {
-            $ids = $_GET['ids'];
-            $query .= ' AND `' . $table . '`.`' . $idField . '`'
-                . ' NOT IN (' . implode(',', $ids) . ')';
-        }
-
-        $pagesFound = $this->db->query($query)->fetchAll(\PDO::FETCH_ASSOC);
-
-        $pages = [];
-        foreach ($pagesFound as $page) {
-            if (isset($page['gabarit_label'])) {
-                $gabaritLabel = $page['gabarit_label'];
+            $idField = $params['TABLE.FIELD.ID'];
+            if (isset($params['TYPE.GAB.PAGE'])) {
+                $typeGabPage = $params['TYPE.GAB.PAGE'];
             } else {
-                $gabaritLabel = '';
+                $typeGabPage = 0;
             }
 
-            $pages[] = [
-                'text'          => $page['label'],
-                'id'            => $page['id'],
-                'gabarit_label' => $gabaritLabel,
-            ];
+            if (isset($params['QUERY.FILTER'])) {
+                $queryFilter = str_replace('[ID]', $idGabPage, $params['QUERY.FILTER']);
+                $queryFilter = str_replace('[ID_VERSION]', $idVersion, $queryFilter);
+            } else {
+                $queryFilter = '';
+            }
+
+
+            $table       = $params['TABLE.NAME'];
+            $labelField  = $params['TABLE.FIELD.LABEL'];
+            $gabPageJoin = '';
+
+
+            $filterVersion = '`' . $table . '`.id_version = ' . $idVersion;
+            if ($table == 'gab_page'
+                || !$typeGabPage
+            ) {
+                $filterVersion = 1;
+            } else {
+                $gabPageJoin = ' INNER JOIN gab_page ON visible = 1'
+                    . ' AND suppr = 0'
+                    . ' AND gab_page.id = `' . $table . '`.`' . $idField . '` ';
+
+                if ($filterVersion != 1) {
+                    $gabPageJoin .= 'AND gab_page.id_version = ' . $idVersion;
+                }
+            }
+
+            if (substr($labelField, 0, 9) != 'gab_page.') {
+                $labelField = '`' . $table . '`.`' . $labelField . '`';
+            }
+
+            $quotedTerm = $this->db->quote('%' . $term . '%');
+            $query      = 'SELECT `' . $table . '`.`' . $idField . '` id,'
+                . ' ' . $labelField . ' `label`';
+
+            /*
+             * Si gab_page
+             */
+            if ($gabPageJoin != '' || $table == 'gab_page') {
+                $query .= ',gab_gabarit.label gabarit_label';
+            }
+
+            $query .= ' FROM `' . $table . '`'
+                . $gabPageJoin;
+
+            /*
+             * Si gab_page
+             */
+            if ($gabPageJoin != '' || $table == 'gab_page') {
+                $query .= ' INNER JOIN gab_gabarit ON gab_gabarit.id = gab_page.id_gabarit';
+            }
+
+            $query .= ' WHERE ' . $filterVersion . ' '
+                . ' AND ' . $labelField . '  LIKE ' . $quotedTerm;
+
+            if ($queryFilter != '') {
+                $query .= ' AND (' . $queryFilter . ')';
+            }
+
+            if (isset($_GET['ids'])
+                && is_array($_GET['ids'])
+                && count($_GET['ids']) > 0
+            ) {
+                $ids = $_GET['ids'];
+                $query .= ' AND `' . $table . '`.`' . $idField . '`'
+                    . ' NOT IN (' . implode(',', $ids) . ')';
+            }
+
+            $pagesFound = $this->db->query($query)->fetchAll(\PDO::FETCH_ASSOC);
+
+            $results = [];
+            foreach ($pagesFound as $page) {
+
+                // Si on a une valeur pour optgroup et qu'il n'existe pas encore
+                if (!empty($page['optgroup']) && !isset($results[$page['optgroup']])) {
+                    $results[$page['optgroup']] = [
+                        'text'     => $page['optgroup'],
+                        'children' => []
+                    ];
+                }
+
+                $page = [
+                    'text'          => $page['label'],
+                    'id'            => $page['id'],
+                ];
+
+                // On a un optgroup
+                if (!empty($page['optgroup'])) {
+                    $results[$page['optgroup']]['children'][] = $page;
+                } else {
+                    $results[] = $page;
+                }
+            }
+        } else {
+            $results = $hook->results;
         }
 
         $json = array(
-            'items' => $pages,
+            'items' => $results,
         );
-
 
         header('Cache-Control: no-cache, must-revalidate');
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
@@ -1555,6 +1587,12 @@ class Page extends Main
         foreach ($this->gabarits as $gabarit) {
             $found = false;
 
+            if (isset($currentConfigPageModule['boutons'])
+                && isset($currentConfigPageModule['boutons']['gabarit'])
+                && isset($currentConfigPageModule['boutons']['gabarit'][$gabarit['id']]['label'])
+            ) {
+                $gabarit['label'] = $currentConfigPageModule['boutons']['gabarit'][$gabarit['id']]['label'];
+            }
             $gabaritsGroup = [
                 'label' => $gabarit['label'],
             ];
@@ -1564,7 +1602,7 @@ class Page extends Main
              * ou si utilisateur solire
              */
             if ($gabarit['creable']
-                || $this->utilisateur->niveau == 'solire'
+                || $this->utilisateur->niveau == 'super administrateur'
             ) {
                 /*
                  * Si on a un regroupement des boutons personnalisés dans le

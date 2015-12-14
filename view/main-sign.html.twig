@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; text/css; charset=utf-8"/>
+
+    <title>{{ seo.getTitle() }}</title>
+    <meta name="publisher" content="SOLIRE"/>
+    <meta name="robots" content="noindex, nofollow"/>
+    <meta name="googlebot" content="noindex, nofollow"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <base href="{{ url }}"/>
+    {{ css.outputAll() }}
+</head>
+
+<body>
+
+{% block content %}
+{% endblock %}
+
+{{ requireJs.outputAll() }}
+{{ javascript.outputAll() }}
+</body>
+
+</html>

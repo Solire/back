@@ -1,4 +1,4 @@
-define(['jquery', 'modules/helper/amd', 'modules/helper/wysiwyg'], function ($, helperAmd, HelperWysiwyg) {
+define(['jquery', 'modules/helper/amd', 'modules/helper/wysiwyg', 'modules/helper/confirm'], function ($, helperAmd, HelperWysiwyg, helperConfirm) {
     return {
         run: function (wrap, response) {
             var currentModule = this;
@@ -28,24 +28,36 @@ define(['jquery', 'modules/helper/amd', 'modules/helper/wysiwyg'], function ($, 
 
                 //On autorise la suppression car plus qu'un bloc
                 $('.block-to-duplicate', sortBox).each(function () {
-                    $('.exec-onclick-removeblock', this).prop('disabled', false)
+                    $('.exec-onclick-removeblock, .block-to-sort-handle', this).prop('disabled', false)
                 })
             });
 
             // Event click remove block
             $(wrap).on('click', '.exec-onclick-removeblock', function (e) {
-                var that = this;
-                $(that).parents('.block-to-duplicate:first').slideUp('fast', function () {
-                    $(this).remove();
-                    //On autorise la suppression que si plus d'un bloc
-                    if ($('.block-to-duplicate', wrap).length > 1) {
-                        $('.block-to-duplicate', wrap).each(function () {
-                            $('.exec-onclick-removeblock', this).prop('disabled', false)
-                        })
-                    } else {
-                        $('.block-to-duplicate', wrap).find('.exec-onclick-removeblock').prop('disabled', true)
+                var helperConfirmOptions = {
+                    title: 'Suppression d\'un bloc',
+                    content: 'Êtes-vous sûr de vouloir supprimer ce bloc ?',
+                    confirmbuttontxt: 'Confirmer',
+                    cancelbuttontxt: 'Annuler',
+                    autoclose: true,
+                    callbackParams: [this],
+                    callback: function() {
+                        var that = this;
+                        $(that).parents('.block-to-duplicate:first').slideUp('fast', function () {
+                            $(this).remove();
+                            //On autorise la suppression que si plus d'un bloc
+                            if ($('.block-to-duplicate', wrap).length > 1) {
+                                $('.block-to-duplicate', wrap).each(function () {
+                                    $('.exec-onclick-removeblock, .block-to-sort-handle', this).prop('disabled', false)
+                                })
+                            } else {
+                                $('.block-to-duplicate', wrap).find('.exec-onclick-removeblock, .block-to-sort-handle').prop('disabled', true)
+                            }
+                        });
                     }
-                });
+                }
+
+                helperConfirm.run(helperConfirmOptions)
             });
 
             // Event click toggle visible
@@ -75,25 +87,29 @@ define(['jquery', 'modules/helper/amd', 'modules/helper/wysiwyg'], function ($, 
                 .not('.join-param')
                 .not('.extensions')
                 .each(function () {
-                    if ($(this).is('input'))
+                    if ($(this).is('input')) {
                         $(this).val('');
-                    else {
+                    } else {
                         if ($(this).is('textarea')) {
                             $(this).val('');
-                        }
-                        else {
-                            if ($(this).is('select'))
+                        } else {
+                            if ($(this).is('select')) {
                                 $(this).val($(this).children('option:first').val());
+                            }
                         }
                     }
                 });
 
-            blockClone.find('.select2').remove();
-            blockClone.find('.previsu').attr('href', '');
-            blockClone.find('.previsu').hide();
-            blockClone.find('.crop').hide();
+            var fileDiv     = $(this).parents('.form-group:first');
 
-            $('legend', blockClone).html('Bloc en cours de création');
+            blockClone.find('.field-file').addClass('hidden');
+            blockClone.find('.select2-wrapper').removeClass('col-sm-offset-3')
+            blockClone.find('.select2-wrapper').removeClass('col-sm-offset-3')
+            blockClone.find('.field-file-crop').hide();
+            blockClone.find('.select2').remove();
+
+            var iconFolder = $('legend i', blockClone);
+            $('legend', blockClone).html(' Bloc en cours de création').prepend(iconFolder);
         },
         initBlock: function (blockClone) {
             var idnew;

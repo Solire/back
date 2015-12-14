@@ -1,9 +1,12 @@
 {% extends 'main.html.twig' %}
 {% import "util/breadcrumbs.html.twig" as breadcrumbs %}
 
+{% block title %}
+    Mon profil
+{% endblock %}
+
 {% block content %}
     {{ parent() }}
-    <h1>Mon profil</h1>
 
     {{ breadcrumbs.breadcrumbs(breadCrumbs) }}
 

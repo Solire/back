@@ -6,8 +6,11 @@
 }*/
 
 .form-group-file, .select2-container {
-  @media (min-width: $screen-sm-min) {
-    .dl-horizontal {
+
+  .dl-horizontal {
+    font-size: 12px;
+
+    @media (min-width: $screen-sm-min) {
       dt {
         width: 95px;
       }

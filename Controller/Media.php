@@ -119,7 +119,7 @@ class Media extends Main
             if (array_key_exists($ext, FileManager::$extensions['image'])) {
                 $file['path_mini']  = $this->view->prefixFileUrl
                                     . $file['id_gab_page'] . '/'
-                                    . $this->upload_vignette . '/'
+                                    . $this->upload_apercu . '/'
                                     . $file['rewriting'];
 
                 $sizes = getimagesize($serverpath);
@@ -262,17 +262,7 @@ class Media extends Main
             $response['size']  = Tools::formatTaille($response['size']);
             $response['value'] = $response['filename'];
 
-            if (isset($response['mini_path'])) {
-                $response['mini_path'] = $this->view->prefixFileUrl
-                                   . $response['mini_path'];
-                $response['mini_url'] = $this->view->prefixFileUrl
-                                  . $response['mini_url'];
-                $response['vignette'] = $response['mini_url'];
-                $response['image'] = [
-                    'url' => $this->view->prefixFileUrl . $id_gab_page
-                             . '/' . $response['filename']
-                ];
-
+            if (isset($response['apercu_path'])) {
                 // Génération de miniatures additionnelles
                 $filePath = $this->view->prefixFileUrl . $response['path'];
                 $this->miniatureProcess($gabaritId, $filePath);
@@ -281,14 +271,16 @@ class Media extends Main
             $response['url']       = $this->view->prefixFileUrl . $response['url'];
             $response['isImage']   = FileManager::isImage($response['filename']) !== false;
 
-            if (isset($response['minipath'])) {
-                $response['minipath'] = $this->view->prefixFileUrl
-                                  . $response['minipath'];
+            if (isset($response['apercu_path'])) {
+                $response['apercu_path'] = $this->view->prefixFileUrl
+                    . $response['apercu_path'];
+                $response['mini_url'] = $this->view->prefixFileUrl
+                    . $response['apercu_url'];
+                $response['vignette'] = $response['mini_url'];
                 $response['image'] = [
                     'url' => $this->view->prefixFileUrl . $id_gab_page
-                             . '/' . $response['filename']
+                        . '/' . $response['filename']
                 ];
-                $response['path'] = $this->view->prefixFileUrl . $response['path'];
             }
         } else {
             if (isset($_COOKIE['id_temp'])
@@ -325,6 +317,7 @@ class Media extends Main
                 if (isset($response['mini_path'])) {
                     $response['mini_path'] = $this->view->prefixFileUrl . $response['mini_path'];
                     $response['mini_url'] = $this->view->prefixFileUrl . $response['mini_url'];
+                    $response['vignette'] = $response['mini_url'];
                     $response['image'] = [
                         'url' => $this->view->prefixFileUrl . $id_gab_page . Path::DS . $response['filename']
                     ];
@@ -334,8 +327,9 @@ class Media extends Main
                     $this->miniatureProcess($gabaritId, $filePath);
 
                 }
-                $response['path'] = $this->view->prefixFileUrl . $response['path'];
+                $response['value'] = $response['filename'];
                 $response['url'] = $this->view->prefixFileUrl . $response['url'];
+                $response['path'] = $response['url'];
                 $response['size'] = Tools::formatTaille($response['size']);
                 $response['id_temp'] = $id_temp;
                 $response['isImage'] = FileManager::isImage($response['filename']) !== false;
@@ -506,7 +500,7 @@ class Media extends Main
         if (FileManager::isImage($response['filename'])) {
             $vignette   = $this->view->prefixFileUrl
                         . $targetDir . Path::DS
-                        . $this->upload_vignette . Path::DS
+                        . $this->upload_apercu . Path::DS
                         . $response['filename'];
             $serverpath = $this->upload_path . Path::DS
                         . $targetDir . Path::DS
@@ -666,7 +660,7 @@ class Media extends Main
                 if (!$tinyMCE || FileManager::isImage($file['rewriting'])) {
                     $url = $dir . '/' . $file['rewriting'];
                     $vignette = $dir . '/'
-                              . $this->upload_vignette . '/'
+                              . $this->upload_apercu . '/'
                               . $file['rewriting'];
                     $serverpath = $this->upload_path . Path::DS
                                 . $dir . Path::DS

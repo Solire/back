@@ -11,31 +11,25 @@ driver:
     # masculin ou féminin
     # "e"|""
     itemGenre:
-    requestUrl: back/datatable/listdata.html?name=user
+    requestUrl: back/user/listdata.html?name=user
     requestMethod: POST
     separator: "~"
     dom: <"H"TClfr>t<"F"ip>
     defaultSort:
-    - [1, desc]
+    - [4, desc]
 
 source:
   name: doctrine
   conf:
     select:
-      - u.civilite
-      - u.nom
-      - u.prenom
-      - u.societe
-      - u.niveau
-      - u.email
-      - u.actif
-      - u.date_crea
-
-
+      - u.*
+      - CONCAT(u.civilite, ' ', u.nom, ' ', u.prenom) identite
+      - IF(u.actif > 0, 'Actif', 'Inactif') actifLabel
+      - u.niveau niveauLabel
     from:
       name: utilisateur
       alias: u
-
+    group: u.id
 ## COLUMNS
 
 columns:
@@ -49,35 +43,47 @@ columns:
 #    sourceSort: source expression (for example a column)
 #    ...
 
-  civilite:
-    label: Civilite
+#  civilite:
+#    label: Civilite
+#    filter: 0
+#    sort: 0
+#    source: u.civilite
+#    sourceFilterType: Exact
+#    driverFilterType: select
+#    driverOption:
+#      values:
+#        -
+#          label: M.
+#          value: M.
+#        -
+#          label: Mme
+#          value: Mme
+
+  identite:
+    label: Identité
     filter: 1
     sort: 1
-    source: u.civilite
+    sourceFilter: CONCAT(u.civilite, ' ', u.nom, ' ', u.prenom)
 
-  nom:
-    label: Nom
-    filter: 1
-    sort: 1
-    source: u.nom
-
-  prenom:
-    label: Prénom
-    filter: 1
-    sort: 1
-    source: u.prenom
-
-  societe:
-    label: Société
-    filter: 1
-    sort: 1
-    source: u.societe
-
-  niveau:
+  niveauLabel:
     label: Niveau
     filter: 1
     sort: 1
-    source: u.niveau
+#    source: niveauLabel
+    sourceFilter: u.niveau
+    sourceFilterType: Exact
+    driverFilterType: select
+    driverOption:
+      values:
+        -
+          label: Rédacteur
+          value: redacteur
+        -
+          label: Administrateur
+          value: admin
+        -
+          label: Solire
+          value: solire
 
   email:
     label: Email
@@ -85,14 +91,46 @@ columns:
     sort: 1
     source: u.email
 
-  actif:
+  actifLabel:
     label: Actif
     filter: 1
     sort: 1
-    source: u.actif
+    sourceFilter: u.actif
+    sourceFilterType: Exact
+    driverFilterType: select
+    driverOption:
+      values:
+        -
+          label: Actif
+          value: "1"
+        -
+          label: Inactif
+          value: "0"
 
   date_crea:
     label: Créé le
     filter: 1
     sort: 1
     source: u.date_crea
+    driverFilterType: dateRange
+    sourceFilterType: DateRange
+    format:
+      class: \Solire\Trieur\Format\Callback
+      name:
+        - Solire\Lib\Format\DateTime
+        - sqlTo
+      cell: dateSql
+
+  action:
+    label: Action
+    filter: 0
+    sort: 0
+    source: id
+    format:
+      class: Solire\Lib\Trieur\Format\Twig
+      fileName: datatable/user/action.html.twig
+
+#  id:
+#    driverHidden: true
+#    filter: 0
+#    sort: 0

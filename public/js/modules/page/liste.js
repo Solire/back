@@ -2,7 +2,9 @@ define(['jquery', 'jqueryCookie', 'sortable', 'modules/helper/noty'], function (
     return {
         run: function (wrap, response) {
 
-            var positions = {};
+            var pid,
+                freezed,
+                positions = [];
 
             /**
              * Gestion du tri des pages
@@ -20,7 +22,7 @@ define(['jquery', 'jqueryCookie', 'sortable', 'modules/helper/noty'], function (
                     var sortable = Sortable.create(this, {
                         animation: 150,
                         handle: '.sort-move',
-                        items: '> .sort-elmt',
+                        draggable: '.sort-elmt',
                         onEnd: function (evt) {
                             positions = $(evt.target).data('sortable').toArray();
                             // Si positions différentes

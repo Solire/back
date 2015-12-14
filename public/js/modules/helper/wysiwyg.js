@@ -9,7 +9,9 @@ define(['jquery', 'tinyMCE'], function ($, tinyMCE) {
     run: function (wrap, response) {
       var s = {
         mode: 'none',
+        content_style: "body p{font-size: 14px;}",
         height: '290px',
+        language_url : 'public/default/back/bower_components/solire.tinymce-i18n/langs/fr_FR.js',
         entity_encoding: 'raw',
         plugins: [
           'autolink link'

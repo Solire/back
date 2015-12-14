@@ -15,14 +15,14 @@ Main Components
   @include center;
   visibility: hidden;
   opacity: 0;
-  @include transition(opacity 0.4s 0s, visibility 0s 0.4s);
+  @include transition((opacity 0.4s 0s, visibility 0s 0.4s));
 
   &.active {
     /* start tour */
     z-index: 2000;
     visibility: visible;
     opacity: 1;
-    @include transition(opacity 0.4s 0s, visibility 0s 0s);
+    @include transition((opacity 0.4s 0s, visibility 0s 0s));
   }
 }
 
@@ -42,7 +42,7 @@ Main Components
   @include transform(translateZ(0));
 
   @include transform(scale(0));
-  @include transition(transform 0.4s 0s, opacity 0s 0.4s);
+  @include transition((transform 0.4s 0s, opacity 0s 0.4s));
 
   > span {
     /* dot indicator - visible on desktop version only */
@@ -86,7 +86,7 @@ Main Components
   .active & {
     /* tour started */
     @include transform(scale(1) translateX(100%));
-    @include transition(transform 0.4s 0s, opacity 0.4s 0s);
+    @include transition((transform 0.4s 0s, opacity 0.4s 0s));
   }
 
   .active &.move-left {
@@ -351,13 +351,13 @@ Main Components
   background-color: rgba(#000, .6);
   visibility: hidden;
   opacity: 0;
-  @include transition(opacity 0.8s 0s, visibility 0s 0.8s);
+  @include transition((opacity 0.8s 0s, visibility 0s 0.8s));
 
   &.is-visible {
     opacity: 0.5;
     visibility: visible;
     @include animation(tour-fade-in 2.1s);
-    @include transition(opacity 0s, visibility 0s 0s);
+    @include transition((opacity 0s, visibility 0s 0s));
 
   }
 }

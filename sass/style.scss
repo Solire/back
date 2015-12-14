@@ -29,7 +29,7 @@
 @import "config/bootstrap/font";
 @import "config/bootstrap/navbar";
 @import "config/bootstrap/state";
-
+@import "config/bootstrap/table";
 
 
 // ███████╗██╗  ██╗████████╗███████╗██████╗ ███╗   ██╗ █████╗ ██╗
@@ -40,11 +40,14 @@
 // ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝
 
 
-$icon-font-path: "../public/bower_components/bootstrap-sass/assets/fonts/bootstrap/";
-@import "../public/bower_components/bootstrap-sass/assets/stylesheets/bootstrap-sprockets";
+$icon-font-path: "../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
 @import "../public/bower_components/bootstrap-sass/assets/stylesheets/bootstrap";
 
-@import "../public/bower_components/youtube-loading-bar/src/scss/youtubeLoadingBar.scss";
+@import "../public/bower_components/youtube-loading-bar/src/scss/youtubeLoadingBar";
+
+@import "../public/bower_components/solire.ladda-bootstrap/css/ladda";
+
+@import "../public/bower_components/material-shadows/material-shadows";
 
 
 //  ██████╗ ██╗      ██████╗ ██████╗  █████╗ ██╗
@@ -71,11 +74,13 @@ $icon-font-path: "../public/bower_components/bootstrap-sass/assets/fonts/bootstr
 @import 'layout/typeahead';
 @import 'layout/button';
 @import 'layout/sortable';
+@import 'layout/navbar';
 @import 'layout/datatable';
 @import 'layout/dialog';
 @import 'layout/select2';
 @import 'layout/jcrop';
 @import 'layout/upload';
+@import 'layout/card';
 @import 'layout/tour';
 @import 'layout/preloader/cube';
 

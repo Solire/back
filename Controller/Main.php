@@ -134,7 +134,17 @@ class Main extends Controller
                         ]
                     ]
                 );
-                throw $exc;
+
+                $jsonResponse = [
+                    'status'  => 'error',
+                    'text'    => $exc->getMessage(),
+                    'after'   => [
+                        'modules/helper/noty',
+                        'modules/render/aftersignin',
+                    ],
+                ];
+
+                exit(json_encode($jsonResponse));
             }
 
             $this->userLogger->addInfo(
@@ -147,9 +157,16 @@ class Main extends Controller
                 ]
             );
 
-            $message = 'Connexion réussie, vous allez être redirigé';
+            $jsonResponse = [
+                'status'  => 'success',
+                'text'    => 'Connexion réussie, vous allez être redirigé',
+                'after'   => [
+                    'modules/helper/noty',
+                    'modules/render/aftersignin',
+                ],
+            ];
 
-            exit(json_encode(['success' => true, 'message' => $message]));
+            exit(json_encode($jsonResponse));
         }
 
         if (!$this->utilisateur->isConnected()
@@ -252,11 +269,16 @@ class Main extends Controller
         if (isset($_POST['log']) && isset($_POST['pwd'])
             && ($_POST['log'] == '' || $_POST['pwd'] == '')
         ) {
-            $retour = [
-                'success' => false,
-                'message' => 'Veuillez renseigner l\'identifiant et le mot de passe'
+            $jsonResponse = [
+                'status'  => 'error',
+                'text'    => 'Veuillez renseigner l\'identifiant et le mot de passe',
+                'after'   => [
+                    'modules/helper/noty',
+                    'modules/render/aftersignin',
+                ],
             ];
-            exit(json_encode($retour));
+
+            exit(json_encode($jsonResponse));
         }
 
         $this->view->utilisateur   = $this->utilisateur;
@@ -278,6 +300,7 @@ class Main extends Controller
             'title' => '<i class="fa fa-home"></i>'
                 . ' '
                 . $this->view->site,
+            'url' => 'back/'
         ];
 
         /* On indique que l'on est dans une autre api **/
@@ -435,9 +458,7 @@ class Main extends Controller
             ]
         );
 
-        $this->css->addLibrary('back/bower_components/bootstrap/dist/css/bootstrap.min.css');
-
-        /* Bootstrap meteriel design */
+        /* Bootstrap meterial design */
         $this->requireJs->addLibrary(
             'back/bower_components/bootstrap-material-design/dist/js/ripples.min.js',
             [
@@ -524,6 +545,28 @@ class Main extends Controller
             ]
         );
 
+        /* Ladda button */
+        $this->requireJs->addLibrary(
+            'back/bower_components/solire.ladda-bootstrap/dist/ladda.min.js',
+            [
+                'name' => 'ladda',
+                'deps' => [
+                    'jquery',
+                    'spin',
+                ]
+            ]
+        );
+
+        $this->requireJs->addLibrary(
+            'back/bower_components/solire.ladda-bootstrap/dist/spin.min.js',
+            [
+                'name' => 'spin',
+                'deps' => [
+                    'jquery',
+                ]
+            ]
+        );
+
         /* Jcrop */
         $this->requireJs->addLibrary(
             'back/bower_components/Jcrop/js/Jcrop.js',
@@ -604,6 +647,7 @@ class Main extends Controller
                 'name' => 'datatables-light-columnfilter',
                 'deps' => [
                     'datatables',
+                    'modules/config/datepicker',
                 ]
             ]
         );
@@ -614,7 +658,6 @@ class Main extends Controller
                 'name' => 'datatablesLCFBootstrap3',
                 'deps' => [
                     'datatables-light-columnfilter',
-                    'bootstrapDatepicker',
                 ]
             ]
         );
@@ -712,6 +755,8 @@ class Main extends Controller
         /* Modules Solire */
         $requireJsModules = [
             'modules/config/noty',
+            'modules/config/datepicker',
+            'modules/helper/affix',
             'modules/helper/ajaxcall',
             'modules/helper/ajaxDialog',
             'modules/helper/ajaxform',
@@ -744,8 +789,10 @@ class Main extends Controller
             'modules/page/simpleupload',
             'modules/page/upload',
             'modules/render/afterdeletepage',
+            'modules/render/afterforgotpassword',
             'modules/render/aftersavepage',
             'modules/render/aftersavepassword',
+            'modules/render/aftersignin',
             'modules/render/beforeloadpage',
             'modules/render/delete',
             'modules/render/visible',
