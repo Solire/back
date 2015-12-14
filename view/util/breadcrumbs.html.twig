@@ -1,0 +1,27 @@
+{% macro breadcrumbs(items) %}
+    {% if items|length %}
+        {%- spaceless -%}
+            <div class="breadcrumbs" itemprop="breadcrumb">
+                <ol class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
+                    {% for item in items %}
+                        <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                            <a {{ item.view ? 'href="' ~ item.url ~ '" itemprop="item"' : '' }}>
+                                <span itemprop="name">
+                                    {% if loop.last %}
+                                        <strong>{{ item.title }}</strong>
+                                    {% else %}
+                                        {{ item.title }}
+                                    {% endif %}
+                                </span>
+                                <meta itemprop="position" content="{{ loop.index }}" />
+                            </a>
+                            {% if separator is not null and not loop.last %}
+                                <span class='{{ separatorClass }}'>{{ separator }}</span>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ol>
+            </div>
+        {%- endspaceless -%}
+    {% endif %}
+{% endmacro %}

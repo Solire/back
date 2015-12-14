@@ -8,8 +8,8 @@
 
 namespace Solire\Back\Controller;
 
+use ZxcvbnPhp\Zxcvbn;
 use Solire\Lib\FrontController;
-use Solire\Lib\Datatable\Datatable;
 
 /**
  * Gestion du profile utilisateur
@@ -27,10 +27,8 @@ class User extends Main
      */
     public function startAction()
     {
-        $this->javascript->addLibrary('back/js/formgabarit.js');
-
         $this->view->breadCrumbs[] = array(
-            'label' => 'Mon profil',
+            'title' => 'Mon profil',
             'url' => '',
         );
     }
@@ -55,46 +53,66 @@ class User extends Main
             $errors[] = 'Le nouveau mot de passe et sa confirmation sont différents';
         }
 
-
-         /** Test longueur password */
+        /** Test longueur password */
         if (count($errors) == 0 && strlen($_POST['new_password']) < 6) {
             $errors[] = 'Votre nouveau mot de passe doit contenir au moins 6 caractères';
         }
 
+        /** Test password complexity */
+        $zxcvbn = new Zxcvbn();
+        $strength = $zxcvbn->passwordStrength($_POST['new_password'], [$this->utilisateur->login]);
+
+        if (count($errors) == 0 && $strength['score'] < 2) {
+            $errors[] = 'Votre nouveau mot de passe n\'est pas assez sécurisé';
+        }
+
         //Si aucune erreur on essaie de modifier le mot de passe
         if (count($errors) == 0) {
-
             $query = 'SELECT pass '
                    . 'FROM utilisateur '
                    . 'WHERE id = ' . $this->utilisateur->id . ' ';
-            $oldPass = $this->db->query($query)->fetchColumn();
 
-            $oldSaisi = $this->utilisateur->prepareMdp($_POST['old_password']);
+            $oldPassHash   = $this->db->query($query)->fetchColumn();
+            $oldPassFilled = $_POST['old_password'];
 
+            if (password_verify($oldPassFilled, $oldPassHash) === true) {
 
-            $newPass = $this->utilisateur->prepareMdp($_POST['new_password']);
+                $newPass = $this->utilisateur->prepareMdp($_POST['new_password']);
 
-            $query = 'UPDATE utilisateur SET '
-                   . ' pass = ' . $this->db->quote($newPass) . ' '
-                   . 'WHERE `id` = ' . $this->utilisateur->id . ' ';
+                $query = 'UPDATE utilisateur SET '
+                    . ' pass = ' . $this->db->quote($newPass) . ' '
+                    . 'WHERE `id` = ' . $this->utilisateur->id . ' ';
 
-            if ($oldPass == $oldSaisi) {
-                $response['status'] = true;
-                $this->db->exec($query);
+                if ($this->db->exec($query)) {
+                    $response['status'] = true;
+                }
             } else {
                 $errors[] = 'Mot de passe actuel incorrect';
             }
         }
 
         if ($response['status']) {
-            $response['status'] = 'success';
-            $response['message'] = 'Votre mot de passe a été mis à jour';
-            $response['javascript'] = 'window.location.reload()';
+            $this->utilisateur->disconnect();
+            $jsonResponse = [
+                'status'      => 'success',
+                'text'        => 'Votre mot de passe a été mis à jour',
+                'after'       => array(
+                    'modules/helper/noty',
+                    'modules/render/aftersavepassword',
+                )
+            ];
         } else {
-            $response['message'] = implode('<br />', $errors);
+            $jsonResponse = [
+                'status'      => 'error',
+                'text'        => implode('<br />', $errors),
+                'after'       => array(
+                    'modules/helper/noty',
+                    'modules/render/aftersavepassword',
+                )
+            ];
         }
 
-        echo json_encode($response);
+        echo json_encode($jsonResponse);
     }
 
     /**

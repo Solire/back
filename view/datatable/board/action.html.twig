@@ -1,0 +1,25 @@
+<div class="btn-group" data-amd="modules/helper/ajaxcall">
+
+    {% if row.suppr %}
+
+    {% else %}
+        {% if row.editable %}
+            <a href="back/page/display.html?id_gab_page={{ row.id }}" title="Modifier {{ row.titre }} ?"
+               class="btn btn-sm btn-success" type="button">
+                <i class="fa fa-pencil"></i>
+            </a>
+        {% endif %}
+
+        {% if (user.get('niveau') == 'solire' or row.deletable) and row.nbre_enfants == 0 %}
+            <button class="btn btn-sm btn-warning exec-onclick-ajax" data-url="back/page/delete.html" data-confirm="true"
+                    data-element-title="{{ row.titre }}" data-title="Confirmation de suppression de « {{ row.titre }} »"
+                    data-content="Êtes-vous sûr de vouloir supprimer « {{ row.titre }} »" data-cancelbuttontxt="Annuler"
+                    data-confirmbuttontxt="Confirmer" data-id="{{ row.id }}" data-id_version="1" data-visible="1"
+                    style="display:inline-block;" title="Supprimer « {{ row.titre }} »">
+                <i class="fa fa-trash"></i>
+
+                <div class="ripple-wrapper"></div>
+            </button>
+        {% endif %}
+    {% endif %}
+</div>

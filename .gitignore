@@ -1,6 +1,6 @@
 # Ignore propre aux éditeur #
 #############################
-/nbproject/private/
+/nbproject/
 
 # Numerous always-ignore extensions #
 #####################################
@@ -48,3 +48,13 @@ vendor/
 #########
 tests/units/coverage/
 tests/units/tmp
+
+# bower #
+###################
+bower_components/
+
+# sass #
+########
+projet/front/css
+.sass-cache
+projet/front/image-*

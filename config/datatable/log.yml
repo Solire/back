@@ -1,0 +1,82 @@
+# -------------------------
+# CONFIG
+title: Liste des logs
+
+# Js Config
+driver:
+  name: dataTables
+  conf:
+    itemName: log
+    itemsName: logs
+    # masculin ou féminin
+    # "e"|""
+    itemGenre:
+    requestUrl: back/datatable/listdata.html?name=log
+    requestMethod: POST
+    separator: "~"
+    dom: <"H"TClfr>t<"F"ip>
+    defaultSort:
+    - [3, desc]
+
+source:
+  name: doctrine
+  conf:
+    select:
+      - m.channel
+      - m.level
+      - m.message
+      - m.time
+      - m.remoteip
+
+    from:
+      name: monolog
+      alias: m
+
+## COLUMNS
+
+columns:
+#  columnName:
+#    label: columnLabel
+#    sort: 1|0
+#    filter: 1|0
+#    filterType: text, dateRange...
+#    source: source expression (for example a column)
+#    sourceFilter: source expression (for example a column)
+#    sourceSort: source expression (for example a column)
+#    ...
+
+  channel:
+    label: Canal
+    filter: 1
+    sort: 1
+    source: m.channel
+
+  level:
+    label: Niveau
+    filter: 1
+    sort: 1
+    source: m.level
+
+  message:
+    label: Message
+    filter: 1
+    sort: 1
+    source: m.message
+
+  time:
+    label: Date
+    filter: 1
+    sort: 1
+    source: m.time
+    format:
+      class: \Solire\Trieur\Format\Callback
+      name: date
+      cell: timestamp
+      arguments:
+        format: "d/m/Y H:i:s"
+
+  remoteip:
+    label: Ip du client
+    filter: 1
+    sort: 1
+    source: m.remoteip

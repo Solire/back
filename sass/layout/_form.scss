@@ -1,0 +1,20 @@
+/*.champ-image-vignette {
+    max-height:80px;
+    width:auto;
+    height:auto;
+    max-width: 80px;
+}*/
+
+.form-group-file, .select2-container {
+  @media (min-width: $screen-sm-min) {
+    .dl-horizontal {
+      dt {
+        width: 95px;
+      }
+
+      dd {
+        margin-left: 115px;
+      }
+    }
+  }
+}

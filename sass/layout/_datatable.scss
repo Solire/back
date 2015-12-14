@@ -1,0 +1,28 @@
+@import "../public/bower_components/datatables-responsive/css/responsive.bootstrap";
+
+.datatable-actions {
+  margin-bottom: 20px;
+}
+
+.dataTables_wrapper {
+  td, th {
+    vertical-align: middle !important;
+  }
+
+  thead th {
+    input, select {
+      max-width: 120px;
+    }
+  }
+
+  .btn-group {
+    margin: {
+      top: 0;
+      bottom: 0;
+    };
+  }
+
+  .youtube-loadingbar-wrapper {
+    height: 2px;
+  }
+}

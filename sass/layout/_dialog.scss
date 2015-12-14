@@ -1,0 +1,90 @@
+.soModalDefaultModal {
+    min-width: 320px;
+    background-color: transparent;
+    @include box-shadow(0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3));
+
+    .modalHeader {
+        padding: 10px;
+        background: $modal-header-bg;
+        color: $modal-header-color;
+        overflow: hidden;
+        @include border-top-radius($modal-border-radius);
+
+        h3 {
+            text-align: center;
+            margin: {
+                top: 0;
+                bottom: 0;
+            }
+        }
+
+        .soModalDefaultClose {
+            -webkit-appearance: none;
+            float: right;
+            padding: 0;
+            cursor: pointer;
+            z-index: 1;
+            opacity: .5;
+            background: 0 0;
+            border: 0;
+            font-size: 19px;
+            font-weight: 600;
+            line-height: 1;
+            color: #333;
+            text-shadow: 0 1px 0 #666;
+            margin-top: 2px;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+
+    .modalBody {
+        padding: 10px;
+        background: $modal-body-bg;
+        color: $modal-body-color;
+    }
+
+    .modalFooter {
+        @include border-bottom-radius($modal-border-radius);
+        overflow: hidden;
+        background: $modal-footer-bg;
+        color: $modal-footer-color;
+        text-align: right;
+        padding: 10px;
+    }
+}
+
+.soModalContainerFixed {
+    z-index: 2001;
+}
+
+.soModalDefaultOverlay {
+    z-index: 2001;
+    background-color: #000;
+}
+
+.soModalZoomModal {
+    max-width: 90%;
+    width: auto;
+}
+
+/* Style pour la modal image */
+.soModalImageOverlay {
+    z-index: 2001;
+    background-color: #000;
+}
+
+.soModalImageModal {
+    display: inline-block;
+    width: auto;
+    max-width: 70%;
+    padding: 0px;
+    background: transparent;
+    @include box-shadow(0 15px 20px rgba(0, 0, 0, 0.22), 0 19px 60px rgba(0, 0, 0, 0.3));
+}
+
+.soModalImageModal img {
+    max-width: 100%;
+}

@@ -1,0 +1,103 @@
+{% extends 'main.html.twig' %}
+{% import "util/breadcrumbs.html.twig" as breadcrumbs %}
+
+{% block content %}
+    {{ parent() }}
+    <div data-amd="modules/page/affichegabarit,modules/helper/ajaxcall,modules/page/upload,modules/render/beforeloadpage,modules/helper/zoom">
+        <h1>Gestion des pages</h1>
+        {{ breadcrumbs.breadcrumbs(breadCrumbs) }}
+
+        <h2>
+            {% if pages[backIdVersion].getMeta('id') %}
+                Modification de
+            {% else %}
+                Création de
+            {% endif %}
+            {{ pages[backIdVersion].getGabarit().getLabel()|lower }}
+        </h2>
+        {% if versions|length > 0 %}
+            <div>
+                {% for versionId, version in versions %}
+                    {% set page = pages[versionId] %}
+                    <div class="btn-group">
+                        <a title="{{ not pages[BACK_ID_VERSION].getMeta() ? 'Page en cours de création en version : ' }}{{ version.nom }}"
+                           class="openlang {{ versionId != backIdVersion ? 'translucide' }} btn btn-default btn-sm">
+                            {% if pages[backIdVersion].getMeta() %}
+                                <i title="{{ version.nom }}" class="flag-icon flag-icon-{{ version.suf|lower }}"></i>
+                            {% else %}
+                                <i class="fa fa-clock-o"
+                                   alt="Page en cours de création en version {{ version.nom }}"></i>
+                            {% endif %}
+                        </a>
+
+                        {% if page.getMeta('rewriting') != '' %}
+                            {# Cas de la page déjà édité dans cette langue #}
+
+                            {% if utilisateur.get('niveau') == 'solire'
+                                or page.getGabarit().getMakeHidden()
+                                or not page.getMeta('visible')
+                            %}
+                                {# Cas super user ou droit de rendre invisible ou page pas encore visible #}
+
+                                {% if page.makeHidden and page.getMeta('visible')
+                                    or page.makeVisible and not page.getMeta('visible')
+                                %}
+                                    <button
+                                            class="btn btn-sm {{ page.getMeta('visible') ? 'btn-success' : 'btn-default' }} exec-onclick-ajax"
+                                            data-url="back/page/visible.html"
+                                            data-id="{{ page.getMeta('id') }}"
+                                            data-id_version="{{ page.getMeta('id_version') }}"
+                                            data-visible="{{ page.getMeta('visible') }}"
+                                            title="Rendre '{{ page.getMeta('title') }}' {{ page.getMeta('visible') ? 'visible' : 'invisible' }} sur le site">
+
+                                        <i class="fa {{ page.getMeta('visible') ? 'fa-eye' : 'fa-eye-slash' }}"></i>
+                                    </button>
+                                {% else %}
+                                    <span class="btn btn-sm disabled {{ page.getMeta('visible') ? 'btn-success' : 'btn-default' }}"
+                                          title="Vous n'avez pas les droits pour exécuter cette action"
+                                          style="cursor:not-allowed;">
+                                        <i class="fa {{ page.getMeta('visible') ? 'fa-eye' : 'fa-eye-slash' }}"></i>
+                                    </span>
+                                {% endif %}
+                            {% endif %}
+                        {% else %}
+                            {% if versions|length > 1 %}
+                                <a href="" class="openlang-trad btn btn-sm btn-danger" title="Non traduit"><i
+                                            class="fa fa-globe"></i></a>
+                            {% endif %}
+                        {% endif %}
+
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% for page in pages %}
+
+            <div class="langue" id="langue_{{ page.getMeta('id_version') }}"
+                 style="{{ page.getMeta('id_version') != backIdVersion and pages|length > 1 ? 'display:none;' }}">
+
+                {% if redirections[page.getMeta('id_version')] %}
+                    {% set redirections = redirections[page.getMeta('id_version')] %}
+                {% else %}
+                    {% set redirections = [] %}
+                {% endif %}
+
+                {% if authors[page.getMeta('id_version')] %}
+                    {% set authors = authors[page.getMeta('id_version')] %}
+                {% else %}
+                    {% set authors = [] %}
+                {% endif %}
+
+                {{ page.getForm('back/page/save.html', 'back/page/liste.html', redirections, authors) }}
+
+            </div>
+        {% endfor %}
+
+        {% if popup == 'more' %}
+            {% include 'template/pagedialog.html.twig' %}
+        {% endif %}
+
+        {% include 'template/cropdialog.html.twig' %}
+    </div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'main.html.twig' %}
+{% import "util/breadcrumbs.html.twig" as breadcrumbs %}
+
+{% block content %}
+    {{ parent() }}
+    <div>
+        <h1>{{ title }}</h1>
+        {{ breadcrumbs.breadcrumbs(breadCrumbs) }}
+        <table data-amd="modules/helper/datatable" data-datatable-name="{{ name }}"
+               id="datatable" class="table table-condensed">
+        </table>
+    </div>
+{% endblock %}

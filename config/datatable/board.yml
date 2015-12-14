@@ -1,0 +1,152 @@
+# -------------------------
+# CONFIG
+
+# Js Config
+driver:
+  name: dataTables
+  conf:
+    itemName: contenu
+    itemsName: contenus
+    # masculin ou féminin
+    # "e"|""
+    itemGenre:
+    requestUrl: back/board/listdata.html?name=board
+    requestMethod: POST
+    separator: "~"
+    dom: <"H"TClfr>t<"F"ip>
+    defaultSort:
+    - [3, desc]
+
+source:
+  name: doctrine
+  conf:
+    select:
+      - p.*
+      - g.label
+      - g.deletable
+      - g.editable
+      - count(pe.id) nbre_enfants
+      - 'IF(p.suppr, "text-muted", "") as DT_RowClass'
+
+    from:
+      name: gab_page
+      alias: p
+
+    innerJoin:
+      -
+        name: gab_gabarit
+        alias: g
+        'on': g.id = p.id_gabarit
+
+    leftJoin:
+        -
+          name: gab_page
+          alias: pe
+          'on': pe.id_parent = p.id and pe.suppr = 0
+
+    group: p.id
+## COLUMNS
+
+columns:
+#  columnName:
+#    label: columnLabel
+#    sort: 1|0
+#    filter: 1|0
+#    filterType: text, dateRange...
+#    source: source expression (for example a column)
+#    sourceFilter: source expression (for example a column)
+#    sourceSort: source expression (for example a column)
+#    ...
+
+
+  DT_RowClass:
+    driverHidden: true
+    filter: 0
+    sort: 0
+
+  status:
+    label: Statut
+    filter: 1
+    sort: 1
+    source: 'IF(p.suppr, "2", IF(p.visible = 0, "1", "0"))'
+    sourceFilterType: Exact
+    driverFilterType: select
+    driverOption:
+      values:
+        -
+          label: Publié
+          value: "0"
+        -
+          label: En attente
+          value: "1"
+        -
+          label: Supprimé
+          value: "2"
+    format:
+      class: Solire\Lib\Trieur\Format\Twig
+      fileName: datatable/board/status.html.twig
+
+  titre:
+    label: Titre
+    filter: 1
+    sort: 1
+    source: p.titre
+
+  label:
+    label: Type de contenu
+    filter: 1
+    sort: 1
+    source: g.label
+
+  date_crea:
+    label: Créé
+    filter: 1
+    sort: 1
+    source: p.date_crea
+    driverFilterType: dateRange
+    sourceFilterType: DateRange
+    format:
+      class: \Solire\Trieur\Format\Callback
+      name:
+        - Solire\Lib\Format\DateTime
+        - relativeTime
+      cell: timestampOrDate
+#    format:
+#      class: \Solire\Trieur\Format\Callback
+#      name:
+#        - Solire\Lib\Format\DateTime
+#        - sqlTo
+#      cell: dateSql
+#      arguments:
+#        format: "d/m/Y H:i:s"
+
+  date_modif:
+    label: Édité
+    filter: 1
+    sort: 1
+    source: p.date_modif
+    driverFilterType: dateRange
+    sourceFilterType: DateRange
+    format:
+      class: \Solire\Trieur\Format\Callback
+      name:
+        - Solire\Lib\Format\DateTime
+        - relativeTime
+      cell: timestampOrDate
+#    format:
+#      class: \Solire\Trieur\Format\Callback
+#      name:
+#        - Solire\Lib\Format\DateTime
+#        - sqlTo
+#      cell: dateSql
+#      arguments:
+#        format: "d/m/Y H:i:s"
+#
+
+  action:
+    label: Action
+    filter: 0
+    sort: 0
+    format:
+      class: Solire\Lib\Trieur\Format\Twig
+      fileName: datatable/board/action.html.twig

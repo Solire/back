@@ -1,15 +1,16 @@
 <?php
 /**
- * Formulaire de connection à l'admin
+ * Formulaire de connexion à l'admin
  *
  * @author  dev <dev@solire.fr>
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
  */
 
 namespace Solire\Back\Controller;
+use Solire\Lib\Mail;
 
 /**
- * Formulaire de connection à l'admin
+ * Formulaire de connexion à l'admin
  *
  * @author  dev <dev@solire.fr>
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
@@ -36,15 +37,12 @@ class Sign extends Main
     }
 
     /**
-     * Affichage du formulaire de connection
+     * Affichage du formulaire de connexion
      *
      * @return void
      */
     public function startAction()
     {
-        $this->javascript->addLibrary('back/js/form.js');
-        $this->javascript->addLibrary('back/js/jquery/vibrate.js');
-
         $this->view->action = 'back/' . $this->appConfig->get('general', 'page-default');
 
         if ($this->utilisateur->isConnected()) {
@@ -69,7 +67,7 @@ class Sign extends Main
             $cle = $this->utilisateur->genKey($_POST['log']);
 
             if ($cle !== false) {
-                $email = new \Solire\Lib\Mail('newpassword');
+                $email = new Mail('newpassword');
                 $email->url     = 'back/sign/newpassword.html?e=' . $_POST['log'] . '&amp;c=' . $cle;
                 $email->to      = $_POST['log'];
                 $email->from    = 'noreply@' . $_SERVER['SERVER_NAME'];
@@ -104,7 +102,7 @@ class Sign extends Main
     }
 
     /**
-     * Déconnection de l'utilisateur
+     * Déconnexion de l'utilisateur
      *
      * @return void
      */

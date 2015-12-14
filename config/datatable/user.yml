@@ -1,0 +1,98 @@
+# -------------------------
+# CONFIG
+title: Liste des utilisateurs
+
+# Js Config
+driver:
+  name: dataTables
+  conf:
+    itemName: utilisateur
+    itemsName: utilisateurs
+    # masculin ou féminin
+    # "e"|""
+    itemGenre:
+    requestUrl: back/datatable/listdata.html?name=user
+    requestMethod: POST
+    separator: "~"
+    dom: <"H"TClfr>t<"F"ip>
+    defaultSort:
+    - [1, desc]
+
+source:
+  name: doctrine
+  conf:
+    select:
+      - u.civilite
+      - u.nom
+      - u.prenom
+      - u.societe
+      - u.niveau
+      - u.email
+      - u.actif
+      - u.date_crea
+
+
+    from:
+      name: utilisateur
+      alias: u
+
+## COLUMNS
+
+columns:
+#  columnName:
+#    label: columnLabel
+#    sort: 1|0
+#    filter: 1|0
+#    filterType: text, dateRange...
+#    source: source expression (for example a column)
+#    sourceFilter: source expression (for example a column)
+#    sourceSort: source expression (for example a column)
+#    ...
+
+  civilite:
+    label: Civilite
+    filter: 1
+    sort: 1
+    source: u.civilite
+
+  nom:
+    label: Nom
+    filter: 1
+    sort: 1
+    source: u.nom
+
+  prenom:
+    label: Prénom
+    filter: 1
+    sort: 1
+    source: u.prenom
+
+  societe:
+    label: Société
+    filter: 1
+    sort: 1
+    source: u.societe
+
+  niveau:
+    label: Niveau
+    filter: 1
+    sort: 1
+    source: u.niveau
+
+  email:
+    label: Email
+    filter: 1
+    sort: 1
+    source: u.email
+
+  actif:
+    label: Actif
+    filter: 1
+    sort: 1
+    source: u.actif
+
+  date_crea:
+    label: Créé le
+    filter: 1
+    sort: 1
+    source: u.date_crea
