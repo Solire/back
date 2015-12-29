@@ -119,6 +119,7 @@ Main Components
   }
 
   .active &, .active &.move-left {
+    list-style:none;
     @include transition(visibility 0s 0.4s);
     @include transform(translateX(0));
   }
@@ -351,6 +352,7 @@ Main Components
       li {
         display: inline-block;
         float: left;
+        list-style: none;
 
         &:first-of-type {
           margin-right: 1.5em;

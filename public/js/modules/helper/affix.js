@@ -6,7 +6,6 @@ define(['jquery', 'bootstrap'], function ($) {
           top: $(wrap).data('offsetTop')
         }
       };
-      console.log(dataAttributeOptions);
       $(wrap).affix(dataAttributeOptions);
     }
   };

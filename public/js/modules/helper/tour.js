@@ -4,7 +4,6 @@ define(['jquery'], function ($) {
             var currentModule = this,
                 tourWrapper   = $('.tour-wrapper'),
                 tourSteps     = tourWrapper.children('li'),
-                stepsNumber   = tourSteps.length,
                 coverLayer    = $('.tour-cover-layer'),
                 tourStepInfo  = $('.tour-more-info'),
                 tourTrigger   = wrap;
@@ -13,15 +12,29 @@ define(['jquery'], function ($) {
                 wrap.removeClass('hidden');
             }
 
+            // Show only step with target
+            var visibleTourSteps = $();
+            tourSteps.each(function () {
+                var stepConfig = $(this).data();
+                if ($(stepConfig.tourTarget).length > 0
+                    && ($(stepConfig.tourTarget).is(':visible') || $(stepConfig.tourTarget).parents('fieldset:visible:first').length > 0)
+                ) {
+                    $(this).prepend('<span></span>')
+                    visibleTourSteps = visibleTourSteps.add(this);
+                }
+            });
+
+            var stepsNumber = visibleTourSteps.length;
+
             //create the navigation for each step of the tour
-            currentModule.createNavigation(tourSteps, stepsNumber);
+            currentModule.createNavigation(visibleTourSteps, stepsNumber);
 
             tourTrigger.on('click', function (e) {
                 e.preventDefault();
                 //start tour
                 if (!tourWrapper.hasClass('active')) {
                     //in that case, the tour has not been started yet
-                    currentModule.openTour(tourSteps, tourWrapper, coverLayer);
+                    currentModule.openTour(visibleTourSteps, tourWrapper, coverLayer);
                 }
             });
 
@@ -29,51 +42,51 @@ define(['jquery'], function ($) {
             tourStepInfo.on('click', '.tour-prev', function (event) {
                 event.preventDefault();
                 //go to prev step - if available
-                ( !$(event.target).hasClass('inactive') ) && currentModule.changeStep(tourSteps, coverLayer, 'prev');
+                ( !$(event.target).hasClass('inactive') ) && currentModule.changeStep(visibleTourSteps, coverLayer, 'prev');
             });
             tourStepInfo.on('click', '.tour-next', function (event) {
                 event.preventDefault();
                 //go to next step - if available
-                ( !$(event.target).hasClass('inactive') ) && currentModule.changeStep(tourSteps, coverLayer, 'next');
+                ( !$(event.target).hasClass('inactive') ) && currentModule.changeStep(visibleTourSteps, coverLayer, 'next');
             });
 
             //close tour
             tourStepInfo.on('click', '.tour-close', function (event) {
                 event.preventDefault();
-                currentModule.closeTour(tourSteps, tourWrapper, coverLayer);
+                currentModule.closeTour(visibleTourSteps, tourWrapper, coverLayer);
             });
 
-            tourWrapper.on('click', function (event) {
+            tourWrapper.add(coverLayer).on('click', function (event) {
                 // Close on tourWrapper's click only but not on children's click event
                 if (event.target != this) {
                     return;
                 }
                 event.preventDefault();
-                currentModule.closeTour(tourSteps, tourWrapper, coverLayer);
+                currentModule.closeTour(visibleTourSteps, tourWrapper, coverLayer);
             });
 
             //detect swipe event on mobile - change visible step
             tourStepInfo.on('swiperight', function (event) {
                 //go to prev step - if available
                 if (!$(this).find('.tour-prev').hasClass('inactive') && currentModule.viewportSize() == 'mobile') {
-                    currentModule.changeStep(tourSteps, coverLayer, 'prev');
+                    currentModule.changeStep(visibleTourSteps, coverLayer, 'prev');
                 }
             });
             tourStepInfo.on('swipeleft', function (event) {
                 //go to next step - if available
                 if (!$(this).find('.tour-next').hasClass('inactive') && currentModule.viewportSize() == 'mobile') {
-                    currentModule.changeStep(tourSteps, coverLayer, 'next');
+                    currentModule.changeStep(visibleTourSteps, coverLayer, 'next');
                 }
             });
 
             //keyboard navigation
             $(document).keyup(function (event) {
-                if (event.which == '37' && !tourSteps.filter('.is-selected').find('.tour-prev').hasClass('inactive')) {
-                    currentModule.changeStep(tourSteps, coverLayer, 'prev');
-                } else if (event.which == '39' && !tourSteps.filter('.is-selected').find('.tour-next').hasClass('inactive')) {
-                    currentModule.changeStep(tourSteps, coverLayer, 'next');
+                if (event.which == '37' && !visibleTourSteps.filter('.is-selected').find('.tour-prev').hasClass('inactive')) {
+                    currentModule.changeStep(visibleTourSteps, coverLayer, 'prev');
+                } else if (event.which == '39' && !visibleTourSteps.filter('.is-selected').find('.tour-next').hasClass('inactive')) {
+                    currentModule.changeStep(visibleTourSteps, coverLayer, 'next');
                 } else if (event.which == '27') {
-                    currentModule.closeTour(tourSteps, tourWrapper, coverLayer);
+                    currentModule.closeTour(visibleTourSteps, tourWrapper, coverLayer);
                 }
             });
         },
@@ -90,19 +103,32 @@ define(['jquery'], function ($) {
         },
         showStep: function (step, layer) {
             var currentModule = this,
-                stepConfig = step.data(),
-                tourTarget = $(stepConfig.tourTarget);
+                stepConfig = step.data();
 
-            currentModule.position(step);
-
-            step.addClass('is-selected').removeClass('move-left');
-            currentModule.smoothScroll(step.children('.tour-more-info'));
-            currentModule.showLayer(layer);
+            // if target is not visible
+            if ($(stepConfig.tourTarget).is(':visible') == false) {
+                $($(stepConfig.tourTarget).parents('fieldset').get().reverse()).each(function() {
+                    if($(this).find('div:first').is(':hidden')) {
+                        $(this).find('legend:first').click();
+                        setTimeout(function() {
+                            currentModule.position(step);
+                            step.addClass('is-selected').removeClass('move-left');
+                            currentModule.smoothScroll(step.children('.tour-more-info'));
+                            currentModule.showLayer(layer);
+                        }, 500);
+                    }
+                });
+            } else {
+                currentModule.position(step);
+                step.addClass('is-selected').removeClass('move-left');
+                currentModule.smoothScroll(step.children('.tour-more-info'));
+                currentModule.showLayer(layer);
+            }
         },
         position: function(step) {
             var currentModule = this,
                 stepConfig = step.data(),
-                tourTarget = $(stepConfig.tourTarget),
+                tourTarget = $(stepConfig.tourTarget).filter(':visible:first'),
                 position = tourTarget.offset();
 
             if ($('.tour-more-info', step).hasClass('bottom')) {
@@ -124,10 +150,9 @@ define(['jquery'], function ($) {
         smoothScroll: function (element) {
             /* Fixed top toolbar */
             var offsetY = 200;
-            console.log(element.offset().top - offsetY + element.height());
-            console.log($(window).scrollTop() + $(window).height());
-            (element.offset().top - offsetY < $(window).scrollTop()) && $('body,html').animate({'scrollTop': element.offset().top - offsetY}, 400);
-            (element.offset().top + offsetY + element.height() > $(window).scrollTop() + $(window).height()) && $('body,html').animate({'scrollTop': element.offset().top + offsetY + element.height() - $(window).height()}, 400);
+            (element.offset().top - offsetY < $(window).scrollTop()) && $('body,html').animate({'scrollTop': element.offset().top - offsetY}, { duration: 400, queue: false });
+            (element.offset().top + offsetY + element.height() > $(window).scrollTop() + $(window).height()) && $('body,html').animate({'scrollTop': element.offset().top + offsetY + element.height() - $(window).height()}, { duration: 400, queue: false });
+            //(element.offset().left + element.width() > $(window).scrollLeft() + $(window).width()) && $('body,html').animate({'scrollLeft': element.offset().left + offsetY + element.width() - $(window).width()}, { duration: 400, queue: false });
         },
         showLayer: function (layer) {
             layer.addClass('is-visible');
@@ -138,12 +163,16 @@ define(['jquery'], function ($) {
                 delay       = (currentModule.viewportSize() == 'desktop') ? 300 : 0;
             visibleStep.removeClass('is-selected');
 
+            var visibleStepIndex = steps.index(visibleStep),
+                nextStep = steps[visibleStepIndex+1],
+                prevStep = steps[visibleStepIndex-1];
+
             (bool == 'next') && visibleStep.addClass('move-left');
 
             setTimeout(function () {
                 ( bool == 'next' )
-                    ? currentModule.showStep(visibleStep.next(), layer)
-                    : currentModule.showStep(visibleStep.prev(), layer);
+                    ? currentModule.showStep($(nextStep), layer)
+                    : currentModule.showStep($(prevStep), layer);
             }, delay);
         },
         openTour: function (steps, wrapper, layer) {
@@ -154,7 +183,6 @@ define(['jquery'], function ($) {
             // Resize event
             $(window).resize(function() {
                 var step = $(steps).filter('.is-selected');
-                console.log(step);
                 currentModule.position(step);
             });
         },

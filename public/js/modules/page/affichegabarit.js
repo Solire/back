@@ -56,7 +56,6 @@ define(['jquery', 'jqueryCookie', 'modules/helper/dialog'], function ($, jqueryC
        */
       $(function () {
         $('[data-toggle="popover"]').each(function () {
-          console.log($($(this).data('popover-content')));
           if ($($(this).data('popover-content')).length > 0) {
             $(this).popover({
               container: 'body',
