@@ -10537,6 +10537,12 @@ Main Components
     opacity: 0.5;
   }
 }
+/* Fix bootstrap-editable style */
+/* line 2, ../../sass/layout/_datepicker.scss */
+.datepicker-dropdown:after, .datepicker-dropdown:before {
+  top: auto;
+}
+
 /* line 1, ../../sass/layout/preloader/_cube.scss */
 .preloader-cube {
   width: 75px;
