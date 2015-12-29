@@ -21,8 +21,7 @@ define(['jquery'], function ($) {
                 //start tour
                 if (!tourWrapper.hasClass('active')) {
                     //in that case, the tour has not been started yet
-                    tourWrapper.addClass('active');
-                    currentModule.showStep(tourSteps.eq(0), coverLayer);
+                    currentModule.openTour(tourSteps, tourWrapper, coverLayer);
                 }
             });
 
@@ -40,6 +39,15 @@ define(['jquery'], function ($) {
 
             //close tour
             tourStepInfo.on('click', '.tour-close', function (event) {
+                event.preventDefault();
+                currentModule.closeTour(tourSteps, tourWrapper, coverLayer);
+            });
+
+            tourWrapper.on('click', function (event) {
+                // Close on tourWrapper's click only but not on children's click event
+                if (event.target != this) {
+                    return;
+                }
                 event.preventDefault();
                 currentModule.closeTour(tourSteps, tourWrapper, coverLayer);
             });
@@ -83,6 +91,17 @@ define(['jquery'], function ($) {
         showStep: function (step, layer) {
             var currentModule = this,
                 stepConfig = step.data(),
+                tourTarget = $(stepConfig.tourTarget);
+
+            currentModule.position(step);
+
+            step.addClass('is-selected').removeClass('move-left');
+            currentModule.smoothScroll(step.children('.tour-more-info'));
+            currentModule.showLayer(layer);
+        },
+        position: function(step) {
+            var currentModule = this,
+                stepConfig = step.data(),
                 tourTarget = $(stepConfig.tourTarget),
                 position = tourTarget.offset();
 
@@ -100,16 +119,15 @@ define(['jquery'], function ($) {
                     left = position.left + tourTarget.outerWidth() - 5;
             }
 
-
             step.css({top: top, left: left});
-
-            step.addClass('is-selected').removeClass('move-left');
-            currentModule.smoothScroll(step.children('.tour-more-info'));
-            currentModule.showLayer(layer);
         },
         smoothScroll: function (element) {
-            (element.offset().top < $(window).scrollTop()) && $('body,html').animate({'scrollTop': element.offset().top}, 100);
-            (element.offset().top + element.height() > $(window).scrollTop() + $(window).height() ) && $('body,html').animate({'scrollTop': element.offset().top + element.height() - $(window).height()}, 100);
+            /* Fixed top toolbar */
+            var offsetY = 200;
+            console.log(element.offset().top - offsetY + element.height());
+            console.log($(window).scrollTop() + $(window).height());
+            (element.offset().top - offsetY < $(window).scrollTop()) && $('body,html').animate({'scrollTop': element.offset().top - offsetY}, 400);
+            (element.offset().top + offsetY + element.height() > $(window).scrollTop() + $(window).height()) && $('body,html').animate({'scrollTop': element.offset().top + offsetY + element.height() - $(window).height()}, 400);
         },
         showLayer: function (layer) {
             layer.addClass('is-visible');
@@ -128,10 +146,25 @@ define(['jquery'], function ($) {
                     : currentModule.showStep(visibleStep.prev(), layer);
             }, delay);
         },
+        openTour: function (steps, wrapper, layer) {
+            var currentModule = this;
+            wrapper.addClass('active');
+            currentModule.showStep(steps.eq(0), layer);
+
+            // Resize event
+            $(window).resize(function() {
+                var step = $(steps).filter('.is-selected');
+                console.log(step);
+                currentModule.position(step);
+            });
+        },
         closeTour: function (steps, wrapper, layer) {
             steps.removeClass('is-selected move-left');
             wrapper.removeClass('active');
             layer.removeClass('is-visible');
+
+            // Remove Resize event
+            $(window).off('resize');
         },
         viewportSize: function () {
             return window.getComputedStyle(document.querySelector('.tour-wrapper'), '::before').getPropertyValue('content').replace(/"/g, "").replace(/'/g, "");

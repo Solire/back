@@ -9990,8 +9990,8 @@ Main Components
 -------------------------------- */
 /* line 10, ../../sass/layout/_tour.scss */
 .tour-wrapper {
-  position: fixed;
-  z-index: 1000000;
+  position: absolute;
+  z-index: 1029;
   height: 100%;
   width: 100%;
   left: 50%;
@@ -10014,7 +10014,7 @@ Main Components
 /* line 20, ../../sass/layout/_tour.scss */
 .tour-wrapper.active {
   /* start tour */
-  z-index: 2000;
+  z-index: 1029;
   visibility: visible;
   opacity: 1;
   -webkit-transition: opacity 0.4s 0s, visibility 0s 0s !important;

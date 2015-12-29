@@ -8,8 +8,8 @@ Main Components
 -------------------------------- */
 
 .tour-wrapper {
-  position: fixed;
-  z-index: 1000000;
+  position: absolute;
+  z-index: 1029;
   height: 100%;
   width: 100%;
   @include center;
@@ -19,7 +19,7 @@ Main Components
 
   &.active {
     /* start tour */
-    z-index: 2000;
+    z-index: 1029;
     visibility: visible;
     opacity: 1;
     @include transition((opacity 0.4s 0s, visibility 0s 0s));
