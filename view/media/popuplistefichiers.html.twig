@@ -1,0 +1,19 @@
+<div class="modalHeader">
+    <a class="soModalDefaultClose" href="#"><i class="fa fa-close"></i></a>
+    <h3>Importer de nouveaux fichiers</h3>
+</div>
+
+<div class="modalBody">
+    <div>
+        <div class="pickfiles" id="pickfiles{{ idFilesList }}">
+            <div class="drop-target">
+                Déposez vos fichiers ici<br>ou<br>cliquez pour les sélectionner
+            </div>
+        </div>
+    </div>
+
+    <table data-datatable-name="media"
+           id="datatableMedia{{ idFilesList }}" class="table table-condensed dt-responsive nowrap table-media"></table>
+</div>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/1.0.7/css/responsive.bootstrap.min.css">

@@ -1,0 +1,20 @@
+
+.btn-group-fixed {
+  z-index: 250 !important;
+  display: block;
+  min-width: 128px;
+
+  &.affix {
+    top: 60px;
+
+    @media (max-width: $screen-sm-min) {
+      top: 0px;
+      position: relative;
+    }
+
+  }
+
+  .btn {
+    text-align: left;
+  }
+}

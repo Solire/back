@@ -1,0 +1,8 @@
+# -------------------------
+# CONFIG
+table: traduction
+cle:
+  - cle_sha
+  - id_version
+champs:
+  - valeur

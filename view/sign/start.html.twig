@@ -1,0 +1,94 @@
+{% extends "main-sign.html.twig" %}
+
+{% block content %}
+  <section class="page-signin" data-amd="modules/page/signin">
+
+    <article>
+      <div class="error-message">
+        <b>Module d'administration</b>
+        <br/>
+        <br/>
+
+        <p>
+          Pour votre confort et votre sécurité, merci de télécharger un navigateur récent et compatible :
+          <a href="http://www.mozilla-europe.org/fr/" target="_blank">Firefox</a>,
+          <a href="http://www.google.com/chrome" target="_blank">Google Chrome</a>
+        </p>
+      </div>
+
+      <form id="sign-in" data-amd="modules/helper/ajaxform" method="post" action="{{ action }}">
+        <fieldset>
+          <legend>Module d'administration</legend>
+
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
+              <input name="log" id="log" class="form-control form-controle form-oblig form-mix" type="text"
+                     placeholder="Identifiant">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+              <input name="pwd" id="pwd" class="form-control form-controle form-oblig form-mix"
+                     type="password" placeholder="Mot de passe">
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-success btn-block" type="submit"><i class="icon-ok"></i> Connexion</button>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="text-center">
+                  <a href="#" tabindex="5" class="forgot-password-link">
+                    <small>Mot de passe oublié ?</small>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+
+      <form id="forgot-password" data-amd="modules/helper/ajaxform" class="hidden" method="post"
+            action="back/sign/asknewpassword.html">
+        <fieldset>
+          <legend>Nouveau mot de passe</legend>
+
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
+              <input name="log" id="log" class="form-control form-controle form-oblig form-mix" type="text"
+                     placeholder="Identifiant">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <button class="btn btn-success btn-block" type="submit"><i class="icon-ok"></i> Valider</button>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="text-center">
+                  <a href="#" tabindex="5" class="sign-in-link">
+                    <small>Se connecter</small>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+
+      <p style="color:#888; float:right; font-size:10px; margin-top:10px;">Outil de gestion de contenu développé par
+        {{ img.output('back/img/logo-solire-fw.png', {
+          'title': 'Solire : agence web lyon',
+          'style': 'float: right; margin: -2px 0 0 4px; height:20px;',
+        }, true) }}
+      </p>
+
+      <div style="clear:both;"></div>
+    </article>
+  </section>
+{% endblock %}

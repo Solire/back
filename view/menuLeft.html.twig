@@ -1,0 +1,24 @@
+<ul data-amd="modules/page/apichange" class="nav navbar-nav">
+    {% if apis|length > 1 %}
+        <li class="dropdown">
+            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                {{ api.label }} <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                {% set prefix = '../' %}
+                {% if api.id == 1 %}
+                    {% set prefix = './' %}
+                {% endif %}
+                {% for api in apis %}
+                    <li>
+                        <a href="./back/" data-api-name="{{ api.name }}">
+                            {{ api.label }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
+    {% endif %}
+
+    {% include 'menu-' ~ api.id ~ '.html.twig' ignore missing %}
+</ul>

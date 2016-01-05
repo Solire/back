@@ -1,0 +1,21 @@
+# -------------------------
+# CONFIG
+table: utilisateur
+cle:
+  - id
+champs:
+  - civilite
+  - nom
+  - prenom
+  - societe
+  - niveau
+  - email
+  - pass
+  - actif
+timestamp:
+  - date_crea
+treatments:
+  pass:
+    hash:
+      - "\\Solire\\Lib\\Session"
+      - "prepareMdp"

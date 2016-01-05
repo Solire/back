@@ -1,0 +1,7 @@
+{% if row.suppr %}
+    <span class="label label-warning">Supprimé</span>
+{% elseif row.visible  %}
+    <span class="label label-success">Publié</span>
+{% else %}
+    <span class="label label-default">En attente</span>
+{% endif %}

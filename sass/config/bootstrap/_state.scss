@@ -1,0 +1,15 @@
+$alert-success-bg:            $colorSolireGreen !default;
+$alert-success-text:          $colorSolireWhite !default;
+$alert-success-border:        darken(adjust-hue($alert-success-bg, -10), 5%) !default;
+
+$alert-info-bg:               $colorSolirePurple !default;
+$alert-info-text:             $colorSolireWhite !default;
+$alert-info-border:           darken(adjust-hue($alert-info-bg, -10), 5%) !default;
+
+$alert-warning-bg:            $colorSolireOrange !default;
+$alert-warning-text:          $colorSolireWhite !default;
+$alert-warning-border:        darken(adjust-hue($alert-warning-bg, -10), 5%) !default;
+
+$alert-danger-bg:             $colorSolireRed !default;
+$alert-danger-text:           $colorSolireWhite !default;
+$alert-danger-border:         darken(adjust-hue($alert-danger-bg, -10), 5%) !default;

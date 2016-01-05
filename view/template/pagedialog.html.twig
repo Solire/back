@@ -1,0 +1,85 @@
+{% set page = pages[backIdVersion] %}
+
+<div id="modalMore" class="hidden" data-amd="modules/helper/ajaxcall">
+    <div class="modalHeader">
+        <a class="soModalDefaultClose" href="#"><i class="fa fa-close"></i></a>
+
+        <h3 id="myModalLabel">Que voulez-vous faire ?</h3>
+    </div>
+
+    <div class="modalBody">
+        <div class="row">
+            {% if page.getMeta('rewriting') != ''
+            and (utilisateur.get('niveau') == 'super administrateur'
+            or page.makeHidden and page.getMeta('visible')
+            or page.makeVisible and not page.getMeta('visible')
+            ) %}
+                <div class="col-md-12">
+                    <div class="line form-group">
+                        <label class="col-sm-3 control-label">
+                            Gérer la visibité
+                        </label>
+
+                        <div class="col-sm-8">
+                            <div class="btn-group">
+                                <a title="{{ mainVersions[page.getMeta('id_version')].nom }}"
+                                   class="btn btn-default btn-sm">
+                                    <i title="{{ mainVersions[page.getMeta('id_version')].nom }}"
+                                       class="flag-icon flag-icon-{{ mainVersions[page.getMeta('id_version')].suf|lower }}"></i>
+                                </a>
+
+                                <button
+                                        class="btn btn-sm {{ page.getMeta('visible') ? 'btn-success' : 'btn-default' }} exec-onclick-ajax"
+                                        data-url="back/page/visible.html"
+                                        data-id="{{ page.getMeta('id') }}"
+                                        data-id_version="{{ backIdVersion }}"
+                                        data-visible="{{ page.getMeta('visible') }}"
+                                        title="Rendre '{{ page.getMeta('title') }}' {{ page.getMeta('visible') ? 'visible' : 'invisible' }} sur le site">
+
+                                    <i class="fa {{ page.getMeta('visible') ? 'fa-eye' : 'fa-eye-slash' }}"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="col-md-12">
+                <div class="line form-group">
+                    <label class="col-sm-3 control-label">
+                        Éditer une autre page
+                    </label>
+
+                    <div class="col-sm-8">
+                        <input data-amd="modules/helper/search" data-url="back/page/livesearch.html" type="text"
+                               placeholder="Recherche" class="form-control search live-search ui-autocomplete-input"
+                               autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <label class="col-sm-3 control-label">
+                    Créer un nouveau contenu
+                </label>
+
+                <div class="col-md-9">
+                    {% include 'template/button.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modalFooter">
+        <button class="btn btn-primary btn-sm"
+                onclick="var link = $('.back-to-list').attr('href');window.location = link;">
+            Retour à la liste des pages
+        </button>
+
+        {% if page.getGabarit().getView() %}
+            <a class="btn btn-primary btn-sm" href="{{ pagePath }}" target="_blank">
+                Consulter cette page dans le site
+            </a>
+        {% endif %}
+        <button class="btn btn-primary btn-sm soModalDefaultClose" data-dismiss="modal" aria-hidden="true">
+            Reprendre l'édition de cette page
+        </button>
+    </div>
+</div>

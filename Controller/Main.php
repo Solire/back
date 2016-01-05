@@ -1,6 +1,6 @@
 <?php
 /**
- * Controleur principal du back
+ * Contrôleur principal du back
  *
  * @author  dev <dev@solire.fr>
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
@@ -8,27 +8,32 @@
 
 namespace Solire\Back\Controller;
 
-use Solire\Lib\Log;
+use Monolog\Logger;
+use Solire\Lib\Monolog\Handler\PDOHandler;
+use Solire\Lib\Controller;
+use Solire\Lib\Registry;
 use Solire\Lib\Session;
-use Solire\Lib\Path;
 use Solire\Lib\FrontController;
 use Solire\Lib\Model\FileManager;
 use Solire\Lib\Model\GabaritManager;
 use Solire\Lib\Hook;
+use Solire\Lib\Security\AntiBruteforce\AntiBruteforce;
+use Solire\Conf\Loader as ConfLoader;
+use Solire\Lib\Loader\RequireJs;
 
 /**
- * Controleur principal du back
+ * Contrôleur principal du back
  *
  * @author  dev <dev@solire.fr>
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
  */
-class Main extends \Solire\Lib\Controller
+class Main extends Controller
 {
 
     /**
      * Session en cours
      *
-     * @var \Solire\Lib\Session
+     * @var Session
      */
     public $utilisateur;
 
@@ -40,40 +45,71 @@ class Main extends \Solire\Lib\Controller
     public $api;
 
     /**
-     * Manager des requetes liées aux pages
+     * Manager des requêtes liées aux pages
      *
-     * @var \Solire\Lib\Model\GabaritManager
+     * @var GabaritManager
      */
     public $gabaritManager = null;
 
     /**
      * Manager fichiers
      *
-     * @var \Solire\Lib\Model\FileManager
+     * @var FileManager
      */
     public $fileManager = null;
 
     /**
-     * Manager fichiers
+     * Logger relatif aux actions de l'utilisateur
      *
-     * @var \Solire\Lib\Log
+     * @var Logger
      */
-    public $log = null;
+    public $userLogger = null;
 
     /**
-     * Always execute before other method in controller
+     * Chargeur de script pour requireJS
      *
-     * @return void
+     * @var RequireJs
+     */
+    protected $requireJs = null;
+
+    /**
+     * Fonction appelé avant l'appel à la méthode du contrôleur
+     *
+     * @throws \Exception
+     * @throws \Solire\Conf\Exception
+     * @throws \Solire\Lib\Exception\HttpError
+     * @throws \Solire\Lib\Exception\lib
+     * @throws \Solire\Lib\Security\AntiBruteforce\Exception\InvalidIpException
      * @hook back/ start Ajouter facilement des traitements au start du back
+     * @return void
      */
     public function start()
     {
+        /* Antibruteforce */
+        $securityConfigPath = FrontController::search('config/security.yml');
+        $securityConfig     = ConfLoader::load($securityConfigPath);
+        $antiBruteforce     = new AntiBruteforce($securityConfig->antibruteforce, $_SERVER['REMOTE_ADDR']);
+
+        if ($antiBruteforce->isBlocking()) {
+            header('HTTP/1.0 429 Too Many Requests');
+            /*
+             * On garde en session le temps restant pour s'en servir
+             */
+            $_SESSION['so_fail2ban'] = [
+                'remainingTime' => $antiBruteforce->unblockRemainingTime()
+            ];
+            FrontController::run('Error', 'error429Fail2ban');
+            die;
+        }
+
         parent::start();
 
         /*
          * Système de log en BDD
          */
-        $this->log = new Log($this->db, '', 0, 'back_log');
+        $userLogger = new Logger('backUser');
+        $userLogger->pushHandler(new PDOHandler($this->db));
+        $this->userLogger = $userLogger;
 
         /*
          * Utilisateur connecté ?
@@ -89,16 +125,48 @@ class Main extends \Solire\Lib\Controller
                     $_POST['pwd']
                 );
             } catch (\Exception $exc) {
-                $log = 'Identifiant : ' . $_POST['log'];
-                $this->log->logThis('Connexion échouée', 0, $log);
-                throw $exc;
+                $login = filter_var($_POST['log'], FILTER_SANITIZE_STRING);
+                $this->userLogger->addError(
+                    'Connexion échouée',
+                    [
+                        'user' => [
+                            'login' => $login,
+                        ]
+                    ]
+                );
+
+                $jsonResponse = [
+                    'status'  => 'error',
+                    'text'    => $exc->getMessage(),
+                    'after'   => [
+                        'modules/helper/noty',
+                        'modules/render/aftersignin',
+                    ],
+                ];
+
+                exit(json_encode($jsonResponse));
             }
 
-            $this->log->logThis('Connexion réussie', $this->utilisateur->id);
+            $this->userLogger->addInfo(
+                'Connexion réussie',
+                [
+                    'user' => [
+                        'id'    => $this->utilisateur->id,
+                        'login' => $this->utilisateur->login,
+                    ]
+                ]
+            );
 
-            $message = 'Connexion réussie, vous allez être redirigé';
+            $jsonResponse = [
+                'status'  => 'success',
+                'text'    => 'Connexion réussie, vous allez être redirigé',
+                'after'   => [
+                    'modules/helper/noty',
+                    'modules/render/aftersignin',
+                ],
+            ];
 
-            exit(json_encode(array('success' => true, 'message' => $message)));
+            exit(json_encode($jsonResponse));
         }
 
         if (!$this->utilisateur->isConnected()
@@ -114,8 +182,8 @@ class Main extends \Solire\Lib\Controller
         }
 
         $query = 'SELECT id '
-               . 'FROM gab_api '
-               . 'WHERE name = ' . $this->db->quote($nameApi) . ' ';
+            . 'FROM gab_api '
+            . 'WHERE name = ' . $this->db->quote($nameApi) . ' ';
 
         $idApi = $this->db->query($query)->fetch(\PDO::FETCH_COLUMN);
 
@@ -123,46 +191,24 @@ class Main extends \Solire\Lib\Controller
             $idApi = 1;
         }
 
-        $query = 'SELECT * '
-               . 'FROM gab_api '
-               . 'WHERE id = ' . $idApi . ' ';
+        $query     = 'SELECT * '
+            . 'FROM gab_api '
+            . 'WHERE id = ' . $idApi . ' ';
         $this->api = $this->db->query($query)->fetch(\PDO::FETCH_ASSOC);
 
-        $query = 'SELECT * '
-               . 'FROM gab_api ';
+        $query      = 'SELECT * '
+            . 'FROM gab_api ';
         $this->apis = $this->db->query($query)->fetchAll(
             \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC
-        );
+        )
+        ;
         if (!defined('BACK_ID_API')) {
             define('BACK_ID_API', $this->api['id']);
         }
 
-        $this->javascript->addLibrary('back/js/jquery/jquery-1.8.0.min.js');
-        $this->javascript->addLibrary('back/js/jquery/jquery-ui-1.8.23.custom.min.js');
-        $this->javascript->addLibrary('back/js/main.js');
-        $this->javascript->addLibrary('back/js/jquery/jquery.cookie.js');
-        $this->javascript->addLibrary('back/js/jquery/sticky.js');
-        $this->javascript->addLibrary('back/js/jquery/jquery.livequery.min.js');
+        $this->loadRessources();
 
-        $this->javascript->addLibrary('back/js/jquery/jquery.stickyPanel.min.js');
-
-        $this->javascript->addLibrary('back/js/newstyle.js');
-        $this->css->addLibrary('back/css/jquery-ui-1.8.7.custom.css');
-
-        $this->css->addLibrary('back/css/jquery-ui/custom-theme/jquery-ui-1.8.22.custom.css');
-
-        /* Inclusion Bootstrap twitter */
-        $this->javascript->addLibrary('back/js/bootstrap/bootstrap.min.js');
-        $this->css->addLibrary('back/css/bootstrap/bootstrap.min.css');
-        $this->css->addLibrary('back/css/bootstrap/bootstrap-responsive.min.css');
-
-        /* font-awesome */
-        $this->css->addLibrary('back/css/font-awesome/css/font-awesome.min.css');
-
-        $this->css->addLibrary('back/css/newstyle-1.3.css');
-        $this->css->addLibrary('back/css/sticky.css');
-
-        $this->view->site = \Solire\Lib\Registry::get('project-name');
+        $this->view->site = Registry::get('project-name');
 
         if (isset($_GET['controller'])) {
             $this->view->controller = $_GET['controller'];
@@ -186,23 +232,24 @@ class Main extends \Solire\Lib\Controller
         $this->fileManager = new FileManager();
 
         $query = 'SELECT `version`.id, `version`.* '
-               . 'FROM `version` '
-               . 'WHERE `version`.`id_api` = ' . $this->api['id'] . ' ';
+            . 'FROM `version` '
+            . 'WHERE `version`.`id_api` = ' . $this->api['id'] . ' ';
 
         $this->versions = $this->db->query($query)->fetchAll(
             \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC
-        );
+        )
+        ;
 
         if (isset($_GET['id_version'])) {
             $id_version = $_GET['id_version'];
-            $url = '/' . \Solire\Lib\Registry::get('baseroot');
+            $url        = '/' . Registry::get('baseroot');
             setcookie('id_version', $id_version, 0, $url);
             if (!defined('BACK_ID_VERSION')) {
                 define('BACK_ID_VERSION', $id_version);
             }
         } elseif (isset($_POST['id_version'])) {
             $id_version = $_POST['id_version'];
-            $url = '/' . \Solire\Lib\Registry::get('baseroot');
+            $url        = '/' . Registry::get('baseroot');
             setcookie('back_id_version', $id_version, 0, $url);
             if (!defined('BACK_ID_VERSION')) {
                 define('BACK_ID_VERSION', $id_version);
@@ -222,45 +269,54 @@ class Main extends \Solire\Lib\Controller
         if (isset($_POST['log']) && isset($_POST['pwd'])
             && ($_POST['log'] == '' || $_POST['pwd'] == '')
         ) {
-            $retour = array(
-                'success' => false,
-                'message' => 'Veuillez renseigner l\'identifiant et le mot de passe'
-            );
-            exit(json_encode($retour));
+            $jsonResponse = [
+                'status'  => 'error',
+                'text'    => 'Veuillez renseigner l\'identifiant et le mot de passe',
+                'after'   => [
+                    'modules/helper/noty',
+                    'modules/render/aftersignin',
+                ],
+            ];
+
+            exit(json_encode($jsonResponse));
         }
 
-        $this->view->utilisateur = $this->utilisateur;
-        $this->view->apis = $this->apis;
-        $this->view->api = $this->api;
-        $this->view->javascript = $this->javascript;
-        $this->view->css = $this->css;
-        $this->view->mainVersions = $this->versions;
-        $query = 'SELECT `version`.id, `version`.* '
-               . 'FROM `version` '
-               . 'WHERE `version`.id_api = ' . $this->api['id'] . ' ';
-        $this->view->mainVersions = $this->db->query($query)->fetchAll(
+        $this->view->utilisateur   = $this->utilisateur;
+        $this->view->apis          = $this->apis;
+        $this->view->api           = $this->api;
+        $this->view->javascript    = $this->javascript;
+        $this->view->requireJs     = $this->requireJs;
+        $this->view->css           = $this->css;
+        $this->view->mainVersions  = $this->versions;
+        $query                     = 'SELECT `version`.id, `version`.* '
+            . 'FROM `version` '
+            . 'WHERE `version`.id_api = ' . $this->api['id'] . ' ';
+        $this->view->mainVersions  = $this->db->query($query)->fetchAll(
             \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC
-        );
-        $this->view->breadCrumbs = array();
-        $this->view->breadCrumbs[] = array(
-            'label' => $this->view->img->output('back/img/gray_dark/home_12x12.png')
-                    . $this->view->site,
-        );
+        )
+        ;
+        $this->view->breadCrumbs   = [];
+        $this->view->breadCrumbs[] = [
+            'title' => '<i class="fa fa-home"></i>'
+                . ' '
+                . $this->view->site,
+            'url' => 'back/'
+        ];
 
         /* On indique que l'on est dans une autre api **/
         if ($this->api['id'] != 1) {
-            $this->view->breadCrumbs[] = array(
-                    'label' => $this->api['label'],
-            );
+            $this->view->breadCrumbs[] = [
+                'title' => $this->api['label'],
+            ];
         }
 
         $this->view->appConfig = $this->appConfig;
 
         /*
-         * On recupere la configuration du module pages (Menu + liste)
+         * On récupère la configuration du module pages (Menu + liste)
          */
         $completConfig = [];
-        $path = FrontController::search(
+        $path          = FrontController::search(
             'config/page-' . BACK_ID_API . '.cfg.php'
         );
         if ($path !== false) {
@@ -274,68 +330,35 @@ class Main extends \Solire\Lib\Controller
             }
         }
 
-//        $completConfig = [];
-//        $appList = \Solire\Lib\FrontController::getAppDirs();
-//        unset($config);
-//        foreach ($appList as $app) {
-//           /**
-//            * On recupere la configuration du module pages (Menu + liste)
-//            *  En cherchant si une configuration a été définie pour l'api courante
-//            * Sinon on récupère le fichier de configuration générale
-//            */
-//            $path = new Path(
-//                $app['dir'] . Path::DS . 'back/config/page-' . BACK_ID_API . '.cfg.php',
-//                Path::SILENT
-//            );
-//            if ($path->get() == false) {
-//                $path = new Path(
-//                    $app['dir'] . Path::DS . 'back/config/page.cfg.php',
-//                    Path::SILENT
-//                );
-//            }
-//
-//            if ($path->get() == false) {
-//                continue;
-//            }
-//            include $path->get();
-//
-//            if (!isset($config)) {
-//                $exc = new \Exception('fichier de config erroné [' . $path->get() . ']');
-//                throw $exc;
-//            }
-//
-//            $completConfig = $completConfig + $config;
-//
-//            unset($config, $key, $value);
-//        }
-
         $this->configPageModule = $completConfig;
         unset($path, $config);
         $this->view->menuPage = [];
         foreach ($this->configPageModule as $configPage) {
             $this->view->menuPage[] = [
-                'label' => $configPage['label'],
+                'label'   => $configPage['label'],
                 'display' => $configPage['display'],
             ];
         }
 
-        $query = 'SELECT gab_gabarit.id, gab_gabarit.* '
-               . 'FROM gab_gabarit '
-               . 'WHERE gab_gabarit.id_api = ' . $this->api['id'] . ' ';
+        $query          = 'SELECT gab_gabarit.id, gab_gabarit.* '
+            . 'FROM gab_gabarit '
+            . 'WHERE gab_gabarit.id_api = ' . $this->api['id'] . ' ';
         $this->gabarits = $this->db->query($query)->fetchAll(
             \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC
-        );
+        )
+        ;
 
         $query = 'SELECT * '
-               . 'FROM gab_page gp '
-               . 'WHERE rewriting = "" '
-               . ' AND gp.suppr = 0 '
-               . ' AND id_api = ' . BACK_ID_API
-               . ' AND id_version = ' . BACK_ID_VERSION;
+            . 'FROM gab_page gp '
+            . 'WHERE rewriting = "" '
+            . ' AND gp.suppr = 0 '
+            . ' AND id_api = ' . BACK_ID_API
+            . ' AND id_version = ' . BACK_ID_VERSION;
 
         $this->view->pagesNonTraduites = $this->db->query($query)->fetchAll(
             \PDO::FETCH_ASSOC
-        );
+        )
+        ;
 
         $hook = new Hook();
         $hook->setSubdirName('back');
@@ -356,10 +379,435 @@ class Main extends \Solire\Lib\Controller
         parent::shutdown();
 
         $hook = new Hook();
-        $hook->setSubdirName('back');
+        $hook->setSubdirName('Back');
 
         $hook->controller = $this;
 
-        $hook->exec('shutdown');
+        $hook->exec('Shutdown');
+
+        $title = 'Module de gestion du site ' . Registry::get('project-name');
+        if (isset($this->breadCrumbs) && count($this->breadCrumbs) > 1) {
+            foreach ($this->breadCrumbs as $iLink => $link) {
+                if ($iLink == 0) {
+                    continue;
+                }
+
+                if ($iLink == count($this->breadCrumbs) - 1) {
+                    $title .= ' ' . $link['title'];
+                } else {
+                    $title .= ' ' . $link['title'] . ' > ';
+                }
+            }
+        }
+        $this->seo->setTitle($title);
+
+        $this->view->backIdVersion = BACK_ID_VERSION;
+    }
+
+    /**
+     * Initialisation et chargement des ressources
+     *
+     * @throws \Solire\Lib\Exception\Lib
+     *
+     * @return void;
+     */
+    protected function loadRessources()
+    {
+        /* Chargement de requireJS */
+        $requireInitPath = $this->javascript->getPath('back/js/init.js');
+        $this->javascript->addLibrary(
+            'back/bower_components/requirejs/require.js',
+            ['data-main' => $requireInitPath]
+        );
+
+        $this->requireJs = new RequireJs(FrontController::$publicDirs);
+
+        /* Jquery */
+        $this->requireJs->addLibrary(
+            'back/bower_components/jquery/dist/jquery.min.js',
+            ['name' => 'jquery']
+        );
+
+        /* Sortable */
+        $this->requireJs->addLibrary(
+            'back/bower_components/Sortable/Sortable.js',
+            [
+                'name' => 'sortable',
+            ]
+        );
+
+        /* Jquery cookie */
+        $this->requireJs->addLibrary(
+            'back/bower_components/jquery.cookie/jquery.cookie.js',
+            [
+                'name' => 'jqueryCookie',
+                'deps' => [
+                    'jquery',
+                ]
+            ]
+        );
+
+        /* Bootstrap */
+        $this->requireJs->addLibrary(
+            'back/bower_components/bootstrap/dist/js/bootstrap.min.js',
+            [
+                'name' => 'bootstrap',
+                'deps' => [
+                    'jquery',
+                ]
+            ]
+        );
+
+        /* Bootstrap meterial design */
+        $this->requireJs->addLibrary(
+            'back/bower_components/bootstrap-material-design/dist/js/ripples.min.js',
+            [
+                'name' => 'ripples',
+                'deps' => [
+                    'bootstrap',
+                ]
+            ]
+        );
+
+        $this->requireJs->addLibrary(
+            'back/bower_components/bootstrap-material-design/dist/js/material.min.js',
+            [
+                'name' => 'material',
+                'deps' => [
+                    'bootstrap',
+                ]
+            ]
+        );
+
+//        $this->css->addLibrary('back/bower_components/bootstrap-material-design/dist/css/roboto.min.css');
+//        $this->css->addLibrary('back/bower_components/bootstrap-material-design/dist/css/material.min.css');
+        $this->css->addLibrary('back/bower_components/bootstrap-material-design/dist/css/ripples.min.css');
+
+//        $this->css->addLibrary('back/bower_components/bootstrap/dist/css/bootstrap-theme.min.css');
+//        $this->css->addLibrary('back/css/bootstrap-theme/bootstrap.min.css');
+
+        /* Bootstrap datepicker */
+        $this->requireJs->addLibrary(
+            'back/bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js',
+            [
+                'name' => 'bootstrapDatepicker',
+                'deps' => [
+                    'bootstrap',
+                ]
+            ]
+        );
+
+        $this->css->addLibrary('back/bower_components/bootstrap-datepicker/css/datepicker3.css');
+
+        // Fichier de traduction FR du datepicker
+        $this->requireJs->addLibrary(
+            'back/bower_components/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js',
+            [
+                'name' => 'bootstrapDatepickerFr',
+                'deps' => [
+                    'bootstrapDatepicker',
+                ]
+            ]
+        );
+
+        /* Bootstrap autocomplete */
+        $this->requireJs->addLibrary(
+            'back/bower_components/select2/dist/js/select2.full.min.js',
+            [
+                'name' => 'autocomplete',
+                'deps' => [
+                    'jquery',
+                ]
+            ]
+        );
+
+        $this->css->addLibrary('back/bower_components/select2/dist/css/select2.min.css');
+        $this->css->addLibrary('back/bower_components/select2-bootstrap-theme/dist/select2-bootstrap.min.css');
+
+        $this->requireJs->addLibrary(
+            'back/bower_components/select2/dist/js/i18n/fr.js',
+            [
+                'name' => 'autocompleteFr',
+                'deps' => [
+                    'autocomplete',
+                ]
+            ]
+        );
+
+        /* Bootstrap typeahead */
+        $this->requireJs->addLibrary(
+            'back/bower_components/typeahead.js/dist/typeahead.jquery.min.js',
+            [
+                'name' => 'typeahead',
+                'deps' => [
+                    'jquery',
+                ]
+            ]
+        );
+
+        /* Ladda button */
+        $this->requireJs->addLibrary(
+            'back/bower_components/solire.ladda-bootstrap/dist/ladda.min.js',
+            [
+                'name' => 'ladda',
+                'deps' => [
+                    'jquery',
+                    'spin',
+                ]
+            ]
+        );
+
+        $this->requireJs->addLibrary(
+            'back/bower_components/solire.ladda-bootstrap/dist/spin.min.js',
+            [
+                'name' => 'spin',
+                'deps' => [
+                    'jquery',
+                ]
+            ]
+        );
+
+        /* Jcrop */
+        $this->requireJs->addLibrary(
+            'back/bower_components/Jcrop/js/Jcrop.js',
+            [
+                'name' => 'jcrop',
+                'deps' => [
+                    'jquery',
+                ]
+            ]
+        );
+
+        $this->css->addLibrary(
+            'back/bower_components/Jcrop/css/Jcrop.min.css'
+        );
+
+        /* jquery.scrollTo */
+        $this->requireJs->addLibrary(
+            'back/bower_components/jquery.scrollTo/jquery.scrollTo.min.js',
+            [
+                'name' => 'jqueryScrollTo',
+                'deps' => [
+                    'jquery',
+                ]
+            ]
+        );
+
+        /* Youtube loading Bar */
+        $this->requireJs->addLibrary(
+            'back/bower_components/youtube-loading-bar/dist/js/youtubeLoadingBar.min.js',
+            [
+                'name' => 'youtubeLoadingBar',
+                'deps' => [
+                    'jquery',
+                ]
+            ]
+        );
+
+        /* Datatables */
+        $this->requireJs->addLibrary(
+            'back/bower_components/datatables/media/js/jquery.dataTables.js',
+            [
+                'name' => 'datatables',
+                'deps' => [
+                    'jquery',
+                ]
+            ]
+        );
+
+        $this->requireJs->addLibrary(
+            'back/bower_components/datatables-responsive/js/dataTables.responsive.js',
+            [
+                'name' => 'datatablesResponsive',
+                'deps' => [
+                    'jquery',
+                    'datatables',
+                ]
+            ]
+        );
+
+        $this->requireJs->addLibrary(
+            'back/bower_components/datatables-material-design/dist/js/dataTables.materialdesign.min.js',
+            [
+                'name' => 'datatablesMaterialDesign',
+                'deps' => [
+                    'datatables',
+                    'youtubeLoadingBar',
+                ]
+            ]
+        );
+
+        $this->css->addLibrary(
+            'back/bower_components/datatables-material-design/dist/css/dataTables.materialdesign.min.css'
+        );
+
+        $this->requireJs->addLibrary(
+            'back/bower_components/datatables-light-columnfilter/dist/dataTables.lightColumnFilter.min.js',
+            [
+                'name' => 'datatables-light-columnfilter',
+                'deps' => [
+                    'datatables',
+                    'modules/config/datepicker',
+                ]
+            ]
+        );
+
+        $this->requireJs->addLibrary(
+            'back/bower_components/datatables-light-columnfilter/dist/dataTables.lcf.bootstrap3.min.js',
+            [
+                'name' => 'datatablesLCFBootstrap3',
+                'deps' => [
+                    'datatables-light-columnfilter',
+                ]
+            ]
+        );
+
+        /* Plupload */
+        $this->requireJs->addLibrary(
+            'back/bower_components/plupload/js/plupload.full.min.js',
+            [
+                'name' => 'plupload'
+            ]
+        );
+        $this->requireJs->addLibrary(
+            'back/bower_components/jquery-pluploader/dist/jquery.pluploader.min.js',
+            [
+                'name' => 'jqueryPluploader',
+                'deps' => [
+                    'plupload',
+                ]
+            ]
+        );
+
+        /* Noty */
+        $this->requireJs->addLibrary(
+            'back/bower_components/noty/js/noty/packaged/jquery.noty.packaged.min.js',
+            [
+                'name' => 'noty',
+                'deps' => [
+                    'jquery',
+                ]
+            ]
+        );
+
+        /* SoModal */
+        $this->requireJs->addLibrary(
+            'back/bower_components/jquery.transit/jquery.transit.js',
+            ['name' => 'jqueryTransit']
+        );
+
+        $this->requireJs->addLibrary(
+            'back/bower_components/jquery-somodal/dist/js/jquery.somodal.min.js',
+            [
+                'name' => 'jquerySoModal',
+                'deps' => [
+                    'jquery',
+                    'jqueryTransit',
+                ]
+            ]
+        );
+
+        $this->css->addLibrary('back/bower_components/jquery-somodal/dist/css/jquery.somodal.min.css');
+
+        /* JSTREE */
+        $this->requireJs->addLibrary(
+            'back/bower_components/jstree/dist/jstree.min.js',
+            ['name' => 'jsTree']
+        );
+
+        // Thème Bootstrap de jstree
+        $this->css->addLibrary('back/bower_components/jstree-bootstrap-theme/dist/themes/proton/style.min.css');
+
+        /* tinyMCE */
+        $this->requireJs->addLibrary(
+            'back/bower_components/tinymce/tinymce.min.js',
+            ['name' => 'tinyMCE_source']
+        );
+
+        $this->requireJs->addLibrary(
+            'back/bower_components/bower-tinymce-amd/tinyMCE.js',
+            ['name' => 'tinyMCE']
+        );
+
+        /* Jquery Form controle */
+        $this->requireJs->addLibrary(
+            'back/bower_components/jquery-controle/jquery.controle.min.js',
+            [
+                'name' => 'jqueryControle',
+                'deps' => [
+                    'jquery',
+                ]
+            ]
+        );
+
+        $this->css->addLibrary('back/bower_components/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css');
+        $this->requireJs->addLibrary(
+            'back/bower_components/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js',
+            [
+                'name' => 'xEditable',
+                'deps' => [
+                    'jquery',
+                ]
+            ]
+        );
+
+
+        /* Modules Solire */
+        $requireJsModules = [
+            'modules/config/noty',
+            'modules/config/datepicker',
+            'modules/helper/affix',
+            'modules/helper/ajaxcall',
+            'modules/helper/ajaxDialog',
+            'modules/helper/ajaxform',
+            'modules/helper/amd',
+            'modules/helper/autocomplete',
+            'modules/helper/autocompleteFile',
+            'modules/helper/autocompleteJoin',
+            'modules/helper/confirm',
+            'modules/helper/crop',
+            'modules/helper/cropDialog',
+            'modules/helper/datatable',
+            'modules/helper/datepicker',
+            'modules/helper/dialog',
+            'modules/helper/editable',
+            'modules/helper/formPrevisu',
+            'modules/helper/message',
+            'modules/helper/noty',
+            'modules/helper/search',
+            'modules/helper/sortable',
+            'modules/helper/tour',
+            'modules/helper/uploader',
+            'modules/helper/wysiwyg',
+            'modules/helper/zoom',
+            'modules/page/affichegabarit',
+            'modules/page/apichange',
+            'modules/page/block',
+            'modules/page/liste',
+            'modules/page/listefichiers',
+            'modules/page/signin',
+            'modules/page/simpleupload',
+            'modules/page/upload',
+            'modules/render/afterdeletepage',
+            'modules/render/afterforgotpassword',
+            'modules/render/aftersavepage',
+            'modules/render/aftersavepassword',
+            'modules/render/aftersignin',
+            'modules/render/beforeloadpage',
+            'modules/render/delete',
+            'modules/render/visible',
+        ];
+
+        $this->requireJs->setModuleDir('back/js');
+        $this->requireJs->addModules($requireJsModules);
+
+        /* font-awesome */
+        $this->css->addLibrary('back/bower_components/font-awesome/css/font-awesome.min.css');
+
+        /* Flags */
+        $this->css->addLibrary('back/bower_components/flag-icon-css/css/flag-icon.min.css');
+
+        /* Librairies Solire */
+        $this->css->addLibrary('back/css/style.css');
     }
 }

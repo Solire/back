@@ -1,0 +1,39 @@
+{% extends 'main.html.twig' %}
+{% import "util/breadcrumbs.html.twig" as breadcrumbs %}
+
+{% block title %}
+    {% if label %}
+        {{ label }}
+    {% else %}
+        Liste des pages
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {{ parent() }}
+    <div data-amd="modules/page/liste,modules/helper/ajaxcall">
+        {{ breadcrumbs.breadcrumbs(breadCrumbs) }}
+        {% include 'template/button.html.twig' %}
+        <hr/>
+
+        {% for keyGroup, group in pagesGroup %}
+            {# Si on affiche les pages par type de gabarits #}
+            {% if gabaritByGroup %}
+                <fieldset id="gab_page_6" class="sort-elmt">
+                    <legend title="<?php echo $this->gabarits[$keyGroup]['label']; ?>  ">
+                        <?php echo $this->gabarits[$keyGroup]['label']; ?>
+                    </legend>
+                    {% set pages = group %}
+                    <div class="sort-box" style="display:none;">
+                        {% include 'template/page_list.html.twig' %}
+                    </div>
+                </fieldset>
+            {% else %}
+                <div class="sort-box">
+                    {% include 'template/page_list.html.twig' %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}
+

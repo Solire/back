@@ -1,0 +1,4 @@
+/* Fix bootstrap-editable style */
+.datepicker-dropdown:after, .datepicker-dropdown:before {
+  top: auto;
+}

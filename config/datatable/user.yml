@@ -1,0 +1,136 @@
+# -------------------------
+# CONFIG
+title: Liste des utilisateurs
+
+# Js Config
+driver:
+  name: dataTables
+  conf:
+    itemName: utilisateur
+    itemsName: utilisateurs
+    # masculin ou féminin
+    # "e"|""
+    itemGenre:
+    requestUrl: back/user/listdata.html?name=user
+    requestMethod: POST
+    separator: "~"
+    dom: <"H"TClfr>t<"F"ip>
+    defaultSort:
+    - [4, desc]
+
+source:
+  name: doctrine
+  conf:
+    select:
+      - u.*
+      - CONCAT(u.civilite, ' ', u.nom, ' ', u.prenom) identite
+      - IF(u.actif > 0, 'Actif', 'Inactif') actifLabel
+      - u.niveau niveauLabel
+    from:
+      name: utilisateur
+      alias: u
+    group: u.id
+## COLUMNS
+
+columns:
+#  columnName:
+#    label: columnLabel
+#    sort: 1|0
+#    filter: 1|0
+#    filterType: text, dateRange...
+#    source: source expression (for example a column)
+#    sourceFilter: source expression (for example a column)
+#    sourceSort: source expression (for example a column)
+#    ...
+
+#  civilite:
+#    label: Civilite
+#    filter: 0
+#    sort: 0
+#    source: u.civilite
+#    sourceFilterType: Exact
+#    driverFilterType: select
+#    driverOption:
+#      values:
+#        -
+#          label: M.
+#          value: M.
+#        -
+#          label: Mme
+#          value: Mme
+
+  identite:
+    label: Identité
+    filter: 1
+    sort: 1
+    sourceFilter: CONCAT(u.civilite, ' ', u.nom, ' ', u.prenom)
+
+  niveauLabel:
+    label: Niveau
+    filter: 1
+    sort: 1
+#    source: niveauLabel
+    sourceFilter: u.niveau
+    sourceFilterType: Exact
+    driverFilterType: select
+    driverOption:
+      values:
+        -
+          label: Rédacteur
+          value: redacteur
+        -
+          label: Administrateur
+          value: admin
+        -
+          label: Solire
+          value: solire
+
+  email:
+    label: Email
+    filter: 1
+    sort: 1
+    source: u.email
+
+  actifLabel:
+    label: Actif
+    filter: 1
+    sort: 1
+    sourceFilter: u.actif
+    sourceFilterType: Exact
+    driverFilterType: select
+    driverOption:
+      values:
+        -
+          label: Actif
+          value: "1"
+        -
+          label: Inactif
+          value: "0"
+
+  date_crea:
+    label: Créé le
+    filter: 1
+    sort: 1
+    source: u.date_crea
+    driverFilterType: dateRange
+    sourceFilterType: DateRange
+    format:
+      class: \Solire\Trieur\Format\Callback
+      name:
+        - Solire\Lib\Format\DateTime
+        - sqlTo
+      cell: dateSql
+
+  action:
+    label: Action
+    filter: 0
+    sort: 0
+    source: id
+    format:
+      class: Solire\Lib\Trieur\Format\Twig
+      fileName: datatable/user/action.html.twig
+
+#  id:
+#    driverHidden: true
+#    filter: 0
+#    sort: 0

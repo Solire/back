@@ -1,0 +1,19 @@
+<div class="btn-group" data-amd="modules/helper/ajaxcall">
+  <a href="back/user/form.html?id={{ row.id }}"
+     title="Modifier l'utilisateur"
+     class="btn btn-sm btn-success exec-onclick-ajaxdialog"
+     type="button"
+  >
+    <i class="fa fa-pencil"></i>
+  </a>
+  <button data-url="back/user/sendmail.html?id={{ row.id }}"
+          title="Envoyer un mail avec un nouveau mot de passe"
+          class="btn btn-sm btn-success exec-onclick-ajax"
+          type="button"
+          data-confirm="true" data-title="Confirmation d'envoi de mail"
+          data-content="Êtes-vous sûr de vouloir envoyer les informations de connexion à l'adresse {{ row.email }}" data-cancelbuttontxt="Annuler"
+          data-confirmbuttontxt="Envoyer"
+  >
+    <i class="fa fa-envelope"></i>
+  </button>
+</div>

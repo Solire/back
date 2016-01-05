@@ -1,15 +1,14 @@
 <?php
-/**
- * Gestion du profile utilisateur
- *
- * @author  dev <dev@solire.fr>
- * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
- */
 
 namespace Solire\Back\Controller;
 
-use Solire\Lib\FrontController;
-use Solire\Lib\Datatable\Datatable;
+use Doctrine\DBAL\DriverManager;
+use PDO;
+use Solire\Lib\Mail;
+use Solire\Lib\Registry;
+use Solire\Lib\Session;
+use Solire\Lib\Security\Util\SecureRandom;
+use ZxcvbnPhp\Zxcvbn;
 
 /**
  * Gestion du profile utilisateur
@@ -17,8 +16,14 @@ use Solire\Lib\Datatable\Datatable;
  * @author  dev <dev@solire.fr>
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
  */
-class User extends Main
+class User extends Datatable
 {
+
+    public function start()
+    {
+        parent::start();
+        $this->requireJs->addModule('modules/page/users');
+    }
 
     /**
      * Affichage du formulaire d'édition du profile
@@ -27,10 +32,8 @@ class User extends Main
      */
     public function startAction()
     {
-        $this->javascript->addLibrary('back/js/formgabarit.js');
-
         $this->view->breadCrumbs[] = array(
-            'label' => 'Mon profil',
+            'title' => 'Mon profil',
             'url' => '',
         );
     }
@@ -55,101 +58,166 @@ class User extends Main
             $errors[] = 'Le nouveau mot de passe et sa confirmation sont différents';
         }
 
-
-         /** Test longueur password */
+        /** Test longueur password */
         if (count($errors) == 0 && strlen($_POST['new_password']) < 6) {
             $errors[] = 'Votre nouveau mot de passe doit contenir au moins 6 caractères';
         }
 
+        /** Test password complexity */
+        $zxcvbn = new Zxcvbn();
+        $strength = $zxcvbn->passwordStrength($_POST['new_password'], [$this->utilisateur->login]);
+
+        if (count($errors) == 0 && $strength['score'] < 2) {
+            $errors[] = 'Votre nouveau mot de passe n\'est pas assez sécurisé';
+        }
+
         //Si aucune erreur on essaie de modifier le mot de passe
         if (count($errors) == 0) {
-
             $query = 'SELECT pass '
-                   . 'FROM utilisateur '
-                   . 'WHERE id = ' . $this->utilisateur->id . ' ';
-            $oldPass = $this->db->query($query)->fetchColumn();
+                    . 'FROM utilisateur '
+                    . 'WHERE id = ' . $this->utilisateur->id . ' ';
 
-            $oldSaisi = $this->utilisateur->prepareMdp($_POST['old_password']);
+            $oldPassHash = $this->db->query($query)->fetchColumn();
+            $oldPassFilled = $_POST['old_password'];
 
+            if (password_verify($oldPassFilled, $oldPassHash) === true) {
 
-            $newPass = $this->utilisateur->prepareMdp($_POST['new_password']);
+                $newPass = Session::prepareMdp($_POST['new_password']);
 
-            $query = 'UPDATE utilisateur SET '
-                   . ' pass = ' . $this->db->quote($newPass) . ' '
-                   . 'WHERE `id` = ' . $this->utilisateur->id . ' ';
+                $query = 'UPDATE utilisateur SET '
+                        . ' pass = ' . $this->db->quote($newPass) . ' '
+                        . 'WHERE `id` = ' . $this->utilisateur->id . ' ';
 
-            if ($oldPass == $oldSaisi) {
-                $response['status'] = true;
-                $this->db->exec($query);
+                if ($this->db->exec($query)) {
+                    $response['status'] = true;
+                }
             } else {
                 $errors[] = 'Mot de passe actuel incorrect';
             }
         }
 
         if ($response['status']) {
-            $response['status'] = 'success';
-            $response['message'] = 'Votre mot de passe a été mis à jour';
-            $response['javascript'] = 'window.location.reload()';
+            $this->utilisateur->disconnect();
+            $jsonResponse = [
+                'status' => 'success',
+                'text' => 'Votre mot de passe a été mis à jour',
+                'after' => array(
+                    'modules/helper/noty',
+                    'modules/render/aftersavepassword',
+                )
+            ];
         } else {
-            $response['message'] = implode('<br />', $errors);
+            $jsonResponse = [
+                'status' => 'error',
+                'text' => implode('<br />', $errors),
+                'after' => array(
+                    'modules/helper/noty',
+                    'modules/render/aftersavepassword',
+                )
+            ];
         }
 
-        echo json_encode($response);
+        echo json_encode($jsonResponse);
+    }
+
+    public function formAction()
+    {
+        $table = 'utilisateur';
+
+        $doctrineConnection = DriverManager::getConnection([
+            'pdo' => $this->db,
+        ]);
+        $doctrineConnection
+            ->getDatabasePlatform()
+            ->registerDoctrineTypeMapping('enum', 'string')
+        ;
+
+        $this->view->civilites = [
+            'M.',
+            'Mme',
+        ];
+
+        $this->view->niveaux = [
+            'editeur',
+            'administrateur',
+            'super administrateur',
+        ];
+
+        if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+            $query = 'SELECT * FROM utilisateur WHERE id = ' . $_GET['id'];
+            $data = $this->db->query($query)->fetch(PDO::FETCH_ASSOC);
+        } else {
+            $columns = $doctrineConnection->getSchemaManager()->listTableColumns($table);
+            $data = [];
+            foreach ($columns as $column) {
+                $data[$column->getName()] = '';
+            }
+        }
+
+        $this->view->data = $data;
     }
 
     /**
-     * Liste des utilisateurs
      *
-     * @return void
+     *
+     *  @return void
      */
-    public function listeAction()
+    public function sendmailAction()
     {
-        $configPath = FrontController::search(
-            'config/datatable/utilisateur.cfg.php'
-        );
-
-        if (!$configPath) {
-            $this->pageNotFound();
+        if (!property_exists($this, 'from')) {
+            $this->from = 'contact@solire.fr';
         }
 
-        $datatableClassName = 'Back\\Datatable\\Utilisateur';
-        $datatableClassName = FrontController::searchClass(
-            $datatableClassName
-        );
+        $this->view->enable(false);
 
-        if ($datatableClassName === false) {
-            $datatable = new Datatable(
-                $_GET,
-                $configPath,
-                $this->db,
-                'back/css/datatable/',
-                'back/js/datatable/',
-                'back/img/datatable/'
-            );
+        $idClient = intval($_GET['id']);
+        $clientData = $this->db->query('
+            SELECT utilisateur.*
+            FROM utilisateur
+            WHERE utilisateur.id = ' . $idClient)->fetch();
+        $genPass = new SecureRandom();
+        $password = $genPass->generate(8, SecureRandom::RANDOM_ALPHALOWER | SecureRandom::RANDOM_ALPHAUPPER | SecureRandom::RANDOM_NUMERIC);
+
+        $mail = new Mail('utilisateur_identifiant');
+        $mail->setMainUse();
+        $mail->to = $clientData['email'];
+        $mail->from = $this->from;
+        $mail->subject = 'Informations de connexion à l\'outil d\'administration'
+                . ' de votre site';
+
+        $mail->urlAcces = Registry::get('basehref') . 'back/';
+
+        $clientData['pass'] = $password;
+        $mail->clientData = $clientData;
+        $mail->send();
+
+        $passwordCrypt = Session::prepareMdp($password);
+        $values = array(
+            'pass' => $passwordCrypt,
+        );
+        $this->db->update('utilisateur', $values, 'id = ' . $idClient);
+
+        if (isset($_POST['confirm']) && $_POST['confirm']) {
+            echo json_encode([
+                'status'         => 'success',
+                'title'          => 'Confirmation d\'envoi de mail',
+                'content'        => 'Un email a été envoyé avec un nouveau mot de passe',
+                'closebuttontxt' => 'Fermer',
+                'after'          => [
+                    'modules/helper/message',
+                ],
+            ]);
         } else {
-            $datatable = new $datatableClassName(
-                $_GET,
-                $configPath,
-                $this->db,
-                'back/css/datatable/',
-                'back/js/datatable/',
-                'back/img/datatable/'
-            );
+            echo json_encode([
+                'status' => 'success',
+                'text' => 'Un email a été envoyé avec un nouveau mot de passe',
+                'after' => [
+                    'modules/helper/noty',
+                ],
+            ]);
         }
 
-        $datatable->setUtilisateur($this->utilisateur);
-        $datatable->start();
-        $datatable->setDefaultNbItems(
-            $this->appConfig->get('board', 'nb-content-default')
-        );
 
-        if (isset($_GET['json']) || (isset($_GET['nomain'])
-            && $_GET['nomain'] == 1)
-        ) {
-            echo $datatable->display();
-            exit();
-        }
-
-        $this->view->datatableRender = $datatable->display();
     }
+
 }

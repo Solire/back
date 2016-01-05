@@ -1,0 +1,15 @@
+{# @todo Faire des vues intérmédiaires pour améliorer la lisibilité #}
+{% for page in pages %}
+    {% set gabarit = gabarits[page.getMeta('id_gabarit')] %}
+
+    {% if utilisateur.get('niveau') == 'super administrateur' %}
+        {% set gabarit = gabarit|merge({'editable': true, 'sortable': true, 'make_hidden': true, 'deletable': true}) %}
+    {% endif %}
+
+    {% set noChild = (page.getMeta('nbre_enfants') == 0 and not gabaritsChildren[page.getMeta('id_gabarit')]) %}
+
+    {% include('template/page_list_item.html.twig') %}
+
+{% else %}
+    <p>Aucune page</p>
+{% endfor %}

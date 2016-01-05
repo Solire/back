@@ -1,0 +1,13 @@
+{% macro cube(text) %}
+    <div class="preloader-cube">
+        <div class="cube c1"></div>
+        <div class="cube c2"></div>
+        <div class="cube c4"></div>
+        <div class="cube c3"></div>
+    </div>
+    {% if text %}
+        <div class="preloader-cube-text">
+            <h1>{{ text }}</h1>
+        </div>
+    {% endif %}
+{% endmacro %}

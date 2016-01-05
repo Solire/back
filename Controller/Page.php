@@ -8,6 +8,9 @@
 
 namespace Solire\Back\Controller;
 
+use Solire\Lib\Hook;
+use Solire\Lib\Tools;
+
 /**
  * Gestionnaire de pages
  *
@@ -17,7 +20,7 @@ namespace Solire\Back\Controller;
 class Page extends Main
 {
     /**
-     * Page courrante
+     * Page courante
      *
      * @var \Solire\Lib\Model\gabaritPage
      */
@@ -61,7 +64,7 @@ class Page extends Main
             $page->deletable   = $gabarit['deletable'];
             $page->sortable    = $gabarit['sortable'];
 
-            $ids[] = $page->getMeta('id');
+            $ids[]                   = $page->getMeta('id');
             $p[$page->getMeta('id')] = $page;
         }
 
@@ -71,25 +74,25 @@ class Page extends Main
          * chaque page
          */
 
-        $hook = new \Solire\Lib\Hook();
+        $hook = new Hook();
         $hook->setSubdirName('back');
 
-        $hook->permission     = null;
-        $hook->utilisateur    = $this->utilisateur;
-        $hook->ids            = $ids;
-        $hook->id_version     = BACK_ID_VERSION;
-        $hook->visible        = 0;
+        $hook->permission  = null;
+        $hook->utilisateur = $this->utilisateur;
+        $hook->ids         = $ids;
+        $hook->id_version  = BACK_ID_VERSION;
+        $hook->visible     = 0;
 
         $hook->exec('pagevisible');
 
         if ($hook->permission !== null) {
             if ($hook->permission === false) {
                 foreach ($p as $id => $page) {
-                    $page->makeHidden  = false;
+                    $page->makeHidden = false;
                 }
             } elseif (is_array($hook->permission)) {
                 foreach ($hook->permission as $id => $permissions) {
-                    $p[$id]->makeHidden  = $permission;
+                    $p[$id]->makeHidden = $permission;
                 }
             }
         }
@@ -99,25 +102,25 @@ class Page extends Main
          * chaque page
          */
 
-        $hook = new \Solire\Lib\Hook();
+        $hook = new Hook();
         $hook->setSubdirName('back');
 
-        $hook->permission     = null;
-        $hook->utilisateur    = $this->utilisateur;
-        $hook->ids            = $ids;
-        $hook->id_version     = BACK_ID_VERSION;
-        $hook->visible        = 1;
+        $hook->permission  = null;
+        $hook->utilisateur = $this->utilisateur;
+        $hook->ids         = $ids;
+        $hook->id_version  = BACK_ID_VERSION;
+        $hook->visible     = 1;
 
         $hook->exec('pagevisible');
 
         if ($hook->permission !== null) {
             if ($hook->permission === false) {
                 foreach ($p as $id => $page) {
-                    $page->makeVisible  = false;
+                    $page->makeVisible = false;
                 }
             } elseif (is_array($hook->permission)) {
                 foreach ($hook->permission as $id => $permissions) {
-                    $p[$id]->makeVisible  = $permission;
+                    $p[$id]->makeVisible = $permission;
                 }
             }
         }
@@ -127,24 +130,24 @@ class Page extends Main
          * On vérifie la possibilité d'ordonner chaque page
          */
 
-        $hook = new \Solire\Lib\Hook();
+        $hook = new Hook();
         $hook->setSubdirName('back');
 
-        $hook->permission     = null;
-        $hook->utilisateur    = $this->utilisateur;
-        $hook->ids            = $ids;
-        $hook->id_version     = BACK_ID_VERSION;
+        $hook->permission  = null;
+        $hook->utilisateur = $this->utilisateur;
+        $hook->ids         = $ids;
+        $hook->id_version  = BACK_ID_VERSION;
 
         $hook->exec('pageorder');
 
         if ($hook->permission !== null) {
             if ($hook->permission === false) {
                 foreach ($p as $id => $page) {
-                    $page->sortable  = false;
+                    $page->sortable = false;
                 }
             } elseif (is_array($hook->permission)) {
                 foreach ($hook->permission as $id => $permissions) {
-                    $p[$id]->sortable  = $permission;
+                    $p[$id]->sortable = $permission;
                 }
             }
         }
@@ -154,24 +157,24 @@ class Page extends Main
          * On vérifie la possibilité de supprimer chaque page
          */
 
-        $hook = new \Solire\Lib\Hook();
+        $hook = new Hook();
         $hook->setSubdirName('back');
 
-        $hook->permission     = null;
-        $hook->utilisateur    = $this->utilisateur;
-        $hook->ids            = $ids;
-        $hook->id_version     = BACK_ID_VERSION;
+        $hook->permission  = null;
+        $hook->utilisateur = $this->utilisateur;
+        $hook->ids         = $ids;
+        $hook->id_version  = BACK_ID_VERSION;
 
         $hook->exec('pagedelete');
 
         if ($hook->permission !== null) {
             if ($hook->permission === false) {
                 foreach ($p as $id => $page) {
-                    $page->deletable  = false;
+                    $page->deletable = false;
                 }
             } elseif (is_array($hook->permission)) {
                 foreach ($hook->permission as $id => $permissions) {
-                    $p[$id]->deletable  = $permission;
+                    $p[$id]->deletable = $permission;
                 }
             }
         }
@@ -186,14 +189,13 @@ class Page extends Main
      */
     public function listeAction()
     {
-        $this->javascript->addLibrary('back/js/liste.js');
-        $this->javascript->addLibrary('back/js/jquery/jquery.ajaxqueue.js');
-        $this->javascript->addLibrary('back/js/jquery/jquery.scrollTo-min.js');
+//        $this->javascript->addLibrary('back/js/liste.js');
+//        $this->javascript->addLibrary('back/js/jquery/jquery.ajaxqueue.js');
+//        $this->javascript->addLibrary('back/js/jquery/jquery.scrollTo-min.js');
 
-        $gabaritsList = [];
-        $query = 'SELECT `gab_gabarit`.id, `gab_gabarit`.* '
-               . 'FROM `gab_gabarit` '
-               . 'WHERE `gab_gabarit`.`id_api` = ' . $this->api['id'];
+        $query        = 'SELECT `gab_gabarit`.id, `gab_gabarit`.* '
+            . 'FROM `gab_gabarit` '
+            . 'WHERE `gab_gabarit`.`id_api` = ' . $this->api['id'];
 
         /*
          * Si on veut n'afficher que certains gabarits
@@ -208,9 +210,9 @@ class Page extends Main
          * Récupération de la liste de la page et des droits utilisateurs
          */
         $currentConfigPageModule = $this->configPageModule[$indexConfig];
-        $gabaritsListPage = $currentConfigPageModule['gabarits'];
-        $configPageModule = $this->configPageModule[$this->utilisateur->gabaritNiveau];
-        $gabaritsListUser = $configPageModule['gabarits'];
+        $gabaritsListPage        = $currentConfigPageModule['gabarits'];
+        $configPageModule        = $this->configPageModule[$this->utilisateur->gabaritNiveau];
+        $gabaritsListUser        = $configPageModule['gabarits'];
 
         /*
          * Option de blocage de l'affichage des gabarits enfants
@@ -294,13 +296,13 @@ class Page extends Main
                     );
                 }
             } else {
-                $hook = new \Solire\Lib\Hook();
+                $hook = new Hook();
                 $hook->setSubdirName('back');
 
                 $hook->gabaritManager = $this->gabaritManager;
-                $hook->gabaritsList = $gabaritsList;
-                $hook->idVersion = BACK_ID_VERSION;
-                $hook->idApi = $this->api['id'];
+                $hook->gabaritsList   = $gabaritsList;
+                $hook->idVersion      = BACK_ID_VERSION;
+                $hook->idApi          = $this->api['id'];
 
                 $hook->exec('list' . $indexConfig);
 
@@ -320,7 +322,7 @@ class Page extends Main
                 $this->view->pagesGroup[0] = 1;
             }
         } else {
-            $this->pages = $this->gabaritManager->getList(
+            $this->pages               = $this->gabaritManager->getList(
                 BACK_ID_VERSION,
                 $this->api['id'],
                 0
@@ -328,16 +330,18 @@ class Page extends Main
             $this->view->pagesGroup[0] = 1;
         }
 
-        $this->gabarits = $this->db->query($query)->fetchAll(
+        $this->gabarits         = $this->db->query($query)->fetchAll(
             \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC
-        );
-        $query  = 'SELECT `gab_gabarit`.id_parent, `gab_gabarit`.id'
-                . ' FROM `gab_gabarit`'
-                . ' WHERE `gab_gabarit`.id_parent > 0'
-                . ' AND `gab_gabarit`.`id_api` = ' . $this->api['id'];
+        )
+        ;
+        $query                  = 'SELECT `gab_gabarit`.id_parent, `gab_gabarit`.id'
+            . ' FROM `gab_gabarit`'
+            . ' WHERE `gab_gabarit`.id_parent > 0'
+            . ' AND `gab_gabarit`.`id_api` = ' . $this->api['id'];
         $this->gabaritsChildren = $this->db->query($query)->fetchAll(
             \PDO::FETCH_GROUP | \PDO::FETCH_COLUMN
-        );
+        )
+        ;
 
         $this->getButton($currentConfigPageModule);
 
@@ -345,12 +349,13 @@ class Page extends Main
             $this->checkPrivileges($this->pages, $this->gabarits);
         }
 
-        $this->view->gabarits = $this->gabarits;
+        $this->view->gabarits         = $this->gabarits;
         $this->view->gabaritsChildren = $this->gabaritsChildren;
-        $this->view->pages = $this->pages;
+        $this->view->pages            = $this->pages;
+        $this->view->currentMenuPage  = $indexConfig;
 
         $this->view->breadCrumbs[] = [
-            'label' => $currentConfigPageModule['label'],
+            'title' => $currentConfigPageModule['label'],
             'url'   => 'page/liste.html',
         ];
     }
@@ -362,8 +367,6 @@ class Page extends Main
      */
     public function childrenAction()
     {
-        $gabaritsList = 0;
-
         /* Si on veut n'afficher que certains gabarits */
         if (isset($_GET['c']) && intval($_GET['c'])) {
             $indexConfig = intval($_GET['c']);
@@ -373,9 +376,9 @@ class Page extends Main
 
         /* Récupération de la liste de la page et des droits utilisateurs */
         $currentConfigPageModule = $this->configPageModule[$indexConfig];
-        $gabaritsListPage = $currentConfigPageModule['gabarits'];
-        $configPageModule = $this->configPageModule[$this->utilisateur->gabaritNiveau];
-        $gabaritsListUser = $configPageModule['gabarits'];
+        $gabaritsListPage        = $currentConfigPageModule['gabarits'];
+        $configPageModule        = $this->configPageModule[$this->utilisateur->gabaritNiveau];
+        $gabaritsListUser        = $configPageModule['gabarits'];
 
         /* Option de blocage de l'affichage des gabarits enfants */
         $this->view->noChild = false;
@@ -428,16 +431,16 @@ class Page extends Main
 
         $this->view->unsetMain();
 
-        $hook = new \Solire\Lib\Hook();
-        $hook->setSubdirName('back');
+        $hook = new Hook();
+        $hook->setSubdirName('Back');
 
         $hook->gabaritManager = $this->gabaritManager;
-        $hook->gabaritsList = $gabaritsList;
-        $hook->idVersion = BACK_ID_VERSION;
-        $hook->idApi = $this->api['id'];
-        $hook->idParent = $_REQUEST['id_parent'];
+        $hook->gabaritsList   = $gabaritsList;
+        $hook->idVersion      = BACK_ID_VERSION;
+        $hook->idApi          = $this->api['id'];
+        $hook->idParent       = $_REQUEST['id_parent'];
 
-        $hook->exec('list' . $indexConfig);
+        $hook->exec('List' . $indexConfig);
 
         /* Chargement par défaut */
         if (!isset($hook->list) || empty($hook->list)) {
@@ -455,26 +458,28 @@ class Page extends Main
             exit();
         }
 
-        $query  = 'SELECT `gab_gabarit`.id, `gab_gabarit`.*'
-                . ' FROM `gab_gabarit`'
-                . ' WHERE `gab_gabarit`.`id_api` = ' . $this->api['id'];
+        $query          = 'SELECT `gab_gabarit`.id, `gab_gabarit`.*'
+            . ' FROM `gab_gabarit`'
+            . ' WHERE `gab_gabarit`.`id_api` = ' . $this->api['id'];
         $this->gabarits = $this->db->query($query)->fetchAll(
             \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC
-        );
+        )
+        ;
 
-        $query  = 'SELECT `gab_gabarit`.id_parent, `gab_gabarit`.id'
-                . ' FROM `gab_gabarit`'
-                . ' WHERE `gab_gabarit`.id_parent > 0'
-                . ' AND `gab_gabarit`.`id_api` = ' . $this->api['id'];
+        $query                  = 'SELECT `gab_gabarit`.id_parent, `gab_gabarit`.id'
+            . ' FROM `gab_gabarit`'
+            . ' WHERE `gab_gabarit`.id_parent > 0'
+            . ' AND `gab_gabarit`.`id_api` = ' . $this->api['id'];
         $this->gabaritsChildren = $this->db->query($query)->fetchAll(
             \PDO::FETCH_GROUP | \PDO::FETCH_COLUMN
-        );
+        )
+        ;
 
         $this->checkPrivileges($this->pages, $this->gabarits);
 
         $this->view->pages = $this->pages;
 
-        $this->view->gabarits = $this->gabarits;
+        $this->view->gabarits         = $this->gabarits;
         $this->view->gabaritsChildren = $this->gabaritsChildren;
     }
 
@@ -485,153 +490,121 @@ class Page extends Main
      */
     public function displayAction()
     {
-        $this->javascript->addLibrary('back/js/tinymce-4.0.5/tinymce.min.js');
-        $this->javascript->addLibrary('back/js/tinymce-4.0.5/jquery.solire.tinymce.js');
+        $gabPageId = isset($_GET['id_gab_page']) ? $_GET['id_gab_page'] : 0;
+        $gabaritId  = isset($_GET['id_gabarit']) ? $_GET['id_gabarit'] : 1;
 
-        $this->javascript->addLibrary('back/js/autocomplete.js');
-        $this->javascript->addLibrary('back/js/plupload/plupload.full.js');
-        $this->javascript->addLibrary('back/js/plupload/jquery.pluploader.min.js');
-        $this->javascript->addLibrary('back/js/formgabarit.js');
-        $this->javascript->addLibrary('back/js/jquery/jquery.tipsy.js');
-        $this->javascript->addLibrary('back/js/jquery/jquery.qtip.min.js');
+        $this->view->action = 'display';
 
-        $this->javascript->addLibrary('back/js/gmap.js');
-        $this->javascript->addLibrary('back/js/crop.js');
-        $this->javascript->addLibrary('back/js/datafile.js');
-        $this->javascript->addLibrary('back/js/affichegabarit.js');
+        $this->form         = '';
+        $this->pages        = [];
+        $this->redirections = [];
 
-        $this->javascript->addLibrary('back/js/jquery/jquery.autogrow.js');
-        $this->javascript->addLibrary('back/js/datatable/jquery/jquery.dataTables.js');
-        $this->javascript->addLibrary('back/js/jquery/jcrop/jquery.Jcrop.min.js');
-        $this->javascript->addLibrary('back/js/jquery/ui.spinner.min.js');
-        $this->javascript->addLibrary('back/js/autocomplete_multi/jquery.tokeninput.js');
-        $this->javascript->addLibrary('back/js/autocomplete_multi.js');
-        $this->javascript->addLibrary('back/js/compareversion.js');
-
-        /*
-         * Gmap
-         */
-        $this->javascript->addLibrary('http://maps.google.com/maps/api/js?sensor=false');
-        $this->javascript->addLibrary('back/js/jquery/gmap3.min.js');
-
-        $this->css->addLibrary('back/css/jcrop/jquery.Jcrop.min.css');
-        $this->css->addLibrary('back/css/ui.spinner.css');
-        $this->css->addLibrary('back/css/demo_table_jui.css');
-        $this->css->addLibrary('back/css/tipsy.css');
-        $this->css->addLibrary('back/css/jquery.qtip.min.css');
-        $this->css->addLibrary('back/css/autocomplete_multi/token-input.css');
-        $this->css->addLibrary('back/css/autocomplete_multi/token-input-facebook.css');
-        $this->css->addLibrary('back/css/affichegabarit.css');
-
-        $id_gab_page = isset($_GET['id_gab_page']) ? $_GET['id_gab_page'] : 0;
-        $id_gabarit = isset($_GET['id_gabarit']) ? $_GET['id_gabarit'] : 1;
-
-        $this->view->action = 'liste';
-
-        $this->form            = '';
-        $this->pages           = [];
-        $this->redirections    = [];
-
-        if ($id_gab_page) {
-            $query  = 'SELECT *'
-                    . ' FROM `version`'
-                    . ' WHERE `id_api` = ' . $this->api['id'];
+        if ($gabPageId) {
+            $query          = 'SELECT *'
+                . ' FROM `version`'
+                . ' WHERE `id_api` = ' . $this->api['id'];
             $this->versions = $this->db->query($query)->fetchAll(
                 \PDO::FETCH_ASSOC | \PDO::FETCH_UNIQUE
-            );
+            )
+            ;
 
-            foreach ($this->versions as $id_version => $version) {
+            foreach ($this->versions as $versionId => $version) {
                 $page = $this->gabaritManager->getPage(
-                    $id_version,
+                    $versionId,
                     BACK_ID_API,
-                    $id_gab_page
+                    $gabPageId
                 );
 
-                $this->pages[$id_version] = $page;
+                $this->pages[$versionId] = $page;
 
-                $hook = new \Solire\Lib\Hook();
+                $hook = new Hook();
                 $hook->setSubdirName('back');
 
-                $hook->permission     = null;
-                $hook->utilisateur    = $this->utilisateur;
-                $hook->visible        = $page->getMeta('visible') > 0 ? 0 : 1;
-                $hook->ids            = $id_gab_page;
-                $hook->id_version     = $id_version;
+                $hook->permission  = null;
+                $hook->utilisateur = $this->utilisateur;
+                $hook->visible     = $page->getMeta('visible') > 0 ? 0 : 1;
+                $hook->ids         = $gabPageId;
+                $hook->id_version  = $versionId;
 
                 $hook->exec('pagevisible');
 
                 $page->makeVisible = true;
 
                 if ($page->getGabarit()->getMakeHidden()) {
-                    $page->makeHidden  = true;
+                    $page->makeHidden = true;
                 } else {
-                    $page->makeHidden  = false;
+                    $page->makeHidden = false;
                 }
 
                 if ($hook->permission === false) {
                     if ($hook->visible > 0) {
                         $page->makeVisible = false;
                     } else {
-                        $page->makeHidden  = false;
+                        $page->makeHidden = false;
                     }
                 }
 
-                $path   = $page->getMeta('rewriting')
-                        . $page->getGabarit()->getExtension();
+                $path = $page->getMeta('rewriting')
+                    . $page->getGabarit()->getExtension();
                 foreach ($page->getParents() as $parent) {
                     $path = $parent->getMeta('rewriting') . '/' . $path;
                 }
 
-                if ($id_version == BACK_ID_VERSION) {
+                if ($versionId == BACK_ID_VERSION) {
                     /* Cas de la page d'accueil */
                     if ($page->getMeta('id') == 1) {
                         $this->view->pagePath = '?mode_previsualisation=1';
                     } else {
                         $this->view->pagePath = $path
-                                               . '?mode_previsualisation=1';
+                            . '?mode_previsualisation=1';
                     }
                 }
 
-                $query  = 'SELECT `old`'
-                        . ' FROM `redirection`'
-                        . ' WHERE `new` LIKE ' . $this->db->quote($path);
-                $this->redirections[$id_version] = $this->db->query($query)
-                    ->fetchAll(\PDO::FETCH_COLUMN);
+                $query                           = 'SELECT `old`'
+                    . ' FROM `redirection`'
+                    . ' WHERE `new` LIKE ' . $this->db->quote($path);
+                $this->redirections[$versionId] = $this->db->query($query)
+                                                            ->fetchAll(\PDO::FETCH_COLUMN)
+                ;
 
-                $query  = 'SELECT * '
-                        . 'FROM `main_element_commun_author_google` '
-                        . 'WHERE `id_version` = ' . $id_version;
-                $this->authors[$id_version] = $this->db->query($query)
-                    ->fetchAll(\PDO::FETCH_ASSOC);
+                $query                      = 'SELECT * '
+                    . 'FROM `main_element_commun_author_google` '
+                    . 'WHERE `id_version` = ' . $versionId;
+                $this->authors[$versionId] = $this->db->query($query)
+                                                       ->fetchAll(\PDO::FETCH_ASSOC)
+                ;
             }
         } else {
-            $query  = 'SELECT *'
-                    . ' FROM `version`'
-                    . ' WHERE `id` = ' . BACK_ID_VERSION;
+            $query          = 'SELECT *'
+                . ' FROM `version`'
+                . ' WHERE `id` = ' . BACK_ID_VERSION;
             $this->versions = $this->db->query($query)->fetchAll(
                 \PDO::FETCH_ASSOC | \PDO::FETCH_UNIQUE
-            );
+            )
+            ;
 
-            $page = $this->gabaritManager->getPage(
+            $page                                = $this->gabaritManager->getPage(
                 BACK_ID_VERSION,
                 BACK_ID_API,
                 0,
-                $id_gabarit
+                $gabaritId
             );
-            $this->pages[BACK_ID_VERSION] = $page;
+            $this->pages[BACK_ID_VERSION]        = $page;
             $this->redirections[BACK_ID_VERSION] = [];
 
-            $query  = 'SELECT * '
-                    . 'FROM `main_element_commun_author_google` '
-                    . 'WHERE `id_version` = ' . BACK_ID_VERSION;
+            $query                          = 'SELECT * '
+                . 'FROM `main_element_commun_author_google` '
+                . 'WHERE `id_version` = ' . BACK_ID_VERSION;
             $this->authors[BACK_ID_VERSION] = $this->db->query($query)
-                ->fetchAll(\PDO::FETCH_ASSOC);
+                                                       ->fetchAll(\PDO::FETCH_ASSOC)
+            ;
         }
 
-        $this->view->versions = $this->versions;
-        $this->view->pages = $this->pages;
+        $this->view->versions     = $this->versions;
+        $this->view->pages        = $this->pages;
         $this->view->redirections = $this->redirections;
-        $this->view->authors = $this->authors;
+        $this->view->authors      = $this->authors;
+        $this->view->popup        = isset($_GET['popup']) ? $_GET['popup'] : null;
 
         /*
          * On recupere la sous rubrique de page a laquelle il appartient
@@ -640,13 +613,13 @@ class Page extends Main
         $found = false;
         foreach ($this->configPageModule as $index => $currentConfigPageModule) {
             /*
-             * Si le gabarit courant appartien à un des groupes personnalisés
+             * Si le gabarit courant appartient à un des groupes personnalisés
              */
             if ($currentConfigPageModule['gabarits'] == '*'
                 || in_array($this->pages[BACK_ID_VERSION]->getGabarit()->getId(), $currentConfigPageModule['gabarits'])
             ) {
                 $indexPageList = $index;
-                $found = true;
+                $found         = true;
                 break;
             }
 
@@ -657,18 +630,18 @@ class Page extends Main
 
         if ($found) {
             $this->view->breadCrumbs[] = [
-                'label' => $this->configPageModule[$indexPageList]['label'],
-                'url'   => 'page/liste.html?c=' . $indexPageList,
+                'title' => $this->configPageModule[$indexPageList]['label'],
+                'url'   => 'back/page/liste.html?c=' . $indexPageList,
             ];
         } else {
             $this->view->breadCrumbs[] = [
-                'label' => 'Liste des pages',
-                'url'   => 'page/liste.html',
+                'title' => 'Liste des pages',
+                'url'   => 'back/page/liste.html',
             ];
         }
 
         $this->view->breadCrumbs[] = [
-            'label' => 'Gestion des pages',
+            'title' => 'Gestion des pages',
             'url'   => '',
         ];
 
@@ -678,7 +651,8 @@ class Page extends Main
     /**
      * Page appelé pour la sauvegarde d'une page
      *
-     * @return void
+     * @throws Exception
+     * @throws \Solire\Lib\Exception\lib
      * @hook back/ pagesaved Après la création / modification d'une page. Si les
      * données envoyés sont les mêmes que celles enregistrées en BDD, cette
      * évènement n'est pas déclenché
@@ -693,13 +667,13 @@ class Page extends Main
              * Sauvegarde partielle sur le middleoffice
              */
 
-            $dataRaw = json_decode($_POST['content'], true);
-            $data = [
-                'id_version' => $dataRaw['id_version']['value'],
+            $dataRaw  = json_decode($_POST['content'], true);
+            $data     = [
+                'id_version'  => $dataRaw['id_version']['value'],
                 'id_gab_page' => $dataRaw['id_gab_page']['value'],
-                'id_api' => $dataRaw['id_api']['value'],
+                'id_api'      => $dataRaw['id_api']['value'],
             ];
-            $page = $this->gabaritManager->getPage(
+            $page     = $this->gabaritManager->getPage(
                 $dataRaw['id_version']['value'],
                 $dataRaw['id_api']['value'],
                 $dataRaw['id_gab_page']['value'],
@@ -716,12 +690,11 @@ class Page extends Main
                 if ($val === false) {
                     if (isset($d['attributes']['src'])) {
                         $filePathPart = explode('/', $d['attributes']['src']);
-                        $val = $filePathPart[1];
+                        $val          = $filePathPart[1];
                     }
                 }
 
                 if ($val !== false) {
-
                     if (strpos($k, '-') !== false) {
                         $fieldPart = explode('-', $k);
                         if (!isset($data[$fieldPart[0]])) {
@@ -730,8 +703,7 @@ class Page extends Main
 
 
                         $blocTableName = $fieldPart[2];
-                        $idBlocLine = $fieldPart[1];
-                        $idChamp = substr($fieldPart[0], 5);
+                        $idBlocLine    = $fieldPart[1];
 
                         if (!isset($data['id_' . $blocTableName])) {
                             $data['id_' . $blocTableName] = [];
@@ -784,39 +756,35 @@ class Page extends Main
                 );
             }
 
-            $json = [
+            $jsonResponse = [
                 'status' => 'success',
             ];
         } else {
-            $modif = false;
-
             if ($_POST['id_gab_page'] > 0) {
-                $updating = true;
                 $typeSave = 'Modification';
             } else {
-                $updating = false;
                 $typeSave = 'Création';
             }
 
             $res = $this->gabaritManager->save($_POST);
 
             if ($res === null) {
-                throw new Exception('Problème à l\'enregistrement');
+                throw new \Exception('Problème à l\'enregistrement');
             }
 
             if ($res === false) {
                 /*
                  * Dans le cas d'une mise-à-jour où les données étaient les
-                 * mêmes que celles préenregistrées en BDD.
+                 * mêmes que celles pré-enregistrées en BDD.
                  */
 
                 $modif = false;
 
-                $json = [
-                    'status'        => 'success',
-                    'search'        => '?id_gab_page=' . $_POST['id_gab_page']
-                                     . '&popup=more',
-                    'id_gab_page'   => $_POST['id_gab_page'],
+                $jsonResponse = [
+                    'status'      => 'success',
+                    'search'      => '?id_gab_page=' . $_POST['id_gab_page']
+                        . '&popup=more',
+                    'id_gab_page' => $_POST['id_gab_page'],
                 ];
             } else {
                 /*
@@ -827,85 +795,71 @@ class Page extends Main
 
                 $this->page = $res;
 
-                if ($this->appConfig->get('general', 'mail-notification')) {
-                    /*
-                     * Envoi de mail à solire
-                     */
-
-                    $subject    = $typeSave . ' de contenu sur '
-                                . $this->mainConfig->get('project', 'name');
-
-                    $contenu    = '<a href="' . \Solire\Lib\Registry::get('basehref')
-                                . 'page/display.html?id_gab_page='
-                                . $this->page->getMeta('id') . '">'
-                                . $this->page->getMeta('titre') . '</a>';
-
-                    $headers    = 'From: ' . \Solire\Lib\Registry::get('mail-contact') . "\r\n"
-                                . 'Reply-To: ' . \Solire\Lib\Registry::get('mail-contact') . "\r\n"
-                                . 'Bcc: contact@solire.fr ' . "\r\n"
-                                . 'X-Mailer: PHP/' . phpversion();
-
-                    \Solire\Lib\Tools::mail_utf8(
-                        'Modif site <modif@solire.fr>',
-                        $subject,
-                        $contenu,
-                        $headers,
-                        'text/html'
-                    );
-                }
-
-                $json = [
-                    'status'        => 'success',
-                    'search'        => '?id_gab_page=' . $this->page->getMeta('id')
-                                     . '&popup=more',
-                    'id_gab_page'   => $this->page->getMeta('id'),
+                $jsonResponse = [
+                    'status'      => 'success',
+                    'search'      => '?id_gab_page=' . $this->page->getMeta('id')
+                        . '&popup=more',
+                    'id_gab_page' => $this->page->getMeta('id'),
+                    'text'        => 'La page a été enregistrée avec succès',
+                    'after'       => array(
+                        'modules/helper/noty',
+                        'modules/render/aftersavepage',
+                    )
                 ];
 
                 if (isset($_POST['id_temp']) && $_POST['id_temp']) {
                     /*
                      * Déplacement des fichiers utilisés dans la page.
                      */
-
                     $upload_path = $this->mainConfig->get('upload', 'path');
 
                     $tempDir    = './' . $upload_path . DIRECTORY_SEPARATOR . 'temp-' . $_POST['id_temp'];
                     $targetDir  = './' . $upload_path . DIRECTORY_SEPARATOR . $this->page->getMeta('id');
 
-                    $succes = rename($tempDir, $targetDir);
+                    rename($tempDir, $targetDir);
 
-                    $query  = 'UPDATE `media_fichier` SET'
-                            . ' `id_gab_page` = ' . $this->page->getMeta('id') . ','
-                            . ' `id_temp` = 0'
-                            . ' WHERE `id_temp` = ' . $_POST['id_temp'];
+                    $query = 'UPDATE `media_fichier` SET'
+                        . ' `id_gab_page` = ' . $this->page->getMeta('id') . ','
+                        . ' `id_temp` = 0'
+                        . ' WHERE `id_temp` = ' . $_POST['id_temp'];
                     $this->db->exec($query);
                 }
 
-                $flagName = strtolower(
-                    $this->versions[$_POST['id_version']]['suf']
-                );
-
-                if ($json['status'] == 'error') {
-                    $logTitle = $typeSave . 'de page échouée';
-                    $logMessage = '<b>Id</b> : ' . $this->page->getMeta('id')
-                                . '<br /><img src="public/default/back/img/flags/png/'
-                                . $flagName . '.png" alt="'
-                                . $this->versions[$_POST['id_version']]['nom']
-                                . '" /></a><br />'
-                                . '<span style="color:red;">Error</span>';
+                if ($jsonResponse['status'] == 'error') {
+                    $this->userLogger->addError(
+                        $typeSave . 'de page échouée',
+                        [
+                            'user' => [
+                                'id'    => $this->utilisateur->id,
+                                'login' => $this->utilisateur->login,
+                            ],
+                            'page' => [
+                                'id'      => $this->page->getMeta('id'),
+                                'version' => [
+                                    'id'   => (int) $_POST['id_version'],
+                                    'name' => $this->versions[$_POST['id_version']]['nom'],
+                                ],
+                            ]
+                        ]
+                    );
                 } else {
-                    $logTitle = $typeSave . 'de page réussie';
-                    $logMessage = '<b>Id</b> : ' . $this->page->getMeta('id')
-                                . '<br /><img src="public/default/back/img/flags/png/'
-                                . $flagName . '.png" alt="'
-                                . $this->versions[$_POST['id_version']]['nom']
-                                . '" /></a>';
+                    $this->userLogger->addInfo(
+                        $typeSave . 'de page réussie',
+                        [
+                            'user' => [
+                                'id'    => $this->utilisateur->id,
+                                'login' => $this->utilisateur->login,
+                            ],
+                            'page' => [
+                                'id'      => $this->page->getMeta('id'),
+                                'version' => [
+                                    'id'   => (int) $_POST['id_version'],
+                                    'name' => $this->versions[$_POST['id_version']]['nom'],
+                                ],
+                            ]
+                        ]
+                    );
                 }
-
-                $this->log->logThis(
-                    $logTitle,
-                    $this->utilisateur->get('id'),
-                    $logMessage
-                );
             }
         }
 
@@ -915,7 +869,7 @@ class Page extends Main
              * on fait un hook
              */
 
-            $hook = new \Solire\Lib\Hook();
+            $hook = new Hook();
             $hook->setSubdirName('back');
 
             $hook->page        = $this->page;
@@ -924,7 +878,10 @@ class Page extends Main
             $hook->exec('pagesaved');
         }
 
-        echo(json_encode($json));
+        header('Cache-Control: no-cache, must-revalidate');
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+        header('Content-type: application/json');
+        echo json_encode($jsonResponse);
     }
 
     /**
@@ -932,14 +889,14 @@ class Page extends Main
      *
      * @return void
      * @deprecated ??? utiliser autocompleteJoinAction à la place
-     * @see Page::autocompleteJoinAction()
+     * @see        Page::autocompleteJoinAction()
      */
     public function autocompleteAction()
     {
         $this->view->enable(false);
         $this->view->unsetMain();
 
-        $json = [];
+        $json      = [];
         $dejaLiees = is_array($_REQUEST['deja']) ? $_REQUEST['deja'] : [];
 
         if (!isset($_REQUEST['id_gabarit'])
@@ -952,8 +909,8 @@ class Page extends Main
         foreach ($pages as $page) {
             if (!in_array($page->getMeta('id'), $dejaLiees)) {
                 $json[] = [
-                    'value' => $page->getMeta('id'),
-                    'label' => $page->getMeta('titre'),
+                    'value'   => $page->getMeta('id'),
+                    'label'   => $page->getMeta('titre'),
                     'visible' => $page->getMeta('titre')
                 ];
             }
@@ -975,116 +932,146 @@ class Page extends Main
         $this->view->enable(false);
         $this->view->unsetMain();
 
-        $idChamp    = $_GET['id_champ'];
-        $idVersion  = $_GET['id_version'];
-        $idGabPage  = $_GET['id_gab_page'];
-        $term       = $_GET['term'];
-        $response   = [];
+        $idChamp   = $_GET['id_champ'];
+        $idVersion = $_GET['id_version'];
+        $idGabPage = $_GET['id_gab_page'];
+        $ids       = isset($_GET['ids']) ? $_GET['ids'] : [];
+        $term      = isset($_GET['term']) ? $_GET['term'] : '';
 
-        $query  = 'SELECT code_champ_param, value'
+        $hook = new Hook();
+        $hook->setSubdirName('Back');
+
+        $hook->idChamp   = $idChamp;
+        $hook->ids       = $ids;
+        $hook->idVersion = $idVersion;
+        $hook->idGabPage = $idGabPage;
+        $hook->term      = $term;
+
+        $hook->exec('AutocompleteJoin' . $idChamp);
+
+        /* Chargement par défaut */
+        if (!isset($hook->results)) {
+            $query  = 'SELECT code_champ_param, value'
                 . ' FROM gab_champ_param_value'
                 . ' WHERE id_champ = ' . $idChamp;
-        $params = $this->db->query($query)->fetchAll(
-            \PDO::FETCH_UNIQUE | \PDO::FETCH_COLUMN
-        );
+            $params = $this->db->query($query)->fetchAll(
+                \PDO::FETCH_UNIQUE | \PDO::FETCH_COLUMN
+            )
+            ;
 
-        $idField = $params['TABLE.FIELD.ID'];
-        if (isset($params['TYPE.GAB.PAGE'])) {
-            $typeGabPage = $params['TYPE.GAB.PAGE'];
-        } else {
-            $typeGabPage = 0;
-        }
-
-        if (isset($params['QUERY.FILTER'])) {
-            $queryFilter = str_replace('[ID]', $idGabPage, $params['QUERY.FILTER']);
-            $queryFilter = str_replace('[ID_VERSION]', $idVersion, $params['QUERY.FILTER']);
-        } else {
-            $queryFilter = '';
-        }
-
-
-        $table          = $params['TABLE.NAME'];
-        $labelField     = $params['TABLE.FIELD.LABEL'];
-        $gabPageJoin    = '';
-
-
-        $filterVersion = '`' . $table . '`.id_version = ' . $idVersion;
-        if ($table == 'gab_page'
-            || !$typeGabPage
-        ) {
-            $filterVersion = 1;
-        } else {
-            $gabPageJoin = ' INNER JOIN gab_page ON visible = 1'
-                         . ' AND suppr = 0'
-                         . ' AND gab_page.id = `' . $table . '`.`' . $idField . '` ';
-
-            if ($filterVersion != 1) {
-                $gabPageJoin .= 'AND gab_page.id_version = ' . $idVersion;
+            $idField = $params['TABLE.FIELD.ID'];
+            if (isset($params['TYPE.GAB.PAGE'])) {
+                $typeGabPage = $params['TYPE.GAB.PAGE'];
+            } else {
+                $typeGabPage = 0;
             }
-        }
 
-        if (substr($labelField, 0, 9) != 'gab_page.') {
-            $labelField = '`' . $table . '`.`' . $labelField . '`';
-        }
+            if (isset($params['QUERY.FILTER'])) {
+                $queryFilter = str_replace('[ID]', $idGabPage, $params['QUERY.FILTER']);
+                $queryFilter = str_replace('[ID_VERSION]', $idVersion, $queryFilter);
+            } else {
+                $queryFilter = '';
+            }
 
-        $quotedTerm = $this->db->quote('%' . $term . '%');
-        $query = 'SELECT `' . $table . '`.`' . $idField . '` id,'
-               . ' ' . $labelField . ' `label`';
 
-        /*
-         * Si gab_page
-         */
-        if ($gabPageJoin != '' || $table == 'gab_page') {
-            $query .= ',gab_gabarit.label gabarit_label';
-        }
+            $table       = $params['TABLE.NAME'];
+            $labelField  = $params['TABLE.FIELD.LABEL'];
+            $gabPageJoin = '';
 
-        $query .= ' FROM `' . $table . '`'
+
+            $filterVersion = '`' . $table . '`.id_version = ' . $idVersion;
+            if ($table == 'gab_page'
+                || !$typeGabPage
+            ) {
+                $filterVersion = 1;
+            } else {
+                $gabPageJoin = ' INNER JOIN gab_page ON visible = 1'
+                    . ' AND suppr = 0'
+                    . ' AND gab_page.id = `' . $table . '`.`' . $idField . '` ';
+
+                if ($filterVersion != 1) {
+                    $gabPageJoin .= 'AND gab_page.id_version = ' . $idVersion;
+                }
+            }
+
+            if (substr($labelField, 0, 9) != 'gab_page.') {
+                $labelField = '`' . $table . '`.`' . $labelField . '`';
+            }
+
+            $quotedTerm = $this->db->quote('%' . $term . '%');
+            $query      = 'SELECT `' . $table . '`.`' . $idField . '` id,'
+                . ' ' . $labelField . ' `label`';
+
+            /*
+             * Si gab_page
+             */
+            if ($gabPageJoin != '' || $table == 'gab_page') {
+                $query .= ',gab_gabarit.label gabarit_label';
+            }
+
+            $query .= ' FROM `' . $table . '`'
                 . $gabPageJoin;
 
-        /*
-         * Si gab_page
-         */
-        if ($gabPageJoin != '' || $table == 'gab_page') {
-            $query .= ' INNER JOIN gab_gabarit ON gab_gabarit.id = gab_page.id_gabarit';
-        }
-
-        $query .= ' WHERE ' . $filterVersion . ' '
-                . ' AND ' . $labelField . '  LIKE ' . $quotedTerm;
-
-        if ($queryFilter != '') {
-            $query .= ' AND (' . $queryFilter . ')';
-        }
-
-        if (isset($_GET['ids'])
-            && is_array($_GET['ids'])
-            && count($_GET['ids']) > 0
-        ) {
-            $ids = $_GET['ids'];
-            $query .= ' AND `' . $table . '`.`' . $idField . '`'
-                    . ' NOT IN (' . implode(',', $ids) . ')';
-        }
-
-        $pagesFound = $this->db->query($query)->fetchAll(\PDO::FETCH_ASSOC);
-
-        $pages = [];
-        foreach ($pagesFound as $page) {
-            if (isset($page['gabarit_label'])) {
-                $gabaritLabel = $page['gabarit_label'];
-            } else {
-                $gabaritLabel = '';
+            /*
+             * Si gab_page
+             */
+            if ($gabPageJoin != '' || $table == 'gab_page') {
+                $query .= ' INNER JOIN gab_gabarit ON gab_gabarit.id = gab_page.id_gabarit';
             }
 
-            $pages[] = [
-                'label' => $page['label'],
-                'id' => $page['id'],
-                'gabarit_label' => $gabaritLabel,
-            ];
+            $query .= ' WHERE ' . $filterVersion . ' '
+                . ' AND ' . $labelField . '  LIKE ' . $quotedTerm;
+
+            if ($queryFilter != '') {
+                $query .= ' AND (' . $queryFilter . ')';
+            }
+
+            if (isset($_GET['ids'])
+                && is_array($_GET['ids'])
+                && count($_GET['ids']) > 0
+            ) {
+                $ids = $_GET['ids'];
+                $query .= ' AND `' . $table . '`.`' . $idField . '`'
+                    . ' NOT IN (' . implode(',', $ids) . ')';
+            }
+
+            $pagesFound = $this->db->query($query)->fetchAll(\PDO::FETCH_ASSOC);
+
+            $results = [];
+            foreach ($pagesFound as $page) {
+
+                // Si on a une valeur pour optgroup et qu'il n'existe pas encore
+                if (!empty($page['optgroup']) && !isset($results[$page['optgroup']])) {
+                    $results[$page['optgroup']] = [
+                        'text'     => $page['optgroup'],
+                        'children' => []
+                    ];
+                }
+
+                $page = [
+                    'text'          => $page['label'],
+                    'id'            => $page['id'],
+                ];
+
+                // On a un optgroup
+                if (!empty($page['optgroup'])) {
+                    $results[$page['optgroup']]['children'][] = $page;
+                } else {
+                    $results[] = $page;
+                }
+            }
+        } else {
+            $results = $hook->results;
         }
+
+        $json = array(
+            'items' => $results,
+        );
 
         header('Cache-Control: no-cache, must-revalidate');
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
         header('Content-type: application/json');
-        echo json_encode($pages);
+        echo json_encode($json);
     }
 
     /**
@@ -1097,16 +1084,15 @@ class Page extends Main
         $this->view->enable(false);
         $this->view->unsetMain();
 
-        $json = [];
-        $term = $_GET['term'];
-        $table = 'old_link';
+        $term       = $_GET['term'];
+        $table      = 'old_link';
         $labelField = '`' . $table . '`.`link`';
 
         $quotedTerm = $this->db->quote('%' . $term . '%');
 
-        $sql    = 'SELECT ' . $labelField . ' label'
-                . ' FROM `' . $table . '`'
-                . ' WHERE ' . $labelField . ' LIKE ' . $quotedTerm;
+        $sql = 'SELECT ' . $labelField . ' label'
+            . ' FROM `' . $table . '`'
+            . ' WHERE ' . $labelField . ' LIKE ' . $quotedTerm;
 
         $json = $this->db->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -1139,8 +1125,8 @@ class Page extends Main
         /*
          * Variable qui contient la chaine de recherche
          */
-        $this->filter = new \stdClass();
-        $stringSearch = strip_tags(trim($qSearch));
+        $this->filter               = new \stdClass();
+        $stringSearch               = strip_tags(trim($qSearch));
         $this->filter->stringSearch = $stringSearch;
 
         /*
@@ -1165,13 +1151,14 @@ class Page extends Main
          */
         $this->filter->errors['len_words'] = true;
         for ($i = 0, $I = count($this->filter->words); $i < $I; $i++) {
-            if (trim($this->filter->words[$i]) != '' && strlen(trim($this->filter->words[$i])) >= 2) {
+            if (trim($this->filter->words[$i]) != '' && strlen(trim($this->filter->words[$i])) >= 1) {
                 $this->filter->errors['len_words'] = false;
             }
         }
 
         if ($this->filter->errors['len_words']) {
             echo json_encode(null);
+
             return;
         }
 
@@ -1181,10 +1168,10 @@ class Page extends Main
          */
         $mode[] = 's';
         $mode[] = 'p';
-        $i = 0;
+        $i      = 0;
         foreach ($this->filter->words as $t1) {
             foreach ($mode as $m) {
-                if (strlen($t1) >= 2) {
+                if (strlen($t1) >= 1) {
                     if ($m == 's') {
                         $this->filter->wordsAdvanced[$i++] = $this->singulier($t1);
                     } else {
@@ -1202,20 +1189,20 @@ class Page extends Main
         }
 
         if ($qSearch != null) {
-            $quotedSearch = $this->db->quote(
+            $quotedSearch  = $this->db->quote(
                 '%' . $this->filter->stringSearch . '%'
             );
             $filterWords[] = 'CONCAT(" ", gab_page.titre, " ") LIKE '
-                           . $quotedSearch;
+                . $quotedSearch;
 
             if (isset($this->filter->wordsAdvanced)
                 && is_array($this->filter->wordsAdvanced)
                 && count($this->filter->wordsAdvanced) > 0
             ) {
                 foreach ($this->filter->wordsAdvanced as $word) {
-                    $quotedWord = $this->db->quote('%' . $word . '%');
+                    $quotedWord    = $this->db->quote('%' . $word . '%');
                     $filterWords[] = 'CONCAT(" ", gab_page.titre, " ") LIKE '
-                                   . $quotedWord;
+                        . $quotedWord;
                 }
             }
 
@@ -1224,33 +1211,32 @@ class Page extends Main
             }
         }
 
-        $query  = 'SELECT `gab_page`.`id` id, gab_page.titre label,'
-                . ' gab_page.titre visible, gab_gabarit.label gabarit_label,'
-                . ' CONCAT("page/display.html?id_gab_page=", `gab_page`.`id`) url'
-                . ' FROM `gab_page`'
-                . ' LEFT JOIN `gab_gabarit`'
-                . ' ON `gab_page`.id_gabarit = `gab_gabarit`.id'
-                . ' AND `gab_gabarit`.editable = 1'
-                . ' WHERE `gab_page`.`id_version` = ' . BACK_ID_VERSION
-                . ' AND `gab_gabarit`.`id_api` = ' . $this->api['id']
-                . ' AND `gab_page`.`suppr` = 0 '
-                . (isset($filterWords) ? ' AND (' . implode(' OR ', $filterWords) . ')' : '')
-                . ' ORDER BY ' . implode(',', $orderBy) . ' LIMIT 10';
+        $query = 'SELECT `gab_page`.`id` id, gab_page.titre label,'
+            . ' gab_page.titre visible, gab_gabarit.label gabarit_label,'
+            . ' CONCAT("page/display.html?id_gab_page=", `gab_page`.`id`) url'
+            . ' FROM `gab_page`'
+            . ' LEFT JOIN `gab_gabarit`'
+            . ' ON `gab_page`.id_gabarit = `gab_gabarit`.id'
+            . ' AND `gab_gabarit`.editable = 1'
+            . ' WHERE `gab_page`.`id_version` = ' . BACK_ID_VERSION
+            . ' AND `gab_gabarit`.`id_api` = ' . $this->api['id']
+            . ' AND `gab_page`.`suppr` = 0 '
+            . (isset($filterWords) ? ' AND (' . implode(' OR ', $filterWords) . ')' : '')
+            . ' ORDER BY ' . implode(',', $orderBy) . ' LIMIT 10';
 
         $pagesFound = $this->db->query($query)->fetchAll(\PDO::FETCH_ASSOC);
 
         foreach ($pagesFound as $page) {
-            $highlight = \Solire\Lib\Tools::highlightedSearch(
+            $highlight = Tools::highlightedSearch(
                 $page['label'],
-                $this->filter->wordsAdvanced,
-                true
+                $this->filter->wordsAdvanced
             );
 
             $pages[] = [
-                'label' => $highlight,
-                'id' => $page['id'],
+                'label'         => $highlight,
+                'id'            => $page['id'],
                 'gabarit_label' => $page['gabarit_label'],
-                'url' => $page['url'],
+                'url'           => $page['url'],
             ];
         }
 
@@ -1274,23 +1260,27 @@ class Page extends Main
         $this->view->unsetMain();
         $this->view->enable(false);
 
-        $json = [
+        $jsonResponse = [
             'status' => 'error',
         ];
-        $idVersion = BACK_ID_VERSION;
+        $idVersion    = BACK_ID_VERSION;
 
         if (isset($_POST['id_version']) && $_POST['id_version'] > 0) {
             $idVersion = intval($_POST['id_version']);
         }
 
-        $hook = new \Solire\Lib\Hook();
+        if (isset($_POST['visible'])) {
+            $visible = intval(!$_POST['visible']);
+        }
+
+        $hook = new Hook();
         $hook->setSubdirName('back');
 
-        $hook->permission = null;
+        $hook->permission  = null;
         $hook->utilisateur = $this->utilisateur;
-        $hook->visible = $_POST['visible'];
-        $hook->ids = $_POST['id_gab_page'];
-        $hook->id_version = BACK_ID_VERSION;
+        $hook->visible     = $visible;
+        $hook->ids         = $_POST['id'];
+        $hook->id_version  = BACK_ID_VERSION;
 
         $hook->exec('pagevisible');
 
@@ -1305,51 +1295,67 @@ class Page extends Main
         }
 
         if ($permission
-            && is_numeric($_POST['id_gab_page'])
-            && is_numeric($_POST['visible'])
+            && is_numeric($_POST['id'])
+            && is_numeric($visible)
         ) {
-            if ($_POST['visible'] == 1) {
-                $type = 'Page rendu visible';
+            if ($visible == 1) {
+                $htmlResponse = 'La page a été rendu visible avec succès';
             } else {
-                $type = 'Page rendu invisible';
+                $htmlResponse = 'La page a été rendu invisible avec succès';
             }
 
             $success = $this->gabaritManager->setVisible(
                 $idVersion,
                 BACK_ID_API,
-                $_POST['id_gab_page'],
-                $_POST['visible']
+                $_POST['id'],
+                $visible
             );
 
             if ($success) {
-                $title = $type . ' avec succès';
-                $message = '<b>Id</b> : ' . $_POST['id_gab_page'] . '<br />'
-                         . '<img src="public/default/back/img/flags/png/'
-                         . strtolower($this->versions[$idVersion]['suf'])
-                         . '.png" alt="' . $this->versions[$idVersion]['nom']
-                         . '" />';
+                $this->userLogger->addInfo(
+                    $htmlResponse,
+                    [
+                        'user' => [
+                            'id'    => $this->utilisateur->id,
+                            'login' => $this->utilisateur->login,
+                        ],
+                        'page' => [
+                            'id'        => (int) $_POST['id'],
+                            'versionId' => (int) $idVersion,
+                        ]
+                    ]
+                );
 
-                $json['status'] = 'success';
+                $jsonResponse = array(
+                    'status'  => 'success',
+                    'text'    => $htmlResponse,
+                    'visible' => $visible,
+                    'after'   => array(
+                        'modules/helper/noty',
+                        'modules/render/visible',
+                    ),
+                );
             } else {
-                $title = $type . ' échouée';
-                $message = '<b>Id</b> : ' . $_POST['id_gab_page'] . '<br />'
-                         . '<img src="public/default/back/img/flags/png/'
-                         . strtolower($this->versions[$idVersion]['suf'])
-                         . '.png" alt="' . $this->versions[$idVersion]['nom']
-                         . '" /><br /><span style="color:red;">Error</span>';
+                $this->userLogger->addError(
+                    $htmlResponse,
+                    [
+                        'user' => [
+                            'id'    => $this->utilisateur->id,
+                            'login' => $this->utilisateur->login,
+                        ],
+                        'page' => [
+                            'id'        => (int) $_POST['id'],
+                            'versionId' => (int) $idVersion,
+                        ]
+                    ]
+                );
             }
-
-            $this->log->logThis(
-                $title,
-                $this->utilisateur->get('id'),
-                $message
-            );
         }
 
         header('Cache-Control: no-cache, must-revalidate');
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
         header('Content-type: application/json');
-        echo json_encode($json);
+        echo json_encode($jsonResponse);
     }
 
     /**
@@ -1365,17 +1371,17 @@ class Page extends Main
         $this->view->unsetMain();
         $this->view->enable(false);
 
-        $json = [
+        $jsonResponse = [
             'status' => 'error',
         ];
 
-        $hook = new \Solire\Lib\Hook();
+        $hook = new Hook();
         $hook->setSubdirName('back');
 
-        $hook->permission     = null;
-        $hook->utilisateur    = $this->utilisateur;
-        $hook->ids            = $_POST['id_gab_page'];
-        $hook->id_version     = BACK_ID_VERSION;
+        $hook->permission  = null;
+        $hook->utilisateur = $this->utilisateur;
+        $hook->ids         = $_POST['id'];
+        $hook->id_version  = BACK_ID_VERSION;
 
         $hook->exec('pagedelete');
 
@@ -1390,31 +1396,63 @@ class Page extends Main
         }
 
         if ($permission
-            && is_numeric($_POST['id_gab_page'])
+            && is_numeric($_POST['id'])
         ) {
-            $delete = $this->gabaritManager->delete($_POST['id_gab_page']);
+            $page = $this->gabaritManager->getPage(BACK_ID_VERSION, BACK_ID_API, $_POST['id']);
+
+            $delete = $this->gabaritManager->delete($_POST['id']);
 
             if ($delete) {
-                $logTitle = 'Suppression de page réussie';
-                $logMessage = '<b>Id</b> : ' . $_POST['id_gab_page'];
-                $json['status'] = 'success';
-            } else {
-                $logTitle = 'Suppression de page échouée';
-                $logMessage = '<b>Id</b> : ' . $_POST['id_gab_page']
-                            . '<br /><span style="color:red;">Error</span>';
-            }
+                $this->userLogger->addInfo(
+                    'Suppression de page réussie',
+                    [
+                        'user' => [
+                            'id'    => $this->utilisateur->id,
+                            'login' => $this->utilisateur->login,
+                        ],
+                        'page' => [
+                            'id' => (int) $_POST['id'],
+                        ]
+                    ]
+                );
 
-            $this->log->logThis(
-                $logTitle,
-                $this->utilisateur->get('id'),
-                $logMessage
-            );
+                $jsonResponse['status'] = 'success';
+                $jsonResponse['page']   = [
+                    'id'   => (int) $_POST['id'],
+                    'type' => $page->getGabarit()->getLabel(),
+                ];
+                $jsonResponse['after']  = [
+                    'modules/render/afterdeletepage'
+                ];
+            } else {
+                $this->userLogger->addError(
+                    'Suppression de page échouée',
+                    [
+                        'user' => [
+                            'id'    => $this->utilisateur->id,
+                            'login' => $this->utilisateur->login,
+                        ],
+                        'page' => [
+                            'id' => (int) $_POST['id_gab_page'],
+                        ]
+                    ]
+                );
+                $htmlResponse = '&laquo; ' . $_POST['elementTitle'] . ' &raquo; a été supprimé avec succès';
+                $jsonResponse = array(
+                    'status' => 'success',
+                    'text'   => $htmlResponse,
+                    'after'  => array(
+                        'modules/helper/noty',
+                        'modules/render/delete',
+                    ),
+                );
+            }
         }
 
         header('Cache-Control: no-cache, must-revalidate');
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
         header('Content-type: application/json');
-        echo json_encode($json);
+        echo json_encode($jsonResponse);
     }
 
     /**
@@ -1437,13 +1475,13 @@ class Page extends Main
             'status' => 'error',
         ];
 
-        $hook = new \Solire\Lib\Hook();
+        $hook = new Hook();
         $hook->setSubdirName('back');
 
-        $hook->permission     = null;
-        $hook->utilisateur    = $this->utilisateur;
-        $hook->ids            = array_keys($_POST['positions']);
-        $hook->id_version     = BACK_ID_VERSION;
+        $hook->permission  = null;
+        $hook->utilisateur = $this->utilisateur;
+        $hook->ids         = array_keys($_POST['positions']);
+        $hook->id_version  = BACK_ID_VERSION;
 
         $hook->exec('pageorder');
 
@@ -1458,9 +1496,9 @@ class Page extends Main
         }
 
         if ($permission) {
-            $query  = 'UPDATE `gab_page` SET `ordre` = :ordre WHERE `id` = :id';
+            $query    = 'UPDATE `gab_page` SET `ordre` = :ordre WHERE `id` = :id';
             $prepStmt = $this->db->prepare($query);
-            foreach ($_POST['positions'] as $id => $ordre) {
+            foreach ($_POST['positions'] as $ordre => $id) {
                 $prepStmt->bindValue(':ordre', $ordre, \PDO::PARAM_INT);
                 $prepStmt->bindValue(':id', $id, \PDO::PARAM_INT);
                 $tmp = $prepStmt->execute();
@@ -1470,23 +1508,35 @@ class Page extends Main
             }
 
             if ($ok) {
-                $logTitle = 'Changement d\'ordre réalisé avec succès';
-                $logMessage = '<b>Id</b> : ' . $id . '<br />'
-                            . '<b>Ordre</b> : ' . $ordre . '<br />';
-
+                $this->userLogger->addInfo(
+                    'Changement d\'ordre réalisé avec succès',
+                    [
+                        'user' => [
+                            'id'    => $this->utilisateur->id,
+                            'login' => $this->utilisateur->login,
+                        ],
+                        'page' => [
+                            'id'    => (int) $id,
+                            'order' => (int) $ordre,
+                        ]
+                    ]
+                );
                 $json['status'] = 'success';
             } else {
-                $logTitle = 'Changement d\'ordre échoué';
-                $logMessage = '<b>Id</b> : ' . $id . ''
-                            . '<b>Ordre</b> : ' . $ordre . '<br />'
-                            . '<br /><span style="color:red;">Error</span>';
+                $this->userLogger->addError(
+                    'Changement d\'ordre échoué',
+                    [
+                        'user' => [
+                            'id'    => $this->utilisateur->id,
+                            'login' => $this->utilisateur->login,
+                        ],
+                        'page' => [
+                            'id'    => (int) $id,
+                            'order' => (int) $ordre,
+                        ]
+                    ]
+                );
             }
-
-            $this->log->logThis(
-                $logTitle,
-                $this->utilisateur->get('id'),
-                $logMessage
-            );
         }
 
         header('Cache-Control: no-cache, must-revalidate');
@@ -1527,15 +1577,15 @@ class Page extends Main
          * fichier de config et que l'on veut garder l'ordre défini
          */
         if (isset($currentConfigPageModule['boutons'])
-                && isset($currentConfigPageModule['boutons']['groups'])
-                && isset($currentConfigPageModule['sort'])
-                && $currentConfigPageModule['sort']
+            && isset($currentConfigPageModule['boutons']['groups'])
+            && isset($currentConfigPageModule['sort'])
+            && $currentConfigPageModule['sort']
         ) {
             foreach ($groups as $customGroup) {
-                $gabaritsGroup = [
+                $gabaritsGroup                 = [
                     'label' => $customGroup['label'],
                 ];
-                $key = md5($gabaritsGroup['label']);
+                $key                           = md5($gabaritsGroup['label']);
                 $this->view->gabaritsBtn[$key] = $gabaritsGroup;
             }
         }
@@ -1543,6 +1593,12 @@ class Page extends Main
         foreach ($this->gabarits as $gabarit) {
             $found = false;
 
+            if (isset($currentConfigPageModule['boutons'])
+                && isset($currentConfigPageModule['boutons']['gabarit'])
+                && isset($currentConfigPageModule['boutons']['gabarit'][$gabarit['id']]['label'])
+            ) {
+                $gabarit['label'] = $currentConfigPageModule['boutons']['gabarit'][$gabarit['id']]['label'];
+            }
             $gabaritsGroup = [
                 'label' => $gabarit['label'],
             ];
@@ -1552,7 +1608,7 @@ class Page extends Main
              * ou si utilisateur solire
              */
             if ($gabarit['creable']
-                || $this->utilisateur->get('niveau') == 'solire'
+                || $this->utilisateur->niveau == 'super administrateur'
             ) {
                 /*
                  * Si on a un regroupement des boutons personnalisés dans le
@@ -1575,7 +1631,7 @@ class Page extends Main
                             if (isset($gabarits[$gabarit['id']])
                                 && is_array($gabarits[$gabarit['id']])
                             ) {
-                                $found = true;
+                                $found            = true;
                                 $gabarit['label'] = $gabarits[$gabarit['id']]['label'];
                             }
                         }
@@ -1597,7 +1653,7 @@ class Page extends Main
                         $mask = '/^' . $groupIdentification . '/';
 
                         if (preg_match($mask, $gabarit['label'])) {
-                            $gabaritsGroup = [
+                            $gabaritsGroup    = [
                                 'label' => $groupIdentification,
                             ];
                             $gabarit['label'] = preg_replace(
@@ -1607,7 +1663,7 @@ class Page extends Main
                             );
                             $gabarit['label'] = trim($gabarit['label']);
                             $gabarit['label'] = ucfirst($gabarit['label']);
-                            $found = true;
+                            $found            = true;
                             break;
                         }
                     }
@@ -1615,7 +1671,7 @@ class Page extends Main
 
                 $gabaritsGroup['gabarit'][] = $gabarit;
                 if (!$found) {
-                    $gabaritsGroup['label'] = '';
+                    $gabaritsGroup['label']    = '';
                     $this->view->gabaritsBtn[] = $gabaritsGroup;
                 } else {
                     $key = md5($gabaritsGroup['label']);

@@ -1,0 +1,33 @@
+{% for gabaritGroup in gabaritsBtn %}
+    {% if gabaritGroup.gabarit|length > 1 %}
+        {# Groupe de bouton #}
+        <div class="btn-group">
+            <button data-toggle="dropdown" class="btn btn-success btn-sm">
+                {{ gabaritGroup.label }}
+            </button>
+            <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown"
+                    aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                {% for gabarit in gabaritGroup.gabarit %}
+                    {% if utilisateur.get("niveau") == "super administrateur" or gabarit.creable %}
+                        <li>
+                            <i></i>
+                            <a href="back/page/display.html?id_gabarit={{ gabarit.id }}">
+                                {{ gabarit.label }}
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% else %}
+        {# Bouton unique #}
+        <a class="btn btn-sm btn-success btn-crea"
+           href="back/page/display.html?id_gabarit={{ gabaritGroup.gabarit[0].id }}">
+            {{ gabaritGroup.label ~ gabaritGroup.gabarit[0].label }}
+        </a>
+    {% endif %}
+{% endfor %}
