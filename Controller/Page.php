@@ -282,7 +282,11 @@ class Page extends Main
              * Permet de séparer les différents gabarits
              */
             if (isset($_GET['gabaritByGroup'])) {
-                $this->view->gabaritByGroup = true;
+                if (is_array($_GET['gabaritByGroup'])) {
+                    $this->view->gabaritByGroup = $_GET['gabaritByGroup'];
+                } else {
+                    $this->view->gabaritByGroup = true;
+                }
                 foreach ($gabaritsList as $gabariId) {
                     $this->view->pagesGroup[$gabariId] = $this->gabaritManager->getList(
                         BACK_ID_VERSION,
@@ -341,7 +345,9 @@ class Page extends Main
 
         $this->getButton($currentConfigPageModule);
 
-        $this->checkPrivileges($this->pages, $this->gabarits);
+        if (is_array($this->pages)) {
+            $this->checkPrivileges($this->pages, $this->gabarits);
+        }
 
         $this->view->gabarits         = $this->gabarits;
         $this->view->gabaritsChildren = $this->gabaritsChildren;
