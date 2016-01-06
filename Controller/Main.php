@@ -340,7 +340,7 @@ class Main extends Controller
             ];
         }
 
-        $query          = 'SELECT gab_gabarit.id, gab_gabarit.* '
+        $query = 'SELECT gab_gabarit.id, gab_gabarit.* '
             . 'FROM gab_gabarit '
             . 'WHERE gab_gabarit.id_api = ' . $this->api['id'] . ' ';
         $this->gabarits = $this->db->query($query)->fetchAll(
@@ -357,15 +357,14 @@ class Main extends Controller
 
         $this->view->pagesNonTraduites = $this->db->query($query)->fetchAll(
             \PDO::FETCH_ASSOC
-        )
-        ;
+        );
 
         $hook = new Hook();
-        $hook->setSubdirName('back');
+        $hook->setSubdirName('Back');
 
         $hook->controller = $this;
 
-        $hook->exec('start');
+        $hook->exec('Start');
     }
 
     /**
