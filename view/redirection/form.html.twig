@@ -1,0 +1,40 @@
+<form data-amd="modules/helper/ajaxform" data-after="modules/render/datatablereload,modules/helper/dialog::close" data-response='{"datatableName": "redirection"}' action="back/formulaire/save.html?name=redirection" method="post">
+
+  <input type="hidden" name="id" value="{{ data.id }}">
+  <input type="hidden" name="id_version" value="{{ backIdVersion }}">
+  <input type="hidden" name="id_api" value="{{ api.id }}">
+
+
+  <div class="modalHeader">
+    <a class="soModalDefaultClose" href="#"><i class="fa fa-close"></i></a>
+
+    <h3>{% if data.id %}Modification{% else %}Ajout{% endif %} d'une redirection</h3>
+  </div>
+
+  <div class="modalBody">
+
+    <div class="form-group">
+      <label for="resourceName">Ancienne url</label>
+      <input data-amd="modules/helper/typeahead" data-url="back/page/autocompleteoldlinks.html" required class="form-control form-controle form-oblig form-mix" id="old" name="old"
+             placeholder="" value="{{ data.old }}">
+    </div>
+
+    <div class="form-group">
+      <label for="resourceName">Nouvelle url</label>
+      <input data-amd="modules/helper/typeahead" data-url="sitemap.xml?json=1&visible=0" data-suggestion-data="title" data-display-data="path" class="form-control form-controle form-fac form-mix" id="new" name="new"
+             placeholder="" value="{{ data.new }}">
+    </div>
+
+    <div class="alert alert-danger hidden" role="alert"></div>
+  </div>
+
+  <div class="modalFooter">
+    <a href="#" class="btn btn-default soModalDefaultClose" tabindex="0">
+      <i class="fa fa-remove"></i> Annuler
+    </a>
+    <button href="#" id="confirmButton" type="submit" class="btn btn-success" tabindex="0">
+      <i class="fa fa-check"></i> Ajouter
+    </button>
+  </div>
+
+</form>
