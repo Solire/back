@@ -25,8 +25,6 @@ define(['jquery', 'modules/helper/amd', 'datatablesMaterialDesign', 'datatablesR
             } else {
                 var options = $.extend({}, this.defaults, $(wrap).data());
 
-                console.log(options.config.dom);
-
                 $.getJSON(options.urlconfig, {name: $(wrap).data('datatable-name')}, function (response) {
                     var config = $.extend({}, options.config, response.config);
 
