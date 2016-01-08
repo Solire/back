@@ -793,6 +793,7 @@ class Main extends Controller
             'modules/render/aftersavepassword',
             'modules/render/aftersignin',
             'modules/render/beforeloadpage',
+            'modules/render/datatablereload',
             'modules/render/delete',
             'modules/render/visible',
         ];
