@@ -1,0 +1,10 @@
+# -------------------------
+# CONFIG
+table: redirection
+cle:
+  - id
+champs:
+  - new
+  - old
+  - id_version
+  - id_api

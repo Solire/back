@@ -1,0 +1,27 @@
+<div class="btn-group" data-amd="modules/helper/ajaxcall">
+  <a href="back/redirection/form.html?id={{ row.id }}"
+     title="Modifier la redirection"
+     class="btn btn-sm btn-success exec-onclick-ajaxdialog"
+     type="button"
+  >
+    <i class="fa fa-pencil"></i>
+  </a>
+
+  <button class="btn btn-sm btn-warning exec-onclick-ajax"
+          data-url="back/redirection/delete.html"
+          data-after="modules/render/datatablereload,modules/helper/dialog::close"
+          data-response='{"datatableName": "redirection"}'
+          data-confirm="true"
+          data-element-title="{{ row.old }}"
+          data-title="Confirmation de suppression de « {{ row.old }} »"
+          data-content="Êtes-vous sûr de vouloir supprimer « {{ row.old }} »"
+          data-cancelbuttontxt="Annuler"
+          data-confirmbuttontxt="Confirmer"
+          data-id="{{ row.id }}"
+          style="display:inline-block;"
+          title="Supprimer « {{ row.old }} »"
+  >
+    <i class="fa fa-trash"></i>
+    <div class="ripple-wrapper"></div>
+  </button>
+</div>

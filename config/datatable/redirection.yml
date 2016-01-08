@@ -21,6 +21,7 @@ source:
   name: doctrine
   conf:
     select:
+      - r.id
       - r.old
       - r.new
       - r.id_version
@@ -56,14 +57,11 @@ columns:
     sort: 1
     source: r.new
 
-  id_version:
-    label: id_version
-    filter: 1
-    sort: 1
-    source: r.id_version
-
-  id_api:
-    label: id_api
-    filter: 1
-    sort: 1
-    source: r.id_api
+  action:
+    label: Action
+    filter: 0
+    sort: 0
+    source: id
+    format:
+      class: Solire\Lib\Trieur\Format\Twig
+      fileName: redirection/columns/action.html.twig

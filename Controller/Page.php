@@ -1090,7 +1090,7 @@ class Page extends Main
 
         $quotedTerm = $this->db->quote('%' . $term . '%');
 
-        $sql = 'SELECT ' . $labelField . ' label'
+        $sql = 'SELECT ' . $labelField . ' value'
             . ' FROM `' . $table . '`'
             . ' WHERE ' . $labelField . ' LIKE ' . $quotedTerm;
 

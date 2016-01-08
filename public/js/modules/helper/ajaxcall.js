@@ -1,4 +1,4 @@
-define(['jquery', 'modules/helper/dialog', 'modules/helper/confirm'], function ($, moduleDialog, moduleConfirm) {
+define(['jquery', 'modules/helper/dialog', 'modules/helper/confirm', 'modules/helper/after'], function ($, moduleDialog, moduleConfirm, HelperAfter) {
     return {
         run: function (wrap, response) {
             var currentModule = this;
@@ -35,13 +35,7 @@ define(['jquery', 'modules/helper/dialog', 'modules/helper/confirm'], function (
                     dataType : 'json',
                     type : 'POST',
                     success  : function(response){
-                        if ('after' in response) {
-                            require(response.after, function(){
-                                $.each(arguments, function(ii, module){
-                                    module.run($(that), response);
-                                });
-                            });
-                        }
+                        HelperAfter.run(that, response);
                     },
                     error    : function(response){
                         moduleDialog.run(

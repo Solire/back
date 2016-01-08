@@ -1,0 +1,24 @@
+{% extends 'main.html.twig' %}
+{% import "util/breadcrumbs.html.twig" as breadcrumbs %}
+
+{% block title %}
+    Liste des redirections
+{% endblock %}
+
+{% block content %}
+    <div data-amd="modules/helper/ajaxDialog">
+        {{ breadcrumbs.breadcrumbs(breadCrumbs) }}
+
+        <div class="datatable-actions">
+            <a href="back/redirection/form.html" title="Ajouter une redirection"
+               class="btn btn-sm btn-success exec-onclick-ajaxdialog" type="button">
+                <i class="fa fa-plus"></i> Ajouter une redirection
+            </a>
+        </div>
+
+        <div class="datatable-wrapper hidden">
+            <table data-amd="modules/helper/datatable" data-datatable-name="{{ name }}"
+                   id="datatable" class="table table-condensed"></table>
+        </div>
+    </div>
+{% endblock %}
