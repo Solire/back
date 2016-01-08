@@ -13,7 +13,7 @@ driver:
     requestUrl: back/board/listdata.html?name=board
     requestMethod: POST
     separator: "~"
-    dom: <"H"TClfr>t<"F"ip>
+    dom: <'row'<'col-sm-6'l><'col-sm-6'>><'row'<'col-sm-12'tr>><'row row-footer'<'col-sm-5'i><'col-sm-7'p>>
     defaultSort:
     - [3, desc]
 

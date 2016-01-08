@@ -4,7 +4,15 @@ define(['jquery', 'modules/helper/amd', 'datatablesMaterialDesign', 'datatablesR
         defaults: {
             urlconfig: 'back/datatable/listconfig.html',
             additionalDrawCallback: null,
-            config: null
+            config: {
+                responsive: true,
+                autoWidth: false,
+
+                /* Fix theme with requireJS which doesnt use DataTable.defaults */
+                dom: "<'row'<'col-sm-6'l><'col-sm-6'f>>" +
+                     "<'row'<'col-sm-12'tr>>" +
+                     "<'row row-footer'<'col-sm-5'i><'col-sm-7'p>>"
+            }
         },
         run: function (wrap, options) {
             var currentModule = this;
@@ -17,17 +25,19 @@ define(['jquery', 'modules/helper/amd', 'datatablesMaterialDesign', 'datatablesR
             } else {
                 var options = $.extend({}, this.defaults, $(wrap).data());
 
-                $.getJSON(options.urlconfig, {name: $(wrap).data('datatable-name')}, function (response) {
-                    response.config = $.extend({}, response.config, options.config);
+                console.log(options.config.dom);
 
-                    response.config.drawCallback = function () {
+                $.getJSON(options.urlconfig, {name: $(wrap).data('datatable-name')}, function (response) {
+                    var config = $.extend({}, options.config, response.config);
+
+                    config.drawCallback = function () {
                         helperAmd.run($(wrap));
                         if (options.additionalDrawCallback && typeof options.additionalDrawCallback == "function") {
                             options.additionalDrawCallback($(wrap));
                         }
                     }
 
-                    response.config.initComplete = function () {
+                    config.initComplete = function () {
                         var datatableWrapper = $(wrap).parents('.datatable-wrapper:first');
                         datatableWrapper.removeClass('hidden');
                         var height = datatableWrapper.outerHeight();
@@ -36,15 +46,7 @@ define(['jquery', 'modules/helper/amd', 'datatablesMaterialDesign', 'datatablesR
                         });
                     }
 
-                    response.config.responsive = true;
-                    response.config.autoWidth = false;
-
-                    /* Fix theme with requireJS which doesnt use DataTable.defaults */
-                    response.config.dom = "<'row'<'col-sm-6'l><'col-sm-6'f>>" +
-                        "<'row'<'col-sm-12'tr>>" +
-                        "<'row row-footer'<'col-sm-5'i><'col-sm-7'p>>";
-
-                    currentModule.datatables[$(wrap).attr('id')] = $(wrap).DataTable(response.config);
+                    currentModule.datatables[$(wrap).attr('id')] = $(wrap).DataTable(config);
                     new $.fn.dataTable.ColumnFilter(currentModule.datatables[$(wrap).attr('id')], response.columnFilterConfig);
                 });
             }
