@@ -13,7 +13,6 @@ driver:
     requestUrl: back/mediadatatable/listdata.html?name=media
     requestMethod: POST
     separator: "~"
-    dom: <"H"TClfr>t<"F"ip>
     defaultSort:
     - [1, desc]
 
