@@ -21,13 +21,6 @@ use Solire\Back\Controller\Datatable;
  */
 class Redirection extends Datatable
 {
-    public function start()
-    {
-        parent::start();
-        $this->requireJs->addModule('modules/page/resources');
-        $this->requireJs->addModule('modules/render/resources');
-    }
-
     /**
      * Action permettant d'afficher le formulaire d'ajout de redirection
      *
@@ -66,9 +59,8 @@ class Redirection extends Datatable
             'status' => 'success',
             'after'  => [
                 'modules/helper/noty',
-                'modules/render/resources',
             ],
-            'text'   => 'La ressource a bien été supprimée',
+            'text'   => 'La redirection a bien été supprimée',
             'debug'  => $_POST,
         ]);
     }
