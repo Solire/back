@@ -14,8 +14,9 @@ define(['jquery', 'typeahead'], function ($) {
       options             = $.extend(true, {}, options, optionsFromData);
 
       $(wrap).typeahead({
-            minLength: 1,
+            minLength: 0,
             highlight: false,
+            showHintOnFocus:true,
             hint: false
           },
           {
@@ -41,6 +42,11 @@ define(['jquery', 'typeahead'], function ($) {
               }
             }
           })
+
+      $(wrap).on('focus', function() {
+        var e = $.Event("keydown", { keyCode: 40});
+        $(wrap).trigger(e);
+      });
     }
   };
 });
