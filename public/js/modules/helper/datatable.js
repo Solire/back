@@ -23,7 +23,7 @@ define(['jquery', 'modules/helper/amd', 'datatablesMaterialDesign', 'datatablesR
             if (currentModule.datatables[$(wrap).attr('id')] && $(wrap).hasClass('dataTable')) {
                 currentModule.datatables[$(wrap).attr('id')].draw();
             } else {
-                var options = $.extend({}, this.defaults, $(wrap).data());
+                var options = $.extend({}, this.defaults, $(wrap).data(), typeof options === 'undefined' ? {} : options);
 
                 $.getJSON(options.urlconfig, {name: $(wrap).data('datatable-name')}, function (response) {
                     var config = $.extend({}, options.config, response.config);
