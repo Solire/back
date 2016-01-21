@@ -66,7 +66,7 @@ define([
                         tr = $('<tr>');
                         $('<td>', {
                             colspan: $('.table-media thead').find('th, td').length
-                        }).html(file.name + '<div class="progress hidden">' + 
+                        }).html(file.name + '<div class="progress hidden">' +
                                                 '<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="0" style="width: 0;">' +
                                                 '0%' +
                                                 '</div>' +
@@ -147,7 +147,7 @@ define([
                     helperDatatable.run(
                         $tableMedia,
                         {
-                            urlConfig: 'back/mediadatatable/listconfig.html?id_gab_page=' + $('[name=id_gab_page]').val()
+                            urlconfig: 'back/mediadatatable/listconfig.html?id_gab_page=' + $('[name=id_gab_page]').val()
                             + '&id_temp=' + $('[name=id_temp]').val(),
                             config: {
                                 pageLength: 5
