@@ -2,7 +2,7 @@
     {% if mainVersions|length > 1 %}
         <li class="dropdown">
             <a data-toggle="dropdown" class="dropdown-toggle nav_condensed" href="#">
-                <i title="{{ mainVersions[backIdVersion].nom }}" class="flag-icon flag-icon-{{ mainVersions[backIdVersion].suf|lower }}"></i>
+                <i title="{{ mainVersions[backIdVersion].nom }}" class="flag-icon flag-icon-{{ mainVersions[backIdVersion].flag|lower }}"></i>
                 <i class="fa fa-caret-down"></i>
             </a>
 
@@ -11,7 +11,7 @@
                     <li>
                         <a style="cursor:pointer;"
                            onclick="$.cookie('back_id_version', {{ version.id }}, {path: '/'}); document.location.href = document.location.href; return false;">
-                            <i class="flag-icon flag-icon-{{ version.suf|lower }}"></i>
+                            <i class="flag-icon flag-icon-{{ version.flag|lower }}"></i>
                             &nbsp;{{ version.nom }}
                         </a>
                     </li>
