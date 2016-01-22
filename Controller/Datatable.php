@@ -100,7 +100,12 @@ class Datatable extends Main
         if ($trieurConfigPath === false) {
             $trieurConfigPath = FrontController::search('config/datatable/' . $name . '.yml');
         }
-        $trieurConfig = ConfLoader::load($trieurConfigPath);
+        $trieurConfig = ConfLoader::load($trieurConfigPath, [
+            'parameters' => [
+                'id_version' => BACK_ID_VERSION,
+                'id_api' => BACK_ID_API,
+            ],
+        ]);
 
         return $trieurConfig;
     }
