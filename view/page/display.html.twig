@@ -28,7 +28,7 @@
                     {% set page = pages[versionId] %}
                     <div class="btn-group">
                         <a title="{{ not pages[BACK_ID_VERSION].getMeta() ? 'Page en cours de création en version : ' }}{{ version.nom }}"
-                           class="openlang {{ versionId != backIdVersion ? 'translucide' }} btn btn-default btn-sm">
+                           class="openlang {{ versionId == backIdVersion ? 'active' }} btn btn-default btn-sm">
                             {% if pages[backIdVersion].getMeta() %}
                                 <i title="{{ version.nom }}" class="flag-icon flag-icon-{{ version.suf|lower }}"></i>
                             {% else %}
