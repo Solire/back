@@ -25,6 +25,8 @@ source:
     from:
       name: traduction
       alias: t
+    where:
+      - id_version = {%parameters:id_version}
     group: t.cle_sha
 ## COLUMNS
 

@@ -147,8 +147,9 @@ define([
                     helperDatatable.run(
                         $tableMedia,
                         {
-                            urlconfig: 'back/mediadatatable/listconfig.html?id_gab_page=' + $('[name=id_gab_page]').val()
-                            + '&id_temp=' + $('[name=id_temp]').val(),
+                            urlconfig: 'back/mediadatatable/listconfig.html?'
+                              + 'id_gab_page=' + $('[name=id_gab_page]').val()
+                              + '&id_temp=' + $('[name=id_temp]').val(),
                             config: {
                                 pageLength: 5
                             },
