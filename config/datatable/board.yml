@@ -44,7 +44,11 @@ source:
         -
           name: gab_page
           alias: pe
-          'on': pe.id_parent = p.id and pe.suppr = 0
+          'on': pe.id_parent = p.id AND pe.suppr = 0 AND pe.id_version = p.id_version
+
+    where:
+      - p.id_version = {%parameters:id_version}
+      - p.id_api = {%parameters:id_api}
 
     group: p.id
 ## COLUMNS
