@@ -759,6 +759,7 @@ class Main extends Controller
             'modules/helper/autocomplete',
             'modules/helper/autocompleteFile',
             'modules/helper/autocompleteJoin',
+            'modules/helper/checkbox',
             'modules/helper/confirm',
             'modules/helper/crop',
             'modules/helper/cropDialog',
