@@ -18,6 +18,7 @@ driver:
     - [3, desc]
     config:
       pageLength: 100
+      bLengthChange: false
 
 source:
   name: doctrine
