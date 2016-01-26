@@ -200,6 +200,7 @@ define([
                 helperDialog.updateSize();
                 helperDialog.updatePosition();
             }
+            $('*[data-datatable-name=media]').width('100%')
         }
     };
 });
