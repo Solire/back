@@ -16,6 +16,8 @@ driver:
     dom: <'row'<'col-sm-6'l><'col-sm-6'>><'row'<'col-sm-12'tr>><'row row-footer'<'col-sm-5'i><'col-sm-7'p>>
     defaultSort:
     - [3, desc]
+    config:
+      pageLength: 100
 
 source:
   name: doctrine
