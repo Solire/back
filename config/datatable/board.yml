@@ -50,8 +50,8 @@ source:
           'on': pe.id_parent = p.id AND pe.suppr = 0 AND pe.id_version = p.id_version
 
     where:
-      - p.id_version = {%parameters:id_version}
-      - p.id_api = {%parameters:id_api}
+      - p.id_version = {%parameters:idVersion}
+      - p.id_api = {%parameters:idApi}
 
     group: p.id
 ## COLUMNS

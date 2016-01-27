@@ -102,8 +102,8 @@ class Datatable extends Main
         }
         $trieurConfig = ConfLoader::load($trieurConfigPath, [
             'parameters' => [
-                'id_version' => BACK_ID_VERSION,
-                'id_api' => BACK_ID_API,
+                'idVersion' => BACK_ID_VERSION,
+                'idApi' => BACK_ID_API,
             ],
         ]);
 
