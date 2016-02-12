@@ -7,6 +7,7 @@ use Solire\Conf\Loader as ConfLoader;
 use Solire\Form\Formulaire as Form;
 use Solire\Lib\Exception\User as UserException;
 use Solire\Lib\FrontController;
+use Solire\Lib\Hook;
 
 /**
  * Description of Formsave
@@ -79,7 +80,8 @@ class Formulaire extends Main
                 continue;
             }
 
-            $data[$champ] = $request[$champ];
+            $data[$champ]    = $request[$champ];
+            $dataRaw[$champ] = $request[$champ];
         }
 
         if (isset($saveConf->timestamp)) {
@@ -111,9 +113,28 @@ class Formulaire extends Main
         if (empty($identifier)) {
             $doctrineConnection->insert($saveConf->table, $data);
             $msg = 'Ajout enregistré';
+
+            $data['id'] = $doctrineConnection->lastInsertId();
+
+            $hook = new Hook();
+            $hook->setSubdirName('Back');
+            $hook->data     = $data;
+            $hook->dataRaw  = $dataRaw;
+            $hook->conf     = $saveConf;
+            $hook->confName = $confName;
+            $hook->exec('Form' . ucfirst($confName) . 'Created');
+
         } else {
             $doctrineConnection->update($saveConf->table, $data, $identifier);
             $msg = 'Modifications enregistrées';
+
+            $hook = new Hook();
+            $hook->setSubdirName('Back');
+            $hook->data     = $data;
+            $hook->dataRaw  = $dataRaw;
+            $hook->conf     = $saveConf;
+            $hook->confName = $confName;
+            $hook->exec('Form' . ucfirst($confName) . 'Updated');
         }
 
         echo json_encode([
