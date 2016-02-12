@@ -59,8 +59,8 @@ class User extends Datatable
         }
 
         /** Test longueur password */
-        if (count($errors) == 0 && strlen($_POST['new_password']) < 6) {
-            $errors[] = 'Votre nouveau mot de passe doit contenir au moins 6 caractères';
+        if (count($errors) == 0 && strlen($_POST['new_password']) < 8) {
+            $errors[] = 'Votre nouveau mot de passe doit contenir au moins 8 caractères';
         }
 
         /** Test password complexity */
@@ -176,7 +176,10 @@ class User extends Datatable
             FROM utilisateur
             WHERE utilisateur.id = ' . $idClient)->fetch();
         $genPass = new SecureRandom();
-        $password = $genPass->generate(8, SecureRandom::RANDOM_ALPHALOWER | SecureRandom::RANDOM_ALPHAUPPER | SecureRandom::RANDOM_NUMERIC);
+        $password = $genPass->generate(
+            8,
+            SecureRandom::RANDOM_ALPHALOWER | SecureRandom::RANDOM_ALPHAUPPER | SecureRandom::RANDOM_NUMERIC
+        );
 
         $mail = new Mail('utilisateur_identifiant');
         $mail->setMainUse();
