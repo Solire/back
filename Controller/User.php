@@ -12,14 +12,13 @@ use Solire\Lib\Security\Util\SecureRandom;
 use ZxcvbnPhp\Zxcvbn;
 
 /**
- * Gestion du profile utilisateur
+ * Gestion du profile utilisateur.
  *
  * @author  dev <dev@solire.fr>
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
  */
 class User extends Datatable
 {
-
     public function start()
     {
         parent::start();
@@ -27,20 +26,20 @@ class User extends Datatable
     }
 
     /**
-     * Affichage du formulaire d'édition du profile
+     * Affichage du formulaire d'édition du profile.
      *
      * @return void
      */
     public function startAction()
     {
-        $this->view->breadCrumbs[] = array(
+        $this->view->breadCrumbs[] = [
             'title' => 'Mon profil',
             'url' => '',
-        );
+        ];
     }
 
     /**
-     * Change le mot de passe de l'utilisateur
+     * Change le mot de passe de l'utilisateur.
      *
      * @return void
      */
@@ -48,23 +47,23 @@ class User extends Datatable
     {
         $this->view->enable(false);
 
-        $errors = array();
+        $errors = [];
 
-        $response = array(
-            'status' => false
-        );
+        $response = [
+            'status' => false,
+        ];
 
-        /** Nouveau mot de passe et sa confirmation différent */
+        /* Nouveau mot de passe et sa confirmation différent */
         if ($_POST['new_password'] != $_POST['new_password_c']) {
             $errors[] = 'Le nouveau mot de passe et sa confirmation sont différents';
         }
 
-        /** Test longueur password */
+        /* Test longueur password */
         if (count($errors) == 0 && strlen($_POST['new_password']) < 8) {
             $errors[] = 'Votre nouveau mot de passe doit contenir au moins 8 caractères';
         }
 
-        /** Test password complexity */
+        /* Test password complexity */
         $zxcvbn = new Zxcvbn();
         $strength = $zxcvbn->passwordStrength($_POST['new_password'], [$this->utilisateur->login]);
 
@@ -82,7 +81,6 @@ class User extends Datatable
             $oldPassFilled = $_POST['old_password'];
 
             if (password_verify($oldPassFilled, $oldPassHash) === true) {
-
                 $newPass = Session::prepareMdp($_POST['new_password']);
 
                 $query = 'UPDATE utilisateur SET '
@@ -102,19 +100,19 @@ class User extends Datatable
             $jsonResponse = [
                 'status' => 'success',
                 'text' => 'Votre mot de passe a été mis à jour',
-                'after' => array(
+                'after' => [
                     'modules/helper/noty',
                     'modules/render/aftersavepassword',
-                )
+                ],
             ];
         } else {
             $jsonResponse = [
                 'status' => 'error',
                 'text' => implode('<br />', $errors),
-                'after' => array(
+                'after' => [
                     'modules/helper/noty',
                     'modules/render/aftersavepassword',
-                )
+                ],
             ];
         }
 
@@ -159,8 +157,6 @@ class User extends Datatable
     }
 
     /**
-     *
-     *
      *  @return void
      */
     public function sendmailAction()
@@ -197,10 +193,10 @@ class User extends Datatable
         $mail->send();
 
         $passwordCrypt = Session::prepareMdp($password);
-        $values = array(
+        $values = [
             'pass' => $passwordCrypt,
             'actif' => 1,
-        );
+        ];
         $this->db->update('utilisateur', $values, 'id = ' . $idClient);
 
         $hook = new Hook();
@@ -210,11 +206,11 @@ class User extends Datatable
 
         if (isset($_POST['confirm']) && $_POST['confirm']) {
             echo json_encode([
-                'status'         => 'success',
-                'title'          => 'Confirmation d\'envoi de mail',
-                'content'        => 'Un email a été envoyé avec un nouveau mot de passe',
+                'status' => 'success',
+                'title' => 'Confirmation d\'envoi de mail',
+                'content' => 'Un email a été envoyé avec un nouveau mot de passe',
                 'closebuttontxt' => 'Fermer',
-                'after'          => [
+                'after' => [
                     'modules/helper/message',
                 ],
             ]);
@@ -227,8 +223,5 @@ class User extends Datatable
                 ],
             ]);
         }
-
-
     }
-
 }

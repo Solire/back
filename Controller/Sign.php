@@ -1,18 +1,19 @@
 <?php
 /**
- * Formulaire de connexion à l'admin
+ * Formulaire de connexion à l'admin.
  *
  * @author  dev <dev@solire.fr>
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
  */
 
 namespace Solire\Back\Controller;
+
 use Solire\Lib\Mail;
 use Solire\Lib\Session;
 use ZxcvbnPhp\Zxcvbn;
 
 /**
- * Formulaire de connexion à l'admin
+ * Formulaire de connexion à l'admin.
  *
  * @author  dev <dev@solire.fr>
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
@@ -20,14 +21,14 @@ use ZxcvbnPhp\Zxcvbn;
 class Sign extends Main
 {
     /**
-     * Empêche la redirection en cas de non connexion
+     * Empêche la redirection en cas de non connexion.
      *
-     * @var boolean
+     * @var bool
      */
     protected $noRedirect = true;
 
     /**
-     * Toujours exécuté avant chaque action
+     * Toujours exécuté avant chaque action.
      *
      * @return void
      */
@@ -39,7 +40,7 @@ class Sign extends Main
     }
 
     /**
-     * Affichage du formulaire de connexion
+     * Affichage du formulaire de connexion.
      *
      * @return void
      */
@@ -57,7 +58,7 @@ class Sign extends Main
     }
 
     /**
-     * Action de demande de nouveau mot de passe
+     * Action de demande de nouveau mot de passe.
      *
      * @return void
      */
@@ -67,10 +68,10 @@ class Sign extends Main
 
         // Toujours le même message, même si l'adresse n'est pas en bdd, pour des raisons de sécurité
         $jsonResponse = [
-            'status'  => 'success',
-            'text'    => 'Pour obtenir votre nouveau mot de passe, veuillez vérifier votre compte email, '
+            'status' => 'success',
+            'text' => 'Pour obtenir votre nouveau mot de passe, veuillez vérifier votre compte email, '
                 . 'un lien vous a été envoyé.',
-            'after'   => [
+            'after' => [
                 'modules/helper/noty',
                 'modules/render/afterforgotpassword',
             ],
@@ -81,9 +82,9 @@ class Sign extends Main
 
             if ($cle !== false) {
                 $email = new Mail('newpassword');
-                $email->url     = 'back/sign/newpassword.html?e=' . $_POST['log'] . '&amp;c=' . $cle;
-                $email->to      = $_POST['log'];
-                $email->from    = 'noreply@' . $_SERVER['SERVER_NAME'];
+                $email->url = 'back/sign/newpassword.html?e=' . $_POST['log'] . '&amp;c=' . $cle;
+                $email->to = $_POST['log'];
+                $email->from = 'noreply@' . $_SERVER['SERVER_NAME'];
                 $email->subject = 'Générer un nouveau mot de passe';
                 $email->setMainUse();
                 $email->send();
@@ -92,18 +93,17 @@ class Sign extends Main
                     'Demande de nouveau mot de passe',
                     [
                         'user' => [
-                            'id'    => $this->utilisateur->id,
+                            'id' => $this->utilisateur->id,
                             'login' => $this->utilisateur->login,
-                        ]
+                        ],
                     ]
                 );
-
             } else {
                 $this->userLogger->addError(
                     'Demande de nouveau mot de passe échoué',
                     [
                         'user' => [
-                            'id'    => $this->utilisateur->id,
+                            'id' => $this->utilisateur->id,
                             'login' => $this->utilisateur->login,
                         ],
                         'error' => 'Erreur lors de la génération de la clé',
@@ -116,9 +116,10 @@ class Sign extends Main
     }
 
     /**
-     * Génération d'un nouveau mot de passe
+     * Génération d'un nouveau mot de passe.
      *
      * @throws \Exception
+     *
      * @return void
      */
     public function newpasswordAction()
@@ -133,7 +134,7 @@ class Sign extends Main
                 $this->simpleRedirect('back/', true);
             } else {
                 $this->view->email = $_GET['e'];
-                $this->view->cle   = $_GET['c'];
+                $this->view->cle = $_GET['c'];
             }
         } else {
             $this->simpleRedirect('back/', true);
@@ -144,9 +145,9 @@ class Sign extends Main
     {
         $this->view->enable(false);
 
-        $response = array(
-            'status' => false
-        );
+        $response = [
+            'status' => false,
+        ];
 
         $errors = [];
 
@@ -163,23 +164,23 @@ class Sign extends Main
                     [
                         'user' => [
                             'email' => $login,
-                        ]
+                        ],
                     ]
                 );
 
                 throw new \Exception('Une erreur est survenu.');
             } else {
-                /** Nouveau mot de passe et sa confirmation différent */
+                /* Nouveau mot de passe et sa confirmation différent */
                 if ($_POST['new_password'] != $_POST['new_password_c']) {
                     $errors[] = 'Le nouveau mot de passe et sa confirmation sont différents';
                 }
 
-                /** Test longueur password */
+                /* Test longueur password */
                 if (count($errors) == 0 && strlen($_POST['new_password']) < 6) {
                     $errors[] = 'Votre nouveau mot de passe doit contenir au moins 6 caractères';
                 }
 
-                /** Test password complexity */
+                /* Test password complexity */
                 $zxcvbn = new Zxcvbn();
                 $strength = $zxcvbn->passwordStrength($_POST['new_password'], [$login]);
 
@@ -208,19 +209,19 @@ class Sign extends Main
             $jsonResponse = [
                 'status' => 'success',
                 'text' => 'Votre mot de passe a été mis à jour',
-                'after' => array(
+                'after' => [
                     'modules/helper/noty',
                     'modules/render/aftersavepassword',
-                )
+                ],
             ];
         } else {
             $jsonResponse = [
                 'status' => 'error',
                 'text' => implode('<br />', $errors),
-                'after' => array(
+                'after' => [
                     'modules/helper/noty',
                     'modules/render/aftersavepassword',
-                )
+                ],
             ];
         }
 
@@ -228,7 +229,7 @@ class Sign extends Main
     }
 
     /**
-     * Déconnexion de l'utilisateur
+     * Déconnexion de l'utilisateur.
      *
      * @return void
      */

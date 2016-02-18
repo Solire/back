@@ -1,9 +1,7 @@
 <?php
 /**
- * Configuration de l'affichage des gabarits
+ * Configuration de l'affichage des gabarits.
  *
- * @package    Back
- * @subpackage Gabarit
  * @author     dev <dev@solire.fr>
  * @license    Solire http://www.solire.fr/
  */
@@ -23,18 +21,17 @@ $config = array(
 );
  */
 
-$config = array(
-    0 => array(
+$config = [
+    0 => [
         'label' => 'Pages',
         'gabarits' => '*',
         'display' => true,
-        /** Si vrais, empêche le chargement des gabarits enfants **/
+        /* Si vrais, empêche le chargement des gabarits enfants **/
         'noChild' => false,
-        /** Si vrais, conserve le trie des groupes définis dans ce fichier **/
+        /* Si vrais, conserve le trie des groupes définis dans ce fichier **/
         'sort' => false,
-        /** Blocage de l'affichage du type de gabarit **/
+        /* Blocage de l'affichage du type de gabarit **/
         'noType' => false,
         'childName' => 'page(s)',
-    ),
-);
-
+    ],
+];

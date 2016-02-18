@@ -1,6 +1,6 @@
 <?php
 /**
- * Contrôleur des medias
+ * Contrôleur des medias.
  *
  * @author  dev <dev@solire.fr>
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
@@ -15,7 +15,7 @@ use Solire\Lib\Registry;
 use Solire\Lib\Tools;
 
 /**
- * Contrôleur des medias
+ * Contrôleur des medias.
  *
  * @author  dev <dev@solire.fr>
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
@@ -23,21 +23,21 @@ use Solire\Lib\Tools;
 class Media extends Main
 {
     /**
-     * Page courante
+     * Page courante.
      *
      * @var \Solire\Lib\Model\GabaritPage
      */
     private $page = null;
 
     /**
-     * Table contenant les infos sur les fichiers
+     * Table contenant les infos sur les fichiers.
      *
      * @var string
      */
     protected $mediaTableName = 'media_fichier';
 
     /**
-     * Toujours executé avant chaque action du controleur
+     * Toujours executé avant chaque action du controleur.
      *
      * @return void
      */
@@ -46,14 +46,14 @@ class Media extends Main
         parent::start();
 
         $upload = $this->mainConfig->get('upload');
-        $this->upload_path     = $upload['path'];
-        $this->upload_temp     = $upload['temp'];
+        $this->upload_path = $upload['path'];
+        $this->upload_temp = $upload['temp'];
         $this->upload_vignette = $upload['vignette'];
-        $this->upload_apercu   = $upload['apercu'];
+        $this->upload_apercu = $upload['apercu'];
     }
 
     /**
-     * Affichage du gestionnaire de fichiers
+     * Affichage du gestionnaire de fichiers.
      *
      * @return void
      */
@@ -66,7 +66,7 @@ class Media extends Main
     }
 
     /**
-     * Affiche la liste des fichiers
+     * Affiche la liste des fichiers.
      *
      * @return void
      */
@@ -75,7 +75,7 @@ class Media extends Main
         $this->view->unsetMain();
         $this->files = [];
 
-        /** Permet plusieurs liste de fichier dans la meme page **/
+        /* Permet plusieurs liste de fichier dans la meme page **/
         $this->view->idFilesList = null;
         if (isset($_REQUEST['id'])) {
             $this->view->idFilesList = '_' . $_REQUEST['id'];
@@ -117,18 +117,18 @@ class Media extends Main
             $file['class'] = 'hoverprevisu vignette';
 
             if (array_key_exists($ext, FileManager::$extensions['image'])) {
-                $file['path_mini']  = $this->view->prefixFileUrl
+                $file['path_mini'] = $this->view->prefixFileUrl
                                     . $file['id_gab_page'] . '/'
                                     . $this->upload_apercu . '/'
                                     . $file['rewriting'];
 
                 $sizes = getimagesize($serverpath);
                 $file['class'] .= '  img-polaroid';
-                $file['width']  = $sizes[0];
+                $file['width'] = $sizes[0];
                 $file['height'] = $sizes[1];
             } else {
-                $file['class']      = 'vignette';
-                $file['path_mini']  = 'public/default/back/img/filetype/' . $ext . '.png';
+                $file['class'] = 'vignette';
+                $file['path_mini'] = 'public/default/back/img/filetype/' . $ext . '.png';
             }
             $file['poids'] = Tools::formatTaille($file['taille']);
 
@@ -137,7 +137,7 @@ class Media extends Main
     }
 
     /**
-     * Contenu de la popup listant les fichiers d'une page
+     * Contenu de la popup listant les fichiers d'une page.
      *
      * @return void
      */
@@ -147,7 +147,7 @@ class Media extends Main
     }
 
     /**
-     * Affiche la liste des dossiers d'un dossier de medias
+     * Affiche la liste des dossiers d'un dossier de medias.
      *
      * @return void
      */
@@ -160,10 +160,10 @@ class Media extends Main
 
         if ($_REQUEST['id'] === '') {
             $nodes[] = [
-                'id'       => 'node_0',
-                'text'     => 'Ressources',
+                'id' => 'node_0',
+                'text' => 'Ressources',
                 'children' => true,
-                'icon'     => 'fa fa-folder',
+                'icon' => 'fa fa-folder',
             ];
         } else {
             $rubriques = $this->gabaritManager->getList(BACK_ID_VERSION, $this->api['id'], (int) $_REQUEST['id']);
@@ -190,11 +190,11 @@ class Media extends Main
 
                 $title = $rubrique->getMeta('titre');
                 $node = [
-                    'id'       => 'node_' . $rubrique->getMeta('id'),
-                    'text'     => $title . (count($children) > 0 ? ' (' . count($children) . ')' : ''),
-                    'rel'      => 'category',
-                    'icon'     => count($children) > 0 ? 'fa fa-folder' : 'fa fa-file-text',
-                    'children' => count($children) > 0 ? true : false
+                    'id' => 'node_' . $rubrique->getMeta('id'),
+                    'text' => $title . (count($children) > 0 ? ' (' . count($children) . ')' : ''),
+                    'rel' => 'category',
+                    'icon' => count($children) > 0 ? 'fa fa-folder' : 'fa fa-file-text',
+                    'children' => count($children) > 0 ? true : false,
                 ];
                 $nodes[] = $node;
             }
@@ -204,13 +204,13 @@ class Media extends Main
     }
 
     /**
-     * Action d'upload d'un fichier (js utilisé côté client : plupload)
+     * Action d'upload d'un fichier (js utilisé côté client : plupload).
      *
      * @return void
      */
     public function uploadAction()
     {
-        /** Permet plusieurs liste de fichier dans la meme page **/
+        /* Permet plusieurs liste de fichier dans la meme page **/
         $this->view->idFilesList = null;
         if (isset($_REQUEST['id'])) {
             $this->view->idFilesList = '_' . $_REQUEST['id'];
@@ -239,10 +239,10 @@ class Media extends Main
         }
 
         if ($id_gab_page) {
-            $targetTmp      = $this->upload_temp;
-            $targetDir      = $id_gab_page;
-            $vignetteDir    = $id_gab_page . Path::DS . $this->upload_vignette;
-            $apercuDir      = $id_gab_page . Path::DS . $this->upload_apercu;
+            $targetTmp = $this->upload_temp;
+            $targetDir = $id_gab_page;
+            $vignetteDir = $id_gab_page . Path::DS . $this->upload_vignette;
+            $apercuDir = $id_gab_page . Path::DS . $this->upload_apercu;
 
             $response = $this->fileManager->uploadGabPage(
                 $this->upload_path,
@@ -259,7 +259,7 @@ class Media extends Main
                 exit();
             }
 
-            $response['poids']  = Tools::formatTaille($response['size']);
+            $response['poids'] = Tools::formatTaille($response['size']);
             $response['value'] = $response['filename'];
 
             if (isset($response['apercu_path'])) {
@@ -268,8 +268,8 @@ class Media extends Main
                 $this->miniatureProcess($gabaritId, $filePath);
             }
 
-            $response['url']       = $this->view->prefixFileUrl . $response['url'];
-            $response['isImage']   = FileManager::isImage($response['filename']) !== false;
+            $response['url'] = $this->view->prefixFileUrl . $response['url'];
+            $response['isImage'] = FileManager::isImage($response['filename']) !== false;
 
             if (isset($response['apercu_path'])) {
                 $response['apercu_path'] = $this->view->prefixFileUrl
@@ -279,7 +279,7 @@ class Media extends Main
                 $response['vignette'] = $response['mini_url'];
                 $response['image'] = [
                     'url' => $this->view->prefixFileUrl . $id_gab_page
-                        . '/' . $response['filename']
+                        . '/' . $response['filename'],
                 ];
             }
         } else {
@@ -298,10 +298,10 @@ class Media extends Main
                 }
             }
 
-            $targetTmp      = $this->upload_temp;
-            $targetDir      = $target;
-            $vignetteDir    = $target . Path::DS . $this->upload_vignette;
-            $apercuDir      = $target . Path::DS . $this->upload_apercu;
+            $targetTmp = $this->upload_temp;
+            $targetDir = $target;
+            $vignetteDir = $target . Path::DS . $this->upload_vignette;
+            $apercuDir = $target . Path::DS . $this->upload_apercu;
 
             $response = $this->fileManager->uploadGabPage(
                 $this->upload_path,
@@ -319,13 +319,12 @@ class Media extends Main
                     $response['mini_url'] = $this->view->prefixFileUrl . $response['mini_url'];
                     $response['vignette'] = $response['mini_url'];
                     $response['image'] = [
-                        'url' => $this->view->prefixFileUrl . $id_gab_page . Path::DS . $response['filename']
+                        'url' => $this->view->prefixFileUrl . $id_gab_page . Path::DS . $response['filename'],
                     ];
 
                     // Génération de miniatures additionnelles
                     $filePath = $this->view->prefixFileUrl . $response['path'];
                     $this->miniatureProcess($gabaritId, $filePath);
-
                 }
                 $response['value'] = $response['filename'];
                 $response['url'] = $this->view->prefixFileUrl . $response['url'];
@@ -342,7 +341,7 @@ class Media extends Main
     }
 
     /**
-     * Action de redimenssionnement d'une image
+     * Action de redimenssionnement d'une image.
      *
      * @return void
      */
@@ -378,41 +377,41 @@ class Media extends Main
         $h = $_POST['h'];
 
         /* Information sur le fichier */
-        $newImageName   = String::urlSlug(
+        $newImageName = String::urlSlug(
             pathinfo($_POST['dest'], PATHINFO_FILENAME),
             '-',
             255
         );
-        $filepath       = preg_replace('#^' . preg_quote($this->view->prefixFileUrl) . '#', '', $_POST['src']);
-        $filename       = pathinfo($filepath, PATHINFO_BASENAME);
-        $ext            = pathinfo($filename, PATHINFO_EXTENSION);
-        $id_temp        = null;
+        $filepath = preg_replace('#^' . preg_quote($this->view->prefixFileUrl) . '#', '', $_POST['src']);
+        $filename = pathinfo($filepath, PATHINFO_BASENAME);
+        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        $id_temp = null;
 
         if ($id_gab_page) {
-            /** Cas d'une édition de page */
+            /* Cas d'une édition de page */
 
-            $targetDir      = $id_gab_page;
-            $vignetteDir    = $id_gab_page . Path::DS . $this->upload_vignette;
-            $apercuDir      = $id_gab_page . Path::DS . $this->upload_apercu;
+            $targetDir = $id_gab_page;
+            $vignetteDir = $id_gab_page . Path::DS . $this->upload_vignette;
+            $apercuDir = $id_gab_page . Path::DS . $this->upload_apercu;
         } elseif (isset($_COOKIE['id_temp'])
             && $_COOKIE['id_temp']
             && is_numeric($_COOKIE['id_temp'])
         ) {
-            /** Cas d'une création de page */
+            /* Cas d'une création de page */
 
             $id_temp = (int) $_COOKIE['id_temp'];
             $target = 'temp-' . $id_temp;
 
 //            $targetTmp      = $this->upload_temp;
-            $targetDir      = $target;
-            $vignetteDir    = $target . Path::DS . $this->upload_vignette;
-            $apercuDir      = $target . Path::DS . $this->upload_apercu;
+            $targetDir = $target;
+            $vignetteDir = $target . Path::DS . $this->upload_vignette;
+            $apercuDir = $target . Path::DS . $this->upload_apercu;
         } else {
             exit();
         }
 
         $count_temp = 1;
-        $target     = $newImageName . '.' . $ext;
+        $target = $newImageName . '.' . $ext;
         while (file_exists($this->upload_path . Path::DS . $targetDir . Path::DS . $target)) {
             $count_temp++;
             $target = $newImageName . '-' . $count_temp . '.' . $ext;
@@ -438,7 +437,6 @@ class Media extends Main
                     break;
             }
         }
-
 
         if (intval($targetWidth) <= 0) {
             $targetWidth = false;
@@ -486,7 +484,7 @@ class Media extends Main
             );
 
             if (isset($response['minipath'])) {
-                $response['id_temp']  = $id_temp;
+                $response['id_temp'] = $id_temp;
             }
         }
 
@@ -500,7 +498,7 @@ class Media extends Main
         $response['filename_front'] = $this->view->prefixFileUrl . $targetDir . '/' . $target;
 
         if (FileManager::isImage($response['filename'])) {
-            $vignette   = $this->view->prefixFileUrl
+            $vignette = $this->view->prefixFileUrl
                         . $targetDir . Path::DS
                         . $this->upload_apercu . Path::DS
                         . $response['filename'];
@@ -528,7 +526,7 @@ class Media extends Main
     }
 
     /**
-     * Action permettant de supprimer d'un fichier
+     * Action permettant de supprimer d'un fichier.
      *
      * @return void
      */
@@ -551,13 +549,13 @@ class Media extends Main
                 'Suppression de fichier échouée',
                 [
                     'user' => [
-                        'id'    => $this->utilisateur->id,
+                        'id' => $this->utilisateur->id,
                         'login' => $this->utilisateur->login,
                     ],
                     'file' => [
-                        'id'    => $mediaFileId,
+                        'id' => $mediaFileId,
                         'table' => $this->mediaTableName,
-                    ]
+                    ],
                 ]
             );
         } else {
@@ -565,19 +563,19 @@ class Media extends Main
                 'Suppression de fichier réussie',
                 [
                     'user' => [
-                        'id'    => $this->utilisateur->id,
+                        'id' => $this->utilisateur->id,
                         'login' => $this->utilisateur->login,
                     ],
                     'file' => [
-                        'id'    => $mediaFileId,
+                        'id' => $mediaFileId,
                         'table' => $this->mediaTableName,
-                    ]
+                    ],
                 ]
             );
         }
 
         $response = [
-            'status' => $status
+            'status' => $status,
         ];
 
         $this->view->enable(false);
@@ -586,7 +584,7 @@ class Media extends Main
     }
 
     /**
-     * Action de recherche de medias
+     * Action de recherche de medias.
      *
      * @return void
      */
@@ -647,16 +645,16 @@ class Media extends Main
             }
 
             $items[] = [
-                'url'      => '',
-                'path'     => '',
+                'url' => '',
+                'path' => '',
                 'vignette' => '',
-                'isImage'  => '',
-                'label'    => '',
-                'utilise'  => '',
-                'poids'     => '',
-                'value'    => '',
-                'text'     => '',
-                'id'       => '',
+                'isImage' => '',
+                'label' => '',
+                'utilise' => '',
+                'poids' => '',
+                'value' => '',
+                'text' => '',
+                'id' => '',
             ];
 
             foreach ($files as $file) {
@@ -688,19 +686,19 @@ class Media extends Main
                         ];
                     } else {
                         $items[] = [
-                            'url'         => $prefixFileUrl . $url,
-                            'path'        => $prefixFileUrl . $url,
-                            'vignette'    => $prefixFileUrl . $vignette,
-                            'isImage'     => FileManager::isImage($file['rewriting']) !== false,
-                            'label'       => $file['rewriting'],
-                            'utilise'     => $file['utilise'],
-                            'taille'      => ($size ? $size : ''),
+                            'url' => $prefixFileUrl . $url,
+                            'path' => $prefixFileUrl . $url,
+                            'vignette' => $prefixFileUrl . $vignette,
+                            'isImage' => FileManager::isImage($file['rewriting']) !== false,
+                            'label' => $file['rewriting'],
+                            'utilise' => $file['utilise'],
+                            'taille' => ($size ? $size : ''),
                             'taille_desc' => ($size ? $sizes[0] . 'px de large x ' . $sizes[1] . 'px de haut' : ''),
 
                             'poids' => Tools::formatTaille(filesize($serverpath)),
                             'value' => $file['rewriting'],
-                            'text'  => $file['rewriting'],
-                            'id'    => $file['rewriting'],
+                            'text' => $file['rewriting'],
+                            'id' => $file['rewriting'],
                         ];
                     }
                 }
@@ -718,7 +716,7 @@ class Media extends Main
     }
 
     /**
-     * Défini le nom de la table des medias
+     * Défini le nom de la table des medias.
      *
      * @param string $mediaTableName Nom de la table media
      *
@@ -731,7 +729,7 @@ class Media extends Main
 
     /**
      * Génération de miniatures en fonction des paramètres des champs d'un
-     * gabarit
+     * gabarit.
      *
      * @param int    $gabaritId Id du gabarit
      * @param string $filePath  Chemin du fichier
@@ -741,11 +739,11 @@ class Media extends Main
     protected function miniatureProcess($gabaritId, $filePath)
     {
         if ($gabaritId) {
-            $gabarit        = $this->gabaritManager->getGabarit($gabaritId);
-            $gabaritBlocs   = $this->gabaritManager->getBlocs($gabarit);
-            $ext            = pathinfo($filePath, PATHINFO_EXTENSION);
-            $miniatureDir   = pathinfo($filePath, PATHINFO_DIRNAME);
-            $miniatureName  = pathinfo($filePath, PATHINFO_BASENAME);
+            $gabarit = $this->gabaritManager->getGabarit($gabaritId);
+            $gabaritBlocs = $this->gabaritManager->getBlocs($gabarit);
+            $ext = pathinfo($filePath, PATHINFO_EXTENSION);
+            $miniatureDir = pathinfo($filePath, PATHINFO_DIRNAME);
+            $miniatureName = pathinfo($filePath, PATHINFO_BASENAME);
             $miniatureSizes = [];
 
             // Parcours des champs du gabarit
@@ -790,7 +788,7 @@ class Media extends Main
                     );
                 }
 
-                $miniaturePath  = $miniatureDir . Path::DS
+                $miniaturePath = $miniatureDir . Path::DS
                                 . $sizeDirectory . Path::DS
                                 . $miniatureName;
 

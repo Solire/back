@@ -1,6 +1,6 @@
 <?php
 /**
- * Contrôleur Seo
+ * Contrôleur Seo.
  *
  * @author  dev <dev@solire.fr>
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
@@ -9,7 +9,7 @@
 namespace Solire\Back\Controller;
 
 /**
- * Controlleur Seo
+ * Controlleur Seo.
  *
  * @author  dev <dev@solire.fr>
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
@@ -17,14 +17,14 @@ namespace Solire\Back\Controller;
 class Seo extends Main
 {
     /**
-     * Empêche la redirection en cas de non connexion
+     * Empêche la redirection en cas de non connexion.
      *
-     * @var boolean
+     * @var bool
      */
     protected $noRedirect = true;
 
     /**
-     * Récupère les redirections 301
+     * Récupère les redirections 301.
      *
      * @return void
      */

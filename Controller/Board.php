@@ -1,16 +1,17 @@
 <?php
 /**
- * Controller du tableau de bord
+ * Controller du tableau de bord.
  *
  * @author  dev <dev@solire.fr>
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
  */
 
 namespace Solire\Back\Controller;
+
 use Solire\Conf\Conf;
 
 /**
- * Controller du tableau de bord
+ * Controller du tableau de bord.
  *
  * @author  dev <dev@solire.fr>
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
@@ -18,9 +19,10 @@ use Solire\Conf\Conf;
 class Board extends Datatable
 {
     /**
-     * Charge et renvoi la configuration
+     * Charge et renvoi la configuration.
      *
      * @param $name Nom du fichier de configuration
+     *
      * @return Conf
      */
     protected function getConfig($name)

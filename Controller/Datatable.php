@@ -9,16 +9,15 @@ use Solire\Conf\Loader as ConfLoader;
 use Doctrine\DBAL\DriverManager;
 
 /**
- * Contrôleur qui permet de gérer les tableaux de données interactifs (datatable)
+ * Contrôleur qui permet de gérer les tableaux de données interactifs (datatable).
  *
  * @author  Stéphane Monnot <smonnot@solire.fr>
  * @license CC by-nc        http://creativecommons.org/licenses/by-nc/3.0/fr/
  */
 class Datatable extends Main
 {
-
     /**
-     * Action affichant le tableau
+     * Action affichant le tableau.
      *
      * @return void
      */
@@ -33,12 +32,12 @@ class Datatable extends Main
 
         $this->view->breadCrumbs[] = [
             'title' => $this->view->title,
-            'url'   => FrontController::getCurrentUrl(),
+            'url' => FrontController::getCurrentUrl(),
         ];
     }
 
     /**
-     * Action permettant de renvoyer la configuration de la liste
+     * Action permettant de renvoyer la configuration de la liste.
      *
      * @return void
      */
@@ -63,7 +62,7 @@ class Datatable extends Main
     }
 
     /**
-     * Action renvoyant les données
+     * Action renvoyant les données.
      *
      * @return void
      */
@@ -88,9 +87,10 @@ class Datatable extends Main
     }
 
     /**
-     * Charge et renvoi la configuration
+     * Charge et renvoi la configuration.
      *
      * @param $name Nom du fichier de configuration
+     *
      * @return Conf
      */
     protected function getConfig($name)
@@ -109,5 +109,4 @@ class Datatable extends Main
 
         return $trieurConfig;
     }
-
 }
