@@ -1,9 +1,10 @@
 define(['jquery', 'modules/helper/dialog'], function ($, helperDialog) {
   return {
     run: function (options, response) {
-      if (options instanceof jQuery) {
+      if (options instanceof jQuery || options == null) {
         options = response;
       }
+
       var messageModalHtml =
               $('<div class="modalHeader">' +
                   '<a class="soModalDefaultClose" href="#" tabindex="0"><i class="fa fa-close"></i></a>' +
