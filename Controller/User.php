@@ -4,6 +4,7 @@ namespace Solire\Back\Controller;
 
 use Doctrine\DBAL\DriverManager;
 use PDO;
+use Solire\Lib\Hook;
 use Solire\Lib\Mail;
 use Solire\Lib\Registry;
 use Solire\Lib\Session;
@@ -199,6 +200,11 @@ class User extends Datatable
             'pass' => $passwordCrypt,
         );
         $this->db->update('utilisateur', $values, 'id = ' . $idClient);
+
+        $hook = new Hook();
+        $hook->setSubdirName('Back');
+        $hook->dataRaw  = $clientData;
+        $hook->exec('UserSendmail');
 
         if (isset($_POST['confirm']) && $_POST['confirm']) {
             echo json_encode([
