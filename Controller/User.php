@@ -189,7 +189,8 @@ class User extends Datatable
         $mail->subject = 'Informations de connexion à l\'outil d\'administration'
                 . ' de votre site';
 
-        $mail->urlAcces = Registry::get('basehref') . 'back/';
+        $mail->urlAcces      = Registry::get('basehref') . 'back/';
+        $mail->urlFrontAcces = Registry::get('basehref');
 
         $clientData['pass'] = $password;
         $mail->clientData = $clientData;
