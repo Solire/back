@@ -13,6 +13,7 @@ require(
     function ($, helperAmd) {
         $(function(){
             $.material.init();
+            $('[data-toggle="tooltip"]').tooltip();
             helperAmd.run(document);
         });
     }
