@@ -8,8 +8,11 @@
 
 namespace Solire\Back\Controller;
 
+use Exception;
+use PDO;
 use Solire\Lib\Hook;
 use Solire\Lib\Tools;
+use stdClass;
 
 /**
  * Gestionnaire de pages
@@ -193,9 +196,9 @@ class Page extends Main
 //        $this->javascript->addLibrary('back/js/jquery/jquery.ajaxqueue.js');
 //        $this->javascript->addLibrary('back/js/jquery/jquery.scrollTo-min.js');
 
-        $query        = 'SELECT `gab_gabarit`.id, `gab_gabarit`.* '
-            . 'FROM `gab_gabarit` '
-            . 'WHERE `gab_gabarit`.`id_api` = ' . $this->api['id'];
+        $query = 'SELECT `gab_gabarit`.id, `gab_gabarit`.* '
+               . 'FROM `gab_gabarit` '
+               . 'WHERE `gab_gabarit`.`id_api` = ' . $this->api['id'];
 
         /*
          * Si on veut n'afficher que certains gabarits
@@ -210,9 +213,9 @@ class Page extends Main
          * Récupération de la liste de la page et des droits utilisateurs
          */
         $currentConfigPageModule = $this->configPageModule[$indexConfig];
-        $gabaritsListPage        = $currentConfigPageModule['gabarits'];
-        $configPageModule        = $this->configPageModule[$this->utilisateur->gabaritNiveau];
-        $gabaritsListUser        = $configPageModule['gabarits'];
+        $gabaritsListPage = $currentConfigPageModule['gabarits'];
+        $configPageModule = $this->configPageModule[$this->utilisateur->gabaritNiveau];
+        $gabaritsListUser = $configPageModule['gabarits'];
 
         /*
          * Option de blocage de l'affichage des gabarits enfants
@@ -330,18 +333,16 @@ class Page extends Main
             $this->view->pagesGroup[0] = 1;
         }
 
-        $this->gabarits         = $this->db->query($query)->fetchAll(
-            \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC
-        )
-        ;
-        $query                  = 'SELECT `gab_gabarit`.id_parent, `gab_gabarit`.id'
-            . ' FROM `gab_gabarit`'
-            . ' WHERE `gab_gabarit`.id_parent > 0'
-            . ' AND `gab_gabarit`.`id_api` = ' . $this->api['id'];
+        $this->gabarits = $this->db->query($query)->fetchAll(
+            PDO::FETCH_UNIQUE | PDO::FETCH_ASSOC
+        );
+        $query = 'SELECT `gab_gabarit`.id_parent, `gab_gabarit`.id'
+                . ' FROM `gab_gabarit`'
+                . ' WHERE `gab_gabarit`.id_parent > 0'
+                . ' AND `gab_gabarit`.`id_api` = ' . $this->api['id'];
         $this->gabaritsChildren = $this->db->query($query)->fetchAll(
-            \PDO::FETCH_GROUP | \PDO::FETCH_COLUMN
-        )
-        ;
+            PDO::FETCH_GROUP | PDO::FETCH_COLUMN
+        );
 
         $this->getButton($currentConfigPageModule);
 
@@ -462,7 +463,7 @@ class Page extends Main
             . ' FROM `gab_gabarit`'
             . ' WHERE `gab_gabarit`.`id_api` = ' . $this->api['id'];
         $this->gabarits = $this->db->query($query)->fetchAll(
-            \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC
+            PDO::FETCH_UNIQUE | PDO::FETCH_ASSOC
         )
         ;
 
@@ -471,7 +472,7 @@ class Page extends Main
             . ' WHERE `gab_gabarit`.id_parent > 0'
             . ' AND `gab_gabarit`.`id_api` = ' . $this->api['id'];
         $this->gabaritsChildren = $this->db->query($query)->fetchAll(
-            \PDO::FETCH_GROUP | \PDO::FETCH_COLUMN
+            PDO::FETCH_GROUP | PDO::FETCH_COLUMN
         )
         ;
 
@@ -500,14 +501,6 @@ class Page extends Main
         $this->redirections = [];
 
         if ($gabPageId) {
-            $query          = 'SELECT *'
-                . ' FROM `version`'
-                . ' WHERE `id_api` = ' . $this->api['id'];
-            $this->versions = $this->db->query($query)->fetchAll(
-                \PDO::FETCH_ASSOC | \PDO::FETCH_UNIQUE
-            )
-            ;
-
             foreach ($this->versions as $versionId => $version) {
                 $page = $this->gabaritManager->getPage(
                     $versionId,
@@ -560,29 +553,21 @@ class Page extends Main
                     }
                 }
 
-                $query                           = 'SELECT `old`'
+                $query = 'SELECT `old`'
                     . ' FROM `redirection`'
                     . ' WHERE `new` LIKE ' . $this->db->quote($path);
                 $this->redirections[$versionId] = $this->db->query($query)
-                                                            ->fetchAll(\PDO::FETCH_COLUMN)
+                    ->fetchAll(PDO::FETCH_COLUMN)
                 ;
 
-                $query                      = 'SELECT * '
+                $query = 'SELECT * '
                     . 'FROM `main_element_commun_author_google` '
                     . 'WHERE `id_version` = ' . $versionId;
                 $this->authors[$versionId] = $this->db->query($query)
-                                                       ->fetchAll(\PDO::FETCH_ASSOC)
+                    ->fetchAll(PDO::FETCH_ASSOC)
                 ;
             }
         } else {
-            $query          = 'SELECT *'
-                . ' FROM `version`'
-                . ' WHERE `id` = ' . BACK_ID_VERSION;
-            $this->versions = $this->db->query($query)->fetchAll(
-                \PDO::FETCH_ASSOC | \PDO::FETCH_UNIQUE
-            )
-            ;
-
             $page                                = $this->gabaritManager->getPage(
                 BACK_ID_VERSION,
                 BACK_ID_API,
@@ -592,11 +577,11 @@ class Page extends Main
             $this->pages[BACK_ID_VERSION]        = $page;
             $this->redirections[BACK_ID_VERSION] = [];
 
-            $query                          = 'SELECT * '
+            $query = 'SELECT * '
                 . 'FROM `main_element_commun_author_google` '
                 . 'WHERE `id_version` = ' . BACK_ID_VERSION;
             $this->authors[BACK_ID_VERSION] = $this->db->query($query)
-                                                       ->fetchAll(\PDO::FETCH_ASSOC)
+                ->fetchAll(PDO::FETCH_ASSOC)
             ;
         }
 
@@ -651,11 +636,10 @@ class Page extends Main
     /**
      * Page appelé pour la sauvegarde d'une page
      *
+     * @return void
      * @throws Exception
-     * @throws \Solire\Lib\Exception\lib
      * @hook back/ pagesaved Après la création / modification d'une page. Si les
      * données envoyés sont les mêmes que celles enregistrées en BDD, cette
-     * évènement n'est pas déclenché
      */
     public function saveAction()
     {
@@ -769,7 +753,7 @@ class Page extends Main
             $res = $this->gabaritManager->save($_POST);
 
             if ($res === null) {
-                throw new \Exception('Problème à l\'enregistrement');
+                throw new Exception('Problème à l\'enregistrement');
             }
 
             if ($res === false) {
@@ -955,7 +939,7 @@ class Page extends Main
                 . ' FROM gab_champ_param_value'
                 . ' WHERE id_champ = ' . $idChamp;
             $params = $this->db->query($query)->fetchAll(
-                \PDO::FETCH_UNIQUE | \PDO::FETCH_COLUMN
+                PDO::FETCH_UNIQUE | PDO::FETCH_COLUMN
             )
             ;
 
@@ -1035,7 +1019,7 @@ class Page extends Main
                     . ' NOT IN (' . implode(',', $ids) . ')';
             }
 
-            $pagesFound = $this->db->query($query)->fetchAll(\PDO::FETCH_ASSOC);
+            $pagesFound = $this->db->query($query)->fetchAll(PDO::FETCH_ASSOC);
 
             $results = [];
             foreach ($pagesFound as $page) {
@@ -1094,7 +1078,7 @@ class Page extends Main
             . ' FROM `' . $table . '`'
             . ' WHERE ' . $labelField . ' LIKE ' . $quotedTerm;
 
-        $json = $this->db->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
+        $json = $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
         header('Cache-Control: no-cache, must-revalidate');
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
@@ -1125,7 +1109,7 @@ class Page extends Main
         /*
          * Variable qui contient la chaine de recherche
          */
-        $this->filter               = new \stdClass();
+        $this->filter               = new stdClass();
         $stringSearch               = strip_tags(trim($qSearch));
         $this->filter->stringSearch = $stringSearch;
 
@@ -1224,7 +1208,7 @@ class Page extends Main
             . (isset($filterWords) ? ' AND (' . implode(' OR ', $filterWords) . ')' : '')
             . ' ORDER BY ' . implode(',', $orderBy) . ' LIMIT 10';
 
-        $pagesFound = $this->db->query($query)->fetchAll(\PDO::FETCH_ASSOC);
+        $pagesFound = $this->db->query($query)->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($pagesFound as $page) {
             $highlight = Tools::highlightedSearch(
@@ -1499,8 +1483,8 @@ class Page extends Main
             $query    = 'UPDATE `gab_page` SET `ordre` = :ordre WHERE `id` = :id';
             $prepStmt = $this->db->prepare($query);
             foreach ($_POST['positions'] as $ordre => $id) {
-                $prepStmt->bindValue(':ordre', $ordre, \PDO::PARAM_INT);
-                $prepStmt->bindValue(':id', $id, \PDO::PARAM_INT);
+                $prepStmt->bindValue(':ordre', $ordre, PDO::PARAM_INT);
+                $prepStmt->bindValue(':id', $id, PDO::PARAM_INT);
                 $tmp = $prepStmt->execute();
                 if ($ok) {
                     $ok = $tmp;
