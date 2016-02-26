@@ -231,14 +231,16 @@ class Main extends Controller
 
         $this->fileManager = new FileManager();
 
-        $query = 'SELECT `version`.id, `version`.* '
+        $query = 'SELECT '
+            . '`version`.id, '
+            . '`version`.*, '
+            . 'IF(`version`.`suf` = "EN", "gb", LOWER(`version`.`suf`)) flag '
             . 'FROM `version` '
             . 'WHERE `version`.`id_api` = ' . $this->api['id'] . ' ';
 
         $this->versions = $this->db->query($query)->fetchAll(
             \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC
-        )
-        ;
+        );
 
         if (isset($_GET['id_version'])) {
             $id_version = $_GET['id_version'];
@@ -288,13 +290,6 @@ class Main extends Controller
         $this->view->requireJs     = $this->requireJs;
         $this->view->css           = $this->css;
         $this->view->mainVersions  = $this->versions;
-        $query                     = 'SELECT `version`.id, `version`.* '
-            . 'FROM `version` '
-            . 'WHERE `version`.id_api = ' . $this->api['id'] . ' ';
-        $this->view->mainVersions  = $this->db->query($query)->fetchAll(
-            \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC
-        )
-        ;
         $this->view->breadCrumbs   = [];
         $this->view->breadCrumbs[] = [
             'title' => '<i class="fa fa-home"></i>'

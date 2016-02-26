@@ -2,7 +2,7 @@
     {% if mainVersions|length > 1 %}
         <li class="dropdown">
             <a data-toggle="dropdown" class="dropdown-toggle nav_condensed" href="#">
-                <i title="{{ mainVersions[backIdVersion].nom }}" class="flag-icon flag-icon-{{ mainVersions[backIdVersion].suf|lower }}"></i>
+                <i title="{{ mainVersions[backIdVersion].nom }}" class="flag-icon flag-icon-{{ mainVersions[backIdVersion].flag|lower }}"></i>
                 <i class="fa fa-caret-down"></i>
             </a>
 
@@ -11,7 +11,7 @@
                     <li>
                         <a style="cursor:pointer;"
                            onclick="$.cookie('back_id_version', {{ version.id }}, {path: '/'}); document.location.href = document.location.href; return false;">
-                            <i class="flag-icon flag-icon-{{ version.suf|lower }}"></i>
+                            <i class="flag-icon flag-icon-{{ version.flag|lower }}"></i>
                             &nbsp;{{ version.nom }}
                         </a>
                     </li>
@@ -35,7 +35,7 @@
         </ul>
     </li>
 </ul>
-<form class="navbar-form navbar-right" role="search" style="{{ mainVersions|length == 1 ? 'margin-right: 30px;' }}">
+<form class="navbar-form navbar-right hidden-xs hidden-sm hidden-md" role="search" style="{{ mainVersions|length == 1 ? 'margin-right: 30px;' }}">
     <div class="form-group">
         <input data-amd="modules/helper/search" data-url="back/page/livesearch.html" type="text"
                class="form-control live-search" placeholder="Recherche">
@@ -43,9 +43,9 @@
 </form>
 <ul class="nav navbar-nav navbar-right">
     <li class="hidden" data-amd="modules/helper/tour">
-        <a href="#">
+        <a data-toggle="tooltip" data-placement="bottom" title="Visite guidée" href="#">
             <i class="fa fa-question-circle"></i>
-            &nbsp;Visite guidée
+            <span class="visible-lg-inline">&nbsp;Visite guidée</span>
         </a>
     </li>
 </ul>
