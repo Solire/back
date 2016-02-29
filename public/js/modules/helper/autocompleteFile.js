@@ -50,7 +50,7 @@ define(['jquery', 'modules/helper/autocomplete'], function ($, helperAutocomplet
                         + '<div class="col-sm-8">'
                         + '<dl class="dl-horizontal">'
                         + '<dt>Nom de fichier</dt><dd>' + file.label + '</dd>'
-                        + '<dt>Taille</dt><dd>' + file.taille + '</dd>'
+                        + '<dt>Taille</dt><dd>' + file.taille_desc + '</dd>'
                         + '<dt>Poids</dt><dd>' + file.poids + '</dd>'
                         + alert
                         + '</dl>'
@@ -152,7 +152,7 @@ define(['jquery', 'modules/helper/autocomplete'], function ($, helperAutocomplet
                     $('.field-file-poids', fileInfoDiv).text(file.poids);
 
                     if (file.isImage) {
-                        $('.field-file-size', fileInfoDiv).text(file.taille).show();
+                        $('.field-file-size', fileInfoDiv).text(file.taille_desc).show();
                         $('.field-file-size', fileInfoDiv).prev().show();
 
 

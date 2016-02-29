@@ -9612,7 +9612,7 @@ legend:hover {
 }
 /* line 7, ../../sass/layout/_button.scss */
 .btn-group-fixed.affix {
-  top: 60px;
+  top: 110px;
 }
 @media (max-width: 768px) {
   /* line 7, ../../sass/layout/_button.scss */

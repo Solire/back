@@ -513,6 +513,7 @@ class Media extends Main
             $response['vignette'] = $vignette;
             $response['label'] = $response['filename'];
             $response['taille'] = $size;
+            $response['taille_desc'] = $sizes[0] . 'px de large x ' . $sizes[1] . 'px de haut';
             $response['value'] = $response['filename'];
             $response['utilise'] = 1;
             $response['isImage'] = 1;
@@ -687,17 +688,19 @@ class Media extends Main
                         ];
                     } else {
                         $items[] = [
-                            'url'      => $prefixFileUrl . $url,
-                            'path'     => $prefixFileUrl . $url,
-                            'vignette' => $prefixFileUrl . $vignette,
-                            'isImage'  => FileManager::isImage($file['rewriting']) !== false,
-                            'label'    => $file['rewriting'],
-                            'utilise'  => $file['utilise'],
-                            'taille'   => ($size ? $size : ''),
-                            'poids'    => Tools::formatTaille(filesize($serverpath)),
-                            'value'    => $file['rewriting'],
-                            'text'     => $file['rewriting'],
-                            'id'       => $file['rewriting'],
+                            'url'         => $prefixFileUrl . $url,
+                            'path'        => $prefixFileUrl . $url,
+                            'vignette'    => $prefixFileUrl . $vignette,
+                            'isImage'     => FileManager::isImage($file['rewriting']) !== false,
+                            'label'       => $file['rewriting'],
+                            'utilise'     => $file['utilise'],
+                            'taille'      => ($size ? $size : ''),
+                            'taille_desc' => ($size ? $sizes[0] . 'px de large x ' . $sizes[1] . 'px de haut' : ''),
+
+                            'poids' => Tools::formatTaille(filesize($serverpath)),
+                            'value' => $file['rewriting'],
+                            'text'  => $file['rewriting'],
+                            'id'    => $file['rewriting'],
                         ];
                     }
                 }
