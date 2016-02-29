@@ -5,7 +5,8 @@ define(['jquery', 'modules/helper/autocomplete'], function ($, helperAutocomplet
             templateResult: function (file) {
                 if (file.id) {
                     var ext       = file.text.split('.').pop(),
-                        thumbnail = '';
+                        thumbnail = '',
+                        field     = $('.select2-container--open').prev();
 
                     if (file.isImage) {
                         thumbnail = '<img class="img-thumbnail img-responsive" src="' + file.vignette + '">';
@@ -15,25 +16,44 @@ define(['jquery', 'modules/helper/autocomplete'], function ($, helperAutocomplet
 
                     /* @todo À commenter */
                     var inputs = [];
-                    $('.form-file').not(this).filter(function () {
+                    $('.form-file').not(field).filter(function () {
                         return $(this).val() == file.text;
                     }).each(function () {
                         inputs.push($(this).val());
                     });
 
                     /* Alert si image trop petite */
-                    var alert = '';
-                    if (file.isImage && $(this).attr('data-min-width') && $(this).attr('data-min-width') > 0) {
-                        var size = file.size.split('x');
-                        if (parseInt(size[0]) < $(this).attr('data-min-width')) {
-                            alert = '<dt style="color: red">Attention</dt><dd><span style="color: red">La largeur de l\'image est trop petite<span></dd>';
+                    var alert = '',
+                        alertArray = [];
+                    if (file.isImage && field.attr('data-min-width') && field.attr('data-min-width') > 0) {
+                        var size = file.taille.split('x');
+                        if (parseInt(size[0]) < field.attr('data-min-width')) {
+                            alertArray.push('la largeur');
                         }
+                    }
+
+                    if (file.isImage && field.attr('data-min-height') && field.attr('data-min-height') > 0) {
+                        var size = file.taille.split('x');
+                        if (parseInt(size[1]) < field.attr('data-min-height')) {
+                            alertArray.push('la hauteur');
+                        }
+                    }
+
+                    if (alertArray.length > 0) {
+                        alert = '<dt style="color: red">Attention</dt><dd><span style="color: red">' +
+                            'La taille de l\'image est trop petite' +
+                            '<span></dd>';
                     }
 
                     var markup = '<div  title="' + file.label + '" class="row" style="margin: 0">'
                         + '<div class="col-sm-4">' + thumbnail + '</div>'
                         + '<div class="col-sm-8">'
-                        + '<dl class="dl-horizontal"><dt>Nom de fichier</dt><dd><span>' + file.label + '<span></dd><dt>Taille</dt><dd><span>' + file.size + '<span></dd>' + alert + '</dl>'
+                        + '<dl class="dl-horizontal">'
+                        + '<dt>Nom de fichier</dt><dd>' + file.label + '</dd>'
+                        + '<dt>Taille</dt><dd>' + file.taille + '</dd>'
+                        + '<dt>Poids</dt><dd>' + file.poids + '</dd>'
+                        + alert
+                        + '</dl>'
                         + '</div>'
                         + '</div>';
 
@@ -128,9 +148,14 @@ define(['jquery', 'modules/helper/autocomplete'], function ($, helperAutocomplet
                         .show();
                     $('.field-file-value', fileInfoDiv).text(file.value);
 
+
+                    $('.field-file-poids', fileInfoDiv).text(file.poids);
+
                     if (file.isImage) {
-                        $('.field-file-size', fileInfoDiv).text(file.size).show();
+                        $('.field-file-size', fileInfoDiv).text(file.taille).show();
                         $('.field-file-size', fileInfoDiv).prev().show();
+
+
                         $('.field-file-crop', fileDiv).show();
                         $('.field-file-crop', fileDiv).data('crop-src', file.path)
 
@@ -139,6 +164,7 @@ define(['jquery', 'modules/helper/autocomplete'], function ($, helperAutocomplet
                     } else {
                         $('.field-file-size', fileInfoDiv).hide();
                         $('.field-file-size', fileInfoDiv).prev().hide();
+
                         $('.field-file-crop', fileDiv).hide();
                         $('.field-file-crop', fileDiv).removeData('crop-src')
 

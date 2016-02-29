@@ -259,7 +259,7 @@ class Media extends Main
                 exit();
             }
 
-            $response['size']  = Tools::formatTaille($response['size']);
+            $response['poids']  = Tools::formatTaille($response['size']);
             $response['value'] = $response['filename'];
 
             if (isset($response['apercu_path'])) {
@@ -330,7 +330,7 @@ class Media extends Main
                 $response['value'] = $response['filename'];
                 $response['url'] = $this->view->prefixFileUrl . $response['url'];
                 $response['path'] = $response['url'];
-                $response['size'] = Tools::formatTaille($response['size']);
+                $response['poids'] = Tools::formatTaille($response['size']);
                 $response['id_temp'] = $id_temp;
                 $response['isImage'] = FileManager::isImage($response['filename']) !== false;
             }
@@ -449,7 +449,7 @@ class Media extends Main
         }
 
         if ($id_gab_page) {
-            $this->fileManager->crop(
+            $response = $this->fileManager->crop(
                 $this->upload_path,
                 $filepath,
                 $ext,
@@ -486,15 +486,17 @@ class Media extends Main
             );
 
             if (isset($response['minipath'])) {
-                $response['size']     = Tools::formatTaille($response['size']);
                 $response['id_temp']  = $id_temp;
             }
         }
 
+        $filesize = $response['size'];
+
         $response = [];
-        $response['url']            = $this->view->prefixFileUrl . $targetDir . Path::DS . $target;
-        $response['path']           = $this->view->prefixFileUrl . $targetDir . Path::DS . $target;
-        $response['filename']       = $target;
+        $response['poids'] = Tools::formatTaille($filesize);
+        $response['url'] = $this->view->prefixFileUrl . $targetDir . Path::DS . $target;
+        $response['path'] = $this->view->prefixFileUrl . $targetDir . Path::DS . $target;
+        $response['filename'] = $target;
         $response['filename_front'] = $this->view->prefixFileUrl . $targetDir . '/' . $target;
 
         if (FileManager::isImage($response['filename'])) {
@@ -510,7 +512,7 @@ class Media extends Main
             $size = $sizes[0] . ' x ' . $sizes[1];
             $response['vignette'] = $vignette;
             $response['label'] = $response['filename'];
-            $response['size'] = $size;
+            $response['taille'] = $size;
             $response['value'] = $response['filename'];
             $response['utilise'] = 1;
             $response['isImage'] = 1;
@@ -650,7 +652,7 @@ class Media extends Main
                 'isImage'  => '',
                 'label'    => '',
                 'utilise'  => '',
-                'size'     => '',
+                'poids'     => '',
                 'value'    => '',
                 'text'     => '',
                 'id'       => '',
@@ -691,7 +693,8 @@ class Media extends Main
                             'isImage'  => FileManager::isImage($file['rewriting']) !== false,
                             'label'    => $file['rewriting'],
                             'utilise'  => $file['utilise'],
-                            'size'     => ($size ? $size : ''),
+                            'taille'   => ($size ? $size : ''),
+                            'poids'    => Tools::formatTaille(filesize($serverpath)),
                             'value'    => $file['rewriting'],
                             'text'     => $file['rewriting'],
                             'id'       => $file['rewriting'],
