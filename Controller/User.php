@@ -199,6 +199,7 @@ class User extends Datatable
         $passwordCrypt = Session::prepareMdp($password);
         $values = array(
             'pass' => $passwordCrypt,
+            'actif' => 1,
         );
         $this->db->update('utilisateur', $values, 'id = ' . $idClient);
 
