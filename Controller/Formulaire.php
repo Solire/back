@@ -27,7 +27,17 @@ class Formulaire extends Main
             FILTER_FLAG_STRIP_LOW
         );
 
-        $confPath = FrontController::search('config/form/' . $confName . '.ini');
+        if (isset($_REQUEST['id']) && $_REQUEST['id'] > 0) {
+            $type = 'update';
+        } else {
+            $type = 'create';
+        }
+
+        // Si on n'a pas de conf spécifique pour la création ou mise à jour
+        if (!$confPath = FrontController::search('config/form/' . $confName . '.' . $type . '.ini')) {
+            $confPath = FrontController::search('config/form/' . $confName . '.ini');
+        }
+
         if (!$confPath) {
             echo json_encode([
                 'status' => 'error',
@@ -55,7 +65,11 @@ class Formulaire extends Main
             return;
         }
 
-        $confPath = FrontController::search('config/form/save/' . $confName . '.yml');
+        // Si on n'a pas de conf spécifique pour la création ou mise à jour
+        if (!$confPath = FrontController::search('config/form/save/' . $confName . '.' . $type . '.yml')) {
+            $confPath = FrontController::search('config/form/save/' . $confName . '.yml');
+        }
+
         if (!$confPath) {
             echo json_encode([
                 'status' => 'error',

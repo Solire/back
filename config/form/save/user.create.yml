@@ -1,0 +1,14 @@
+# -------------------------
+# CONFIG
+table: utilisateur
+cle:
+  - id
+champs:
+  - civilite
+  - nom
+  - prenom
+  - societe
+  - niveau
+  - email
+timestamp:
+  - date_crea
