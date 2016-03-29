@@ -35,10 +35,10 @@
                 <div class="btn-group">
                     {% if gabarit.sortable and pages|length > 1 %}
                         {# Cas contenu sortable #}
-                        <button class="btn btn-info btn-sm sort-move"
+                        <a class="btn btn-info btn-sm sort-move"
                                 title="Déplacer '{{ page.getMeta('titre') }}'">
                             <i class="fa fa-retweet"></i>
-                        </button>
+                        </a>
                     {% endif %}
 
                     {% if gabarit.editable %}
