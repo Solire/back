@@ -216,7 +216,7 @@ define(['jquery', 'jqueryCookie', 'sortable', 'modules/helper/noty'], function (
 
             reloadState();
 
-            $(document.body).on('click', '.sort-move', function() {
+            $(document.body).on('click', '.sort-move', function(e) {
                 e.preventDefault()
             })
 
