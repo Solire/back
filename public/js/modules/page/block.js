@@ -28,7 +28,8 @@ define(['jquery', 'modules/helper/amd', 'modules/helper/wysiwyg', 'modules/helpe
 
                 //On autorise la suppression car plus qu'un bloc
                 $('.block-to-duplicate', sortBox).each(function () {
-                    $('.exec-onclick-removeblock, .block-to-sort-handle', this).prop('disabled', false)
+                    $('.exec-onclick-removeblock', this).prop('disabled', false);
+                    $('.block-to-sort-handle', this).removeClass('disabled');
                 })
             });
 
@@ -48,10 +49,12 @@ define(['jquery', 'modules/helper/amd', 'modules/helper/wysiwyg', 'modules/helpe
                             //On autorise la suppression que si plus d'un bloc
                             if ($('.block-to-duplicate', wrap).length > 1) {
                                 $('.block-to-duplicate', wrap).each(function () {
-                                    $('.exec-onclick-removeblock, .block-to-sort-handle', this).prop('disabled', false)
+                                    $('.block-to-sort-handle', this).removeClass('disabled');
+                                    $('.exec-onclick-removeblock', this).prop('disabled', false);
                                 })
                             } else {
-                                $('.block-to-duplicate', wrap).find('.exec-onclick-removeblock, .block-to-sort-handle').prop('disabled', true)
+                                $('.block-to-duplicate', wrap).find('.block-to-sort-handle').addClass('disabled')
+                                $('.block-to-duplicate', wrap).find('.exec-onclick-removeblock').prop('disabled', true)
                             }
                         });
                     }
