@@ -13,6 +13,8 @@ define(['jquery', 'modules/helper/wysiwyg'], function ($, wysiwyg) {
         $clone = $form.clone();
         $clone.attr('action', action);
         $clone.attr('target', '_blank');
+        $clone.css('display', 'none');
+        $clone.prependTo('body');
         $clone.submit();
         $clone.remove();
       });
