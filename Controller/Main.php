@@ -1,6 +1,6 @@
 <?php
 /**
- * Contrôleur principal du back
+ * Contrôleur principal du back.
  *
  * @author  dev <dev@solire.fr>
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
@@ -22,58 +22,57 @@ use Solire\Conf\Loader as ConfLoader;
 use Solire\Lib\Loader\RequireJs;
 
 /**
- * Contrôleur principal du back
+ * Contrôleur principal du back.
  *
  * @author  dev <dev@solire.fr>
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
  */
 class Main extends Controller
 {
-
     /**
-     * Session en cours
+     * Session en cours.
      *
      * @var Session
      */
     public $utilisateur;
 
     /**
-     * Api en cours
+     * Api en cours.
      *
      * @var array
      */
     public $api;
 
     /**
-     * Manager des requêtes liées aux pages
+     * Manager des requêtes liées aux pages.
      *
      * @var GabaritManager
      */
     public $gabaritManager = null;
 
     /**
-     * Manager fichiers
+     * Manager fichiers.
      *
      * @var FileManager
      */
     public $fileManager = null;
 
     /**
-     * Logger relatif aux actions de l'utilisateur
+     * Logger relatif aux actions de l'utilisateur.
      *
      * @var Logger
      */
     public $userLogger = null;
 
     /**
-     * Chargeur de script pour requireJS
+     * Chargeur de script pour requireJS.
      *
      * @var RequireJs
      */
     protected $requireJs = null;
 
     /**
-     * Fonction appelé avant l'appel à la méthode du contrôleur
+     * Fonction appelé avant l'appel à la méthode du contrôleur.
      *
      * @throws \Exception
      * @throws \Solire\Conf\Exception
@@ -81,14 +80,15 @@ class Main extends Controller
      * @throws \Solire\Lib\Exception\lib
      * @throws \Solire\Lib\Security\AntiBruteforce\Exception\InvalidIpException
      * @hook back/ start Ajouter facilement des traitements au start du back
+     *
      * @return void
      */
     public function start()
     {
         /* Antibruteforce */
         $securityConfigPath = FrontController::search('config/security.yml');
-        $securityConfig     = ConfLoader::load($securityConfigPath);
-        $antiBruteforce     = new AntiBruteforce($securityConfig->antibruteforce, $_SERVER['REMOTE_ADDR']);
+        $securityConfig = ConfLoader::load($securityConfigPath);
+        $antiBruteforce = new AntiBruteforce($securityConfig->antibruteforce, $_SERVER['REMOTE_ADDR']);
 
         if ($antiBruteforce->isBlocking()) {
             header('HTTP/1.0 429 Too Many Requests');
@@ -96,7 +96,7 @@ class Main extends Controller
              * On garde en session le temps restant pour s'en servir
              */
             $_SESSION['so_fail2ban'] = [
-                'remainingTime' => $antiBruteforce->unblockRemainingTime()
+                'remainingTime' => $antiBruteforce->unblockRemainingTime(),
             ];
             FrontController::run('Error', 'error429Fail2ban');
             die;
@@ -131,14 +131,14 @@ class Main extends Controller
                     [
                         'user' => [
                             'login' => $login,
-                        ]
+                        ],
                     ]
                 );
 
                 $jsonResponse = [
-                    'status'  => 'error',
-                    'text'    => $exc->getMessage(),
-                    'after'   => [
+                    'status' => 'error',
+                    'text' => $exc->getMessage(),
+                    'after' => [
                         'modules/helper/noty',
                         'modules/render/aftersignin',
                     ],
@@ -151,16 +151,16 @@ class Main extends Controller
                 'Connexion réussie',
                 [
                     'user' => [
-                        'id'    => $this->utilisateur->id,
+                        'id' => $this->utilisateur->id,
                         'login' => $this->utilisateur->login,
-                    ]
+                    ],
                 ]
             );
 
             $jsonResponse = [
-                'status'  => 'success',
-                'text'    => 'Connexion réussie, vous allez être redirigé',
-                'after'   => [
+                'status' => 'success',
+                'text' => 'Connexion réussie, vous allez être redirigé',
+                'after' => [
                     'modules/helper/noty',
                     'modules/render/aftersignin',
                 ],
@@ -191,12 +191,12 @@ class Main extends Controller
             $idApi = 1;
         }
 
-        $query     = 'SELECT * '
+        $query = 'SELECT * '
             . 'FROM gab_api '
             . 'WHERE id = ' . $idApi . ' ';
         $this->api = $this->db->query($query)->fetch(\PDO::FETCH_ASSOC);
 
-        $query      = 'SELECT * '
+        $query = 'SELECT * '
             . 'FROM gab_api ';
         $this->apis = $this->db->query($query)->fetchAll(
             \PDO::FETCH_UNIQUE | \PDO::FETCH_ASSOC
@@ -244,14 +244,14 @@ class Main extends Controller
 
         if (isset($_GET['id_version'])) {
             $id_version = $_GET['id_version'];
-            $url        = '/' . Registry::get('baseroot');
+            $url = '/' . Registry::get('baseroot');
             setcookie('id_version', $id_version, 0, $url);
             if (!defined('BACK_ID_VERSION')) {
                 define('BACK_ID_VERSION', $id_version);
             }
         } elseif (isset($_POST['id_version'])) {
             $id_version = $_POST['id_version'];
-            $url        = '/' . Registry::get('baseroot');
+            $url = '/' . Registry::get('baseroot');
             setcookie('back_id_version', $id_version, 0, $url);
             if (!defined('BACK_ID_VERSION')) {
                 define('BACK_ID_VERSION', $id_version);
@@ -272,9 +272,9 @@ class Main extends Controller
             && ($_POST['log'] == '' || $_POST['pwd'] == '')
         ) {
             $jsonResponse = [
-                'status'  => 'error',
-                'text'    => 'Veuillez renseigner l\'identifiant et le mot de passe',
-                'after'   => [
+                'status' => 'error',
+                'text' => 'Veuillez renseigner l\'identifiant et le mot de passe',
+                'after' => [
                     'modules/helper/noty',
                     'modules/render/aftersignin',
                 ],
@@ -283,19 +283,19 @@ class Main extends Controller
             exit(json_encode($jsonResponse));
         }
 
-        $this->view->utilisateur   = $this->utilisateur;
-        $this->view->apis          = $this->apis;
-        $this->view->api           = $this->api;
-        $this->view->javascript    = $this->javascript;
-        $this->view->requireJs     = $this->requireJs;
-        $this->view->css           = $this->css;
-        $this->view->mainVersions  = $this->versions;
-        $this->view->breadCrumbs   = [];
+        $this->view->utilisateur = $this->utilisateur;
+        $this->view->apis = $this->apis;
+        $this->view->api = $this->api;
+        $this->view->javascript = $this->javascript;
+        $this->view->requireJs = $this->requireJs;
+        $this->view->css = $this->css;
+        $this->view->mainVersions = $this->versions;
+        $this->view->breadCrumbs = [];
         $this->view->breadCrumbs[] = [
             'title' => '<i class="fa fa-home"></i>'
                 . ' '
                 . $this->view->site,
-            'url' => 'back/'
+            'url' => 'back/',
         ];
 
         /* On indique que l'on est dans une autre api **/
@@ -311,7 +311,7 @@ class Main extends Controller
          * On récupère la configuration du module pages (Menu + liste)
          */
         $completConfig = [];
-        $path          = FrontController::search(
+        $path = FrontController::search(
             'config/page-' . BACK_ID_API . '.cfg.php'
         );
         if ($path !== false) {
@@ -330,7 +330,7 @@ class Main extends Controller
         $this->view->menuPage = [];
         foreach ($this->configPageModule as $configPage) {
             $this->view->menuPage[] = [
-                'label'   => $configPage['label'],
+                'label' => $configPage['label'],
                 'display' => $configPage['display'],
             ];
         }
@@ -363,7 +363,7 @@ class Main extends Controller
     }
 
     /**
-     * Fonction éxécutée après l'execution de la fonction relative à la page en cours
+     * Fonction éxécutée après l'execution de la fonction relative à la page en cours.
      *
      * @return void
      * @hook back/ shutdown Avant l'inclusion de la vue
@@ -399,7 +399,7 @@ class Main extends Controller
     }
 
     /**
-     * Initialisation et chargement des ressources
+     * Initialisation et chargement des ressources.
      *
      * @throws \Solire\Lib\Exception\Lib
      *
@@ -437,7 +437,7 @@ class Main extends Controller
                 'name' => 'jqueryCookie',
                 'deps' => [
                     'jquery',
-                ]
+                ],
             ]
         );
 
@@ -448,7 +448,7 @@ class Main extends Controller
                 'name' => 'bootstrap',
                 'deps' => [
                     'jquery',
-                ]
+                ],
             ]
         );
 
@@ -459,7 +459,7 @@ class Main extends Controller
                 'name' => 'ripples',
                 'deps' => [
                     'bootstrap',
-                ]
+                ],
             ]
         );
 
@@ -469,7 +469,7 @@ class Main extends Controller
                 'name' => 'material',
                 'deps' => [
                     'bootstrap',
-                ]
+                ],
             ]
         );
 
@@ -487,7 +487,7 @@ class Main extends Controller
                 'name' => 'bootstrapDatepicker',
                 'deps' => [
                     'bootstrap',
-                ]
+                ],
             ]
         );
 
@@ -500,7 +500,7 @@ class Main extends Controller
                 'name' => 'bootstrapDatepickerFr',
                 'deps' => [
                     'bootstrapDatepicker',
-                ]
+                ],
             ]
         );
 
@@ -511,7 +511,7 @@ class Main extends Controller
                 'name' => 'autocomplete',
                 'deps' => [
                     'jquery',
-                ]
+                ],
             ]
         );
 
@@ -524,7 +524,7 @@ class Main extends Controller
                 'name' => 'autocompleteFr',
                 'deps' => [
                     'autocomplete',
-                ]
+                ],
             ]
         );
 
@@ -535,7 +535,7 @@ class Main extends Controller
                 'name' => 'typeahead',
                 'deps' => [
                     'jquery',
-                ]
+                ],
             ]
         );
 
@@ -547,7 +547,7 @@ class Main extends Controller
                 'deps' => [
                     'jquery',
                     'spin',
-                ]
+                ],
             ]
         );
 
@@ -557,7 +557,7 @@ class Main extends Controller
                 'name' => 'spin',
                 'deps' => [
                     'jquery',
-                ]
+                ],
             ]
         );
 
@@ -568,7 +568,7 @@ class Main extends Controller
                 'name' => 'jcrop',
                 'deps' => [
                     'jquery',
-                ]
+                ],
             ]
         );
 
@@ -583,7 +583,7 @@ class Main extends Controller
                 'name' => 'jqueryScrollTo',
                 'deps' => [
                     'jquery',
-                ]
+                ],
             ]
         );
 
@@ -594,7 +594,7 @@ class Main extends Controller
                 'name' => 'youtubeLoadingBar',
                 'deps' => [
                     'jquery',
-                ]
+                ],
             ]
         );
 
@@ -605,7 +605,7 @@ class Main extends Controller
                 'name' => 'datatables',
                 'deps' => [
                     'jquery',
-                ]
+                ],
             ]
         );
 
@@ -616,7 +616,7 @@ class Main extends Controller
                 'deps' => [
                     'jquery',
                     'datatables',
-                ]
+                ],
             ]
         );
 
@@ -627,7 +627,7 @@ class Main extends Controller
                 'deps' => [
                     'datatables',
                     'youtubeLoadingBar',
-                ]
+                ],
             ]
         );
 
@@ -642,7 +642,7 @@ class Main extends Controller
                 'deps' => [
                     'datatables',
                     'modules/config/datepicker',
-                ]
+                ],
             ]
         );
 
@@ -652,7 +652,7 @@ class Main extends Controller
                 'name' => 'datatablesLCFBootstrap3',
                 'deps' => [
                     'datatables-light-columnfilter',
-                ]
+                ],
             ]
         );
 
@@ -660,7 +660,7 @@ class Main extends Controller
         $this->requireJs->addLibrary(
             'back/bower_components/plupload/js/plupload.full.min.js',
             [
-                'name' => 'plupload'
+                'name' => 'plupload',
             ]
         );
         $this->requireJs->addLibrary(
@@ -669,7 +669,7 @@ class Main extends Controller
                 'name' => 'jqueryPluploader',
                 'deps' => [
                     'plupload',
-                ]
+                ],
             ]
         );
 
@@ -680,7 +680,7 @@ class Main extends Controller
                 'name' => 'noty',
                 'deps' => [
                     'jquery',
-                ]
+                ],
             ]
         );
 
@@ -697,7 +697,7 @@ class Main extends Controller
                 'deps' => [
                     'jquery',
                     'jqueryTransit',
-                ]
+                ],
             ]
         );
 
@@ -730,7 +730,7 @@ class Main extends Controller
                 'name' => 'jqueryControle',
                 'deps' => [
                     'jquery',
-                ]
+                ],
             ]
         );
 
@@ -741,10 +741,9 @@ class Main extends Controller
                 'name' => 'xEditable',
                 'deps' => [
                     'jquery',
-                ]
+                ],
             ]
         );
-
 
         /* Modules Solire */
         $requireJsModules = [
@@ -759,6 +758,7 @@ class Main extends Controller
             'modules/helper/autocomplete',
             'modules/helper/autocompleteFile',
             'modules/helper/autocompleteJoin',
+            'modules/helper/checkbox',
             'modules/helper/confirm',
             'modules/helper/crop',
             'modules/helper/cropDialog',

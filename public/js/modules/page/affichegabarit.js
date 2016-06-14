@@ -77,8 +77,8 @@ define(['jquery', 'jqueryCookie', 'modules/helper/dialog'], function ($, jqueryC
           var i = $('.openlang').index($currentLang);
 
           if ($('.langue').eq(i).is(':hidden')) {
-            $('.openlang').addClass('translucide');
-            $currentLang.removeClass('translucide')
+            $('.openlang').removeClass('active');
+            $currentLang.addClass('active')
             $('.langue:visible').slideUp(500);
             $('.langue').eq(i).slideDown(500);
           }

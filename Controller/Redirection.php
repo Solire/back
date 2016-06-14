@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Contrôleur qui permet de gérer les redirections
+ * Contrôleur qui permet de gérer les redirections.
  *
  * @author  Stéphane Monnot <smonnot@solire.fr>
  * @license CC by-nc        http://creativecommons.org/licenses/by-nc/3.0/fr/
@@ -11,10 +11,9 @@ namespace Solire\Back\Controller;
 
 use Doctrine\DBAL\DriverManager;
 use PDO;
-use Solire\Back\Controller\Datatable;
 
 /**
- * Contrôleur qui permet de gérer les redirections
+ * Contrôleur qui permet de gérer les redirections.
  *
  * @author  Stéphane Monnot <smonnot@solire.fr>
  * @license CC by-nc        http://creativecommons.org/licenses/by-nc/3.0/fr/
@@ -22,7 +21,7 @@ use Solire\Back\Controller\Datatable;
 class Redirection extends Datatable
 {
     /**
-     * Action permettant d'afficher le formulaire d'ajout de redirection
+     * Action permettant d'afficher le formulaire d'ajout de redirection.
      *
      * @return void
      */
@@ -36,10 +35,10 @@ class Redirection extends Datatable
 
         if (isset($_GET['id']) && is_numeric($_GET['id'])) {
             $query = 'SELECT * FROM ' . $table . ' WHERE id = ' . $_GET['id'];
-            $data  = $this->db->query($query)->fetch(PDO::FETCH_ASSOC);
+            $data = $this->db->query($query)->fetch(PDO::FETCH_ASSOC);
         } else {
             $columns = $doctrineConnection->getSchemaManager()->listTableColumns($table);
-            $data    = [];
+            $data = [];
             foreach ($columns as $column) {
                 $data[$column->getName()] = '';
             }
@@ -57,12 +56,11 @@ class Redirection extends Datatable
 
         echo json_encode([
             'status' => 'success',
-            'after'  => [
+            'after' => [
                 'modules/helper/noty',
             ],
-            'text'   => 'La redirection a bien été supprimée',
-            'debug'  => $_POST,
+            'text' => 'La redirection a bien été supprimée',
+            'debug' => $_POST,
         ]);
     }
-
 }

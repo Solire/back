@@ -27,10 +27,13 @@ source:
       - r.id_version
       - r.id_api
 
-
     from:
       name: redirection
       alias: r
+
+    where:
+      - r.id_version = {%parameters:idVersion}
+      - r.id_api = {%parameters:idApi}
 
 ## COLUMNS
 

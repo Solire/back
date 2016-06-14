@@ -10,13 +10,12 @@ use Solire\Lib\FrontController;
 use Solire\Lib\Hook;
 
 /**
- * Description of Formsave
+ * Description of Formsave.
  *
  * @author thansen
  */
 class Formulaire extends Main
 {
-
     public function saveAction()
     {
         $this->view->enable(false);
@@ -43,6 +42,7 @@ class Formulaire extends Main
                 'status' => 'error',
                 'msg' => 'wrong',
             ]);
+
             return;
         }
         $formConf = ConfLoader::load($confPath);
@@ -62,6 +62,7 @@ class Formulaire extends Main
                 'status' => 'error',
                 'msg' => $uE->getMessage(),
             ]);
+
             return;
         }
 
@@ -75,6 +76,7 @@ class Formulaire extends Main
                 'status' => 'error',
                 'msg' => 'wrong',
             ]);
+
             return;
         }
         $saveConf = ConfLoader::load($confPath);
@@ -94,7 +96,7 @@ class Formulaire extends Main
                 continue;
             }
 
-            $data[$champ]    = $request[$champ];
+            $data[$champ] = $request[$champ];
             $dataRaw[$champ] = $request[$champ];
         }
 
@@ -132,21 +134,20 @@ class Formulaire extends Main
 
             $hook = new Hook();
             $hook->setSubdirName('Back');
-            $hook->data     = $data;
-            $hook->dataRaw  = $dataRaw;
-            $hook->conf     = $saveConf;
+            $hook->data = $data;
+            $hook->dataRaw = $dataRaw;
+            $hook->conf = $saveConf;
             $hook->confName = $confName;
             $hook->exec('Form' . ucfirst($confName) . 'Created');
-
         } else {
             $doctrineConnection->update($saveConf->table, $data, $identifier);
             $msg = 'Modifications enregistrées';
 
             $hook = new Hook();
             $hook->setSubdirName('Back');
-            $hook->data     = $data;
-            $hook->dataRaw  = $dataRaw;
-            $hook->conf     = $saveConf;
+            $hook->data = $data;
+            $hook->dataRaw = $dataRaw;
+            $hook->conf = $saveConf;
             $hook->confName = $confName;
             $hook->exec('Form' . ucfirst($confName) . 'Updated');
         }
@@ -159,5 +160,4 @@ class Formulaire extends Main
             ],
         ]);
     }
-
 }

@@ -1,16 +1,17 @@
 <?php
 /**
- * Controller du datatable des fichiers
+ * Controller du datatable des fichiers.
  *
  * @author  dev <dev@solire.fr>
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
  */
 
 namespace Solire\Back\Controller;
+
 use Solire\Conf\Conf;
 
 /**
- * Controller du datatable des fichiers
+ * Controller du datatable des fichiers.
  *
  * @author  dev <dev@solire.fr>
  * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
