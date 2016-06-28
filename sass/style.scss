@@ -40,7 +40,7 @@
 // ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝
 
 
-$icon-font-path: "../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
+$icon-font-path: "../bower_components/bootstrap-sass/assets/fonts/bootstrap/" !default;
 @import "../public/bower_components/bootstrap-sass/assets/stylesheets/bootstrap";
 
 @import "../public/bower_components/youtube-loading-bar/src/scss/youtubeLoadingBar";

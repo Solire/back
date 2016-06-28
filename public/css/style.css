@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import url(http://fonts.googleapis.com/css?family=Roboto);
+@import url(https://fonts.googleapis.com/css?family=Roboto);
 /*!
  * Bootstrap v3.3.6 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.
@@ -3595,7 +3595,7 @@ table th[class*="col-"] {
 /* line 20, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_table-row.scss */
 .table-hover > tbody > tr > td.active:hover,
 .table-hover > tbody > tr > th.active:hover, .table-hover > tbody > tr.active:hover > td, .table-hover > tbody > tr:hover > .active, .table-hover > tbody > tr.active:hover > th {
-  background-color: #72c6ff;
+  background-color: #73c6ff;
 }
 
 /* line 9, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_table-row.scss */
@@ -4478,26 +4478,26 @@ a.btn.disabled, fieldset[disabled] a.btn {
 /* line 11, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_buttons.scss */
 .btn-default:focus, .btn-default.focus {
   color: #000;
-  background-color: #d6d6d6;
-  border-color: #a3a3a3;
+  background-color: #d7d7d7;
+  border-color: #a4a4a4;
 }
 /* line 17, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_buttons.scss */
 .btn-default:hover {
   color: #000;
-  background-color: #d6d6d6;
+  background-color: #d7d7d7;
   border-color: #c5c5c5;
 }
 /* line 22, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_buttons.scss */
 .btn-default:active, .btn-default.active, .open > .btn-default.dropdown-toggle {
   color: #000;
-  background-color: #d6d6d6;
+  background-color: #d7d7d7;
   border-color: #c5c5c5;
 }
 /* line 29, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_buttons.scss */
 .btn-default:active:hover, .btn-default:active:focus, .btn-default:active.focus, .btn-default.active:hover, .btn-default.active:focus, .btn-default.active.focus, .open > .btn-default.dropdown-toggle:hover, .open > .btn-default.dropdown-toggle:focus, .open > .btn-default.dropdown-toggle.focus {
   color: #000;
   background-color: #c5c5c5;
-  border-color: #a3a3a3;
+  border-color: #a4a4a4;
 }
 /* line 37, ../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_buttons.scss */
 .btn-default:active, .btn-default.active, .open > .btn-default.dropdown-toggle {
@@ -10282,7 +10282,7 @@ Main Components
   font-size: 1.4rem;
   margin-bottom: 1em;
   font-family: Arial, sans-serif;
-  color: #4c4c4b;
+  color: #4c4d4b;
 }
 /* line 185, ../../sass/layout/_tour.scss */
 .tour-single-step .tour-more-info p .note:before {
@@ -10306,7 +10306,7 @@ Main Components
 .tour-single-step .tour-more-info ul li {
   font-size: 1.4rem;
   font-family: Arial, sans-serif;
-  color: #4c4c4b;
+  color: #4c4d4b;
 }
 /* line 208, ../../sass/layout/_tour.scss */
 .tour-single-step .tour-more-info img {
@@ -10335,7 +10335,7 @@ Main Components
   height: 2px;
   width: 16px;
   border-radius: 4em;
-  background-color: #cbccc8;
+  background-color: #cbccc9;
   /* Force Hardware Acceleration */
   -webkit-transform: translateZ(0);
   -moz-transform: translateZ(0);
@@ -10510,7 +10510,7 @@ Main Components
 /* line 367, ../../sass/layout/_tour.scss */
 .tour-tour-nav a.inactive {
   /* item not clickable */
-  color: #cbccc8;
+  color: #cbccc9;
   cursor: not-allowed;
 }
 
