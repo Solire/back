@@ -49,7 +49,7 @@ define(['jquery', 'modules/helper/dialog', 'modules/helper/confirm', 'modules/he
             {
               html: '<div class="soModalContainer">'
                   + '<div class="modalHeader">'
-                  + '<a class="soModalDefaultClose" href="#" tabindex="0">'
+                  + '<a class="soModalDefaultClose" tabindex="0">'
                   + '<i class="fa fa-close"></i>'
                   + '</a>'
                   + '<h3>Erreur rencontrée</h3>'

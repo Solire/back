@@ -74,6 +74,8 @@ define(['jquery', 'jqueryControle', 'jqueryScrollTo', 'modules/helper/wysiwyg', 
           });
         },
         beforeSubmit: function () {
+          HelperWysiwyg.save();
+
           if (Math.floor(Date.now() / 1000) - this.submitTime < 5) {
             return false;
           }

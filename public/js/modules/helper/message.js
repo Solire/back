@@ -7,14 +7,14 @@ define(['jquery', 'modules/helper/dialog'], function ($, helperDialog) {
 
       var messageModalHtml =
               $('<div class="modalHeader">' +
-                  '<a class="soModalDefaultClose" href="#" tabindex="0"><i class="fa fa-close"></i></a>' +
+                  '<a class="soModalDefaultClose" tabindex="0"><i class="fa fa-close"></i></a>' +
                   '<h3>' + options.title + '</h3>' +
                   '</div>' +
                   '<div class="modalBody">' +
                   '<p>' + options.content + '</p>' +
                   '</div>' +
                   '<div class="modalFooter">' +
-                  '<a href="#" class="btn btn-default soModalDefaultClose">' +
+                  '<a class="btn btn-default soModalDefaultClose">' +
                   '<i class="fa fa-remove"></i> ' +
                   options.closebuttontxt +
                   '</a> ' +
