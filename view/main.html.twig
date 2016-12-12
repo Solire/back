@@ -16,7 +16,10 @@
 </head>
 
 <body>
+  <div class="loading" id="loading"></div>
+        {% block menu %}
 {% include 'menu.html.twig' %}
+        {% endblock %}
 <div class="mainContainer container card">
     <div class="card-heading">
         <h1>{% block title %}{% endblock %}</h1>
