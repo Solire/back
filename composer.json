@@ -8,7 +8,7 @@
   "repositories": [
     {
       "type": "composer",
-      "url": "http://satis.solire.fr/"
+      "url": "https://satis.solire.fr/"
     }
   ],
   "require": {
