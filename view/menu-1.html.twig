@@ -34,7 +34,7 @@
 
 
 {% if utilisateur.get("niveau") == 'super administrateur' %}
-    <li class="{{ controller == 'back/datatable' and name == 'redirection' ? ' active' }}">
+    <li class="{{ controller == 'back/redirection' and name == 'redirection' ? ' active' }}">
         <a href="back/redirection/list.html?name=redirection"><i class="fa fa-mail-forward "></i>&nbsp; Redirections 301</a>
     </li>
     <li class="{{ controller == 'back/datatable' and name == 'log' ? ' active' }}">
