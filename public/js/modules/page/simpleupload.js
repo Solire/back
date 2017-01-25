@@ -27,7 +27,7 @@ define([
             filters: [
                 {
                     title: 'Image files',
-                    extensions: 'jpg,jpeg,gif,png'
+                    extensions: 'jpg,jpeg,gif,png,svg'
                 },
                 {
                     title: 'Zip files',
