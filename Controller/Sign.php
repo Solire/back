@@ -1,10 +1,4 @@
 <?php
-/**
- * Formulaire de connexion à l'admin.
- *
- * @author  dev <dev@solire.fr>
- * @license CC by-nc http://creativecommons.org/licenses/by-nc/3.0/fr/
- */
 
 namespace Solire\Back\Controller;
 
@@ -93,7 +87,7 @@ class Sign extends Main
                 $email->url = 'back/sign/newpassword.html?e=' . $_POST['log'] . '&amp;c=' . $cle;
                 $email->to = $_POST['log'];
                 $email->from = $from;
-                $email->subject = 'Générer un nouveau mot de passe';
+                $email->subject = 'Mot de passe perdu';
                 $email->setMainUse();
                 $email->send();
 

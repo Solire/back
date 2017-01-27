@@ -5,11 +5,9 @@ namespace Solire\Back\Controller;
 use Doctrine\DBAL\DriverManager;
 use Exception;
 use PDO;
-use Solire\Lib\Hook;
 use Solire\Lib\Mail;
 use Solire\Lib\Registry;
 use Solire\Lib\Session;
-use Solire\Lib\Security\Util\SecureRandom;
 use ZxcvbnPhp\Zxcvbn;
 
 /**
