@@ -8,7 +8,9 @@
 
 namespace Solire\Back\Controller;
 
+use Exception;
 use Solire\Lib\Mail;
+use Solire\Lib\Registry;
 use Solire\Lib\Session;
 use ZxcvbnPhp\Zxcvbn;
 
