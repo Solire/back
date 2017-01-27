@@ -3,6 +3,7 @@
 namespace Solire\Back\Controller;
 
 use Doctrine\DBAL\DriverManager;
+use Exception;
 use PDO;
 use Solire\Lib\Hook;
 use Solire\Lib\Mail;
@@ -161,8 +162,10 @@ class User extends Datatable
      */
     public function sendmailAction()
     {
-        if (!property_exists($this, 'from')) {
-            $this->from = 'contact@solire.fr';
+        $from = Registry::get('envconfig')->get('email', 'noreply');
+
+        if (empty($from)) {
+            throw new Exception('Email d\'expéditeur non défini. A définir dans le fichier de config "email.noreply"');
         }
 
         $this->view->enable(false);
