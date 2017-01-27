@@ -47,11 +47,6 @@
     </div>
 
     {% if data.id %}
-      <div class="form-group">
-        <label for="user-pass">Mot de passe</label>
-        <input type="password" class="form-control" name="pass" id="user-pass" placeholder="Mot de passe"{% if data.id is empty %} required{% endif %}>
-      </div>
-
       <div class="checkbox">
         <label>
           <input type="hidden" name="actif" value="0">
