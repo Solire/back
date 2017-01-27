@@ -8,7 +8,9 @@
 
 namespace Solire\Back\Controller;
 
+use Exception;
 use Solire\Lib\Mail;
+use Solire\Lib\Registry;
 use Solire\Lib\Session;
 use ZxcvbnPhp\Zxcvbn;
 
@@ -81,10 +83,16 @@ class Sign extends Main
             $cle = $this->utilisateur->genKey($_POST['log']);
 
             if ($cle !== false) {
+                $from = Registry::get('envconfig')->get('email', 'noreply');
+
+                if (empty($from)) {
+                    throw new Exception('Email d\'expéditeur non défini. A définir dans le fichier de config "email.noreply"');
+                }
+
                 $email = new Mail('newpassword');
                 $email->url = 'back/sign/newpassword.html?e=' . $_POST['log'] . '&amp;c=' . $cle;
                 $email->to = $_POST['log'];
-                $email->from = 'noreply@' . $_SERVER['SERVER_NAME'];
+                $email->from = $from;
                 $email->subject = 'Générer un nouveau mot de passe';
                 $email->setMainUse();
                 $email->send();

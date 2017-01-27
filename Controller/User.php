@@ -3,6 +3,7 @@
 namespace Solire\Back\Controller;
 
 use Doctrine\DBAL\DriverManager;
+use Exception;
 use PDO;
 use Solire\Lib\Hook;
 use Solire\Lib\Mail;
@@ -161,67 +162,74 @@ class User extends Datatable
      */
     public function sendmailAction()
     {
-        if (!property_exists($this, 'from')) {
-            $this->from = 'contact@solire.fr';
-        }
-
         $this->view->enable(false);
+
+        // Toujours le même message, même si l'adresse n'est pas en bdd, pour des raisons de sécurité
+        $jsonResponse = [
+            'status' => 'success',
+            'title' => 'Confirmation d\'envoi de mail',
+            'content' => 'Un email a été envoyé pour que l\'utilisateur génère un mot de passe',
+            'after' => [
+                'modules/helper/message',
+            ],
+        ];
 
         $idClient = intval($_GET['id']);
         $clientData = $this->db->query('
             SELECT utilisateur.*
             FROM utilisateur
             WHERE utilisateur.id = ' . $idClient)->fetch();
-        $genPass = new SecureRandom();
-        $password = $genPass->generate(
-            8,
-            SecureRandom::RANDOM_ALPHALOWER | SecureRandom::RANDOM_ALPHAUPPER | SecureRandom::RANDOM_NUMERIC
-        );
 
-        $mail = new Mail('utilisateur_identifiant');
-        $mail->setMainUse();
-        $mail->to = $clientData['email'];
-        $mail->from = $this->from;
-        $mail->subject = 'Informations de connexion à l\'outil d\'administration'
-                . ' de votre site';
-
-        $mail->urlAcces      = Registry::get('basehref') . 'back/';
-        $mail->urlFrontAcces = Registry::get('basehref');
-
-        $clientData['pass'] = $password;
-        $mail->clientData = $clientData;
-        $mail->send();
-
-        $passwordCrypt = Session::prepareMdp($password);
-        $values = [
-            'pass' => $passwordCrypt,
-            'actif' => 1,
-        ];
-        $this->db->update('utilisateur', $values, 'id = ' . $idClient);
-
-        $hook = new Hook();
-        $hook->setSubdirName('Back');
-        $hook->dataRaw  = $clientData;
-        $hook->exec('UserSendmail');
-
-        if (isset($_POST['confirm']) && $_POST['confirm']) {
-            echo json_encode([
-                'status' => 'success',
-                'title' => 'Confirmation d\'envoi de mail',
-                'content' => 'Un email a été envoyé avec un nouveau mot de passe',
-                'closebuttontxt' => 'Fermer',
+        if (empty($clientData)) {
+            $jsonResponse = [
+                'status' => 'error',
+                'title' => 'Une erreur est survenue',
+                'content' => 'Identifiant d\'utilisateur inconnu',
                 'after' => [
                     'modules/helper/message',
                 ],
-            ]);
+            ];
         } else {
-            echo json_encode([
-                'status' => 'success',
-                'text' => 'Un email a été envoyé avec un nouveau mot de passe',
-                'after' => [
-                    'modules/helper/noty',
-                ],
-            ]);
+            $cle = $this->utilisateur->genKey($clientData['email']);
+
+            if ($cle !== false) {
+                $from = Registry::get('envconfig')->get('email', 'noreply');
+
+                if (empty($from)) {
+                    throw new Exception('Email d\'expéditeur non défini. A définir dans le fichier de config "email.noreply"');
+                }
+
+                $email = new Mail('newpassword');
+                $email->url = 'back/sign/newpassword.html?e=' . $clientData['email'] . '&amp;c=' . $cle;
+                $email->to = $clientData['email'];
+                $email->from = $from;
+                $email->subject = 'Générer un nouveau mot de passe';
+                $email->setMainUse();
+                $email->send();
+
+                $this->userLogger->addInfo(
+                    'Demande de nouveau mot de passe',
+                    [
+                        'user' => [
+                            'id' => $this->utilisateur->id,
+                            'login' => $this->utilisateur->login,
+                        ],
+                    ]
+                );
+            } else {
+                $this->userLogger->addError(
+                    'Demande de nouveau mot de passe échoué',
+                    [
+                        'user' => [
+                            'id' => $this->utilisateur->id,
+                            'login' => $this->utilisateur->login,
+                        ],
+                        'error' => 'Erreur lors de la génération de la clé',
+                    ]
+                );
+            }
         }
+
+        exit(json_encode($jsonResponse));
     }
 }
