@@ -5,11 +5,9 @@ namespace Solire\Back\Controller;
 use Doctrine\DBAL\DriverManager;
 use Exception;
 use PDO;
-use Solire\Lib\Hook;
 use Solire\Lib\Mail;
 use Solire\Lib\Registry;
 use Solire\Lib\Session;
-use Solire\Lib\Security\Util\SecureRandom;
 use ZxcvbnPhp\Zxcvbn;
 
 /**
@@ -164,27 +162,43 @@ class User extends Datatable
     {
         $this->view->enable(false);
 
-        // Toujours le même message, même si l'adresse n'est pas en bdd, pour des raisons de sécurité
+        /**
+         * Toujours le même message, même si l'adresse n'est pas en bdd,
+         * pour des raisons de sécurité
+         */
         $jsonResponse = [
             'status' => 'success',
             'title' => 'Confirmation d\'envoi de mail',
             'content' => 'Un email a été envoyé pour que l\'utilisateur génère un mot de passe',
+            'closebuttontxt' => 'Fermer',
             'after' => [
                 'modules/helper/message',
             ],
         ];
 
         $idClient = intval($_GET['id']);
-        $clientData = $this->db->query('
-            SELECT utilisateur.*
-            FROM utilisateur
-            WHERE utilisateur.id = ' . $idClient)->fetch();
+        $query = 'SELECT u.* '
+               . 'FROM utilisateur u '
+               . 'WHERE u.id = ' . $idClient . ' '
+        ;
+        $clientData = $this->db->query($query)->fetch(PDO::FETCH_ASSOC);
 
         if (empty($clientData)) {
             $jsonResponse = [
                 'status' => 'error',
                 'title' => 'Une erreur est survenue',
                 'content' => 'Identifiant d\'utilisateur inconnu',
+                'closebuttontxt' => 'Fermer',
+                'after' => [
+                    'modules/helper/message',
+                ],
+            ];
+        } elseif (empty($clientData['actif'])) {
+            $jsonResponse = [
+                'status' => 'error',
+                'title' => 'Utilisateur non actif',
+                'content' => 'L\'utilisateur n\'est pas encore actif. '
+                           . 'Merci de le rendre actif.',
                 'after' => [
                     'modules/helper/message',
                 ],
@@ -196,19 +210,22 @@ class User extends Datatable
                 $from = Registry::get('envconfig')->get('email', 'noreply');
 
                 if (empty($from)) {
-                    throw new Exception('Email d\'expéditeur non défini. A définir dans le fichier de config "email.noreply"');
+                    throw new Exception(
+                        'Email d\'expéditeur non défini. '
+                        . 'A définir dans le fichier de config "email.noreply"'
+                    );
                 }
 
-                $email = new Mail('newpassword');
+                $email = new Mail('createpassword');
                 $email->url = 'back/sign/newpassword.html?e=' . $clientData['email'] . '&amp;c=' . $cle;
                 $email->to = $clientData['email'];
                 $email->from = $from;
-                $email->subject = 'Générer un nouveau mot de passe';
+                $email->subject = 'Générer votre mot de passe';
                 $email->setMainUse();
                 $email->send();
 
                 $this->userLogger->addInfo(
-                    'Demande de nouveau mot de passe',
+                    'Envoi de mail pour info de connexion',
                     [
                         'user' => [
                             'id' => $this->utilisateur->id,
@@ -218,7 +235,7 @@ class User extends Datatable
                 );
             } else {
                 $this->userLogger->addError(
-                    'Demande de nouveau mot de passe échoué',
+                    'Envoi de mail pour info de connexion échoué',
                     [
                         'user' => [
                             'id' => $this->utilisateur->id,
