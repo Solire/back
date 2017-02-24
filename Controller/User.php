@@ -167,6 +167,7 @@ class User extends Datatable
             'status' => 'success',
             'title' => 'Confirmation d\'envoi de mail',
             'content' => 'Un email a été envoyé pour que l\'utilisateur génère un mot de passe',
+            'closebuttontxt' => 'Fermer',
             'after' => [
                 'modules/helper/message',
             ],
@@ -183,6 +184,7 @@ class User extends Datatable
                 'status' => 'error',
                 'title' => 'Une erreur est survenue',
                 'content' => 'Identifiant d\'utilisateur inconnu',
+                'closebuttontxt' => 'Fermer',
                 'after' => [
                     'modules/helper/message',
                 ],
@@ -197,11 +199,11 @@ class User extends Datatable
                     throw new Exception('Email d\'expéditeur non défini. A définir dans le fichier de config "email.noreply"');
                 }
 
-                $email = new Mail('newpassword');
+                $email = new Mail('createpassword');
                 $email->url = 'back/sign/newpassword.html?e=' . $clientData['email'] . '&amp;c=' . $cle;
                 $email->to = $clientData['email'];
                 $email->from = $from;
-                $email->subject = 'Générer un nouveau mot de passe';
+                $email->subject = 'Générer votre mot de passe';
                 $email->setMainUse();
                 $email->send();
 
