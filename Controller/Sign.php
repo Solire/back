@@ -152,6 +152,7 @@ class Sign extends Main
         ];
 
         $errors = [];
+        $score = null;
 
         if (isset($_POST['email'])
             && is_string($_POST['email'])
@@ -178,8 +179,8 @@ class Sign extends Main
                 }
 
                 /* Test longueur password */
-                if (count($errors) == 0 && strlen($_POST['new_password']) < 6) {
-                    $errors[] = 'Votre nouveau mot de passe doit contenir au moins 6 caractères';
+                if (count($errors) == 0 && strlen($_POST['new_password']) < 8) {
+                    $errors[] = 'Votre nouveau mot de passe doit contenir au moins 8 caractères';
                 }
 
                 /* Test password complexity */
@@ -188,6 +189,7 @@ class Sign extends Main
 
                 if (count($errors) == 0 && $strength['score'] < 2) {
                     $errors[] = 'Votre nouveau mot de passe n\'est pas assez sécurisé';
+                    $score = $strength['score'];
                 }
 
                 if (count($errors) == 0) {
@@ -210,6 +212,7 @@ class Sign extends Main
             $this->utilisateur->disconnect();
             $jsonResponse = [
                 'status' => 'success',
+                'layout' => 'center',
                 'text' => 'Votre mot de passe a été mis à jour',
                 'after' => [
                     'modules/helper/noty',
@@ -219,7 +222,9 @@ class Sign extends Main
         } else {
             $jsonResponse = [
                 'status' => 'error',
+                'layout' => 'center',
                 'text' => implode('<br />', $errors),
+                'score' => $score,
                 'after' => [
                     'modules/helper/noty',
                     'modules/render/aftersavepassword',
