@@ -1,16 +1,8 @@
 {
   "name": "solire/back",
   "type": "library",
-  "private": true,
   "description": "",
-  "keywords": [""],
-  "license": "CC by-nc",
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://satis.solire.fr/"
-    }
-  ],
+  "license": "proprietary",
   "require": {
     "php": ">=5.5.0",
     "solire/lib": "^6.1",
